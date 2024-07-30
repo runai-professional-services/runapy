@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from client import RunaiClient
 
-load_dotenv()
+load_dotenv(override=True)
 
 BASE_URL = os.environ.get("BASE_URL")
 CLIENT_ID = os.environ.get("CLIENT_ID")
@@ -17,28 +17,16 @@ if __name__ == "__main__":
         realm=REALM,
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
-        runai_base_url=BASE_URL
-    )
-    clusters = client.clusters.all()
-    
-    # pprint.pprint("####################################### cluster #######################################")
-    # pprint.pprint(clusters[0])
-    # pprint.pprint("####################################### cluster #######################################")
-    
-    # departments = clusters[0].departments.all()
+        runai_base_url=BASE_URL,
+        cluster_id=CLUSTER_ID
+    )    
 
-    # pprint.pprint("####################################### department #######################################")
-    # pprint.pprint(departments[0])
-    # pprint.pprint("####################################### department #######################################")
-    
-    # projects = departments[0].projects
+    # print(client.projects.all())
 
-    # pprint.pprint("####################################### project #######################################")
-    # pprint.pprint(projects.all())
-    # pprint.pprint("####################################### project #######################################")
-    # print(client.projects.all(cluster_id=CLUSTER_ID))
-
-    cluster = client.clusters.filter(name="cs-ofir-2-16-test-saas-1710667642")
-    
-    project = cluster[0].departments.filter(name="default")[0].projects.get(project_id=29953)
-    print(project)
+    # print(client.projects.test())
+    # client.projects.create(
+    #     name= "test-project",
+    #     requestedNamespace="test",
+    #     nodeTypes={
+    #         "training": "s"
+    #     })

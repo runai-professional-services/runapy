@@ -3,7 +3,7 @@ import json
 import requests
 from typing import Optional, Any
 from models import Cluster, Department, Project, NodePool
-from controller import Controller, ClusterController, DepartmentController, ProjectController, NodePoolController
+from controller import Controller, NodePoolController, ProjectController, DepartmentController
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,9 @@ class RunaiClient:
             realm: str,
             client_id: str,
             client_secret: str,
-            runai_base_url: str):
+            runai_base_url: str,
+            cluster_id: Optional[str]):
+        self.cluster_id = cluster_id
         self._base_url = f"{runai_base_url}"
         self._api_token = self._generate_api_token(runai_base_url, realm, client_id, client_secret)
         self._headers = {"authorization": f"Bearer {self._api_token}", 'content-type': "application/json"}
@@ -31,13 +33,13 @@ class RunaiClient:
         headers = {'content-type': "application/x-www-form-urlencoded"}
         url = f"{runai_base_url}/auth/realms/{realm}/protocol/openid-connect/token"
         try:
-            response = requests.post(url, payload, headers=headers)
-            response.raise_for_status()
-            response_json = response.json()
-            if "access_token" not in response_json:
-                raise SystemExit(f"failed to get access token from response. response body={response_json}")
+            resp = requests.post(url, payload, headers=headers)
+            resp.raise_for_status()
+            resp_json = resp.json()
+            if "access_token" not in resp_json:
+                raise SystemExit(f"failed to get access token from response. response body={resp_json}")
 
-            return response_json["access_token"]
+            return resp_json["access_token"]
 
         except requests.exceptions.HTTPError as err:
             print(f"failed to get api token. err={err}")
@@ -64,50 +66,47 @@ class RunaiClient:
         return resp
 
     def _get(self, url: str, data: Optional[Any]=None):
-        logger.debug(f"GET: {url}")
-        
         resp = self.request(requests.get,url=f"{self._base_url}{url}",headers=self._headers, data=data)
-        
         if not resp.ok:
             logger.error(resp.text)
+            #TODO: Remove SystemExits from code
             SystemExit("Failed to make HTTP call, exiting...")
-
-        logging.warning(f"resp: {resp.text}")
+        print(f"RESP: {resp}")
         return resp.json()
 
     def _post(self, url: str, data: dict):
         try:
             print(f"\n\nDATA: {data}\n\n")
-            response = requests.post(f"{self._base_url}/{url}",
+            resp = requests.post(f"{self._base_url}{url}",
                                      data=data,
                                      headers=self._headers)
-            print(f"\nRES: {response.json()}\n\n")
-            response.raise_for_status()
-            return response.json()
+            # resp.raise_for_status()
+            return resp.json()
         except requests.exceptions.HTTPError as err:
             print(f"error when trying to _post to url {url}, with data={data}. err={err}")
             raise SystemExit(err)
 
     def _put(self, url: str, data: dict):
         try:
-            response = requests.put(f"{self._base_url}/{url}",
-                                    data=data,
+            resp = requests.put(f"{self._base_url}{url}",
+                                    json=data,
                                     headers=self._headers)
-            response.raise_for_status()
-            return response.json()
+            resp.raise_for_status()
+            return resp.json()
         except requests.exceptions.HTTPError as err:
             print(f"error when trying to _put to url {url}, with data={data}. err={err}")
             raise SystemExit(err)
 
     def _delete(self, url: str):
         try:
-            response = requests.delete(f"{self._base_url}/{url}",
+            resp = requests.delete(f"{self._base_url}{url}",
                                        headers=self._headers)
-            response.raise_for_status()
-            if response.status_code == 202:
-                # Skip response.json() for content that do not exist TODO: refactor this to no need if conditional statment
-                return response.status_code
-            return response.json()
+            print(resp)
+            resp.raise_for_status()
+            if resp.status_code == 204:
+                # Skip resp.json() for content that do not exist TODO: refactor this to no need if conditional statment
+                return resp.status_code
+            return resp.json()
         except requests.exceptions.HTTPError as err:
             print(f"error when trying to _delete to url {url}, with err={err}")
             raise SystemExit(err)
@@ -117,17 +116,18 @@ class RunaiClient:
     def clusters(self) -> Controller:
         return Controller.factory(Cluster, self)
     
-    # TODO: If the object is called directly with RunaiClient.<object> need to include cluster_id, as it will not be included in the final state of the object
+    # @property
+    # def authorization(self) -> Controller:
+    #     return Controller.factory(User, self)
+    
     @property
-    def departments(self) -> Controller:
+    def departments(self) -> DepartmentController:
         return Controller.factory(Department, self)
     
-    # TODO: If the object is called directly with RunaiClient.<object> need to include cluster_id, as it will not be included in the final state of the object
     @property
-    def projects(self) -> Controller:
+    def projects(self) -> ProjectController:
         return Controller.factory(Project, self)
-    
-    # TODO: If the object is called directly with RunaiClient.<object> need to include cluster_id, as it will not be included in the final state of the object
+        
     @property
-    def node_pools(self) -> Controller:
+    def node_pools(self) -> NodePoolController:
         return Controller.factory(NodePool, self)
