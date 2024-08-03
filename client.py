@@ -1,11 +1,12 @@
 import logging
-import json
+
 import requests
 from typing import Optional, Any
-from models import Cluster, Department, Project, NodePool
-from controller import Controller, NodePoolController, ProjectController, DepartmentController
+from models import Cluster
+from controller import Controller, NodePoolController, ProjectController, DepartmentController, AccessRulesController, RolesController
 
 logger = logging.getLogger(__name__)
+
 
 class RunaiClient:
     """
@@ -89,8 +90,9 @@ class RunaiClient:
     def _put(self, url: str, data: dict):
         try:
             resp = requests.put(f"{self._base_url}{url}",
-                                    json=data,
+                                    data=data,
                                     headers=self._headers)
+            print(resp.text)
             resp.raise_for_status()
             return resp.json()
         except requests.exceptions.HTTPError as err:
@@ -110,24 +112,27 @@ class RunaiClient:
         except requests.exceptions.HTTPError as err:
             print(f"error when trying to _delete to url {url}, with err={err}")
             raise SystemExit(err)
-    
 
     @property
     def clusters(self) -> Controller:
         return Controller.factory(Cluster, self)
+
+    @property
+    def access_rules(self) -> AccessRulesController:
+        return Controller.factory("AccessRulesController", self)
     
-    # @property
-    # def authorization(self) -> Controller:
-    #     return Controller.factory(User, self)
-    
+    @property
+    def roles(self) -> RolesController:
+        return Controller.factory("RolesController", self)
+
     @property
     def departments(self) -> DepartmentController:
-        return Controller.factory(Department, self)
-    
+        return Controller.factory("DepartmentController", self)
+
     @property
     def projects(self) -> ProjectController:
-        return Controller.factory(Project, self)
-        
+        return Controller.factory("ProjectController", self)
+
     @property
     def node_pools(self) -> NodePoolController:
-        return Controller.factory(NodePool, self)
+        return Controller.factory("NodePoolController", self)

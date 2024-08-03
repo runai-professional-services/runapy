@@ -14,9 +14,9 @@ if __name__ == "__main__":
     # Create nodepool
     print(client.node_pools.create(
         name="test3",
-        labelKey="newTestLabel",
-        labelValue="someValue",
-        placementStrategy={"cpu": "spread", "gpu": "spread"}
+        label_key="newTestLabel",
+        label_value="someValue",
+        placement_strategy={"cpu": "spread", "gpu": "spread"}
                             ))
 
     # Get single nodepool by name

@@ -19,14 +19,18 @@ if __name__ == "__main__":
         client_secret=CLIENT_SECRET,
         runai_base_url=BASE_URL,
         cluster_id=CLUSTER_ID
-    )    
+    )
 
-    # print(client.projects.all())
+    #print(client.roles.get_roles_name_to_id_map())
+    
+    # print(client.access_rules.all())
+    
+    # print(client.access_rules.create(
+    #     subject_id="ofir.eldar@run.ai",
+    #     subject_type="user",
+    #     role_id=5,
+    #     scope_id=CLUSTER_ID,
+    #     scope_type="cluster"
+    # ))
 
-    # print(client.projects.test())
-    # client.projects.create(
-    #     name= "test-project",
-    #     requestedNamespace="test",
-    #     nodeTypes={
-    #         "training": "s"
-    #     })
+    # print(client.access_rules.test())

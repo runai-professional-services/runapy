@@ -1,16 +1,16 @@
 import abc
 import json
-from typing import Any, Optional, List, Dict
+
+from typing import Any, Optional, List, Literal
 
 import errors
 import models
-from models import build_model
+
 
 class Controller(abc.ABC):
-    def __init__(self, klass, client, instance=None):
+    def __init__(self, klass, client):
         self.klass = klass
         self.client = client
-        self.instance = instance
 
     @abc.abstractmethod
     def all(self):
@@ -21,55 +21,43 @@ class Controller(abc.ABC):
             return next(x for x in self.all() if x.id == id)
         except StopIteration:
             raise errors.RunaiNotFoundError
-        
+
     def first(self):
         try:
             return self.all()[0]
         except IndexError:
             raise errors.RunaiNotFoundError
 
-    # def _filter_by_kwargs(self, data, **kwargs: Any):
-    #     if kwargs:
-    #         for key, value in kwargs.items():
-    #             data = [x for x in data if getattr(x, key) == value]
-    #     return data
-
-    # def filter(self, **kwargs: Any):
-    #     return self._filter_by_kwargs(self.all(), **kwargs)
     def filter(self, data, **kwargs: Any):
         if kwargs:
             for key, value in kwargs.items():
                 data = [x for x in data if x.get(key) == value]
-                #Unpack list
+                # Unpack list
                 data = data[0]
         return data
 
     @staticmethod
-    def factory(klass, client, instance=None):
+    def factory(controller_class, client):
         try:
-            if isinstance(klass, str):
-                key = klass
-            else:
-                key = klass.__name__
-                controller = {
-                    "Cluster": ClusterController,
-                    "Department": DepartmentController,
-                    "Project": ProjectController,
-                    "NodePool": NodePoolController,
-                    # "Roles": RoleController,
-                    # "AccessRules": AccessRuleController,
-                    # "Users": UserController,
-                }[key]
-                return controller(klass, client, instance)
+            controller = {
+                "ClusterController": ClusterController,
+                "DepartmentController": DepartmentController,
+                "ProjectController": ProjectController,
+                "NodePoolController": NodePoolController,
+                "AccessRulesController": AccessRulesController,
+                "RolesController": RolesController
+            }[controller_class]
+            return controller(controller_class, client)
         except KeyError:
             errors.RunaiError
+
 
 class NodePoolController(Controller):
     def all(self) -> List:
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools"
-        
+
         return self.client._get(path)
-    
+
     def get(self, nodepool_name: str):
         node_pools = self.all()
         node_pool = self.filter(node_pools, name=nodepool_name)
@@ -80,134 +68,149 @@ class NodePoolController(Controller):
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_name}"
 
         return self.client._get(path)
-    
-    def create(self, name: str, labelKey: str, labelValue: str, placementStrategy: models.PlacementStrategy, overProvisioningRatio: Optional[int] = 1):
+
+    def create(
+        self,
+        name: str,
+        label_key: str,
+        label_value: str,
+        placement_strategy: models.PlacementStrategy,
+        over_provisioning_ratio: Optional[int] = 1,
+    ):
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools"
 
         data = {
             "name": name,
-            "labelKey": labelKey,
-            "labelValue": labelValue,
-            "placementStrategy": placementStrategy,
-            "overProvisioningRatio": overProvisioningRatio
-
+            "labelKey": label_key,
+            "labelValue": label_value,
+            "placementStrategy": placement_strategy,
+            "overProvisioningRatio": over_provisioning_ratio,
         }
 
-        node_pool = build_model(models.NodePoolCreateRequest, data)
+        node_pool = models.build_model(models.NodePoolCreateRequest, data)
         payload = node_pool.model_dump_json()
-        
+
         return self.client._post(path, payload)
-    
-    def update(self,nodepool_id: int, **kwargs):
+
+    def update(self, nodepool_id: int, **kwargs):
         """
         Used to update node pool fields that are not labels
         For labels, please use update_labels method
         """
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}"
         model_fields = [field for field in models.NodePoolRequest.model_fields]
-        
+
         options = {}
         for key, value in kwargs.items():
             if key not in model_fields:
                 raise ValueError(f"Field does not exist: {key}")
-            options[key]=value
-        
+            options[key] = value
+
         return self.client._put(path, options)
-    
-    def update_labels(self,nodepool_id: int, labelKey: str, labelValue: str):
+
+    def update_labels(self, nodepool_id: int, label_key: str, label_value: str):
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}/labels"
-        options = {
-            "labelKey": labelKey,
-            "labelValue": labelValue
-        }
+
+        options = {"labelKey": label_key, "labelValue": label_value}
         payload = json.dumps(options)
+
         return self.client._put(path, payload)
-    
+
     def delete(self, nodepool_id: int):
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}"
 
         resp = self.client._delete(path)
         return resp
-    
 
 
 class ProjectController(Controller):
     def all(self):
         # TODO: Pass query parameters instead of hardcoded filterBy
         path = f"/api/v1/org-unit/projects?filterBy=clusterId=={self.client.cluster_id}"
-        # path = f"/v1/k8s/clusters/{self.client.cluster_id}/projects"
+
         resp = self.client._get(path)
-
         projects = resp["projects"]
-        # projects = []
-        # for project_data in resp:
-        #     projects.append(self.klass.from_dict(project_data))
 
-        # for project in projects:
-        #     project.client = self.client
-        
         return projects
 
-    def test(self):
-        path = "/api/v1/org-unit/node-type"
-        return self.client._get(path)
+    def create(
+        self,
+        name: str,
+        resources: List[models.Resources],
+        requested_namespace: Optional[str] = None,
+        default_node_pools: Optional[List[str]] = None,
+        scheduling_rules: Optional[models.SchedulingRules] = None,
+        parent_id: Optional[str] = None,
+        node_types: Optional[models.NodeTypes] = None,
+    ):
+        path = "/api/v1/org-unit/projects"
 
-    def all_metrics(self):
-        path = "/v1/k8s/clusters"
+        data = {
+            "name": name,
+            "resources": resources,
+            "clusterId": self.client.cluster_id,
+            "requestedNamespace": requested_namespace,
+            "defaultNodePools": default_node_pools,
+            "schedulingRules": scheduling_rules,
+            "parentId": parent_id,
+            "nodeTypes": node_types,
+        }
 
-        return self.client._get(path)
-    
-    def create(self, 
-               name: str, 
-               requestedNamespace: str, 
-               nodeTypes:models.NodeTypes,
-               resources:models.Resources,
-               parentId:Optional[str],
-               defaultNodePools:Optional[List[str]],
-               schedulingRules:Optional[models.SchedulingRules]
-               ):
-        path = f"v1/k8s/clusters/{self.client.cluster_id}/projects"
+        project = models.build_model(model=models.ProjectCreateRequest, data=data)
+        payload = project.model_dump_json()
 
-        payload={}
         return self.client._post(path, payload)
 
     def get(self, project_id: int):
-        # Project endpoint is being called directly by the RunaiClient
-        # if project_id:
-        #     client = self.client
-        #     department_id = None
-        # Called by parent client Department 
-        if self.client.__class__.__name__ == "Department":
-            cluster_id = self.client.clusterUuid
-            client = self.client.client
+        path = f"/api/v1/org-unit/projects/{project_id}"
 
-        path = f"/v1/k8s/clusters/{cluster_id}/projects/{project_id}"      
+        return self.client._get(path)
 
-        return client._get(path)
-        #TODO: Add error catch and parameter validation
-    
-    def update(self, id: str):
-        return errors.RunaiNotImplementedError
-    
-    def delete(self, id: str):
-        return errors.RunaiNotImplementedError
+    def update(
+        self,
+        project_id: int,
+        resources: List[models.Resources],
+        default_node_pools: Optional[List[str]] = None,
+        node_types: Optional[models.NodeTypes] = None,
+        scheduling_rules: Optional[models.SchedulingRules] = None,
+    ):
+        path = f"/api/v1/org-unit/projects/{project_id}"
+
+        existing_project = self.get(project_id=project_id)
+
+        scheduling_rules = scheduling_rules or existing_project["schedulingRules"] or None
+        default_node_pools = default_node_pools or existing_project["defaultNodePools"] or None
+        node_types = node_types or existing_project["nodeTypes"]
+
+        data = {
+            "resources": resources,
+            "schedulingRules": scheduling_rules,
+            "defaultNodePools": default_node_pools,
+            "nodeTypes": node_types,
+        }
+
+        model = models.build_model(model=models.ProjectUpdateRequest, data=data)
+        payload = model.model_dump_json()
+
+        return self.client._put(path, payload)
+
+    def delete(self, project_id: int):
+        path = f"/api/v1/org-unit/projects/{project_id}"
+
+        return self.client._delete(path)
+
 
 class DepartmentController(Controller):
     def all(self):
         # path = f"/v1/k8s/clusters/{self.client.uuid}/departments"
         # TODO: Pass query parameters instead of hardcoded filterBy
-        path = f"/api/v1/org-unit/departments?filterBy=clusterId=={self.client.cluster_id}"
-        client = self.client
+        path = (
+            f"/api/v1/org-unit/departments?filterBy=clusterId=={self.client.cluster_id}"
+        )
 
-        resp = client._get(path)
-
+        resp = self.client._get(path)
         departments = resp["departments"]
-        # departments = []
-        # for department_data in resp:
-        #     departments.append(self.klass.from_dict(department_data))
-        # for department in departments:
-        #     department.client = client
-        
+
         return departments
 
     def all_metrics(self):
@@ -215,14 +218,15 @@ class DepartmentController(Controller):
 
         return self.client._get(path)
 
-    def create(self, name: str, resources:models.Resources):
-        path = f"/api/v1/org-unit/departments"
+    def create(self, name: str, resources: models.Resources):
+        path = "/api/v1/org-unit/departments"
+
         data = {
             "name": name,
             "resources": resources,
-            "clusterId": self.client.cluster_id
+            "clusterId": self.client.cluster_id,
         }
-        department = build_model(models.DepartmentCreateRequest, data=data)
+        department = models.build_model(model=models.DepartmentCreateRequest, data=data)
         payload = department.model_dump_json()
 
         return self.client._post(path, payload)
@@ -231,51 +235,73 @@ class DepartmentController(Controller):
         path = f"/api/v1/org-unit/departments/{department_id}"
 
         return self.client._get(path)
-    
-    def update_resources(self, department_id: str,  resources: List[models.Resources]):
+
+    def update_resources(self, department_id: str, resources: List[models.Resources]):
         path = f"/api/v1/org-unit/departments/{department_id}/resources"
 
         payload = []
         for resource in resources:
-            resource = build_model(models.Resources, resource)
+            resource = models.build_model(models.Resources, resource)
             payload.append(resource.model_dump())
-        
+
         return self.client._put(path, payload)
-    
+
     def delete(self, department_id: int):
         path = f"/api/v1/org-unit/departments/{department_id}"
+
         return self.client._delete(path)
 
-# class UserController(Controller):
-#     def all(self):
-#         path = "/api/v1/users"
 
-#         resp = self.client._get(path)
+class AccessRulesController(Controller):
+    def all(self):
+        path = "/api/v1/authorization/access-rules"
 
-#         users = []
-#         for data in resp:
-#             users.append({"id": data["id"], "username": data["username"]})
-#         return users
+        return self.client._get(path)
 
-# class RoleController(Controller):
-#     def all(self):
-#         path = "/api/v1/authorization/roles"
+    def create(self,
+               subject_id: str,
+               subject_type: Literal["user", "app", "group"],
+               role_id: int,
+               scope_id: str,
+               scope_type: Literal["system", "tenant", "cluster", "department", "project"]
+               ):
+        path = "/api/v1/authorization/access-rules"
 
-#         resp = self.client._get(path)
+        data = {
+                "subjectId": subject_id,
+                "subjectType": subject_type,
+                "roleId": role_id,
+                "scopeId": scope_id,
+                "scopeType": scope_type,
+                "clusterId": self.client.cluster_id
+                }
+        access_rule = models.build_model(models.AccessRule, data)
+        payload = access_rule.model_dump_json()
 
-#         return resp
+        return self.client._post(path, payload)
 
-# class AccessRuleController(Controller):
-#     def all(self):
-#         path = "/api/v1/authorization/access-rules"
 
-#         resp = self.client._get(path)
+class RolesController(Controller):
+    def all(self):
+        path = "/api/v1/authorization/roles"
 
-#         return resp
-    
-#     def create(self):
-#         path = "/api/v1/authorization/access-rules"
+        return self.client._get(path)
 
+    def get(self, role_id: int):
+        path = f"/api/v1/authorization/roles/{role_id}"
+
+        return self.client._get(path)
+
+    def get_roles_name_to_id_map(self) -> dict:
+        path = "/api/v1/authorization/roles"
+
+        roles = self.client._get(path)
+
+        m = {}
+        for role in roles:
+            m[role["name"]] = role["id"]
+
+        return m
 
 
 class ClusterController(Controller):
@@ -284,20 +310,20 @@ class ClusterController(Controller):
 
         resp = self.client._get(path)
 
-        clusters = []        
+        clusters = []
         for cluster_data in resp:
             clusters.append(self.klass.from_dict(cluster_data))
         for cluster in clusters:
             cluster.client = self.client
         return clusters
-    
+
     def get(self, id: str):
         path = f"/v1/k8s/clusters/{id}"
 
         return self.client._get(path)
-    
+
     def update(self):
         return errors.RunaiNotImplementedError
-    
+
     def delete(self):
         return errors.RunaiNotImplementedError
