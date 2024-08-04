@@ -1,138 +1,162 @@
 import logging
+from typing import Optional, Any, Dict, Callable
 
 import requests
-from typing import Optional, Any
-from models import Cluster
-from controller import Controller, NodePoolController, ProjectController, DepartmentController, AccessRulesController, RolesController
+from requests.adapters import HTTPAdapter
+from urllib3.util import Retry
+
+import errors
+import controller
 
 logger = logging.getLogger(__name__)
 
 
 class RunaiClient:
     """
-    RunaiClient is a python module that levarages Run:ai REST API https://app.run.ai/api/docs
+    RunaiClient is a python pacakge that to interact with the Run:ai REST API https://app.run.ai/api/docs
 
-    realm: The company's realm name, can be obtained from the UI login screen at app.run.ai -> app.run.ai/auth/realms/<realm>
-    client_id: The application token name generated at the UI -> Applications
-    client_secret: The application secret
-    runai_base_url: The Run:ai company's domain name, for example: https://mycompany.run.ai
+    Parameters:
+
+    - realm: The company's realm name, can be obtained from the UI login screen at app.run.ai -> app.run.ai/auth/realms/<realm>
+
+    - client_id: The application token name generated at the UI -> Applications
+
+    - client_secret: The application secret
+
+    - runai_base_url: The Run:ai company's domain name, for example: https://mycompany.run.ai
+
+    - cluster_id: The cluster ID
+
+    - retries: Number of retries to perform on failed API calls due to intermittend network errors
     """
+
     def __init__(
-            self,
-            realm: str,
-            client_id: str,
-            client_secret: str,
-            runai_base_url: str,
-            cluster_id: Optional[str]):
+        self,
+        realm: str,
+        client_id: str,
+        client_secret: str,
+        runai_base_url: str,
+        cluster_id: str,
+        retries: Optional[int] = None,
+        debug: bool = False,
+    ):
         self.cluster_id = cluster_id
         self._base_url = f"{runai_base_url}"
-        self._api_token = self._generate_api_token(runai_base_url, realm, client_id, client_secret)
-        self._headers = {"authorization": f"Bearer {self._api_token}", 'content-type': "application/json"}
+        self._session = self._create_session(
+            runai_base_url, realm, client_id, client_secret, retries
+        )
+        if debug:
+            logging.basicConfig(level=logging.DEBUG)
 
-    def _generate_api_token(self, runai_base_url: str, realm: str, client_id: str, client_secret: str):
-        payload = f"grant_type=client_credentials&client_id={client_id}&client_secret={client_secret}"
-        headers = {'content-type': "application/x-www-form-urlencoded"}
+    def _create_session(
+        self,
+        runai_base_url: str,
+        realm: str,
+        client_id: str,
+        client_secret: str,
+        retries: int,
+    ) -> requests.Session:
+
+        session = requests.Session()
+        api_token = self._generate_api_token(
+            runai_base_url=runai_base_url,
+            realm=realm,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
+        session.headers.update(
+            {"authorization": f"Bearer {api_token}",
+             "content-type": "application/json"}
+        )
+
+        retries = Retry(
+            total=retries if retries else 1,
+            backoff_factor=2,
+            status_forcelist=[500, 502, 503, 504],
+            allowed_methods=["GET", "POST", "PUT", "DELETE"],
+        )
+        adapter = HTTPAdapter(max_retries=retries)
+        session.mount("https://", adapter)
+
+        return session
+
+    def _generate_api_token(
+        self, runai_base_url: str, realm: str, client_id: str, client_secret: str
+    ) -> str:
+        data = f"grant_type=client_credentials&client_id={client_id}&client_secret={client_secret}"
+        headers = {"content-type": "application/x-www-form-urlencoded"}
         url = f"{runai_base_url}/auth/realms/{realm}/protocol/openid-connect/token"
         try:
-            resp = requests.post(url, payload, headers=headers)
-            resp.raise_for_status()
+            resp = requests.post(url, data=data, headers=headers)
+            if not resp.ok:
+                logger.error(f"Request failed: {resp}")
+                raise errors.RunaiHTTPError(resp)
             resp_json = resp.json()
             if "access_token" not in resp_json:
-                raise SystemExit(f"failed to get access token from response. response body={resp_json}")
+                raise errors.RunaiClientError(
+                    f"Failed to get access token from response. response body={resp_json}"
+                )
 
             return resp_json["access_token"]
 
-        except requests.exceptions.HTTPError as err:
-            print(f"failed to get api token. err={err}")
-            raise SystemExit(err)
         except requests.exceptions.JSONDecodeError as err:
-            print(f"failed to decode json response. err={err}")
-            raise SystemExit(err)
-    
-    def request(self,
-                 method,
-                 url: str,
-                 headers: object,
-                 data: object = None) -> requests.Response:
-        if data:
-            logging.warning(f"Making call to: {url}...")
-            resp = method(url=url, data=data, headers=headers)
-        else:
-            logging.warning(f"Making call to: {url}...")
-            resp = method(url=url, headers=headers)
-        if not resp or resp.status_code >= requests.codes.server_error:
-            logger.warning(f"Failed to make call: {resp.text}")
-            SystemExit("Failed to make HTTP call, exiting...")
+            logger.error(f"Failed to decode json response. err={err}")
+            raise errors.RunaiClientError(err)
 
-        return resp
+    def request(
+        self, http_method: Callable, url: str, **kwargs: Any
+    ) -> requests.Response:
 
-    def _get(self, url: str, data: Optional[Any]=None):
-        resp = self.request(requests.get,url=f"{self._base_url}{url}",headers=self._headers, data=data)
-        if not resp.ok:
-            logger.error(resp.text)
-            #TODO: Remove SystemExits from code
-            SystemExit("Failed to make HTTP call, exiting...")
-        print(f"RESP: {resp}")
+        full_url = f"{self._base_url}{url}"
+        logger.debug(f"Making {http_method.__name__.upper()} call to: {full_url}...")
+
+        try:
+            resp = http_method(url=full_url, **kwargs)
+            if not resp.ok:
+                logger.error(f"Request failed: [{resp.status_code}] - {resp.text}")
+                raise errors.RunaiHTTPError(resp)
+            logger.debug(f"Request to {full_url} succeeded with status code: {resp.status_code}")
+            return resp
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request failed for URL {url}: {e}")
+            raise errors.RunaiError(f"Request failed for URL {url}: {e}")
+
+    def get(self, url: str, params: Optional[Any] = None) -> Dict:
+        resp = self.request(self._session.get, url, params=params)
         return resp.json()
 
-    def _post(self, url: str, data: dict):
-        try:
-            print(f"\n\nDATA: {data}\n\n")
-            resp = requests.post(f"{self._base_url}{url}",
-                                     data=data,
-                                     headers=self._headers)
-            # resp.raise_for_status()
-            return resp.json()
-        except requests.exceptions.HTTPError as err:
-            print(f"error when trying to _post to url {url}, with data={data}. err={err}")
-            raise SystemExit(err)
+    def post(self, url: str, data: dict) -> Dict:
+        resp = self.request(self._session.post, url, data=data)
+        return resp.json()
 
-    def _put(self, url: str, data: dict):
-        try:
-            resp = requests.put(f"{self._base_url}{url}",
-                                    data=data,
-                                    headers=self._headers)
-            print(resp.text)
-            resp.raise_for_status()
-            return resp.json()
-        except requests.exceptions.HTTPError as err:
-            print(f"error when trying to _put to url {url}, with data={data}. err={err}")
-            raise SystemExit(err)
+    def put(self, url: str, data: dict) -> Dict:
+        resp = self.request(self._session.put, url, data=data)
+        return resp.json()
 
-    def _delete(self, url: str):
-        try:
-            resp = requests.delete(f"{self._base_url}{url}",
-                                       headers=self._headers)
-            print(resp)
-            resp.raise_for_status()
-            if resp.status_code == 204:
-                # Skip resp.json() for content that do not exist TODO: refactor this to no need if conditional statment
-                return resp.status_code
-            return resp.json()
-        except requests.exceptions.HTTPError as err:
-            print(f"error when trying to _delete to url {url}, with err={err}")
-            raise SystemExit(err)
+    def delete(self, url: str) -> Dict:
+        resp = self.request(self._session.delete, url)
+        return resp.json()
 
     @property
-    def clusters(self) -> Controller:
-        return Controller.factory(Cluster, self)
+    def clusters(self) -> controller.ClusterController:
+        return controller.ClusterController(self)
 
     @property
-    def access_rules(self) -> AccessRulesController:
-        return Controller.factory("AccessRulesController", self)
-    
-    @property
-    def roles(self) -> RolesController:
-        return Controller.factory("RolesController", self)
+    def access_rules(self) -> controller.AccessRulesController:
+        return controller.AccessRulesController(self)
 
     @property
-    def departments(self) -> DepartmentController:
-        return Controller.factory("DepartmentController", self)
+    def roles(self) -> controller.RolesController:
+        return controller.RolesController(self)
 
     @property
-    def projects(self) -> ProjectController:
-        return Controller.factory("ProjectController", self)
+    def departments(self) -> controller.DepartmentController:
+        return controller.DepartmentController(self)
 
     @property
-    def node_pools(self) -> NodePoolController:
-        return Controller.factory("NodePoolController", self)
+    def projects(self) -> controller.ProjectController:
+        return controller.ProjectController(self)
+
+    @property
+    def node_pools(self) -> controller.NodePoolController:
+        return controller.NodePoolController(self)

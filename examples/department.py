@@ -16,13 +16,13 @@ if __name__ == "__main__":
         name="new-department",
         resources=[{
             "nodePool": {
-            "id": "22",
-            "name": "default"
+                "id": "22",
+                "name": "default"
             },
             "gpu": {
-            "deserved": 0,
-            "limit": 0,
-            "overQuotaWeight": 2
+                "deserved": 0,
+                "limit": 0,
+                "overQuotaWeight": 2
             },
             "cpu": None,
             "memory": None
@@ -42,18 +42,17 @@ if __name__ == "__main__":
         department_id=4500007,
         resources=[
             {
-            "nodePool":{
-            "id": "2917",
-            "name": "default"
-            },
-            "gpu":{
-                "deserved": 6,
-                "limit": 6,
-                "overQuotaWeight": 2
-                },
-            "cpu":None,
-            "memory":None
+                "nodePool": {
+                    "id": "2917",
+                    "name": "default"
+                    },
+                "gpu": {
+                    "deserved": 6,
+                    "limit": 6,
+                    "overQuotaWeight": 2
+                    },
+                "cpu": None,
+                "memory": None
             }
         ]
     )
-    print(department)

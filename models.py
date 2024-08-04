@@ -1,7 +1,9 @@
 from typing import Optional, List, Literal, Type, Any
 
 import pydantic
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
+
+import errors
 
 
 class PlacementStrategy(BaseModel):
@@ -148,4 +150,4 @@ def build_model(model: BaseModel, data: dict) -> BaseModel:
         built_model = model(**data)
         return built_model
     except pydantic.ValidationError as e:
-        raise ValueError(f"Failed to build payload: {e}")
+        raise errors.RunaiBuildModelError(err=e)

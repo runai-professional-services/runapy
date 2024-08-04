@@ -8,27 +8,10 @@ import models
 
 
 class Controller(abc.ABC):
-    def __init__(self, klass, client):
-        self.klass = klass
+    def __init__(self, client):
         self.client = client
 
-    @abc.abstractmethod
-    def all(self):
-        pass
-
-    def get(self, id: str):
-        try:
-            return next(x for x in self.all() if x.id == id)
-        except StopIteration:
-            raise errors.RunaiNotFoundError
-
-    def first(self):
-        try:
-            return self.all()[0]
-        except IndexError:
-            raise errors.RunaiNotFoundError
-
-    def filter(self, data, **kwargs: Any):
+    def _filter(self, data, **kwargs: Any):
         if kwargs:
             for key, value in kwargs.items():
                 data = [x for x in data if x.get(key) == value]
@@ -36,38 +19,26 @@ class Controller(abc.ABC):
                 data = data[0]
         return data
 
-    @staticmethod
-    def factory(controller_class, client):
-        try:
-            controller = {
-                "ClusterController": ClusterController,
-                "DepartmentController": DepartmentController,
-                "ProjectController": ProjectController,
-                "NodePoolController": NodePoolController,
-                "AccessRulesController": AccessRulesController,
-                "RolesController": RolesController
-            }[controller_class]
-            return controller(controller_class, client)
-        except KeyError:
-            errors.RunaiError
-
 
 class NodePoolController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+
     def all(self) -> List:
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def get(self, nodepool_name: str):
         node_pools = self.all()
-        node_pool = self.filter(node_pools, name=nodepool_name)
+        node_pool = self._filter(node_pools, name=nodepool_name)
 
         return node_pool
 
     def node_pool_metrics(self, nodepool_name: str):
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_name}"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def create(
         self,
@@ -90,7 +61,7 @@ class NodePoolController(Controller):
         node_pool = models.build_model(models.NodePoolCreateRequest, data)
         payload = node_pool.model_dump_json()
 
-        return self.client._post(path, payload)
+        return self.client.post(path, payload)
 
     def update(self, nodepool_id: int, **kwargs):
         """
@@ -106,7 +77,7 @@ class NodePoolController(Controller):
                 raise ValueError(f"Field does not exist: {key}")
             options[key] = value
 
-        return self.client._put(path, options)
+        return self.client.put(path, options)
 
     def update_labels(self, nodepool_id: int, label_key: str, label_value: str):
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}/labels"
@@ -114,21 +85,24 @@ class NodePoolController(Controller):
         options = {"labelKey": label_key, "labelValue": label_value}
         payload = json.dumps(options)
 
-        return self.client._put(path, payload)
+        return self.client.put(path, payload)
 
     def delete(self, nodepool_id: int):
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}"
 
-        resp = self.client._delete(path)
+        resp = self.client.delete(path)
         return resp
 
 
 class ProjectController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+
     def all(self):
         # TODO: Pass query parameters instead of hardcoded filterBy
         path = f"/api/v1/org-unit/projects?filterBy=clusterId=={self.client.cluster_id}"
 
-        resp = self.client._get(path)
+        resp = self.client.get(path)
         projects = resp["projects"]
 
         return projects
@@ -159,12 +133,12 @@ class ProjectController(Controller):
         project = models.build_model(model=models.ProjectCreateRequest, data=data)
         payload = project.model_dump_json()
 
-        return self.client._post(path, payload)
+        return self.client.post(path, payload)
 
     def get(self, project_id: int):
         path = f"/api/v1/org-unit/projects/{project_id}"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def update(
         self,
@@ -192,15 +166,18 @@ class ProjectController(Controller):
         model = models.build_model(model=models.ProjectUpdateRequest, data=data)
         payload = model.model_dump_json()
 
-        return self.client._put(path, payload)
+        return self.client.put(path, payload)
 
     def delete(self, project_id: int):
         path = f"/api/v1/org-unit/projects/{project_id}"
 
-        return self.client._delete(path)
+        return self.client.delete(path)
 
 
 class DepartmentController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+
     def all(self):
         # path = f"/v1/k8s/clusters/{self.client.uuid}/departments"
         # TODO: Pass query parameters instead of hardcoded filterBy
@@ -208,7 +185,7 @@ class DepartmentController(Controller):
             f"/api/v1/org-unit/departments?filterBy=clusterId=={self.client.cluster_id}"
         )
 
-        resp = self.client._get(path)
+        resp = self.client.get(path)
         departments = resp["departments"]
 
         return departments
@@ -216,7 +193,7 @@ class DepartmentController(Controller):
     def all_metrics(self):
         path = "/v1/k8s/clusters"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def create(self, name: str, resources: models.Resources):
         path = "/api/v1/org-unit/departments"
@@ -229,12 +206,12 @@ class DepartmentController(Controller):
         department = models.build_model(model=models.DepartmentCreateRequest, data=data)
         payload = department.model_dump_json()
 
-        return self.client._post(path, payload)
+        return self.client.post(path, payload)
 
     def get(self, department_id: int):
         path = f"/api/v1/org-unit/departments/{department_id}"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def update_resources(self, department_id: str, resources: List[models.Resources]):
         path = f"/api/v1/org-unit/departments/{department_id}/resources"
@@ -244,19 +221,22 @@ class DepartmentController(Controller):
             resource = models.build_model(models.Resources, resource)
             payload.append(resource.model_dump())
 
-        return self.client._put(path, payload)
+        return self.client.put(path, payload)
 
     def delete(self, department_id: int):
         path = f"/api/v1/org-unit/departments/{department_id}"
 
-        return self.client._delete(path)
+        return self.client.delete(path)
 
 
 class AccessRulesController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+
     def all(self):
         path = "/api/v1/authorization/access-rules"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def create(self,
                subject_id: str,
@@ -278,24 +258,27 @@ class AccessRulesController(Controller):
         access_rule = models.build_model(models.AccessRule, data)
         payload = access_rule.model_dump_json()
 
-        return self.client._post(path, payload)
+        return self.client.post(path, payload)
 
 
 class RolesController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+
     def all(self):
         path = "/api/v1/authorization/roles"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def get(self, role_id: int):
         path = f"/api/v1/authorization/roles/{role_id}"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def get_roles_name_to_id_map(self) -> dict:
         path = "/api/v1/authorization/roles"
 
-        roles = self.client._get(path)
+        roles = self.client.get(path)
 
         m = {}
         for role in roles:
@@ -305,10 +288,13 @@ class RolesController(Controller):
 
 
 class ClusterController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+
     def all(self):
         path = "/v1/k8s/clusters"
 
-        resp = self.client._get(path)
+        resp = self.client.get(path)
 
         clusters = []
         for cluster_data in resp:
@@ -320,7 +306,7 @@ class ClusterController(Controller):
     def get(self, id: str):
         path = f"/v1/k8s/clusters/{id}"
 
-        return self.client._get(path)
+        return self.client.get(path)
 
     def update(self):
         return errors.RunaiNotImplementedError
