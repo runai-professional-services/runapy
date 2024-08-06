@@ -1,6 +1,6 @@
-from runapy import RunaiClient
+import runai
 
-client = RunaiClient(
+client = runai.RunaiClient(
     realm=REALM,
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,

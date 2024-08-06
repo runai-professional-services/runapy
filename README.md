@@ -37,14 +37,14 @@ poetry run python3 main.py
 RunaiClient is the only class required to interact with the Run:ai REST API https://app.run.ai/api/docs
 
 ```python
-from runapy import RunaiClient
+import runai
 
-client = RunaiClient(
+client = runai.RunaiClient(
             realm="myorgrealm",
             client_id="API"
             client_secret="clientsecret",
             runai_base_url="https://myorg.run.ai",
-            cluster_id="513423qx-127t-4yk6-979g-5po843g37e2b,
+            cluster_id="513423qx-127t-4yk6-979g-5po843g37e2b",
             retries=3,
             debug=False
     )

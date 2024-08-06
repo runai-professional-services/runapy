@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "Python client for Run:ai REST API"
 authors = ["Ofir Eldar <ofir.eldar.github@gmail.com>"]
 license = "MIT"
+packages = [
+  { include = "runai" },
+]
 readme = "README.md"
 
 [tool.poetry.dependencies]
