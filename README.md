@@ -1,4 +1,4 @@
-# runai-api
+# runapy
 
 This project provides a Python client to interact with the [Run:ai REST API](https://app.run.ai/api/docs).
 
@@ -10,6 +10,7 @@ This project provides a Python client to interact with the [Run:ai REST API](htt
 - Debug messages flag
 
 ## Requirements:
+ - Run:ai control-plane version of 2.18 and above
  - Python version of 3.11 or above
  - [Run:ai Client Application](https://docs.run.ai/v2.13/developer/rest-auth/#create-a-client-application)
 
@@ -19,14 +20,14 @@ Some API calls may fail with 403 if the application token has no sufficient perm
 
 ## Installation
 
-runai-api is avaialble in PyPi and can be downloaded directly as a python package
+runapy is avaialble in PyPi and can be downloaded directly as a python package
 ```bash
-pip3 install runai-api
+pip3 install runapy
 ```
 
 Or you can clone the repo and run it with [poetry](https://python-poetry.org/docs/):
 ```bash
-git clone https://github.com/ofir-run-ai/runai-api
+git clone https://github.com/ofir-eldar1/runapy
 poetry install
 poetry run python3 main.py
 
@@ -36,7 +37,7 @@ poetry run python3 main.py
 RunaiClient is the only class required to interact with the Run:ai REST API https://app.run.ai/api/docs
 
 ```python
-from runai-api import RunaiClient
+from runapy import RunaiClient
 
 client = RunaiClient(
             realm="myorgrealm",
