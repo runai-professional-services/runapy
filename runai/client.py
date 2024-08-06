@@ -5,8 +5,8 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 
-import errors
-import controllers
+from . import errors
+from . import controllers
 
 logger = logging.getLogger(__name__)
 

@@ -3,7 +3,7 @@ from typing import Optional, List, Literal
 import pydantic
 from pydantic import BaseModel
 
-import errors
+from . import errors
 
 
 class PlacementStrategy(BaseModel):

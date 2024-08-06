@@ -3,8 +3,8 @@ import json
 
 from typing import Any, Optional, List, Literal
 
-import errors
-import models
+from . import errors
+from . import models
 
 
 class Controller(abc.ABC):
