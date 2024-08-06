@@ -20,11 +20,12 @@ if __name__ == "__main__":
         runai_base_url=BASE_URL,
         cluster_id=CLUSTER_ID,
         retries=3,
+        debug=False
     )
 
     # print(client.roles.get_roles_name_to_id_map())
     
-    # print(client.access_rules.all())
+    print(client.access_rules.all())
     
     # print(client.access_rules.create(
     #     subject_id="ofir.eldar@run.ai",

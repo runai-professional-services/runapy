@@ -6,7 +6,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 
 import errors
-import controller
+import controllers
 
 logger = logging.getLogger(__name__)
 
@@ -138,25 +138,25 @@ class RunaiClient:
         return resp.json()
 
     @property
-    def clusters(self) -> controller.ClusterController:
-        return controller.ClusterController(self)
+    def clusters(self) -> controllers.ClusterController:
+        return controllers.ClusterController(self)
 
     @property
-    def access_rules(self) -> controller.AccessRulesController:
-        return controller.AccessRulesController(self)
+    def access_rules(self) -> controllers.AccessRulesController:
+        return controllers.AccessRulesController(self)
 
     @property
-    def roles(self) -> controller.RolesController:
-        return controller.RolesController(self)
+    def roles(self) -> controllers.RolesController:
+        return controllers.RolesController(self)
 
     @property
-    def departments(self) -> controller.DepartmentController:
-        return controller.DepartmentController(self)
+    def departments(self) -> controllers.DepartmentController:
+        return controllers.DepartmentController(self)
 
     @property
-    def projects(self) -> controller.ProjectController:
-        return controller.ProjectController(self)
+    def projects(self) -> controllers.ProjectController:
+        return controllers.ProjectController(self)
 
     @property
-    def node_pools(self) -> controller.NodePoolController:
-        return controller.NodePoolController(self)
+    def node_pools(self) -> controllers.NodePoolController:
+        return controllers.NodePoolController(self)

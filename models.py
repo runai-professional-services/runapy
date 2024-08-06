@@ -1,4 +1,4 @@
-from typing import Optional, List, Literal, Type, Any
+from typing import Optional, List, Literal
 
 import pydantic
 from pydantic import BaseModel
@@ -151,3 +151,48 @@ def build_model(model: BaseModel, data: dict) -> BaseModel:
         return built_model
     except pydantic.ValidationError as e:
         raise errors.RunaiBuildModelError(err=e)
+
+
+class ProjectQueryParams(BaseModel):
+    filterBy: str
+    sortBy: Literal["name", "clusterId", "departmentId", "createdAt"]
+    sortOrder: Literal["asc", "desc"]
+    offset: int
+    limit: int
+
+
+class DepartmentQueryParams(BaseModel):
+    filterBy: Optional[str]
+    sortBy: Optional[Literal["name", "clusterId", "departmentId", "createdAt"]]
+    sortOrder: Optional[Literal["asc", "desc"]]
+    offset: Optional[int]
+    limit: Optional[int]
+
+
+class NodePoolsQueryParams(BaseModel):
+    start: str  # TODO: shoudl be datetime
+    end: str  # TODO: shoudl be datetime
+    metrics: Literal["GPU_UTILIZATION", "GPU_MEMORY_UTILIZATION", "CPU_UTILIZATION", "CPU_MEMORY_UTILIZATION", "TOTAL_GPU", "GPU_QUOTA", "ALLOCATED_GPU", "AVG_WORKLOAD_WAIT_TIME"]
+    numberOfSamples: Optional[int]
+
+
+class AccessRulesParams(BaseModel):
+    subjectType: Optional[str]
+    subjectIds: Optional[List[str]]
+    limit: Optional[int]
+    offset: Optional[int]
+    lastUpdated: Optional[str]
+    includeDeleted: Optional[bool]
+    clusterId: Optional[str]
+    scopeId: Optional[str]
+    sortOrder: Optional[Literal["asc", "desc"]] = "asc"
+    sortBy: Optional[Literal["subjectId", "subjectType", "roleId", "scopeId", "scopeType", "roleName", "scopeName", "createdAt", "deletedAt", "createdBy"]]
+    filterBy: Optional[str]
+
+
+def validate_query_params(query_model: BaseModel, params: dict):
+    try:
+        built_model = query_model(**params)
+        return built_model
+    except pydantic.ValidationError as e:
+        raise errors.RunaiQueryParamsError(err=e)
