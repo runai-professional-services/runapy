@@ -1,4 +1,5 @@
 from typing import Optional, List, Literal
+from enum import StrEnum
 
 import pydantic
 from pydantic import BaseModel
@@ -6,7 +7,7 @@ from pydantic import BaseModel
 from . import errors
 
 
-class PlacementStrategy(BaseModel):
+class ResourcesPlacementStrategy(BaseModel):
     cpu: Literal["spread", "binpack"]
     gpu: Literal["spread", "binpack"]
 
@@ -16,7 +17,14 @@ class NodePool(BaseModel):
     name: str
     labelKey: str
     labelValue: str
-    placementStrategy: PlacementStrategy
+    placementStrategy: ResourcesPlacementStrategy
+    overProvisioningRatio: Optional[int] = 1
+
+
+class NodePoolUpdateRequest(BaseModel):
+    labelKey: str
+    labelValue: str
+    placementStrategy: ResourcesPlacementStrategy
     overProvisioningRatio: Optional[int] = 1
 
 
@@ -24,7 +32,7 @@ class NodePoolCreateRequest(BaseModel):
     name: str
     labelKey: str
     labelValue: str
-    placementStrategy: PlacementStrategy
+    placementStrategy: ResourcesPlacementStrategy
     overProvisioningRatio: Optional[int] = 1
 
 
@@ -48,6 +56,15 @@ class NodeTypes(BaseModel):
 
 
 class SchedulingRules(BaseModel):
+    """
+    Scheduling rules to be applied on all workloads within the project
+
+    interactiveJobTimeLimitSeconds: Optional[int] = None
+    interactiveJobMaxIdleDurationSeconds: Optional[int] = None
+    interactiveJobPreemptIdleDurationSeconds: Optional[int] = None
+    trainingJobTimeLimitSeconds: Optional[int] = None
+    trainingJobMaxIdleDurationSeconds: Optional[int] = None
+    """
     interactiveJobTimeLimitSeconds: Optional[int] = None
     interactiveJobMaxIdleDurationSeconds: Optional[int] = None
     interactiveJobPreemptIdleDurationSeconds: Optional[int] = None
@@ -62,7 +79,31 @@ class NodePoolIdentifier(BaseModel):
 
 class Resources(BaseModel):
     """
-    Object:
+    Set the gpu, cpu, and memory resources for a given nodepool.
+    CPU/Memory may not work if your organization does not permit assiging these resources
+
+    "nodePool": {
+        id: str
+        name: str
+    },
+    "gpu": {
+        deserved: int
+        limit: int
+        overQuotaWeight: int
+    },
+    "cpu": {
+        "deserved": int,
+        "limit": int,
+        "overQuotaWeight": int
+    },
+        "memory": {
+            "deserved": int,
+            "limit": int,
+            "overQuotaWeight": int,
+            "units": "Mib" or "GB" or "MB,
+    }
+
+    Example:
     {
         {
             "nodePool": {
@@ -109,7 +150,7 @@ class ProjectCreateRequest(BaseModel):
     defaultNodePools: Optional[List[str]] = None
     schedulingRules: Optional[SchedulingRules] = None
     requestedNamespace: Optional[str] = None
-    parentId: Optional[str] = None  # TODO: change to uuid type
+    parentId: Optional[str] = None
 
 
 class DepartmentCreateRequest(BaseModel):
@@ -117,23 +158,10 @@ class DepartmentCreateRequest(BaseModel):
     clusterId: str
     resources: List[Resources]
 
-# @dataclass
-# class Authorization(BaseModel):
-#     @property
-#     def users(self) -> Controller:
-#         return Controller.factory("Users", self)
 
-
-class Cluster(BaseModel):
-    tenantId: int
-    uuid: str
-    name: str
-    domain: str
-    # description: str # TODO: Remove field as it causes an error
-    version: str
-    createdAt: str
-    # connected: bool # TODO: Remove field as it causes an error
-    status: object
+class UserCreateRequest(BaseModel):
+    email: str
+    resetPassword: Optional[bool] = False
 
 
 class AccessRule(BaseModel):
@@ -153,30 +181,61 @@ def build_model(model: BaseModel, data: dict) -> BaseModel:
         raise errors.RunaiBuildModelError(err=e)
 
 
+class SortOrderEnum(StrEnum):
+    asc = "asc"
+    desc = "desc"
+
+
+class ProjectSortByEnum(StrEnum):
+    name = "name"
+    clusterId = "clusterId"
+    departmentId = "departmentId"
+    createdAt = "createdAt"
+
+
 class ProjectQueryParams(BaseModel):
-    filterBy: str
-    sortBy: Literal["name", "clusterId", "departmentId", "createdAt"]
-    sortOrder: Literal["asc", "desc"]
-    offset: int
-    limit: int
+    filterBy: Optional[str]
+    sortBy: Optional[ProjectSortByEnum]
+    sortOrder: Optional[Literal["asc", "desc"]]
+    offset: Optional[int]
+    limit: Optional[int]
+
+
+class DepartmentSortByEnum(StrEnum):
+    name = "name"
+    clusterId = "clusterId"
+    createdAt = "createdAt"
 
 
 class DepartmentQueryParams(BaseModel):
     filterBy: Optional[str]
-    sortBy: Optional[Literal["name", "clusterId", "departmentId", "createdAt"]]
+    sortBy: Optional[Literal["name", "clusterId", "createdAt"]]
     sortOrder: Optional[Literal["asc", "desc"]]
     offset: Optional[int]
     limit: Optional[int]
 
 
 class NodePoolsQueryParams(BaseModel):
-    start: str  # TODO: shoudl be datetime
-    end: str  # TODO: shoudl be datetime
-    metrics: Literal["GPU_UTILIZATION", "GPU_MEMORY_UTILIZATION", "CPU_UTILIZATION", "CPU_MEMORY_UTILIZATION", "TOTAL_GPU", "GPU_QUOTA", "ALLOCATED_GPU", "AVG_WORKLOAD_WAIT_TIME"]
-    numberOfSamples: Optional[int]
+    start: str
+    end: str
+    metricType: Literal["GPU_UTILIZATION", "GPU_MEMORY_UTILIZATION", "CPU_UTILIZATION", "CPU_MEMORY_UTILIZATION", "TOTAL_GPU", "GPU_QUOTA", "ALLOCATED_GPU", "AVG_WORKLOAD_WAIT_TIME"]
+    numberOfSamples: Optional[int] = 20
 
 
-class AccessRulesParams(BaseModel):
+class AccessRulesSortByEnum(StrEnum):
+    subjectId = "subjectId"
+    subjectType = "subjectType"
+    roleId = "roleId"
+    scopeId = "scopeId"
+    scopeType = "scopeType"
+    roleName = "roleName"
+    scopeName = "scopeName"
+    createdAt = "createdAt"
+    deletedAt = "deletedAt"
+    createdBy = "createdBy"
+
+
+class AccessRulesQueryParams(BaseModel):
     subjectType: Optional[str]
     subjectIds: Optional[List[str]]
     limit: Optional[int]
@@ -185,12 +244,16 @@ class AccessRulesParams(BaseModel):
     includeDeleted: Optional[bool]
     clusterId: Optional[str]
     scopeId: Optional[str]
-    sortOrder: Optional[Literal["asc", "desc"]] = "asc"
-    sortBy: Optional[Literal["subjectId", "subjectType", "roleId", "scopeId", "scopeType", "roleName", "scopeName", "createdAt", "deletedAt", "createdBy"]]
     filterBy: Optional[str]
+    sortBy: Optional[AccessRulesSortByEnum]
+    sortOrder: Optional[SortOrderEnum] = "asc"
 
 
-def validate_query_params(query_model: BaseModel, params: dict):
+class ClusterQueryParams(BaseModel):
+    verbosity: Optional[Literal["full", "metadata"]] = "full"
+
+
+def build_query_params(query_model: BaseModel, params: dict) -> BaseModel:
     try:
         built_model = query_model(**params)
         return built_model

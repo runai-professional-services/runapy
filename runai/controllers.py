@@ -1,5 +1,6 @@
 import abc
 import json
+import inspect
 
 from typing import Any, Optional, List, Literal
 
@@ -19,6 +20,15 @@ class Controller(abc.ABC):
                 data = data[0]
         return data
 
+    def options(self) -> List[str]:
+        """
+        Returns a list of all class methods for the current controller.
+        """
+        return [name for name, _
+                in inspect.getmembers(self, predicate=inspect.ismethod) 
+                if not name.startswith('_')
+                if not name.__contains__("options")]
+
 
 class NodePoolController(Controller):
     def __init__(self, client):
@@ -29,25 +39,48 @@ class NodePoolController(Controller):
 
         return self.client.get(path)
 
-    def get(self, nodepool_name: str):
+    def get_by_name(self, nodepool_name: str):
         node_pools = self.all()
         node_pool = self._filter(node_pools, name=nodepool_name)
 
         return node_pool
 
-    def node_pool_metrics(self, nodepool_name: str):
-        path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_name}"
+    def node_pool_metrics(self,
+                          nodepool_name: str,
+                          start: str,
+                          end: str,
+                          metric_type: Literal["GPU_UTILIZATION",
+                                               "GPU_MEMORY_UTILIZATION",
+                                               "CPU_UTILIZATION",
+                                               "CPU_MEMORY_UTILIZATION",
+                                               "TOTAL_GPU", "GPU_QUOTA",
+                                               "ALLOCATED_GPU",
+                                               "AVG_WORKLOAD_WAIT_TIME"],
+                          number_of_samples: Optional[int] = 20
+                          ) -> dict:
+        path = f"/api/v1/clusters/{self.client.cluster_id}/nodepools/{nodepool_name}/metrics"
 
-        return self.client.get(path)
+        params = {
+            "start": start,
+            "end": end,
+            "metricType": metric_type,
+            "numberOfSamples": number_of_samples
+            }
+
+        query_params = models.build_query_params(
+            query_model=models.NodePoolsQueryParams, params=params
+        )
+
+        return self.client.get(path, query_params)
 
     def create(
         self,
         name: str,
         label_key: str,
         label_value: str,
-        placement_strategy: models.PlacementStrategy,
+        placement_strategy: models.ResourcesPlacementStrategy,
         over_provisioning_ratio: Optional[int] = 1,
-    ):
+    ) -> dict:
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools"
 
         data = {
@@ -63,23 +96,35 @@ class NodePoolController(Controller):
 
         return self.client.post(path, payload)
 
-    def update(self, nodepool_id: int, **kwargs):
+    def update(self, 
+               nodepool_id: int,
+               labelKey: str,
+               labelValue: str,
+               placementStrategy: models.ResourcesPlacementStrategy,
+               overProvisioningRatio: Optional[int] = 1) -> dict:
         """
         Used to update node pool fields that are not labels
         For labels, please use update_labels method
         """
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}"
-        model_fields = [field for field in models.NodePoolRequest.model_fields]
 
-        options = {}
-        for key, value in kwargs.items():
-            if key not in model_fields:
-                raise ValueError(f"Field does not exist: {key}")
-            options[key] = value
+        data = {
+            "labelKey": labelKey,
+            "labelValue": labelValue,
+            "placementStrategy": placementStrategy,
+            "overProvisioningRatio": overProvisioningRatio
+        }
 
-        return self.client.put(path, options)
+        node_pool_request = models.build_model(
+            model=models.NodePoolUpdateRequest, data=data)
+        payload = node_pool_request.model_dump_json()
 
-    def update_labels(self, nodepool_id: int, label_key: str, label_value: str):
+        return self.client.put(path, payload)
+
+    def update_labels(self,
+                      nodepool_id: int,
+                      label_key: str,
+                      label_value: str) -> dict:
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}/labels"
 
         options = {"labelKey": label_key, "labelValue": label_value}
@@ -98,14 +143,28 @@ class ProjectController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
-    def all(self):
-        # TODO: Pass query parameters instead of hardcoded filterBy
-        path = f"/api/v1/org-unit/projects?filterBy=clusterId=={self.client.cluster_id}"
+    def all(self,
+            filterBy: Optional[str] = None,
+            sortBy: Optional[Literal["name", "clusterId", "departmentId", "createdAt"]] = None,
+            sortOrder: Optional[Literal["asc", "desc"]] = None,
+            offset: Optional[int] = None,
+            limit: Optional[int] = None
+            ) -> List:
+        path = "/api/v1/org-unit/projects"
 
-        resp = self.client.get(path)
-        projects = resp["projects"]
+        params = {
+            "filterBy": filterBy,
+            "sortBy": sortBy,
+            "sortOrder": sortOrder,
+            "offset": offset,
+            "limit": limit
 
-        return projects
+        }
+
+        query_params = models.build_query_params(
+            query_model=models.ProjectQueryParams, params=params)
+
+        return self.client.get(path, query_params)
 
     def create(
         self,
@@ -116,7 +175,7 @@ class ProjectController(Controller):
         scheduling_rules: Optional[models.SchedulingRules] = None,
         parent_id: Optional[str] = None,
         node_types: Optional[models.NodeTypes] = None,
-    ):
+    ) -> dict:
         path = "/api/v1/org-unit/projects"
 
         data = {
@@ -135,7 +194,7 @@ class ProjectController(Controller):
 
         return self.client.post(path, payload)
 
-    def get(self, project_id: int):
+    def get(self, project_id: int) -> dict:
         path = f"/api/v1/org-unit/projects/{project_id}"
 
         return self.client.get(path)
@@ -147,7 +206,7 @@ class ProjectController(Controller):
         default_node_pools: Optional[List[str]] = None,
         node_types: Optional[models.NodeTypes] = None,
         scheduling_rules: Optional[models.SchedulingRules] = None,
-    ):
+    ) -> dict:
         path = f"/api/v1/org-unit/projects/{project_id}"
 
         existing_project = self.get(project_id=project_id)
@@ -178,24 +237,30 @@ class DepartmentController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
-    def all(self):
-        # path = f"/v1/k8s/clusters/{self.client.uuid}/departments"
-        # TODO: Pass query parameters instead of hardcoded filterBy
-        path = (
-            f"/api/v1/org-unit/departments?filterBy=clusterId=={self.client.cluster_id}"
-        )
+    def all(self,
+            filterBy: Optional[str] = None,
+            sortBy: Optional[Literal["name", "clusterId", "createdAt"]] = None,
+            sortOrder: Optional[Literal["asc", "desc"]] = None,
+            offset: Optional[int] = None,
+            limit: Optional[int] = None
+            ) -> List:
+        path = "/api/v1/org-unit/departments"
 
-        resp = self.client.get(path)
-        departments = resp["departments"]
+        params = {
+            "filterBy": filterBy,
+            "sortBy": sortBy,
+            "sortOrder": sortOrder,
+            "offset": offset,
+            "limit": limit
 
-        return departments
+        }
 
-    def all_metrics(self):
-        path = "/v1/k8s/clusters"
+        query_params = models.build_query_params(
+            query_model=models.ProjectQueryParams, params=params)
 
-        return self.client.get(path)
+        return self.client.get(path, query_params)
 
-    def create(self, name: str, resources: models.Resources):
+    def create(self, name: str, resources: models.Resources) -> dict:
         path = "/api/v1/org-unit/departments"
 
         data = {
@@ -208,12 +273,14 @@ class DepartmentController(Controller):
 
         return self.client.post(path, payload)
 
-    def get(self, department_id: int):
+    def get(self, department_id: int) -> dict:
         path = f"/api/v1/org-unit/departments/{department_id}"
 
         return self.client.get(path)
 
-    def update_resources(self, department_id: str, resources: List[models.Resources]):
+    def update_resources(self,
+                         department_id: str,
+                         resources: List[models.Resources]) -> dict:
         path = f"/api/v1/org-unit/departments/{department_id}/resources"
 
         payload = []
@@ -233,10 +300,51 @@ class AccessRulesController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
-    def all(self):
+    def all(self,
+            subjectType: Optional[str] = None,
+            subjectIds: Optional[List[str]] = None,
+            limit: Optional[int] = None,
+            offset: Optional[int] = None,
+            lastUpdated: Optional[str] = None,
+            includeDeleted: Optional[bool] = None,
+            clusterId: Optional[str] = None,
+            scopeId: Optional[str] = None,
+            sortBy: Optional[Literal[
+                            "subjectId",
+                            "subjectType",
+                            "roleId",
+                            "scopeId",
+                            "scopeType",
+                            "roleName",
+                            "scopeName",
+                            "createdAt",
+                            "deletedAt",
+                            "createdBy",
+                            ]] = None,
+            filterBy: Optional[str] = None,
+            sortOrder: Optional[Literal["asc", "desc"]] = "asc"
+            ) -> List:
+        
         path = "/api/v1/authorization/access-rules"
+        
+        params = {
+            "subjectType": subjectType,
+            "subjectIds": subjectIds,
+            "limit": limit,
+            "offset": offset,
+            "lastUpdated": lastUpdated,
+            "includeDeleted": includeDeleted,
+            "clusterId": clusterId,
+            "scopeId": scopeId,
+            "sortBy": sortBy,
+            "filterBy": filterBy,
+            "sortOrder": sortOrder
+        }
 
-        return self.client.get(path)
+        query_params = models.build_query_params(
+            query_model=models.AccessRulesQueryParams, params=params)
+
+        return self.client.get(path, params=query_params)
 
     def create(self,
                subject_id: str,
@@ -244,7 +352,8 @@ class AccessRulesController(Controller):
                role_id: int,
                scope_id: str,
                scope_type: Literal["system", "tenant", "cluster", "department", "project"]
-               ):
+               ) -> dict:
+
         path = "/api/v1/authorization/access-rules"
 
         data = {
@@ -265,12 +374,12 @@ class RolesController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
-    def all(self):
+    def all(self) -> List:
         path = "/api/v1/authorization/roles"
 
         return self.client.get(path)
 
-    def get(self, role_id: int):
+    def get(self, role_id: int) -> dict:
         path = f"/api/v1/authorization/roles/{role_id}"
 
         return self.client.get(path)
@@ -287,29 +396,56 @@ class RolesController(Controller):
         return m
 
 
-class ClusterController(Controller):
+class UsersController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
     def all(self):
-        path = "/v1/k8s/clusters"
+        raise errors.RunaiNotImplementedError
 
-        resp = self.client.get(path)
+    def create(self, email: str, to_reset_password: bool = False) -> dict:
+        path = "/api/v1/users"
 
-        clusters = []
-        for cluster_data in resp:
-            clusters.append(self.klass.from_dict(cluster_data))
-        for cluster in clusters:
-            cluster.client = self.client
-        return clusters
+        data = {"email": email, "resetPassword": to_reset_password}
+        user = models.build_model(model=models.UserCreateRequest, data=data)
 
-    def get(self, id: str):
-        path = f"/v1/k8s/clusters/{id}"
+        payload = user.model_dump_json()
 
-        return self.client.get(path)
+        return self.client.post(path, payload)
+
+
+class ClusterController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+
+    def all(self, verbosity: Literal["full", "metadata"] = "full") -> List:
+        path = f"/api/v1/clusters?verbosity={verbosity}"
+
+        params = {
+            "verbosity": verbosity
+        }
+
+        query_params = models.build_query_params(
+            query_model=models.ClusterQueryParams, params=params)
+
+        return self.client.get(path, params=query_params)
+
+    def get(self,
+            cluster_id: str,
+            verbosity: Literal["full", "metadata"] = "full") -> dict:
+        path = f"/api/v1/clusters/{cluster_id}"
+
+        params = {
+            "verbosity": verbosity
+        }
+
+        query_params = models.build_query_params(
+            query_model=models.ClusterQueryParams, params=params)
+
+        return self.client.get(path, params=query_params)
 
     def update(self):
-        return errors.RunaiNotImplementedError
+        raise errors.RunaiNotImplementedError
 
     def delete(self):
-        return errors.RunaiNotImplementedError
+        raise errors.RunaiNotImplementedError

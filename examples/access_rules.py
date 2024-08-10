@@ -22,3 +22,6 @@ print(client.access_rules.create(
     scope_id=CLUSTER_ID,
     scope_type="cluster"
 ))
+
+# Filter all access rules by the following query parameters
+print(client.access_rules.all(offset=2, limit=2, clusterId=CLUSTER_ID, sortBy="createdAt"))

@@ -37,9 +37,9 @@ poetry run python3 main.py
 RunaiClient is the only class required to interact with the Run:ai REST API https://app.run.ai/api/docs
 
 ```python
-import runai
+from runai.client import RunaiClient
 
-client = runai.RunaiClient(
+client = RunaiClient(
             realm="myorgrealm",
             client_id="API"
             client_secret="clientsecret",
@@ -58,8 +58,49 @@ client = runai.RunaiClient(
 | `retries`      | `int` | **Required**: Number of retries to attempt on each failed API call for 5xx errors |
 | `debug`      | `bool` | **Optional**: Debug mode output |
 
+## Note on Controllers
+The RuaniClient exposes object controllers for all API endpoints.
+For example, to access projects:
+```python
+from runai.client import RunaiClient
+
+client = RunaiClient(
+            realm="myorgrealm",
+            client_id="API"
+            client_secret="clientsecret",
+            runai_base_url="https://myorg.run.ai",
+            cluster_id="513423qx-127t-4yk6-979g-5po843g37e2b",
+            retries=3,
+            debug=False
+    )
+
+client.projects.all()
+```
+`client.projects.all()` returns a list of all projects in a given cluster according to the cluster id of the RunaiClient.
+
+Currently supported controllers:
+```python
+client.projects
+client.node_pools
+client.departments
+client.access_rules
+client.roles
+client.users
+```
+Each controller exposes the function `options()` so you can see which methods are currently availalble for a given controller.\
+For example:
+```python
+client.roles.options()
+-> 
+['all', 'get', 'get_roles_name_to_id_map']
+```
+
+Controller methods are documented.\
+Hover on the method parentheses to see the required and optional fields to pass to the function
+
 ## Examples
-See examples [here](examples/)
+For more examples, check the existing examples [here](examples/)\
+Feel free to copy and run them as is, moify them as you wish, or use them as a reference.
 
 ## Warranty
 This package is not maintained by the Run:ai product.

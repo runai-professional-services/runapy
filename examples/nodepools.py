@@ -17,11 +17,30 @@ print(client.node_pools.create(
     label_key="newTestLabel",
     label_value="someValue",
     placement_strategy={"cpu": "spread", "gpu": "spread"}
-                        ))
+    ))
 
 # Get single nodepool by name
-node_pool = client.node_pools.get(nodepool_name="test3")
+node_pool = client.node_pools.get_by_name(nodepool_name="test3")
 print(node_pool)
 
-# Update nodepool
+# Update nodepool labels
 print(client.node_pools.update_labels(nodepool_id=node_pool["id"], labelKey="new-type", labelValue="new"))
+
+# Update nodepool labels, resources strategy or both
+print(client.node_pools.update(
+    nodepool_id=3028,
+    labelKey="testLabelNew",
+    labelValue="someValue",
+    placementStrategy={
+         "gpu": "spread",
+         "cpu": "spread"
+      },
+))
+
+# Get nodepool metrics
+print(client.node_pools.node_pool_metrics(
+    nodepool_name="test",
+    start="2023-06-06T12:09:18.211Z",
+    end="2025-06-06T12:09:18.211Z",
+    metric_type="GPU_UTILIZATION"
+))

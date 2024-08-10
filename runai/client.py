@@ -4,30 +4,28 @@ from typing import Optional, Any, Dict, Callable
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
+from pydantic import BaseModel, HttpUrl
 
 from . import errors
 from . import controllers
+from . import models
 
 logger = logging.getLogger(__name__)
 
 
-class RunaiClient:
+class RunaiClientConfig(BaseModel):
+    realm: str
+    client_id: str
+    client_secret: str
+    runai_base_url: HttpUrl
+    cluster_id: str
+    retries: Optional[int] = None
+    debug: bool = False
+
+
+class RunaiClient():
     """
-    RunaiClient is a python pacakge that to interact with the Run:ai REST API https://app.run.ai/api/docs
-
-    Parameters:
-
-    - realm: The company's realm name, can be obtained from the UI login screen at app.run.ai -> app.run.ai/auth/realms/<realm>
-
-    - client_id: The application token name generated at the UI -> Applications
-
-    - client_secret: The application secret
-
-    - runai_base_url: The Run:ai company's domain name, for example: https://mycompany.run.ai
-
-    - cluster_id: The cluster ID
-
-    - retries: Number of retries to perform on failed API calls due to intermittend network errors
+    RunaiClient class include all the modules to interact with the Run:ai REST API https://app.run.ai/api/docs
     """
 
     def __init__(
@@ -40,6 +38,17 @@ class RunaiClient:
         retries: Optional[int] = None,
         debug: bool = False,
     ):
+        config = {
+            "realm": realm,
+            "client_id": client_id,
+            "client_secret": client_secret,
+            "runai_base_url": runai_base_url,
+            "cluster_id": cluster_id,
+            "retries": retries,
+            "debug": debug
+        }
+        models.build_model(model=RunaiClientConfig, data=config)
+
         self.cluster_id = cluster_id
         self._base_url = f"{runai_base_url}"
         self._session = self._create_session(
@@ -89,37 +98,37 @@ class RunaiClient:
         try:
             resp = requests.post(url, data=data, headers=headers)
             if not resp.ok:
-                logger.error(f"Request failed: {resp}")
                 raise errors.RunaiHTTPError(resp)
             resp_json = resp.json()
             if "access_token" not in resp_json:
                 raise errors.RunaiClientError(
-                    f"Failed to get access token from response. response body={resp_json}"
-                )
+                    message=f"Failed to get access token from response. Body={resp_json}",
+                    err=None)
 
             return resp_json["access_token"]
 
         except requests.exceptions.JSONDecodeError as err:
-            logger.error(f"Failed to decode json response. err={err}")
-            raise errors.RunaiClientError(err)
+            raw_response = resp.text
+            raise errors.RunaiClientError(
+                message=f"Failed to decode json response, response: {raw_response}:",
+                err=err)
 
     def request(
         self, http_method: Callable, url: str, **kwargs: Any
     ) -> requests.Response:
 
         full_url = f"{self._base_url}{url}"
-        logger.debug(f"Making {http_method.__name__.upper()} call to: {full_url}...")
+        logger.debug(f"Making {http_method.__name__.upper()} call to: {full_url}")
 
         try:
             resp = http_method(url=full_url, **kwargs)
             if not resp.ok:
-                logger.error(f"Request failed: [{resp.status_code}] - {resp.text}")
                 raise errors.RunaiHTTPError(resp)
             logger.debug(f"Request to {full_url} succeeded with status code: {resp.status_code}")
             return resp
         except requests.exceptions.RequestException as e:
-            logger.error(f"Request failed for URL {url}: {e}")
-            raise errors.RunaiError(f"Request failed for URL {url}: {e}")
+            raise errors.RunaiClientError(
+                message=f"Request failed for URL {full_url}", err=e)
 
     def get(self, url: str, params: Optional[Any] = None) -> Dict:
         resp = self.request(self._session.get, url, params=params)
@@ -131,6 +140,8 @@ class RunaiClient:
 
     def put(self, url: str, data: dict) -> Dict:
         resp = self.request(self._session.put, url, data=data)
+        if resp.headers["Content-Type"].__contains__("text/plain"):
+            return resp.text
         return resp.json()
 
     def delete(self, url: str) -> Dict:
@@ -160,3 +171,7 @@ class RunaiClient:
     @property
     def node_pools(self) -> controllers.NodePoolController:
         return controllers.NodePoolController(self)
+
+    @property
+    def users(self) -> controllers.UsersController:
+        return controllers.UsersController(self)
