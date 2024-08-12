@@ -1,10 +1,8 @@
 import abc
-import json
 import inspect
 
 from typing import Any, Optional, List, Literal
 
-from . import errors
 from . import models
 
 
@@ -78,9 +76,13 @@ class NodePoolController(Controller):
         name: str,
         label_key: str,
         label_value: str,
-        placement_strategy: models.ResourcesPlacementStrategy,
+        placement_strategy: dict,
         over_provisioning_ratio: Optional[int] = 1,
     ) -> dict:
+        """
+        placementStrategy example:
+        {"gpu": "binpack", "cpu": "binpack"}
+        """
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools"
 
         data = {
@@ -96,7 +98,7 @@ class NodePoolController(Controller):
 
         return self.client.post(path, payload)
 
-    def update(self, 
+    def update(self,
                nodepool_id: int,
                labelKey: str,
                labelValue: str,
@@ -105,6 +107,9 @@ class NodePoolController(Controller):
         """
         Used to update node pool fields that are not labels
         For labels, please use update_labels method
+
+        placementStrategy example:
+        {"gpu": "binpack", "cpu": "binpack"}
         """
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}"
 
@@ -127,8 +132,11 @@ class NodePoolController(Controller):
                       label_value: str) -> dict:
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}/labels"
 
-        options = {"labelKey": label_key, "labelValue": label_value}
-        payload = json.dumps(options)
+        labels = models.build_model(model=models.NodePoolLabels,
+                                    data={"labelKey": label_key,
+                                          "labelValue": label_value})
+
+        payload = labels.model_dump_json()
 
         return self.client.put(path, payload)
 
@@ -158,7 +166,6 @@ class ProjectController(Controller):
             "sortOrder": sortOrder,
             "offset": offset,
             "limit": limit
-
         }
 
         query_params = models.build_query_params(
@@ -169,13 +176,51 @@ class ProjectController(Controller):
     def create(
         self,
         name: str,
-        resources: List[models.Resources],
+        resources: List[dict],
         requested_namespace: Optional[str] = None,
-        default_node_pools: Optional[List[str]] = None,
-        scheduling_rules: Optional[models.SchedulingRules] = None,
+        default_node_pools: Optional[List[str]] = ["default"],
+        scheduling_rules: Optional[dict] = None,
         parent_id: Optional[str] = None,
-        node_types: Optional[models.NodeTypes] = None,
+        node_types: Optional[dict] = None,
     ) -> dict:
+        """
+        Create a project.
+        Fields are matching the API documentation.\n
+        Parameters examples:\n
+        resources\n
+        [{
+            "nodePool": {
+            "id": "22",
+            "name": "default"
+        },
+            "gpu": {
+            "deserved": 1,
+            "limit": 2,
+            "overQuotaWeight": 2
+        },
+            "cpu": {
+            "deserved": 1,
+            "limit": 2,
+            "overQuotaWeight": 2
+        },
+            "memory": {
+            "deserved": 1,
+            "limit": 2,
+            "overQuotaWeight": 2,
+            "units": "Mib"
+        }]
+
+        scheduling_rules\n
+        {"interactiveJobTimeLimitSeconds": 3600,
+                            "interactiveJobMaxIdleDurationSeconds": None,
+                            "interactiveJobPreemptIdleDurationSeconds": None,
+                            "trainingJobTimeLimitSeconds": None,
+                            "trainingJobMaxIdleDurationSeconds": None
+                            }
+        
+        node_types\n
+        {"training": ["gpu"], "workspace": ["cpu"]}
+        """
         path = "/api/v1/org-unit/projects"
 
         data = {
@@ -202,18 +247,49 @@ class ProjectController(Controller):
     def update(
         self,
         project_id: int,
-        resources: List[models.Resources],
+        resources: List[dict],
         default_node_pools: Optional[List[str]] = None,
-        node_types: Optional[models.NodeTypes] = None,
-        scheduling_rules: Optional[models.SchedulingRules] = None,
+        node_types: Optional[dict] = None,
+        scheduling_rules: Optional[dict] = None,
     ) -> dict:
+        """
+        Update a project\n
+        Parameters examples:\n
+        resources\n
+        [{
+            "nodePool": {
+            "id": "22",
+            "name": "default"
+        },
+            "gpu": {
+            "deserved": 1,
+            "limit": 2,
+            "overQuotaWeight": 2
+        },
+            "cpu": {
+            "deserved": 1,
+            "limit": 2,
+            "overQuotaWeight": 2
+        },
+            "memory": {
+            "deserved": 1,
+            "limit": 2,
+            "overQuotaWeight": 2,
+            "units": "Mib"
+        }]
+
+        scheduling_rules\n
+        {"interactiveJobTimeLimitSeconds": 3600,
+                            "interactiveJobMaxIdleDurationSeconds": None,
+                            "interactiveJobPreemptIdleDurationSeconds": None,
+                            "trainingJobTimeLimitSeconds": None,
+                            "trainingJobMaxIdleDurationSeconds": None
+                            }
+        
+        node_types\n
+        {"training": ["gpu"], "workspace": ["cpu"]}
+        """
         path = f"/api/v1/org-unit/projects/{project_id}"
-
-        existing_project = self.get(project_id=project_id)
-
-        scheduling_rules = scheduling_rules or existing_project["schedulingRules"] or None
-        default_node_pools = default_node_pools or existing_project["defaultNodePools"] or None
-        node_types = node_types or existing_project["nodeTypes"]
 
         data = {
             "resources": resources,
@@ -256,7 +332,7 @@ class DepartmentController(Controller):
         }
 
         query_params = models.build_query_params(
-            query_model=models.ProjectQueryParams, params=params)
+            query_model=models.DepartmentQueryParams, params=params)
 
         return self.client.get(path, query_params)
 
@@ -400,9 +476,6 @@ class UsersController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
-    def all(self):
-        raise errors.RunaiNotImplementedError
-
     def create(self, email: str, to_reset_password: bool = False) -> dict:
         path = "/api/v1/users"
 
@@ -443,9 +516,3 @@ class ClusterController(Controller):
             query_model=models.ClusterQueryParams, params=params)
 
         return self.client.get(path, params=query_params)
-
-    def update(self):
-        raise errors.RunaiNotImplementedError
-
-    def delete(self):
-        raise errors.RunaiNotImplementedError

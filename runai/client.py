@@ -23,7 +23,7 @@ class RunaiClientConfig(BaseModel):
     debug: bool = False
 
 
-class RunaiClient():
+class RunaiClient:
     """
     RunaiClient class include all the modules to interact with the Run:ai REST API https://app.run.ai/api/docs
     """
@@ -51,39 +51,31 @@ class RunaiClient():
 
         self.cluster_id = cluster_id
         self._base_url = f"{runai_base_url}"
-        self._session = self._create_session(
-            runai_base_url, realm, client_id, client_secret, retries
-        )
+        self._api_token = self._generate_api_token(
+            runai_base_url=runai_base_url,
+            realm=realm,
+            client_id=client_id,
+            client_secret=client_secret)
+        self._session = self._create_session(self._api_token, retries)
         if debug:
             logging.basicConfig(level=logging.DEBUG)
 
     def _create_session(
         self,
-        runai_base_url: str,
-        realm: str,
-        client_id: str,
-        client_secret: str,
+        api_token: str,
         retries: int,
     ) -> requests.Session:
 
         session = requests.Session()
-        api_token = self._generate_api_token(
-            runai_base_url=runai_base_url,
-            realm=realm,
-            client_id=client_id,
-            client_secret=client_secret,
-        )
         session.headers.update(
             {"authorization": f"Bearer {api_token}",
-             "content-type": "application/json"}
-        )
+             "content-type": "application/json"})
 
         retries = Retry(
             total=retries if retries else 1,
             backoff_factor=2,
             status_forcelist=[500, 502, 503, 504],
-            allowed_methods=["GET", "POST", "PUT", "DELETE"],
-        )
+            allowed_methods=["GET", "POST", "PUT", "DELETE"],)
         adapter = HTTPAdapter(max_retries=retries)
         session.mount("https://", adapter)
 
@@ -108,9 +100,8 @@ class RunaiClient():
             return resp_json["access_token"]
 
         except requests.exceptions.JSONDecodeError as err:
-            raw_response = resp.text
             raise errors.RunaiClientError(
-                message=f"Failed to decode json response, response: {raw_response}:",
+                message=f"Failed to decode response to json, response: {resp.text}",
                 err=err)
 
     def request(
@@ -146,6 +137,8 @@ class RunaiClient():
 
     def delete(self, url: str) -> Dict:
         resp = self.request(self._session.delete, url)
+        if resp.headers["Content-Type"].__contains__("text/plain"):
+            return resp.text
         return resp.json()
 
     @property

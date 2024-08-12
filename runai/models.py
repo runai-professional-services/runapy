@@ -12,6 +12,11 @@ class ResourcesPlacementStrategy(BaseModel):
     gpu: Literal["spread", "binpack"]
 
 
+class NodePoolLabels(BaseModel):
+    labelKey: str
+    labelValue: str
+
+
 class NodePool(BaseModel):
     id: int
     name: str
@@ -194,11 +199,11 @@ class ProjectSortByEnum(StrEnum):
 
 
 class ProjectQueryParams(BaseModel):
-    filterBy: Optional[str]
-    sortBy: Optional[ProjectSortByEnum]
-    sortOrder: Optional[Literal["asc", "desc"]]
-    offset: Optional[int]
-    limit: Optional[int]
+    filterBy: Optional[str] = None
+    sortBy: Optional[ProjectSortByEnum] = None
+    sortOrder: Optional[Literal["asc", "desc"]] = None
+    offset: Optional[int] = None
+    limit: Optional[int] = None
 
 
 class DepartmentSortByEnum(StrEnum):
@@ -208,11 +213,11 @@ class DepartmentSortByEnum(StrEnum):
 
 
 class DepartmentQueryParams(BaseModel):
-    filterBy: Optional[str]
-    sortBy: Optional[Literal["name", "clusterId", "createdAt"]]
-    sortOrder: Optional[Literal["asc", "desc"]]
-    offset: Optional[int]
-    limit: Optional[int]
+    filterBy: Optional[str] = None
+    sortBy: Optional[Literal["name", "clusterId", "createdAt"]] = None
+    sortOrder: Optional[Literal["asc", "desc"]] = None
+    offset: Optional[int] = None
+    limit: Optional[int] = None
 
 
 class NodePoolsQueryParams(BaseModel):
@@ -236,16 +241,16 @@ class AccessRulesSortByEnum(StrEnum):
 
 
 class AccessRulesQueryParams(BaseModel):
-    subjectType: Optional[str]
-    subjectIds: Optional[List[str]]
-    limit: Optional[int]
-    offset: Optional[int]
-    lastUpdated: Optional[str]
-    includeDeleted: Optional[bool]
-    clusterId: Optional[str]
-    scopeId: Optional[str]
-    filterBy: Optional[str]
-    sortBy: Optional[AccessRulesSortByEnum]
+    subjectType: Optional[str] = None
+    subjectIds: Optional[List[str]] = None
+    limit: Optional[int] = None
+    offset: Optional[int] = None
+    lastUpdated: Optional[str] = None
+    includeDeleted: Optional[bool] = None
+    clusterId: Optional[str] = None
+    scopeId: Optional[str] = None
+    filterBy: Optional[str] = None
+    sortBy: Optional[AccessRulesSortByEnum] = None
     sortOrder: Optional[SortOrderEnum] = "asc"
 
 
