@@ -3,7 +3,7 @@
 This project provides a Python client to interact with the [Run:ai REST API](https://app.run.ai/api/docs).
 
  The client offers:
-- A single classs interface to perform all API actions
+- A single class interface to perform all API actions
 - Body scheme validation on compilation (with Pydantic)
 - Static type checks
 - Retry mechanism for resiliency on intermittent network errors
