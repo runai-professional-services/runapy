@@ -178,6 +178,303 @@ class AccessRule(BaseModel):
     clusterId: str
 
 
+class ProbeReadinessHandlerHTTPGet(BaseModel):
+    path: str
+    port: int
+    host: str
+    scheme: Literal["HTTP", "HTTPS"]
+
+
+class ReadinessProbe(BaseModel):
+    initialDelaySeconds: int
+    periodSeconds: int
+    timeoutSeconds: int
+    successThreshold: int
+    failureThreshold: int
+    handler: ProbeReadinessHandlerHTTPGet
+
+
+class Probes(BaseModel):
+    readiness: ReadinessProbe
+
+
+class PodAffinity(BaseModel):
+    key: str
+    type: Literal["Required", "Preferred"]
+
+
+class EnvironmentVariable(BaseModel):
+    name: str
+    value: str
+    exclude: bool = False
+
+
+class Annotations(BaseModel):
+    name: str
+    value: str
+    exclude: bool = False
+
+
+class Labels(BaseModel):
+    name: str
+    value: str
+    exclude: bool = False
+
+
+class Tolerations(BaseModel):
+    name: str
+    operator: Literal["Equal", "Exists"]
+    key: str
+    value: str
+    effect: Literal["NoSchedule", "NoExecute", "PreferNoSchedule"]
+    seconds: int
+
+
+class Port(BaseModel):
+    container: int
+    serviceType: Literal["LoadBalancer", "NodePort", "ClusterIP"]
+    external: int
+    toolType: str
+    toolName: str
+    name: str
+
+
+class ExposedUrl(BaseModel):
+    container: int
+    toolType: str
+    toolName: str
+    authorizedUsers: Optional[List[str]] = None
+    authorizedGroups: Optional[List[str]] = None
+    name: Optional[str] = None
+    url: Optional[str] = None
+
+
+class RelatedUrl(BaseModel):
+    url: str
+    type: str
+    name: str
+
+
+class ExtendedResource(BaseModel):
+    resource: str
+    quantity: str
+    exclude: bool
+
+
+class Compute(BaseModel):
+    gpuDevicesRequest: Optional[int] = None
+    gpuRequestType: Optional[Literal["portion", "memory", "migProfile"]] = None
+    gpuPortionRequest: Optional[float] = None
+    gpuPortionLimit: Optional[float] = None
+    gpuMemoryRequest: Optional[str] = None
+    gpuMemoryLimit: Optional[str] = None
+    migProfile: Optional[Literal["1g.5gb", "1g.10gb", "2g.10gb", "2g.20gb", "3g.20gb", "3g.40gb", "4g.20gb", "4g.40gb", "7g.40gb", "7g.80gb"]] = None
+    cpuCoreRequest: Optional[float] = None
+    cpuCoreLimit: Optional[float] = None
+    cpuMemoryRequest: Optional[str] = None
+    cpuMemoryLimit: Optional[str] = None
+    largeShmRequest: Optional[bool] = None
+    extendedResources: Optional[ExtendedResource] = None
+
+
+class WorkloadDataVolume(BaseModel):
+    id: str
+    mountPath: str
+
+
+class WorkloadPvcClaimInfoAccessModes(BaseModel):
+    readWriteOnce: bool = True
+    readOnlyMany: bool = False
+    readWriteMany: bool = False
+
+
+class WorkloadPvcClaimInfo(BaseModel):
+    size: str
+    storageClass: str
+    accessModes: WorkloadPvcClaimInfoAccessModes
+    volumeMode: Literal["Filesystem", "Block"] = "Filesystem"
+
+
+class WorkloadPvc(BaseModel):
+    name: Optional[str] = None
+    claimName: str
+    path: str
+    existingPvc: Optional[bool] = False
+    readOnly: Optional[bool] = False
+    ephemeral: Optional[bool] = False
+    claimInfo: Optional[WorkloadPvcClaimInfo] = None
+
+
+class WorkloadGit(BaseModel):
+    name: str
+    repository: str
+    branch: str
+    revision: str
+    path: str
+    passwordSecret: str
+    secretKeyOfUser: str
+    secretKeyOfPassword: str
+
+
+class WorkloadConfigMapVolume(BaseModel):
+    name: Optional[str] = None
+    configMap: str
+    mountPath: str
+
+
+class WorkloadSecretVolume(BaseModel):
+    name: Optional[str] = None
+    secret: str
+    mountPath: str
+
+
+class WorkloadHostPath(BaseModel):
+    name: Optional[str] = None
+    path: str
+    mountPath: str
+    mountPropagation: Optional[Literal["None", "HostToContainer"]] = "None"
+    readOnly: Optional[bool] = True
+
+
+class WorkloadNfs(BaseModel):
+    name: Optional[str] = None
+    path: str
+    mountPath: str
+    server: str
+    readOnly: Optional[bool] = True
+
+
+class WorkloadS3(BaseModel):
+    name: Optional[str] = None
+    path: str
+    bucket: str
+    url: str
+    server: str
+    accessKeySecret: str
+    secretKeyOfAccessKeyId: str
+    secretKeyOfSecretKey: str
+
+
+class WorkloadStorage(BaseModel):
+    dataVolume: Optional[WorkloadDataVolume] = None
+    pvc: Optional[List[WorkloadPvc]] = None
+    git: Optional[WorkloadGit] = None
+    configMapVolume: Optional[List[WorkloadConfigMapVolume]] = None
+    secretVolume: Optional[WorkloadSecretVolume] = None
+    hostPath: Optional[WorkloadHostPath] = None
+    nfs: Optional[WorkloadNfs] = None
+    s3: Optional[WorkloadS3] = None
+
+
+class WorkloadSecurity(BaseModel):
+    uidGidSource: Optional[Literal["fromTheImage", "fromIdpToken", "custom"]] = None
+    capabilities: Optional[List[Literal["AUDIT_CONTROL","AUDIT_READ","AUDIT_WRITE","BLOCK_SUSPEND","CHOWN" ,"DAC_OVERRIDE" ,"DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETGID", "SETFCAP", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG" ,"WAKE_ALARM"]]] = None
+    seccompProfileType: Optional[Literal["RuntimeDefault", "Unconfined", "Localhost"]] = None
+    runAsNonRoot: Optional[bool] = None
+    readOnlyRootFilesystem: Optional[bool] = None
+    runAsUid: Optional[int] = None
+    runAsGid: Optional[int] = None
+    supplementalGroups: Optional[str] = None
+    allowPrivilegeEscalation: Optional[bool] = None
+    hostIpc: Optional[bool] = False
+    hostNetwork: Optional[bool] = False
+
+
+class WorkloadBaseSpec(BaseModel):
+    command: Optional[str] = None
+    args: Optional[str] = None
+    image: str
+    imagePullPolicy: Literal["Always", "IfNotPresent", "Never"] = "Always"
+    compute: Compute
+    workingDir: Optional[str] = None
+    createHomeDir: Optional[bool] = None
+    probes: Optional[Probes] = None
+    nodeType: Optional[str] = None
+    nodePools: Optional[List[str]] = None
+    podAffinity: Optional[PodAffinity] = None
+    environmentVariables: Optional[List[EnvironmentVariable]] = None
+    annotations: Optional[List[Annotations]] = None
+    labels: Optional[List[Labels]] = None
+    tolerations: Optional[List[Tolerations]] = None
+    terminateAfterPreemption: Optional[bool] = None
+    autoDeletionTimeAfterCompletionSeconds: Optional[int] = None
+    backoffLimit: Optional[int] = None
+    ports: Optional[List[Port]] = None
+    exposedUrls: Optional[List[ExposedUrl]] = None
+    relatedUrls: Optional[List[RelatedUrl]] = None
+    storage: Optional[WorkloadStorage] = None
+    security: Optional[WorkloadSecurity] = None
+
+
+class TrainingWorkloadSpec(WorkloadBaseSpec):
+    completions: Optional[int] = None
+    parallelism: Optional[int] = None
+    priorityClass: Optional[Literal["train"]] = "train"  # Default value for training
+
+
+class WorkspaceWorkloadSpec(WorkloadBaseSpec):
+    priorityClass: Optional[Literal["build", "interactive-preemptible"]] = "build" # Default value for workspace
+
+
+class WorkspaceCreateRequest(BaseModel):
+    name: str
+    projectId: str
+    clusterId: str
+    useGivenNameAsPrefix: bool = False
+    spec: WorkspaceWorkloadSpec
+
+
+class TrainingCreateRequest(BaseModel):
+    name: str
+    projectId: str
+    clusterId: str
+    useGivenNameAsPrefix: bool = False
+    spec: TrainingWorkloadSpec
+
+
+class ServingPort(BaseModel):
+    container: int
+    protocol: Literal["http", "grpc"]
+
+
+class AutoScaling(BaseModel):
+    minReplicas: int
+    maxReplicas: int
+    scaleToZeroRetentionSeconds: int
+    metric: Literal["throughput", "concurrency", "latency"]
+    metricThreshold: int
+
+
+class InferenceWorkloadSpec(WorkloadBaseSpec):
+    servingPort: ServingPort
+    autoscaling: AutoScaling
+
+
+class InferenceCreateRequest(BaseModel):
+    name: str
+    projectId: str
+    clusterId: str
+    useGivenNameAsPrefix: bool = False
+    spec: InferenceWorkloadSpec
+
+
+class DistributedWorkloadSpec(WorkloadBaseSpec):
+    numWorkers: int
+    distributedFramework: Literal["MPI", "PyTorch", "TF", "XGBoost"]
+    slotsPerWorker: Optional[int] = 1
+    minReplicas: Optional[int] = None
+    maxReplicas: Optional[int] = None
+
+
+class DistributedCreateRequest(BaseModel):
+    name: str
+    projectId: str
+    clusterId: str
+    spec: DistributedWorkloadSpec
+    useGivenNameAsPrefix: bool = False
+    masterSpec: Optional[DistributedWorkloadSpec] = None
+
+
 def build_model(model: BaseModel, data: dict) -> BaseModel:
     try:
         built_model = model(**data)
@@ -198,12 +495,22 @@ class ProjectSortByEnum(StrEnum):
     createdAt = "createdAt"
 
 
-class ProjectQueryParams(BaseModel):
+class CommonGetAllQueryParams(BaseModel):
     filterBy: Optional[str] = None
-    sortBy: Optional[ProjectSortByEnum] = None
     sortOrder: Optional[Literal["asc", "desc"]] = None
     offset: Optional[int] = None
     limit: Optional[int] = None
+
+
+class ProjectQueryParams(CommonGetAllQueryParams):
+    sortBy: Optional[ProjectSortByEnum] = None
+
+# class ProjectQueryParams(BaseModel):
+#     filterBy: Optional[str] = None
+#     sortBy: Optional[ProjectSortByEnum] = None
+#     sortOrder: Optional[Literal["asc", "desc"]] = None
+#     offset: Optional[int] = None
+#     limit: Optional[int] = None
 
 
 class DepartmentSortByEnum(StrEnum):
@@ -256,6 +563,38 @@ class AccessRulesQueryParams(BaseModel):
 
 class ClusterQueryParams(BaseModel):
     verbosity: Optional[Literal["full", "metadata"]] = "full"
+
+
+class WorkloadsCountQueryParams(BaseModel):
+    deleted: bool
+    filterBy: Optional[str] = None
+
+
+class WorkloadsTelemetryQueryParams(BaseModel):
+    telemetryType: Literal["WORKLOADS_COUNT", "GPU_ALLOCATION"]
+    clusterId: Optional[str] = None
+    nodepoolName: Optional[str] = None
+    departmentId: Optional[str] = None
+    groupBy: Optional[str] = None
+
+
+class WorkloadMetricsQueryParams(BaseModel):
+    start: str
+    end: str
+    metricType: Literal["GPU_UTILIZATION", "GPU_MEMORY_REQUEST_BYTES" ,"CPU_USAGE_CORES" ,"CPU_REQUEST_CORES" ,"CPU_LIMIT_CORES" ,"CPU_MEMORY_USAGE_BYTES" ,"CPU_MEMORY_REQUEST_BYTES" ,"CPU_MEMORY_LIMIT_BYTES" ,"POD_COUNT","RUNNING_POD_COUNT","GPU_ALLOCATION"]
+    numberOfSamples: Optional[int] = 20
+
+
+class InferenceWorkloadQueryParams(BaseModel):
+    start: str
+    end: str
+    metricType: Literal["THROUGHPUT", "LATENCY"]
+    numberOfSamples: Optional[int] = 20
+
+
+class WorkloadsGetAllQueryParams(CommonGetAllQueryParams):
+    deleted: bool
+    sortBy: Optional[Literal["type", "name", "clusterId", "projectId", "projectName", "departmentId", "departmentName", "createdAt", "deletedAt", "submittedBy", "phase", "completedAt", "nodepool", "allocatedGPU"]] = None
 
 
 def build_query_params(query_model: BaseModel, params: dict) -> BaseModel:

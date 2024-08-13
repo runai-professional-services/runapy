@@ -4,6 +4,7 @@ import inspect
 from typing import Any, Optional, List, Literal
 
 from . import models
+from . import errors
 
 
 class Controller(abc.ABC):
@@ -516,3 +517,316 @@ class ClusterController(Controller):
             query_model=models.ClusterQueryParams, params=params)
 
         return self.client.get(path, params=query_params)
+
+
+class WorkloadsController(Controller):
+    def all(self,
+            include_deleted: bool,
+            limit: Optional[int] = None,
+            offset: Optional[int] = None,
+            last_updated: Optional[str] = None,
+            sort_by: Optional[Literal["type", "name", "clusterId", "projectId", "projectName", "departmentId", "departmentName", "createdAt", "deletedAt", "submittedBy", "phase", "completedAt", "nodepool", "allocatedGPU"]] = None,
+            filter_by: Optional[str] = None,
+            sort_order: Optional[Literal["asc", "desc"]] = "asc"
+            ):
+        path = "/api/v1/workloads"
+
+        params = {
+            "deleted": include_deleted,
+            "limit": limit,
+            "offset": offset,
+            "lastUpdated": last_updated,
+            "sortBy": sort_by,
+            "filterBy": filter_by,
+            "sortOrder": sort_order
+
+        }
+        query_params = models.build_query_params(
+            query_model=models.WorkloadsGetAllQueryParams,
+            params=params
+        )
+
+        return self.client.get(path, query_params)
+
+    def get_workload(self, workload_id: str):
+        path = f"/api/v1/workloads/{workload_id}"
+
+        return self.client.get(path)
+
+    def count_workloads(self,
+                        include_deleted: bool,
+                        filter_by: Optional[str] = None):
+        path = "/api/v1/workloads/count"
+
+        params = {
+            "deleted": include_deleted,
+            "filterBy": filter_by
+        }
+
+        query_params = models.build_query_params(
+            query_model=models.WorkloadsCountQueryParams,
+            params=params
+        )
+
+        return self.client.get(path, query_params)
+
+    def get_workloads_telemetry(
+            self,
+            telemetry_type: Literal["WORKLOADS_COUNT", "GPU_ALLOCATION"],
+            group_by: Optional[List[Literal["ClusterId", "DepartmentId", "ProjectId", "Type", "CurrentNodepools", "Phase"]]] = None,
+            node_pool_name: Optional[str] = None,
+            department_id: Optional[str] = None,
+            cluster_id: Optional[str] = None
+    ):
+        path = "/api/v1/workloads/telemetry"
+
+        params = {
+            "telemetryType": telemetry_type,
+            "groupBy": group_by,
+            "nodePoolName": node_pool_name,
+            "departmentId": department_id,
+            "clusterId": cluster_id
+        }
+
+        query_params = models.build_query_params(
+            query_model=models.WorkloadsTelemetryQueryParams,
+            params=params
+        )
+
+        return self.client.get(path, query_params)
+
+    def get_workload_metrics(
+            self,
+            workload_id: str,
+            start: str,
+            end: str,
+            metric_type: Literal["GPU_MEMORY_REQUEST_BYTES", "CPU_USAGE_CORES" ,"CPU_REQUEST_CORES" ,"CPU_LIMIT_CORES" ,"CPU_MEMORY_USAGE_BYTES" ,"CPU_MEMORY_REQUEST_BYTES" ,"CPU_MEMORY_LIMIT_BYTES" ,"POD_COUNT","RUNNING_POD_COUNT","GPU_ALLOCATION"],
+            number_of_samples: Optional[int] = 20):
+        path = f"/api/v1/workloads/{workload_id}/metrics"
+
+        params = {
+            "workloadId": workload_id,
+            "start": start,
+            "end": end,
+            "metricType": metric_type,
+            "numberOfSamples": number_of_samples,
+
+        }
+        query_params = models.build_query_params(
+            query_model=models.WorkloadMetricsQueryParams,
+            params=params
+        )
+
+        return self.client.get(path, query_params)
+
+
+class WorkspaceController(Controller):
+    def create(self,
+               workspace_name: str,
+               use_given_name_as_prefix: bool,
+               project_id: str,
+               cluster_id: str,
+               spec: dict):
+        path = "/api/v1/workloads/workspaces"
+
+        data = {
+            "name": workspace_name,
+            "usGivenNameAsPrefix": use_given_name_as_prefix,
+            "projectId": project_id,
+            "clusterId": cluster_id,
+            "spec": spec
+        }
+
+        workspace = models.build_model(
+            model=models.WorkspaceCreateRequest, data=data
+        )
+
+        payload = workspace.model_dump_json()
+
+        return self.client.post(path, payload)
+    
+    def delete(self, workspace_id: int):
+        path = f"/api/v1/workloads/workspaces/{workspace_id}"
+
+        return self.client.delete(path)
+
+    def get(self, workspace_id: int):
+        path = f"/api/v1/workloads/workspaces/{workspace_id}"
+
+        return self.client.get(path)
+
+    def suspend(self, workspace_id: int):
+        path = f"/api/v1/workloads/workspaces/{workspace_id}/suspend"
+
+        return self.client.post(path, {})
+
+    def resume(self, workspace_id: int):
+        path = f"/api/v1/workloads/workspaces/{workspace_id}/resume"
+
+        return self.client.post(path, {})
+
+
+class TrainingController(Controller):
+    def create(self,
+               training_name: str,
+               use_given_name_as_prefix: bool,
+               project_id: str,
+               cluster_id: str,
+               spec: dict):
+        path = "/api/v1/workloads/trainings"
+
+        data = {
+            "name": training_name,
+            "usGivenNameAsPrefix": use_given_name_as_prefix,
+            "projectId": project_id,
+            "clusterId": cluster_id,
+            "spec": spec
+        }
+
+        training = models.build_model(
+            model=models.TrainingCreateRequest, data=data
+        )
+        payload = training.model_dump_json()
+
+        return self.client.post(path, payload)
+    
+    def delete(self, training_id: str):
+        path = f"/api/v1/workloads/trainings/{training_id}"
+
+        return self.client.delete(path)
+
+    def get(self, training_id: str):
+        path = f"/api/v1/workloads/trainings/{training_id}"
+
+        return self.client.get(path)
+
+    def suspend(self, training_id: str):
+        path = f"/api/v1/workloads/trainings/{training_id}/suspend"
+
+        return self.client.post(path, {})
+
+    def resume(self, training_id: str):
+        path = f"/api/v1/workloads/trainings/{training_id}/resume"
+
+        return self.client.post(path, {})
+
+
+class InferenceController(Controller):
+    def create(self,
+               inference_name: str,
+               use_given_name_as_prefix: bool,
+               project_id: str,
+               cluster_id: str,
+               spec: dict):
+        path = "/api/v1/workloads/inferences"
+
+        data = {
+            "name": inference_name,
+            "usGivenNameAsPrefix": use_given_name_as_prefix,
+            "projectId": project_id,
+            "clusterId": cluster_id,
+            "spec": spec
+        }
+
+        inference = models.build_model(
+            model=models.InferenceCreateRequest, data=data
+        )
+        payload = inference.model_dump_json()
+
+        return self.client.post(path, payload)
+
+    def delete(self, inference_id: str):
+        path = f"/api/v1/workloads/inferences/{inference_id}"
+
+        return self.client.delete(path)
+
+    def get(self, inference_id: str):
+        path = f"/api/v1/workloads/inferences/{inference_id}"
+
+        return self.client.get(path)
+
+    def get_metrics(self,
+                    inference_id: str,
+                    start: str,
+                    end: str,
+                    metric_type: Literal["THROUGHPUT", "LATENCY"],
+                    number_of_samples: Optional[int] = 20):
+        path = f"/api/v1/workloads/inferences/{inference_id}/metrics"
+
+        params = {
+                    "start": start,
+                    "end": end,
+                    "metricType": metric_type,
+                    "numberOfSamples": number_of_samples
+        }
+
+        query_params = models.build_query_params(
+            query_model=models.InferenceWorkloadQueryParams,
+            params=params
+        )
+        return self.client.get(path, query_params)
+
+    def get_pod_metrics(self,
+                        inference_id: str,
+                        pod_id: str,
+                        start: str,
+                        end: str,
+                        metric_type: Literal["THROUGHPUT", "LATENCY"],
+                        number_of_samples: Optional[int] = 20):
+        path = f"/api/v1/workloads/inferences/{inference_id}/pods/{pod_id}/metrics"
+
+        params = {
+                    "start": start,
+                    "end": end,
+                    "metricType": metric_type,
+                    "numberOfSamples": number_of_samples
+        }
+
+        query_params = models.build_query_params(
+            query_model=models.InferenceWorkloadQueryParams,
+            params=params
+        )
+        return self.client.get(path, query_params)
+
+
+class DistributedController(Controller):
+    def create(self,
+               ditributed_training_name: str,
+               use_given_name_as_prefix: bool,
+               project_id: str,
+               cluster_id: str,
+               spec: dict,
+               master_spec_same_as_worker: Optional[bool] = True,
+               master_spec: Optional[dict] = None):
+        path = "/api/v1/workloads/distributed"
+
+        if master_spec_same_as_worker and master_spec is not None:
+            raise errors.RunaiClientError(err=ValueError,
+                                          message="Cannot use masterSpec if masterSpecSameAsWorker set to true\n Either disable the flag or remove masterSpec")
+        
+        data = {
+            "name": ditributed_training_name,
+            "usGivenNameAsPrefix": use_given_name_as_prefix,
+            "projectId": project_id,
+            "clusterId": cluster_id,
+            "spec": spec,
+            "masterSpecSameAsWorker": master_spec_same_as_worker,
+            "masterSpec": master_spec
+        }
+
+        distributed = models.build_model(
+            model=models.DistributedCreateRequest, data=data
+        )
+        payload = distributed.model_dump_json()
+
+        return self.client.post(path, payload)
+    
+    def get(self, ditributed_workload_id: str):
+        path = f"/api/v1/workloads/distributed/{ditributed_workload_id}"
+
+        return self.client.get(path)
+
+    def delete(self, ditributed_workload_id: str):
+        path = f"/api/v1/workloads/distributed/{ditributed_workload_id}"
+
+        return self.client.delete(path)

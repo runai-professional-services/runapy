@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "runapy"
-version = "0.1.3"
+version = "0.2.0"
 description = "Python client for Run:ai REST API"
 authors = ["Ofir Eldar <ofir.eldar.github@gmail.com>"]
 license = "MIT"

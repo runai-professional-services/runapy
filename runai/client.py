@@ -75,7 +75,8 @@ class RunaiClient:
             total=retries if retries else 1,
             backoff_factor=2,
             status_forcelist=[500, 502, 503, 504],
-            allowed_methods=["GET", "POST", "PUT", "DELETE"],)
+            allowed_methods=["GET", "POST", "PUT", "DELETE"],
+            raise_on_status=False)
         adapter = HTTPAdapter(max_retries=retries)
         session.mount("https://", adapter)
 
@@ -122,14 +123,17 @@ class RunaiClient:
                 message=f"Request failed for URL {full_url}", err=e)
 
     def get(self, url: str, params: Optional[Any] = None) -> Dict:
+        logger.debug(f"Params: {params}")
         resp = self.request(self._session.get, url, params=params)
         return resp.json()
 
     def post(self, url: str, data: dict) -> Dict:
+        logger.debug(f"Data: {data}")
         resp = self.request(self._session.post, url, data=data)
         return resp.json()
 
     def put(self, url: str, data: dict) -> Dict:
+        logger.debug(f"Data: {data}")
         resp = self.request(self._session.put, url, data=data)
         if resp.headers["Content-Type"].__contains__("text/plain"):
             return resp.text
@@ -168,3 +172,23 @@ class RunaiClient:
     @property
     def users(self) -> controllers.UsersController:
         return controllers.UsersController(self)
+
+    @property
+    def workloads(self) -> controllers.WorkloadsController:
+        return controllers.WorkloadsController(self)
+
+    @property
+    def workspace(self) -> controllers.WorkspaceController:
+        return controllers.WorkspaceController(self)
+
+    @property
+    def training(self) -> controllers.TrainingController:
+        return controllers.TrainingController(self)
+
+    @property
+    def inference(self) -> controllers.InferenceController:
+        return controllers.InferenceController(self)
+
+    @property
+    def distributed(self) -> controllers.DistributedController:
+        return controllers.DistributedController(self)

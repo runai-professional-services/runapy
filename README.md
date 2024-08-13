@@ -25,16 +25,9 @@ runapy is avaialble in PyPi and can be downloaded directly as a python package
 pip3 install runapy
 ```
 
-Or you can clone the repo and run it with [poetry](https://python-poetry.org/docs/):
-```bash
-git clone https://github.com/ofir-eldar1/runapy
-poetry install
-poetry run python3 main.py
-
-```
 ## Client
 
-RunaiClient is the only class required to interact with the Run:ai REST API https://app.run.ai/api/docs
+RunaiClient is the only class required to interact with the [Run:ai REST API](https://app.run.ai/api/docs)
 
 ```python
 from runai.client import RunaiClient
@@ -86,6 +79,12 @@ client.departments
 client.access_rules
 client.roles
 client.users
+
+client.workloads
+client.workspace
+client.training
+client.inference
+client.distributed
 ```
 Each controller exposes the function `options()` so you can see which methods are currently availalble for a given controller.\
 For example:
