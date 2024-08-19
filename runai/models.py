@@ -56,6 +56,7 @@ class NodeTypes(BaseModel):
     training : Optional[List[str]]
     workspace: Optional[List[str]]
     """
+
     training: Optional[List[str]] = None
     workspace: Optional[List[str]] = None
 
@@ -70,6 +71,7 @@ class SchedulingRules(BaseModel):
     trainingJobTimeLimitSeconds: Optional[int] = None
     trainingJobMaxIdleDurationSeconds: Optional[int] = None
     """
+
     interactiveJobTimeLimitSeconds: Optional[int] = None
     interactiveJobMaxIdleDurationSeconds: Optional[int] = None
     interactiveJobPreemptIdleDurationSeconds: Optional[int] = None
@@ -84,56 +86,57 @@ class NodePoolIdentifier(BaseModel):
 
 class Resources(BaseModel):
     """
-    Set the gpu, cpu, and memory resources for a given nodepool.
-    CPU/Memory may not work if your organization does not permit assiging these resources
+        Set the gpu, cpu, and memory resources for a given nodepool.
+        CPU/Memory may not work if your organization does not permit assiging these resources
 
-    "nodePool": {
-        id: str
-        name: str
-    },
-    "gpu": {
-        deserved: int
-        limit: int
-        overQuotaWeight: int
-    },
-    "cpu": {
-        "deserved": int,
-        "limit": int,
-        "overQuotaWeight": int
-    },
-        "memory": {
+        "nodePool": {
+            id: str
+            name: str
+        },
+        "gpu": {
+            deserved: int
+            limit: int
+            overQuotaWeight: int
+        },
+        "cpu": {
             "deserved": int,
             "limit": int,
-            "overQuotaWeight": int,
-            "units": "Mib" or "GB" or "MB,
-    }
-
-    Example:
-    {
-        {
-            "nodePool": {
-            "id": 22,
-            "name": "default"
-        },
-            "gpu": {
-            "deserved": 1000,
-            "limit": 0,
-            "overQuotaWeight": 2
-        },
-            "cpu": {
-            "deserved": 1000,
-            "limit": 0,
-            "overQuotaWeight": 2
+            "overQuotaWeight": int
         },
             "memory": {
-            "deserved": 1000,
-            "limit": 0,
-            "overQuotaWeight": 2,
-            "units": "Mib"
+                "deserved": int,
+                "limit": int,
+                "overQuotaWeight": int,
+                "units": "Mib" or "GB" or "MB,
         }
-}
+
+        Example:
+        {
+            {
+                "nodePool": {
+                "id": 22,
+                "name": "default"
+            },
+                "gpu": {
+                "deserved": 1000,
+                "limit": 0,
+                "overQuotaWeight": 2
+            },
+                "cpu": {
+                "deserved": 1000,
+                "limit": 0,
+                "overQuotaWeight": 2
+            },
+                "memory": {
+                "deserved": 1000,
+                "limit": 0,
+                "overQuotaWeight": 2,
+                "units": "Mib"
+            }
     }
+        }
     """
+
     nodePool: NodePoolIdentifier
     gpu: Resource
     cpu: Optional[Resource] = None
@@ -268,7 +271,20 @@ class Compute(BaseModel):
     gpuPortionLimit: Optional[float] = None
     gpuMemoryRequest: Optional[str] = None
     gpuMemoryLimit: Optional[str] = None
-    migProfile: Optional[Literal["1g.5gb", "1g.10gb", "2g.10gb", "2g.20gb", "3g.20gb", "3g.40gb", "4g.20gb", "4g.40gb", "7g.40gb", "7g.80gb"]] = None
+    migProfile: Optional[
+        Literal[
+            "1g.5gb",
+            "1g.10gb",
+            "2g.10gb",
+            "2g.20gb",
+            "3g.20gb",
+            "3g.40gb",
+            "4g.20gb",
+            "4g.40gb",
+            "7g.40gb",
+            "7g.80gb",
+        ]
+    ] = None
     cpuCoreRequest: Optional[float] = None
     cpuCoreLimit: Optional[float] = None
     cpuMemoryRequest: Optional[str] = None
@@ -368,8 +384,53 @@ class WorkloadStorage(BaseModel):
 
 class WorkloadSecurity(BaseModel):
     uidGidSource: Optional[Literal["fromTheImage", "fromIdpToken", "custom"]] = None
-    capabilities: Optional[List[Literal["AUDIT_CONTROL","AUDIT_READ","AUDIT_WRITE","BLOCK_SUSPEND","CHOWN" ,"DAC_OVERRIDE" ,"DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETGID", "SETFCAP", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG" ,"WAKE_ALARM"]]] = None
-    seccompProfileType: Optional[Literal["RuntimeDefault", "Unconfined", "Localhost"]] = None
+    capabilities: Optional[
+        List[
+            Literal[
+                "AUDIT_CONTROL",
+                "AUDIT_READ",
+                "AUDIT_WRITE",
+                "BLOCK_SUSPEND",
+                "CHOWN",
+                "DAC_OVERRIDE",
+                "DAC_READ_SEARCH",
+                "FOWNER",
+                "FSETID",
+                "IPC_LOCK",
+                "IPC_OWNER",
+                "KILL",
+                "LEASE",
+                "LINUX_IMMUTABLE",
+                "MAC_ADMIN",
+                "MAC_OVERRIDE",
+                "MKNOD",
+                "NET_ADMIN",
+                "NET_BIND_SERVICE",
+                "NET_BROADCAST",
+                "NET_RAW",
+                "SETGID",
+                "SETFCAP",
+                "SETPCAP",
+                "SETUID",
+                "SYS_ADMIN",
+                "SYS_BOOT",
+                "SYS_CHROOT",
+                "SYS_MODULE",
+                "SYS_NICE",
+                "SYS_PACCT",
+                "SYS_PTRACE",
+                "SYS_RAWIO",
+                "SYS_RESOURCE",
+                "SYS_TIME",
+                "SYS_TTY_CONFIG",
+                "SYSLOG",
+                "WAKE_ALARM",
+            ]
+        ]
+    ] = None
+    seccompProfileType: Optional[
+        Literal["RuntimeDefault", "Unconfined", "Localhost"]
+    ] = None
     runAsNonRoot: Optional[bool] = None
     readOnlyRootFilesystem: Optional[bool] = None
     runAsUid: Optional[int] = None
@@ -413,7 +474,9 @@ class TrainingWorkloadSpec(WorkloadBaseSpec):
 
 
 class WorkspaceWorkloadSpec(WorkloadBaseSpec):
-    priorityClass: Optional[Literal["build", "interactive-preemptible"]] = "build" # Default value for workspace
+    priorityClass: Optional[Literal["build", "interactive-preemptible"]] = (
+        "build"  # Default value for workspace
+    )
 
 
 class WorkspaceCreateRequest(BaseModel):
@@ -505,6 +568,7 @@ class CommonGetAllQueryParams(BaseModel):
 class ProjectQueryParams(CommonGetAllQueryParams):
     sortBy: Optional[ProjectSortByEnum] = None
 
+
 # class ProjectQueryParams(BaseModel):
 #     filterBy: Optional[str] = None
 #     sortBy: Optional[ProjectSortByEnum] = None
@@ -530,7 +594,16 @@ class DepartmentQueryParams(BaseModel):
 class NodePoolsQueryParams(BaseModel):
     start: str
     end: str
-    metricType: Literal["GPU_UTILIZATION", "GPU_MEMORY_UTILIZATION", "CPU_UTILIZATION", "CPU_MEMORY_UTILIZATION", "TOTAL_GPU", "GPU_QUOTA", "ALLOCATED_GPU", "AVG_WORKLOAD_WAIT_TIME"]
+    metricType: Literal[
+        "GPU_UTILIZATION",
+        "GPU_MEMORY_UTILIZATION",
+        "CPU_UTILIZATION",
+        "CPU_MEMORY_UTILIZATION",
+        "TOTAL_GPU",
+        "GPU_QUOTA",
+        "ALLOCATED_GPU",
+        "AVG_WORKLOAD_WAIT_TIME",
+    ]
     numberOfSamples: Optional[int] = 20
 
 
@@ -581,7 +654,19 @@ class WorkloadsTelemetryQueryParams(BaseModel):
 class WorkloadMetricsQueryParams(BaseModel):
     start: str
     end: str
-    metricType: Literal["GPU_UTILIZATION", "GPU_MEMORY_REQUEST_BYTES" ,"CPU_USAGE_CORES" ,"CPU_REQUEST_CORES" ,"CPU_LIMIT_CORES" ,"CPU_MEMORY_USAGE_BYTES" ,"CPU_MEMORY_REQUEST_BYTES" ,"CPU_MEMORY_LIMIT_BYTES" ,"POD_COUNT","RUNNING_POD_COUNT","GPU_ALLOCATION"]
+    metricType: Literal[
+        "GPU_UTILIZATION",
+        "GPU_MEMORY_REQUEST_BYTES",
+        "CPU_USAGE_CORES",
+        "CPU_REQUEST_CORES",
+        "CPU_LIMIT_CORES",
+        "CPU_MEMORY_USAGE_BYTES",
+        "CPU_MEMORY_REQUEST_BYTES",
+        "CPU_MEMORY_LIMIT_BYTES",
+        "POD_COUNT",
+        "RUNNING_POD_COUNT",
+        "GPU_ALLOCATION",
+    ]
     numberOfSamples: Optional[int] = 20
 
 
@@ -594,7 +679,24 @@ class InferenceWorkloadQueryParams(BaseModel):
 
 class WorkloadsGetAllQueryParams(CommonGetAllQueryParams):
     deleted: bool
-    sortBy: Optional[Literal["type", "name", "clusterId", "projectId", "projectName", "departmentId", "departmentName", "createdAt", "deletedAt", "submittedBy", "phase", "completedAt", "nodepool", "allocatedGPU"]] = None
+    sortBy: Optional[
+        Literal[
+            "type",
+            "name",
+            "clusterId",
+            "projectId",
+            "projectName",
+            "departmentId",
+            "departmentName",
+            "createdAt",
+            "deletedAt",
+            "submittedBy",
+            "phase",
+            "completedAt",
+            "nodepool",
+            "allocatedGPU",
+        ]
+    ] = None
 
 
 def build_query_params(query_model: BaseModel, params: dict) -> BaseModel:

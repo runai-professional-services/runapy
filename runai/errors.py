@@ -19,16 +19,14 @@ class RunaiHTTPError(RunaiError):
 
 
 class RunaiBuildModelError(RunaiError):
-    def __init__(self,
-                 err: Exception,
-                 message: str = "Failed to build body scheme"):
+    def __init__(self, err: Exception, message: str = "Failed to build body scheme"):
         super().__init__(f"{message}: {err}")
 
 
 class RunaiQueryParamsError(RunaiError):
-    def __init__(self,
-                 err: Exception,
-                 message: str = "Failed to build query parameters"):
+    def __init__(
+        self, err: Exception, message: str = "Failed to build query parameters"
+    ):
         super().__init__(f"{message}: {err}")
 
 

@@ -45,7 +45,7 @@ class RunaiClient:
             "runai_base_url": runai_base_url,
             "cluster_id": cluster_id,
             "retries": retries,
-            "debug": debug
+            "debug": debug,
         }
         models.build_model(model=RunaiClientConfig, data=config)
 
@@ -55,7 +55,8 @@ class RunaiClient:
             runai_base_url=runai_base_url,
             realm=realm,
             client_id=client_id,
-            client_secret=client_secret)
+            client_secret=client_secret,
+        )
         self._session = self._create_session(self._api_token, retries)
         if debug:
             logging.basicConfig(level=logging.DEBUG)
@@ -68,15 +69,16 @@ class RunaiClient:
 
         session = requests.Session()
         session.headers.update(
-            {"authorization": f"Bearer {api_token}",
-             "content-type": "application/json"})
+            {"authorization": f"Bearer {api_token}", "content-type": "application/json"}
+        )
 
         retries = Retry(
             total=retries if retries else 1,
             backoff_factor=2,
             status_forcelist=[500, 502, 503, 504],
             allowed_methods=["GET", "POST", "PUT", "DELETE"],
-            raise_on_status=False)
+            raise_on_status=False,
+        )
         adapter = HTTPAdapter(max_retries=retries)
         session.mount("https://", adapter)
 
@@ -96,14 +98,16 @@ class RunaiClient:
             if "access_token" not in resp_json:
                 raise errors.RunaiClientError(
                     message=f"Failed to get access token from response. Body={resp_json}",
-                    err=None)
+                    err=None,
+                )
 
             return resp_json["access_token"]
 
         except requests.exceptions.JSONDecodeError as err:
             raise errors.RunaiClientError(
                 message=f"Failed to decode response to json, response: {resp.text}",
-                err=err)
+                err=err,
+            )
 
     def request(
         self, http_method: Callable, url: str, **kwargs: Any
@@ -116,11 +120,14 @@ class RunaiClient:
             resp = http_method(url=full_url, **kwargs)
             if not resp.ok:
                 raise errors.RunaiHTTPError(resp)
-            logger.debug(f"Request to {full_url} succeeded with status code: {resp.status_code}")
+            logger.debug(
+                f"Request to {full_url} succeeded with status code: {resp.status_code}"
+            )
             return resp
         except requests.exceptions.RequestException as e:
             raise errors.RunaiClientError(
-                message=f"Request failed for URL {full_url}", err=e)
+                message=f"Request failed for URL {full_url}", err=e
+            )
 
     def get(self, url: str, params: Optional[Any] = None) -> Dict:
         logger.debug(f"Params: {params}")

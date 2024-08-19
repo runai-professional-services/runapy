@@ -59,7 +59,7 @@ from runai.client import RunaiClient
 
 client = RunaiClient(
             realm="myorgrealm",
-            client_id="API"
+            client_id="API",
             client_secret="clientsecret",
             runai_base_url="https://myorg.run.ai",
             cluster_id="513423qx-127t-4yk6-979g-5po843g37e2b",
@@ -105,9 +105,6 @@ Feel free to copy and run them as is, moify them as you wish, or use them as a r
 This package is not maintained by the Run:ai product.
 
 For any issues and requests, please open an issue, or contact the authors of this package.
-
-## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
 
 ## License
 This project is licensed under the MIT License. 

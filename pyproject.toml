@@ -20,6 +20,7 @@ urllib3 = "^2.2.2"
 python-dotenv = "^1.0.1"
 pytest = "^8.3.2"
 coverage = "^7.6.1"
+black = "^24.8.0"
 
 [build-system]
 requires = ["poetry-core"]

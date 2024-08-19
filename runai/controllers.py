@@ -23,10 +23,12 @@ class Controller(abc.ABC):
         """
         Returns a list of all class methods for the current controller.
         """
-        return [name for name, _
-                in inspect.getmembers(self, predicate=inspect.ismethod) 
-                if not name.startswith('_')
-                if not name.__contains__("options")]
+        return [
+            name
+            for name, _ in inspect.getmembers(self, predicate=inspect.ismethod)
+            if not name.startswith("_")
+            if not name.__contains__("options")
+        ]
 
 
 class NodePoolController(Controller):
@@ -44,27 +46,31 @@ class NodePoolController(Controller):
 
         return node_pool
 
-    def node_pool_metrics(self,
-                          nodepool_name: str,
-                          start: str,
-                          end: str,
-                          metric_type: Literal["GPU_UTILIZATION",
-                                               "GPU_MEMORY_UTILIZATION",
-                                               "CPU_UTILIZATION",
-                                               "CPU_MEMORY_UTILIZATION",
-                                               "TOTAL_GPU", "GPU_QUOTA",
-                                               "ALLOCATED_GPU",
-                                               "AVG_WORKLOAD_WAIT_TIME"],
-                          number_of_samples: Optional[int] = 20
-                          ) -> dict:
+    def node_pool_metrics(
+        self,
+        nodepool_name: str,
+        start: str,
+        end: str,
+        metric_type: Literal[
+            "GPU_UTILIZATION",
+            "GPU_MEMORY_UTILIZATION",
+            "CPU_UTILIZATION",
+            "CPU_MEMORY_UTILIZATION",
+            "TOTAL_GPU",
+            "GPU_QUOTA",
+            "ALLOCATED_GPU",
+            "AVG_WORKLOAD_WAIT_TIME",
+        ],
+        number_of_samples: Optional[int] = 20,
+    ) -> dict:
         path = f"/api/v1/clusters/{self.client.cluster_id}/nodepools/{nodepool_name}/metrics"
 
         params = {
             "start": start,
             "end": end,
             "metricType": metric_type,
-            "numberOfSamples": number_of_samples
-            }
+            "numberOfSamples": number_of_samples,
+        }
 
         query_params = models.build_query_params(
             query_model=models.NodePoolsQueryParams, params=params
@@ -99,12 +105,14 @@ class NodePoolController(Controller):
 
         return self.client.post(path, payload)
 
-    def update(self,
-               nodepool_id: int,
-               labelKey: str,
-               labelValue: str,
-               placementStrategy: models.ResourcesPlacementStrategy,
-               overProvisioningRatio: Optional[int] = 1) -> dict:
+    def update(
+        self,
+        nodepool_id: int,
+        labelKey: str,
+        labelValue: str,
+        placementStrategy: models.ResourcesPlacementStrategy,
+        overProvisioningRatio: Optional[int] = 1,
+    ) -> dict:
         """
         Used to update node pool fields that are not labels
         For labels, please use update_labels method
@@ -118,24 +126,25 @@ class NodePoolController(Controller):
             "labelKey": labelKey,
             "labelValue": labelValue,
             "placementStrategy": placementStrategy,
-            "overProvisioningRatio": overProvisioningRatio
+            "overProvisioningRatio": overProvisioningRatio,
         }
 
         node_pool_request = models.build_model(
-            model=models.NodePoolUpdateRequest, data=data)
+            model=models.NodePoolUpdateRequest, data=data
+        )
         payload = node_pool_request.model_dump_json()
 
         return self.client.put(path, payload)
 
-    def update_labels(self,
-                      nodepool_id: int,
-                      label_key: str,
-                      label_value: str) -> dict:
-        path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}/labels"
+    def update_labels(self, nodepool_id: int, label_key: str, label_value: str) -> dict:
+        path = (
+            f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools/{nodepool_id}/labels"
+        )
 
-        labels = models.build_model(model=models.NodePoolLabels,
-                                    data={"labelKey": label_key,
-                                          "labelValue": label_value})
+        labels = models.build_model(
+            model=models.NodePoolLabels,
+            data={"labelKey": label_key, "labelValue": label_value},
+        )
 
         payload = labels.model_dump_json()
 
@@ -152,13 +161,16 @@ class ProjectController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
-    def all(self,
-            filterBy: Optional[str] = None,
-            sortBy: Optional[Literal["name", "clusterId", "departmentId", "createdAt"]] = None,
-            sortOrder: Optional[Literal["asc", "desc"]] = None,
-            offset: Optional[int] = None,
-            limit: Optional[int] = None
-            ) -> List:
+    def all(
+        self,
+        filterBy: Optional[str] = None,
+        sortBy: Optional[
+            Literal["name", "clusterId", "departmentId", "createdAt"]
+        ] = None,
+        sortOrder: Optional[Literal["asc", "desc"]] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+    ) -> List:
         path = "/api/v1/org-unit/projects"
 
         params = {
@@ -166,11 +178,12 @@ class ProjectController(Controller):
             "sortBy": sortBy,
             "sortOrder": sortOrder,
             "offset": offset,
-            "limit": limit
+            "limit": limit,
         }
 
         query_params = models.build_query_params(
-            query_model=models.ProjectQueryParams, params=params)
+            query_model=models.ProjectQueryParams, params=params
+        )
 
         return self.client.get(path, query_params)
 
@@ -218,7 +231,7 @@ class ProjectController(Controller):
                             "trainingJobTimeLimitSeconds": None,
                             "trainingJobMaxIdleDurationSeconds": None
                             }
-        
+
         node_types\n
         {"training": ["gpu"], "workspace": ["cpu"]}
         """
@@ -286,7 +299,7 @@ class ProjectController(Controller):
                             "trainingJobTimeLimitSeconds": None,
                             "trainingJobMaxIdleDurationSeconds": None
                             }
-        
+
         node_types\n
         {"training": ["gpu"], "workspace": ["cpu"]}
         """
@@ -314,13 +327,14 @@ class DepartmentController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
-    def all(self,
-            filterBy: Optional[str] = None,
-            sortBy: Optional[Literal["name", "clusterId", "createdAt"]] = None,
-            sortOrder: Optional[Literal["asc", "desc"]] = None,
-            offset: Optional[int] = None,
-            limit: Optional[int] = None
-            ) -> List:
+    def all(
+        self,
+        filterBy: Optional[str] = None,
+        sortBy: Optional[Literal["name", "clusterId", "createdAt"]] = None,
+        sortOrder: Optional[Literal["asc", "desc"]] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+    ) -> List:
         path = "/api/v1/org-unit/departments"
 
         params = {
@@ -328,12 +342,12 @@ class DepartmentController(Controller):
             "sortBy": sortBy,
             "sortOrder": sortOrder,
             "offset": offset,
-            "limit": limit
-
+            "limit": limit,
         }
 
         query_params = models.build_query_params(
-            query_model=models.DepartmentQueryParams, params=params)
+            query_model=models.DepartmentQueryParams, params=params
+        )
 
         return self.client.get(path, query_params)
 
@@ -355,9 +369,9 @@ class DepartmentController(Controller):
 
         return self.client.get(path)
 
-    def update_resources(self,
-                         department_id: str,
-                         resources: List[models.Resources]) -> dict:
+    def update_resources(
+        self, department_id: str, resources: List[models.Resources]
+    ) -> dict:
         path = f"/api/v1/org-unit/departments/{department_id}/resources"
 
         payload = []
@@ -377,33 +391,36 @@ class AccessRulesController(Controller):
     def __init__(self, client):
         super().__init__(client)
 
-    def all(self,
-            subjectType: Optional[str] = None,
-            subjectIds: Optional[List[str]] = None,
-            limit: Optional[int] = None,
-            offset: Optional[int] = None,
-            lastUpdated: Optional[str] = None,
-            includeDeleted: Optional[bool] = None,
-            clusterId: Optional[str] = None,
-            scopeId: Optional[str] = None,
-            sortBy: Optional[Literal[
-                            "subjectId",
-                            "subjectType",
-                            "roleId",
-                            "scopeId",
-                            "scopeType",
-                            "roleName",
-                            "scopeName",
-                            "createdAt",
-                            "deletedAt",
-                            "createdBy",
-                            ]] = None,
-            filterBy: Optional[str] = None,
-            sortOrder: Optional[Literal["asc", "desc"]] = "asc"
-            ) -> List:
-        
+    def all(
+        self,
+        subjectType: Optional[str] = None,
+        subjectIds: Optional[List[str]] = None,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+        lastUpdated: Optional[str] = None,
+        includeDeleted: Optional[bool] = None,
+        clusterId: Optional[str] = None,
+        scopeId: Optional[str] = None,
+        sortBy: Optional[
+            Literal[
+                "subjectId",
+                "subjectType",
+                "roleId",
+                "scopeId",
+                "scopeType",
+                "roleName",
+                "scopeName",
+                "createdAt",
+                "deletedAt",
+                "createdBy",
+            ]
+        ] = None,
+        filterBy: Optional[str] = None,
+        sortOrder: Optional[Literal["asc", "desc"]] = "asc",
+    ) -> List:
+
         path = "/api/v1/authorization/access-rules"
-        
+
         params = {
             "subjectType": subjectType,
             "subjectIds": subjectIds,
@@ -415,32 +432,34 @@ class AccessRulesController(Controller):
             "scopeId": scopeId,
             "sortBy": sortBy,
             "filterBy": filterBy,
-            "sortOrder": sortOrder
+            "sortOrder": sortOrder,
         }
 
         query_params = models.build_query_params(
-            query_model=models.AccessRulesQueryParams, params=params)
+            query_model=models.AccessRulesQueryParams, params=params
+        )
 
         return self.client.get(path, params=query_params)
 
-    def create(self,
-               subject_id: str,
-               subject_type: Literal["user", "app", "group"],
-               role_id: int,
-               scope_id: str,
-               scope_type: Literal["system", "tenant", "cluster", "department", "project"]
-               ) -> dict:
+    def create(
+        self,
+        subject_id: str,
+        subject_type: Literal["user", "app", "group"],
+        role_id: int,
+        scope_id: str,
+        scope_type: Literal["system", "tenant", "cluster", "department", "project"],
+    ) -> dict:
 
         path = "/api/v1/authorization/access-rules"
 
         data = {
-                "subjectId": subject_id,
-                "subjectType": subject_type,
-                "roleId": role_id,
-                "scopeId": scope_id,
-                "scopeType": scope_type,
-                "clusterId": self.client.cluster_id
-                }
+            "subjectId": subject_id,
+            "subjectType": subject_type,
+            "roleId": role_id,
+            "scopeId": scope_id,
+            "scopeType": scope_type,
+            "clusterId": self.client.cluster_id,
+        }
         access_rule = models.build_model(models.AccessRule, data)
         payload = access_rule.model_dump_json()
 
@@ -495,40 +514,56 @@ class ClusterController(Controller):
     def all(self, verbosity: Literal["full", "metadata"] = "full") -> List:
         path = f"/api/v1/clusters?verbosity={verbosity}"
 
-        params = {
-            "verbosity": verbosity
-        }
+        params = {"verbosity": verbosity}
 
         query_params = models.build_query_params(
-            query_model=models.ClusterQueryParams, params=params)
+            query_model=models.ClusterQueryParams, params=params
+        )
 
         return self.client.get(path, params=query_params)
 
-    def get(self,
-            cluster_id: str,
-            verbosity: Literal["full", "metadata"] = "full") -> dict:
+    def get(
+        self, cluster_id: str, verbosity: Literal["full", "metadata"] = "full"
+    ) -> dict:
         path = f"/api/v1/clusters/{cluster_id}"
 
-        params = {
-            "verbosity": verbosity
-        }
+        params = {"verbosity": verbosity}
 
         query_params = models.build_query_params(
-            query_model=models.ClusterQueryParams, params=params)
+            query_model=models.ClusterQueryParams, params=params
+        )
 
         return self.client.get(path, params=query_params)
 
 
 class WorkloadsController(Controller):
-    def all(self,
-            include_deleted: bool,
-            limit: Optional[int] = None,
-            offset: Optional[int] = None,
-            last_updated: Optional[str] = None,
-            sort_by: Optional[Literal["type", "name", "clusterId", "projectId", "projectName", "departmentId", "departmentName", "createdAt", "deletedAt", "submittedBy", "phase", "completedAt", "nodepool", "allocatedGPU"]] = None,
-            filter_by: Optional[str] = None,
-            sort_order: Optional[Literal["asc", "desc"]] = "asc"
-            ):
+    def all(
+        self,
+        include_deleted: bool,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+        last_updated: Optional[str] = None,
+        sort_by: Optional[
+            Literal[
+                "type",
+                "name",
+                "clusterId",
+                "projectId",
+                "projectName",
+                "departmentId",
+                "departmentName",
+                "createdAt",
+                "deletedAt",
+                "submittedBy",
+                "phase",
+                "completedAt",
+                "nodepool",
+                "allocatedGPU",
+            ]
+        ] = None,
+        filter_by: Optional[str] = None,
+        sort_order: Optional[Literal["asc", "desc"]] = "asc",
+    ):
         path = "/api/v1/workloads"
 
         params = {
@@ -538,12 +573,10 @@ class WorkloadsController(Controller):
             "lastUpdated": last_updated,
             "sortBy": sort_by,
             "filterBy": filter_by,
-            "sortOrder": sort_order
-
+            "sortOrder": sort_order,
         }
         query_params = models.build_query_params(
-            query_model=models.WorkloadsGetAllQueryParams,
-            params=params
+            query_model=models.WorkloadsGetAllQueryParams, params=params
         )
 
         return self.client.get(path, query_params)
@@ -553,30 +586,35 @@ class WorkloadsController(Controller):
 
         return self.client.get(path)
 
-    def count_workloads(self,
-                        include_deleted: bool,
-                        filter_by: Optional[str] = None):
+    def count_workloads(self, include_deleted: bool, filter_by: Optional[str] = None):
         path = "/api/v1/workloads/count"
 
-        params = {
-            "deleted": include_deleted,
-            "filterBy": filter_by
-        }
+        params = {"deleted": include_deleted, "filterBy": filter_by}
 
         query_params = models.build_query_params(
-            query_model=models.WorkloadsCountQueryParams,
-            params=params
+            query_model=models.WorkloadsCountQueryParams, params=params
         )
 
         return self.client.get(path, query_params)
 
     def get_workloads_telemetry(
-            self,
-            telemetry_type: Literal["WORKLOADS_COUNT", "GPU_ALLOCATION"],
-            group_by: Optional[List[Literal["ClusterId", "DepartmentId", "ProjectId", "Type", "CurrentNodepools", "Phase"]]] = None,
-            node_pool_name: Optional[str] = None,
-            department_id: Optional[str] = None,
-            cluster_id: Optional[str] = None
+        self,
+        telemetry_type: Literal["WORKLOADS_COUNT", "GPU_ALLOCATION"],
+        group_by: Optional[
+            List[
+                Literal[
+                    "ClusterId",
+                    "DepartmentId",
+                    "ProjectId",
+                    "Type",
+                    "CurrentNodepools",
+                    "Phase",
+                ]
+            ]
+        ] = None,
+        node_pool_name: Optional[str] = None,
+        department_id: Optional[str] = None,
+        cluster_id: Optional[str] = None,
     ):
         path = "/api/v1/workloads/telemetry"
 
@@ -585,23 +623,34 @@ class WorkloadsController(Controller):
             "groupBy": group_by,
             "nodePoolName": node_pool_name,
             "departmentId": department_id,
-            "clusterId": cluster_id
+            "clusterId": cluster_id,
         }
 
         query_params = models.build_query_params(
-            query_model=models.WorkloadsTelemetryQueryParams,
-            params=params
+            query_model=models.WorkloadsTelemetryQueryParams, params=params
         )
 
         return self.client.get(path, query_params)
 
     def get_workload_metrics(
-            self,
-            workload_id: str,
-            start: str,
-            end: str,
-            metric_type: Literal["GPU_MEMORY_REQUEST_BYTES", "CPU_USAGE_CORES" ,"CPU_REQUEST_CORES" ,"CPU_LIMIT_CORES" ,"CPU_MEMORY_USAGE_BYTES" ,"CPU_MEMORY_REQUEST_BYTES" ,"CPU_MEMORY_LIMIT_BYTES" ,"POD_COUNT","RUNNING_POD_COUNT","GPU_ALLOCATION"],
-            number_of_samples: Optional[int] = 20):
+        self,
+        workload_id: str,
+        start: str,
+        end: str,
+        metric_type: Literal[
+            "GPU_MEMORY_REQUEST_BYTES",
+            "CPU_USAGE_CORES",
+            "CPU_REQUEST_CORES",
+            "CPU_LIMIT_CORES",
+            "CPU_MEMORY_USAGE_BYTES",
+            "CPU_MEMORY_REQUEST_BYTES",
+            "CPU_MEMORY_LIMIT_BYTES",
+            "POD_COUNT",
+            "RUNNING_POD_COUNT",
+            "GPU_ALLOCATION",
+        ],
+        number_of_samples: Optional[int] = 20,
+    ):
         path = f"/api/v1/workloads/{workload_id}/metrics"
 
         params = {
@@ -610,23 +659,23 @@ class WorkloadsController(Controller):
             "end": end,
             "metricType": metric_type,
             "numberOfSamples": number_of_samples,
-
         }
         query_params = models.build_query_params(
-            query_model=models.WorkloadMetricsQueryParams,
-            params=params
+            query_model=models.WorkloadMetricsQueryParams, params=params
         )
 
         return self.client.get(path, query_params)
 
 
 class WorkspaceController(Controller):
-    def create(self,
-               workspace_name: str,
-               use_given_name_as_prefix: bool,
-               project_id: str,
-               cluster_id: str,
-               spec: dict):
+    def create(
+        self,
+        workspace_name: str,
+        use_given_name_as_prefix: bool,
+        project_id: str,
+        cluster_id: str,
+        spec: dict,
+    ):
         path = "/api/v1/workloads/workspaces"
 
         data = {
@@ -634,17 +683,15 @@ class WorkspaceController(Controller):
             "usGivenNameAsPrefix": use_given_name_as_prefix,
             "projectId": project_id,
             "clusterId": cluster_id,
-            "spec": spec
+            "spec": spec,
         }
 
-        workspace = models.build_model(
-            model=models.WorkspaceCreateRequest, data=data
-        )
+        workspace = models.build_model(model=models.WorkspaceCreateRequest, data=data)
 
         payload = workspace.model_dump_json()
 
         return self.client.post(path, payload)
-    
+
     def delete(self, workspace_id: int):
         path = f"/api/v1/workloads/workspaces/{workspace_id}"
 
@@ -667,12 +714,14 @@ class WorkspaceController(Controller):
 
 
 class TrainingController(Controller):
-    def create(self,
-               training_name: str,
-               use_given_name_as_prefix: bool,
-               project_id: str,
-               cluster_id: str,
-               spec: dict):
+    def create(
+        self,
+        training_name: str,
+        use_given_name_as_prefix: bool,
+        project_id: str,
+        cluster_id: str,
+        spec: dict,
+    ):
         path = "/api/v1/workloads/trainings"
 
         data = {
@@ -680,16 +729,14 @@ class TrainingController(Controller):
             "usGivenNameAsPrefix": use_given_name_as_prefix,
             "projectId": project_id,
             "clusterId": cluster_id,
-            "spec": spec
+            "spec": spec,
         }
 
-        training = models.build_model(
-            model=models.TrainingCreateRequest, data=data
-        )
+        training = models.build_model(model=models.TrainingCreateRequest, data=data)
         payload = training.model_dump_json()
 
         return self.client.post(path, payload)
-    
+
     def delete(self, training_id: str):
         path = f"/api/v1/workloads/trainings/{training_id}"
 
@@ -712,12 +759,14 @@ class TrainingController(Controller):
 
 
 class InferenceController(Controller):
-    def create(self,
-               inference_name: str,
-               use_given_name_as_prefix: bool,
-               project_id: str,
-               cluster_id: str,
-               spec: dict):
+    def create(
+        self,
+        inference_name: str,
+        use_given_name_as_prefix: bool,
+        project_id: str,
+        cluster_id: str,
+        spec: dict,
+    ):
         path = "/api/v1/workloads/inferences"
 
         data = {
@@ -725,12 +774,10 @@ class InferenceController(Controller):
             "usGivenNameAsPrefix": use_given_name_as_prefix,
             "projectId": project_id,
             "clusterId": cluster_id,
-            "spec": spec
+            "spec": spec,
         }
 
-        inference = models.build_model(
-            model=models.InferenceCreateRequest, data=data
-        )
+        inference = models.build_model(model=models.InferenceCreateRequest, data=data)
         payload = inference.model_dump_json()
 
         return self.client.post(path, payload)
@@ -745,65 +792,71 @@ class InferenceController(Controller):
 
         return self.client.get(path)
 
-    def get_metrics(self,
-                    inference_id: str,
-                    start: str,
-                    end: str,
-                    metric_type: Literal["THROUGHPUT", "LATENCY"],
-                    number_of_samples: Optional[int] = 20):
+    def get_metrics(
+        self,
+        inference_id: str,
+        start: str,
+        end: str,
+        metric_type: Literal["THROUGHPUT", "LATENCY"],
+        number_of_samples: Optional[int] = 20,
+    ):
         path = f"/api/v1/workloads/inferences/{inference_id}/metrics"
 
         params = {
-                    "start": start,
-                    "end": end,
-                    "metricType": metric_type,
-                    "numberOfSamples": number_of_samples
+            "start": start,
+            "end": end,
+            "metricType": metric_type,
+            "numberOfSamples": number_of_samples,
         }
 
         query_params = models.build_query_params(
-            query_model=models.InferenceWorkloadQueryParams,
-            params=params
+            query_model=models.InferenceWorkloadQueryParams, params=params
         )
         return self.client.get(path, query_params)
 
-    def get_pod_metrics(self,
-                        inference_id: str,
-                        pod_id: str,
-                        start: str,
-                        end: str,
-                        metric_type: Literal["THROUGHPUT", "LATENCY"],
-                        number_of_samples: Optional[int] = 20):
+    def get_pod_metrics(
+        self,
+        inference_id: str,
+        pod_id: str,
+        start: str,
+        end: str,
+        metric_type: Literal["THROUGHPUT", "LATENCY"],
+        number_of_samples: Optional[int] = 20,
+    ):
         path = f"/api/v1/workloads/inferences/{inference_id}/pods/{pod_id}/metrics"
 
         params = {
-                    "start": start,
-                    "end": end,
-                    "metricType": metric_type,
-                    "numberOfSamples": number_of_samples
+            "start": start,
+            "end": end,
+            "metricType": metric_type,
+            "numberOfSamples": number_of_samples,
         }
 
         query_params = models.build_query_params(
-            query_model=models.InferenceWorkloadQueryParams,
-            params=params
+            query_model=models.InferenceWorkloadQueryParams, params=params
         )
         return self.client.get(path, query_params)
 
 
 class DistributedController(Controller):
-    def create(self,
-               ditributed_training_name: str,
-               use_given_name_as_prefix: bool,
-               project_id: str,
-               cluster_id: str,
-               spec: dict,
-               master_spec_same_as_worker: Optional[bool] = True,
-               master_spec: Optional[dict] = None):
+    def create(
+        self,
+        ditributed_training_name: str,
+        use_given_name_as_prefix: bool,
+        project_id: str,
+        cluster_id: str,
+        spec: dict,
+        master_spec_same_as_worker: Optional[bool] = True,
+        master_spec: Optional[dict] = None,
+    ):
         path = "/api/v1/workloads/distributed"
 
         if master_spec_same_as_worker and master_spec is not None:
-            raise errors.RunaiClientError(err=ValueError,
-                                          message="Cannot use masterSpec if masterSpecSameAsWorker set to true\n Either disable the flag or remove masterSpec")
-        
+            raise errors.RunaiClientError(
+                err=ValueError,
+                message="Cannot use masterSpec if masterSpecSameAsWorker set to true\n Either disable the flag or remove masterSpec",
+            )
+
         data = {
             "name": ditributed_training_name,
             "usGivenNameAsPrefix": use_given_name_as_prefix,
@@ -811,7 +864,7 @@ class DistributedController(Controller):
             "clusterId": cluster_id,
             "spec": spec,
             "masterSpecSameAsWorker": master_spec_same_as_worker,
-            "masterSpec": master_spec
+            "masterSpec": master_spec,
         }
 
         distributed = models.build_model(
@@ -820,7 +873,7 @@ class DistributedController(Controller):
         payload = distributed.model_dump_json()
 
         return self.client.post(path, payload)
-    
+
     def get(self, ditributed_workload_id: str):
         path = f"/api/v1/workloads/distributed/{ditributed_workload_id}"
 
