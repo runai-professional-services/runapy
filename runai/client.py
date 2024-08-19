@@ -148,6 +148,8 @@ class RunaiClient:
 
     def delete(self, url: str) -> Dict:
         resp = self.request(self._session.delete, url)
+        if not resp.content:
+            return {}
         if resp.headers["Content-Type"].__contains__("text/plain"):
             return resp.text
         return resp.json()

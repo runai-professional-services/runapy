@@ -34,7 +34,7 @@ from runai.client import RunaiClient
 
 client = RunaiClient(
             realm="myorgrealm",
-            client_id="API"
+            client_id="API",
             client_secret="clientsecret",
             runai_base_url="https://myorg.run.ai",
             cluster_id="513423qx-127t-4yk6-979g-5po843g37e2b",
