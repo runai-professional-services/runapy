@@ -18,9 +18,9 @@ class RunaiClientConfig(BaseModel):
     client_id: str
     client_secret: str
     runai_base_url: HttpUrl
-    cluster_id: str
+    cluster_id: Optional[str] = None
     retries: Optional[int] = None
-    debug: bool = False
+    debug: Optional[bool] = False
 
 
 class RunaiClient:
@@ -34,9 +34,9 @@ class RunaiClient:
         client_id: str,
         client_secret: str,
         runai_base_url: str,
-        cluster_id: str,
+        cluster_id: Optional[str] = None,
         retries: Optional[int] = None,
-        debug: bool = False,
+        debug: Optional[bool] = False,
     ):
         config = {
             "realm": realm,
@@ -100,7 +100,6 @@ class RunaiClient:
                     message=f"Failed to get access token from response. Body={resp_json}",
                     err=None,
                 )
-
             return resp_json["access_token"]
 
         except requests.exceptions.JSONDecodeError as err:
@@ -108,6 +107,18 @@ class RunaiClient:
                 message=f"Failed to decode response to json, response: {resp.text}",
                 err=err,
             )
+
+    def config_cluster_id(self, cluster_id: str):
+        # Validate cluster_id has UUID4 format
+        _ = models.build_model(model=models.UUID4Model, data={"field": cluster_id})
+
+        if cluster_id == self.cluster_id:
+            logger.debug(f"cluster_id already configured to {cluster_id}, skipping...")
+            return
+        if cluster_id is not None:
+            logger.debug(f"overriding cluster_id {self.cluster_id} with {cluster_id}")
+
+        self.cluster_id = cluster_id
 
     def request(
         self, http_method: Callable, url: str, **kwargs: Any

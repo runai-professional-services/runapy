@@ -9,7 +9,8 @@ class RunaiError(Exception):
 
 class RunaiClientError(RunaiError):
     def __init__(self, err: Exception, message: str):
-        super().__init__(f"{message}\nError: {err}")
+        out = f"{message}\nError: {err}" if err is not None else f"{message}"
+        super().__init__(out)
 
 
 class RunaiHTTPError(RunaiError):
@@ -24,12 +25,21 @@ class RunaiBuildModelError(RunaiError):
 
 
 class RunaiQueryParamsError(RunaiError):
-    def __init__(
-        self, err: Exception, message: str = "Failed to build query parameters"
-    ):
+    def __init__(self, err: Exception, message: str = "Failed to build query parameters"):
         super().__init__(f"{message}: {err}")
 
 
 class RunaiNotImplementedError(RunaiError):
     def __init__(self, message="Class method is not supported"):
         super().__init__(f"{message}")
+
+
+class RunaiClusterIDNotConfigured(RunaiError):
+    """Exception raised when the cluster_id is not configured in the RunaiClient."""
+
+    def __init__(self):
+        message = (
+            "Client cluster_id is not configured, cannot use endpoints.\n"
+            "Run client.config_cluster_id() first or provide cluster_id to RunaiClient()."
+        )
+        super().__init__(message)

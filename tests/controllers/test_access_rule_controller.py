@@ -11,7 +11,7 @@ class TestAccessRulesController:
     @pytest.fixture
     def mock_client(self):
         client = Mock()
-        client.cluster_id = "71f69d83-ba66-4822-adf8-55ce55efd219"
+        client.cluster_id = "7d82b243-9ef4-4819-83c2-b15733b652d3"
         return client
 
     @pytest.fixture

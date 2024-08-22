@@ -4,30 +4,30 @@ This project provides a Python client to interact with the [Run:ai REST API](htt
 
  The client offers:
 - A single class interface to perform all API actions
-- Body scheme validation on compilation (with Pydantic)
+- Body schema validation on compilation (with Pydantic)
 - Static type checks
 - Retry mechanism for resiliency on intermittent network errors
 - Debug messages flag
 
 ## Requirements:
  - Run:ai control-plane version of 2.18 and above
- - Python version of 3.11 or above
- - [Run:ai Client Application](https://docs.run.ai/v2.13/developer/rest-auth/#create-a-client-application)
+ - Python version of 3.11 and above
+ - [Run:ai Client Application](https://docs.run.ai/v2.18/developer/rest-auth/#create-a-client-application)
 
  #### Note on token and permissions
 When creating an application, it is important to select the relevant role and scope for the required API actions.\
-Some API calls may fail with 403 if the application token has no sufficient permissions.
+Some API calls may fail with 403 if the application token does not have sufficient permissions.
 
 ## Installation
 
-runapy is avaialble in PyPi and can be downloaded directly as a python package
+runapy is available in PyPi and can be downloaded directly as a python package
 ```bash
 pip3 install runapy
 ```
 
 ## Client
 
-RunaiClient is the only class required to interact with the [Run:ai REST API](https://app.run.ai/api/docs)
+`RunaiClient` is the only class required to interact with the [Run:ai REST API](https://app.run.ai/api/docs)
 
 ```python
 from runai.client import RunaiClient
@@ -48,11 +48,26 @@ client = RunaiClient(
 | `client_id`      | `string` | **Required**: The Run:ai application name |
 | `client_secret`      | `string` | **Required**: The Run:ai application password |
 | `runai_base_url`      | `string` | **Required**: The URL used to access Run:ai UI|
-| `retries`      | `int` | **Required**: Number of retries to attempt on each failed API call for 5xx errors |
-| `debug`      | `bool` | **Optional**: Debug mode output |
+| `retries`      | `int` | **Optional**: Number of retries to attempt on each failed API call for 5xx errors. Default is 1 |
+| `cluster_id`      | `string` | **Optional**: The ID of the cluster. Default is None|
+| `debug`      | `bool` | **Optional**: Debug mode output. Default is False |
 
+If you don't have the  `cluster_id`, it can be obtained with:
+```python
+clusters = client.clusters.all()
+for cluster in cluster:
+    cluster_id = cluster["uuid"]
+```
+**Note** - If you have more than one cluster, make sure to save the ids to `cluster_ids_list`, and select the relevant `cluster_id`
+
+Then, configure the client with the cluster id:
+```python
+client.config_cluster_id(cluster["uuid"])
+```
+**Note** - The `cluster_id` must be present in order to use endpoints that have `cluster_id` required in payload according to [Run:ai REST API](https://app.run.ai/api/docs).\
+So make sure to configure the cluster_id before using them.
 ## Note on Controllers
-The RuaniClient exposes object controllers for all API endpoints.
+The `RuaniClient` exposes object controllers for all API endpoints.
 For example, to access projects:
 ```python
 from runai.client import RunaiClient
@@ -95,14 +110,14 @@ client.roles.options()
 ```
 
 Controller methods are documented.\
-Hover on the method parentheses to see the required and optional fields to pass to the function
+Hover on the method parentheses to see the required and optional fields to pass to the function.
 
 ## Examples
 For more examples, check the existing examples [here](examples/)\
-Feel free to copy and run them as is, moify them as you wish, or use them as a reference.
+Feel free to copy and run them as is, modify them as you wish, or use them as a reference.
 
 ## Warranty
-This package is not maintained by the Run:ai product.
+This package is not maintained by the Run:ai product team.
 
 For any issues and requests, please open an issue, or contact the authors of this package.
 

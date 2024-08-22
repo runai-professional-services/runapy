@@ -10,7 +10,7 @@ class TestClusterController:
     @pytest.fixture
     def mock_client(self):
         client = Mock()
-        client.cluster_id = "71f69d83-ba66-4822-adf8-55ce55efd219"
+        client.cluster_id = "7d82b243-9ef4-4819-83c2-b15733b652d3"
         return client
 
     @pytest.fixture
@@ -22,8 +22,8 @@ class TestClusterController:
         assert controller.client == mock_client
 
     def test_all(self, controller):
-        mock_response = [{"name": "cluster1", "uuid":"71f69d83-ba66-4822-adf8-55ce55efd219"},
-                         {"name": "cluster2", "uuid":"52f13d82-ba66-4822-adf8-55ce55efd332"}]
+        mock_response = [{"name": "cluster1", "uuid":"7d82b243-9ef4-4819-83c2-b15733b652d3"},
+                         {"name": "cluster2", "uuid":"7d82b243-9ef4-4819-83c2-b15733b652d8"}]
         controller.client.get.return_value = mock_response
 
         result = controller.all()
@@ -35,8 +35,8 @@ class TestClusterController:
         )
     
     def test_all_metadata_verbosity(self, controller):
-        mock_response = [{"name": "cluster1", "uuid":"71f69d83-ba66-4822-adf8-55ce55efd219"},
-                         {"name": "cluster2", "uuid":"52f13d82-ba66-4822-adf8-55ce55efd332"}]
+        mock_response = [{"name": "cluster1", "uuid":"7d82b243-9ef4-4819-83c2-b15733b652d3"},
+                         {"name": "cluster2", "uuid":"7d82b243-9ef4-4819-83c2-b15733b652d8"}]
         controller.client.get.return_value = mock_response
 
         result = controller.all(verbosity='metadata')

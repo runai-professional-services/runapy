@@ -1,10 +1,35 @@
+import uuid
+
 from typing import Optional, List, Literal
 from enum import StrEnum
 
 import pydantic
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 
 from . import errors
+
+
+def convert_to_uuid4(uuid_string: str) -> UUID4:
+    try:
+        uuid_obj = uuid.UUID(uuid_string, version=4)
+        if str(uuid_obj) == uuid_string:
+            return UUID4(uuid_obj)
+        else:
+            raise errors.RunaiClientError(err=None, message=f"Bad convertion from str to uuid4 back to str. Original str '{uuid_string}' , new str '{str(uuid_obj)}'")
+    except Exception:
+        raise errors.RunaiClientError(err=None, message=f"Failed to convert string to uuid4, string: '{uuid_string}' is not a valid UUID4")
+
+
+class UUID4Model(BaseModel):
+    field: UUID4
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_cluster_id
+
+    @classmethod
+    def validate_cluster_id(cls, v):
+        return convert_to_uuid4(v)
 
 
 class ResourcesPlacementStrategy(BaseModel):

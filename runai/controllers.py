@@ -34,6 +34,8 @@ class Controller(abc.ABC):
 class NodePoolController(Controller):
     def __init__(self, client):
         super().__init__(client)
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
 
     def all(self) -> List:
         path = f"/v1/k8s/clusters/{self.client.cluster_id}/node-pools"
@@ -160,6 +162,8 @@ class NodePoolController(Controller):
 class ProjectController(Controller):
     def __init__(self, client):
         super().__init__(client)
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
 
     def all(
         self,
@@ -326,6 +330,8 @@ class ProjectController(Controller):
 class DepartmentController(Controller):
     def __init__(self, client):
         super().__init__(client)
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
 
     def all(
         self,
@@ -537,6 +543,9 @@ class ClusterController(Controller):
 
 
 class WorkloadsController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+
     def all(
         self,
         include_deleted: bool,
@@ -668,6 +677,11 @@ class WorkloadsController(Controller):
 
 
 class WorkspaceController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
+
     def create(
         self,
         workspace_name: str,
@@ -714,6 +728,11 @@ class WorkspaceController(Controller):
 
 
 class TrainingController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
+
     def create(
         self,
         training_name: str,
@@ -759,6 +778,11 @@ class TrainingController(Controller):
 
 
 class InferenceController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
+
     def create(
         self,
         inference_name: str,
@@ -839,6 +863,11 @@ class InferenceController(Controller):
 
 
 class DistributedController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
+
     def create(
         self,
         ditributed_training_name: str,
