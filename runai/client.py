@@ -76,7 +76,7 @@ class RunaiClient:
             total=retries if retries else 1,
             backoff_factor=2,
             status_forcelist=[500, 502, 503, 504],
-            allowed_methods=["GET", "POST", "PUT", "DELETE"],
+            allowed_methods=["GET", "POST", "PUT", "DELETE", "PATCH"],
             raise_on_status=False,
         )
         adapter = HTTPAdapter(max_retries=retries)
@@ -153,6 +153,13 @@ class RunaiClient:
     def put(self, url: str, data: dict) -> Dict:
         logger.debug(f"Data: {data}")
         resp = self.request(self._session.put, url, data=data)
+        if resp.headers["Content-Type"].__contains__("text/plain"):
+            return resp.text
+        return resp.json()
+    
+    def patch(self, url: str, data: dict) -> Dict:
+        logger.debug(f"Data: {data}")
+        resp = self.request(self._session.patch, url, data=data)
         if resp.headers["Content-Type"].__contains__("text/plain"):
             return resp.text
         return resp.json()

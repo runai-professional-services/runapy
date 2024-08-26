@@ -139,7 +139,7 @@ def test_client_retry_mechanism(mock_post, mock_session, retries, expected_retri
     assert retry_obj.total == expected_retries
     assert retry_obj.backoff_factor == 2
     assert retry_obj.status_forcelist == [500, 502, 503, 504]
-    assert retry_obj.allowed_methods == ["GET", "POST", "PUT", "DELETE"]
+    assert retry_obj.allowed_methods == ["GET", "POST", "PUT", "DELETE", "PATCH"]
 
 
 def test_generate_api_token_success():

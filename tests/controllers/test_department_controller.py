@@ -220,3 +220,17 @@ class TestDepartmentController:
         controller.client.delete.assert_called_once_with(
             f"/api/v1/org-unit/departments/{department_id}"
         )
+    
+    def test_patch_resources_missing_required_gpu(self, controller):
+        with pytest.raises(errors.RunaiBuildModelError) as exc_info:
+            controller.patch(
+                department_id=1,
+                resources={
+                    "nodePool": {
+                        "id": "1",
+                        "name": "default",
+                    },
+                })
+        print(exc_info)
+        assert "Failed to build body scheme" in str(exc_info)
+        controller.client.patch.assert_not_called()

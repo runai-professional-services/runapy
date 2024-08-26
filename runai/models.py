@@ -69,7 +69,7 @@ class NodePoolCreateRequest(BaseModel):
 class Resource(BaseModel):
     deserved: int
     limit: int
-    overQuotaWeight: int
+    overQuotaWeight: Optional[int] = None
 
 
 class Memory(Resource):
@@ -190,6 +190,13 @@ class DepartmentCreateRequest(BaseModel):
     name: str
     clusterId: str
     resources: List[Resources]
+
+
+class DepartmentUpdateRequest(BaseModel):
+    resources: List[Resources]
+    nodeTypes: Optional[NodeTypes] = None
+    defaultNodePools: Optional[List[str]] = None
+    schedulingRules: Optional[SchedulingRules] = None
 
 
 class UserCreateRequest(BaseModel):

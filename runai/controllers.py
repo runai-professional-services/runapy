@@ -1,5 +1,6 @@
 import abc
 import inspect
+import json
 
 from typing import Any, Optional, List, Literal
 
@@ -320,6 +321,19 @@ class ProjectController(Controller):
         payload = model.model_dump_json()
 
         return self.client.put(path, payload)
+    
+    def patch(self,
+              project_id: int,
+              resources: List[dict]
+              ) -> dict:
+        path = f"/api/v1/org-unit/projects/{project_id}/resources"
+
+        data = {"resources": resources}
+
+        model = models.build_model(model=models.ProjectUpdateRequest, data=data)
+        payload = model.model_dump()["resources"]
+
+        return self.client.patch(path, json.dumps(payload))
 
     def delete(self, project_id: int):
         path = f"/api/v1/org-unit/projects/{project_id}"
@@ -386,6 +400,19 @@ class DepartmentController(Controller):
             payload.append(resource.model_dump())
 
         return self.client.put(path, payload)
+    
+    def patch(self,
+              department_id: int,
+              resources: List[dict]
+              ) -> dict:
+        path = f"/api/v1/org-unit/departments/{department_id}/resources"
+
+        data = {"resources": resources}
+
+        model = models.build_model(model=models.DepartmentUpdateRequest, data=data)
+        payload = model.model_dump()["resources"]
+
+        return self.client.patch(path, json.dumps(payload))
 
     def delete(self, department_id: int):
         path = f"/api/v1/org-unit/departments/{department_id}"
