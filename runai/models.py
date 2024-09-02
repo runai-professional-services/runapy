@@ -601,14 +601,6 @@ class ProjectQueryParams(CommonGetAllQueryParams):
     sortBy: Optional[ProjectSortByEnum] = None
 
 
-# class ProjectQueryParams(BaseModel):
-#     filterBy: Optional[str] = None
-#     sortBy: Optional[ProjectSortByEnum] = None
-#     sortOrder: Optional[Literal["asc", "desc"]] = None
-#     offset: Optional[int] = None
-#     limit: Optional[int] = None
-
-
 class DepartmentSortByEnum(StrEnum):
     name = "name"
     clusterId = "clusterId"
@@ -710,7 +702,7 @@ class InferenceWorkloadQueryParams(BaseModel):
 
 
 class WorkloadsGetAllQueryParams(CommonGetAllQueryParams):
-    deleted: bool
+    deleted: Optional[bool] = False
     sortBy: Optional[
         Literal[
             "type",

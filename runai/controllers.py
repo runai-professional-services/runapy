@@ -575,7 +575,7 @@ class WorkloadsController(Controller):
 
     def all(
         self,
-        include_deleted: bool,
+        deleted: Optional[bool] = False,
         limit: Optional[int] = None,
         offset: Optional[int] = None,
         last_updated: Optional[str] = None,
@@ -600,10 +600,14 @@ class WorkloadsController(Controller):
         filter_by: Optional[str] = None,
         sort_order: Optional[Literal["asc", "desc"]] = "asc",
     ):
+        """Retrieve a list of active workloads with details.
+
+        deleted - Return only deleted resources when true.
+        """
         path = "/api/v1/workloads"
 
         params = {
-            "deleted": include_deleted,
+            "deleted": deleted,
             "limit": limit,
             "offset": offset,
             "lastUpdated": last_updated,
@@ -622,10 +626,10 @@ class WorkloadsController(Controller):
 
         return self.client.get(path)
 
-    def count_workloads(self, include_deleted: bool, filter_by: Optional[str] = None):
+    def count_workloads(self, deleted: bool, filter_by: Optional[str] = None):
         path = "/api/v1/workloads/count"
 
-        params = {"deleted": include_deleted, "filterBy": filter_by}
+        params = {"deleted": deleted, "filterBy": filter_by}
 
         query_params = models.build_query_params(
             query_model=models.WorkloadsCountQueryParams, params=params

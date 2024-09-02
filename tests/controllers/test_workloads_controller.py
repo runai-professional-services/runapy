@@ -22,14 +22,14 @@ class TestWorkloadsController:
         assert controller.client == mock_client
 
     def test_all(self, controller):
-        include_deleted = True
+        deleted = True
         limit = 5
         offset = 5
         sort_by = "type"
         sort_order = "asc"
 
         controller.all(
-            include_deleted=include_deleted,
+            deleted=deleted,
             limit=limit,
             offset=offset,
             sort_by=sort_by,
@@ -37,7 +37,7 @@ class TestWorkloadsController:
         )
 
         params = {
-            "deleted": include_deleted,
+            "deleted": deleted,
             "limit": limit,
             "offset": offset,
             "sortBy": sort_by,
@@ -53,19 +53,19 @@ class TestWorkloadsController:
     def test_all_wrong_params(self, controller):
         with pytest.raises(errors.RunaiQueryParamsError) as exc_info:
             controller.all(
-                include_deleted=True, filter_by="name==workload1", sort_by=5, sort_order="NONE", limit="1"
+                deleted=True, filter_by="name==workload1", sort_by=5, sort_order="NONE", limit="1"
             )
         assert "Failed to build query parameters" in str(exc_info)
         controller.client.get.assert_not_called()
 
     def test_count_workloads(self, controller):
-        include_deleted = True
+        deleted = True
         controller.count_workloads(
-            include_deleted=include_deleted
+            deleted=deleted
         )
 
         params = {
-            "deleted": include_deleted
+            "deleted": deleted
         }
 
         controller.client.get.assert_called_once_with(
@@ -76,7 +76,7 @@ class TestWorkloadsController:
     def test_count_workloads_wrong_params(self, controller):
         with pytest.raises(errors.RunaiQueryParamsError) as exc_info:
             controller.count_workloads(
-                include_deleted=True, filter_by=5
+                deleted=True, filter_by=5
             )
         assert "Failed to build query parameters" in str(exc_info)
         controller.client.get.assert_not_called()
