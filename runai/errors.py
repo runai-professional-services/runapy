@@ -30,7 +30,7 @@ class RunaiQueryParamsError(RunaiError):
 
 
 class RunaiNotImplementedError(RunaiError):
-    def __init__(self, message="Class method is not supported"):
+    def __init__(self, message="Class method not implemented. Please submit a feature request on GitHub"):
         super().__init__(f"{message}")
 
 

@@ -4,7 +4,7 @@ from typing import Optional, List, Literal
 from enum import StrEnum
 
 import pydantic
-from pydantic import BaseModel, UUID4
+from pydantic import BaseModel, model_validator, UUID4
 
 from . import errors
 
@@ -330,6 +330,7 @@ class WorkloadDataVolume(BaseModel):
     mountPath: str
 
 
+# TODO: API approach is not optimized, this should be an ENUM as only one option can be selected at a time
 class WorkloadPvcClaimInfoAccessModes(BaseModel):
     readWriteOnce: bool = True
     readOnlyMany: bool = False
@@ -570,6 +571,172 @@ class DistributedCreateRequest(BaseModel):
     masterSpec: Optional[DistributedWorkloadSpec] = None
 
 
+class AssetWorkloadSupportedTypes(BaseModel):
+    workspace: bool
+    training: bool
+    inference: bool
+    distributed: bool
+    distFramework: Literal["MPI", "PyTorch", "TF", "XGBoost"]
+
+
+class AssetMetaRequest(BaseModel):
+    name: str
+    scope: Literal["system", "tenant", "cluster", "department", "project"]
+    workloadSupportedTypes: Optional[AssetWorkloadSupportedTypes] = None
+    description: Optional[str] = None
+    clusterId: Optional[str] = None
+    departmentId: Optional[str] = None
+    projectId: Optional[str] = None
+    autoDelete: Optional[bool] = False
+
+
+class S3CreateRequestSpec(BaseModel):
+    bucket: str
+    path: str
+    url: str
+    accessKeyAssetId: str
+
+
+class S3CreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: S3CreateRequestSpec
+
+
+class AccessKeyRequestSpec(BaseModel):
+    existingSecretName: Optional[str] = None
+    accessKeyId: Optional[str] = None
+    secretAccessKey: Optional[str] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def check_existing_secret_name(cls, values):
+        existing_secret_name = values.get('existingSecretName')
+        access_key_id = values.get('accessKeyId')
+        secret_access_key = values.get('secretAccessKey')
+
+        if existing_secret_name:
+            if access_key_id or secret_access_key:
+                raise ValueError('If "existingSecretName" is provided, "accessKeyId" and "secretAccessKey" must be empty.')
+        else:
+            if not access_key_id or not secret_access_key:
+                raise ValueError('If "existingSecretName" is not provided, both "accessKeyId" and "secretAccessKey" must be filled.')
+
+        return values
+
+
+class AccessKeyCredentialCreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: AccessKeyRequestSpec
+
+
+class PVCCreateRequestSpec(BaseModel):
+    path: str
+    claimName: str
+    claimInfo: Optional[WorkloadPvcClaimInfo] = None
+    existingPvc: Optional[bool] = False
+    readOnly: Optional[bool] = False
+    ephemeral: Optional[bool] = False
+
+    @model_validator(mode="before")
+    @classmethod
+    def check_existing_pvc(cls, values):
+        existing_pvc = values.get('existingPvc')
+        claim_info = values.get('claimInfo')
+
+        if existing_pvc and claim_info is not None:
+            raise ValueError('The fields "claimInfo" and "existingPvc" cannot be set together, one must be empty')
+
+        return values
+
+
+class PVCCreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: PVCCreateRequestSpec
+
+
+class GitCreateRequestSpec(BaseModel):
+    path: str
+    repository: str
+    passwordAssetId: str
+    branch: Optional[str] = None
+    revision: Optional[str] = None
+
+
+class GitCreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: GitCreateRequestSpec
+
+
+class NFSCreateRequestSpec(BaseModel):
+    path: str
+    readOnly: Optional[bool] = True
+    server: str
+    mountPath: str
+
+
+class NFSCreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: NFSCreateRequestSpec
+
+
+class PasswordCredentialCreateRequestSpec(BaseModel):
+    existingSecretName: Optional[str] = None
+    user: Optional[str] = None
+    password: Optional[str] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def check_existing_name(cls, values):
+        existing_secret_name = values.get('existingSecretName')
+        user = values.get('user')
+        password = values.get('password')
+
+        if existing_secret_name:
+            if user or password is not None:
+                raise ValueError('The fields "existing_secret_name" and "user"/"password" cannot be set together, one must be empty')
+
+        if existing_secret_name is None:
+            if user is None or password is None:
+                raise ValueError('The fields "user" and "password" must not be empty')
+
+        return values
+
+
+class PasswordCredentialCreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: PasswordCredentialCreateRequestSpec
+
+
+class DockerRegistryCredentialCreateRequestSpec(BaseModel):
+    url: Optional[str] = None
+    existingSecretName: Optional[str] = None
+    user: Optional[str] = None
+    password: Optional[str] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def check_existing_secret_name(cls, values):
+        existing_secret_name = values.get('existingSecretName')
+        user = values.get('user')
+        password = values.get('password')
+        url = values.get('url')
+
+        if existing_secret_name:
+            if user or password is not None:
+                raise ValueError('The fields "existing_secret_name" and "user"/"password" cannot be set together, one must be empty')
+
+        if existing_secret_name is None:
+            if user is None or password is None or url is None:
+                raise ValueError('The fields "user" and "password" and "url" must not be empty')
+
+        return values
+
+
+class DockerRegistryCredentialCreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: DockerRegistryCredentialCreateRequestSpec
+
+
 def build_model(model: BaseModel, data: dict) -> BaseModel:
     try:
         built_model = model(**data)
@@ -722,6 +889,29 @@ class WorkloadsGetAllQueryParams(CommonGetAllQueryParams):
         ]
     ] = None
 
+
+class AssetsGetAllQueryParams(BaseModel):
+    name: Optional[str] = None,
+    scope: Optional[str] = None,
+    project_id: Optional[str] = None,
+    department_id: Optional[str] = None,
+    cluster_id: Optional[str] = None,
+    usage_info: Optional[str] = None,
+    comply_to_project: Optional[int] = None,
+    comply_to_workload_type: Optional[str] = None,
+    status_info: Optional[bool] = None,
+    asset_id: Optional[str] = None,
+    comply_to_replica_type: Optional[str] = None
+
+
+class CredentialsGetAllQueryParams(BaseModel):
+    name: Optional[str] = None,
+    scope: Optional[str] = None,
+    project_id: Optional[str] = None,
+    department_id: Optional[str] = None,
+    cluster_id: Optional[str] = None,
+    usage_info: Optional[bool] = None,
+    status_info: Optional[bool] = None
 
 def build_query_params(query_model: BaseModel, params: dict) -> BaseModel:
     try:

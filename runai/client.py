@@ -6,6 +6,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 from pydantic import BaseModel, HttpUrl
 
+from runai import assets
 from . import errors
 from . import controllers
 from . import models
@@ -219,3 +220,7 @@ class RunaiClient:
     @property
     def distributed(self) -> controllers.DistributedController:
         return controllers.DistributedController(self)
+
+    @property
+    def assets(self) -> assets.AssetsFactory:
+        return assets.AssetsFactory(self)
