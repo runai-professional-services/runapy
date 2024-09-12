@@ -66,3 +66,6 @@ print(client.training.suspend(training_id=training_id))
 
 # Resume a training
 print(client.training.resume(training_id=training_id))
+
+# Delete a training
+print(client.training.delete(training_id=training_id))

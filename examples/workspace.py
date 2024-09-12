@@ -149,3 +149,6 @@ print(client.workspace.suspend(workspace_id=workspace_id))
 
 # Resume a workspace
 print(client.workspace.resume(workspace_id=workspace_id))
+
+# Delete a workspace
+print(client.workspace.delete(workspace_id=workspace_id))

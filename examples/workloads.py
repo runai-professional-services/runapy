@@ -10,7 +10,7 @@ client = RunaiClient(
 
 print(client.workloads.get_workloads_telemetry(telemetry_type="WORKLOADS_COUNT"))
 
-print(client.workloads.count_workloads(include_deleted=True))
+print(client.workloads.count_workloads(deleted=True))
 
 
 print(client.workloads.get_workload_metrics(
@@ -20,4 +20,4 @@ print(client.workloads.get_workload_metrics(
     end="2025-06-06T12:09:18.211Z"
     ))
 
-print(client.workloads.all(include_deleted=False))
+print(client.workloads.all(deleted=False))
