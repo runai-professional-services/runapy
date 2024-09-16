@@ -833,7 +833,7 @@ class InferenceController(Controller):
         }
 
         inference = models.build_model(model=models.InferenceCreateRequest, data=data)
-        payload = inference.model_dump_json()
+        payload = inference.model_dump_json(exclude_none=True)
 
         return self.client.post(path, payload)
 

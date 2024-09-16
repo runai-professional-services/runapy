@@ -38,13 +38,13 @@ client = RunaiClient(
 )    
 
 # Create the inference workload
-inference = client.workspace.create(
-        workspace_name="inference-job1",
-        use_given_name_as_prefix=False,
-        project_id=PROJECT_ID,
-        cluster_id=CLUSTER_ID,
-        spec=inference_llm_sample_autoscaling_spec
-        )
+inference = client.inference.create(
+    inference_name="inference-job1",
+    use_given_name_as_prefix=False,
+    project_id=PROJECT_ID,
+    cluster_id=CLUSTER_ID,
+    spec=inference_llm_sample_autoscaling_spec
+    )
 
 inference_id = inference["workloadId"]
 
