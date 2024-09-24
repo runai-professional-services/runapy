@@ -1,4 +1,8 @@
+import datetime
 import logging
+import json
+import base64
+import threading
 from typing import Optional, Any, Dict, Callable
 
 import requests
@@ -15,7 +19,6 @@ logger = logging.getLogger(__name__)
 
 
 class RunaiClientConfig(BaseModel):
-    realm: str
     client_id: str
     client_secret: str
     runai_base_url: HttpUrl
@@ -31,7 +34,6 @@ class RunaiClient:
 
     def __init__(
         self,
-        realm: str,
         client_id: str,
         client_secret: str,
         runai_base_url: str,
@@ -39,8 +41,7 @@ class RunaiClient:
         retries: Optional[int] = None,
         debug: Optional[bool] = False,
     ):
-        config = {
-            "realm": realm,
+        self.config = {
             "client_id": client_id,
             "client_secret": client_secret,
             "runai_base_url": runai_base_url,
@@ -48,30 +49,27 @@ class RunaiClient:
             "retries": retries,
             "debug": debug,
         }
-        models.build_model(model=RunaiClientConfig, data=config)
+        models.build_model(model=RunaiClientConfig, data=self.config)
 
         self.cluster_id = cluster_id
+        self.client_id = client_id
+        self.client_secret = client_secret
         self._base_url = f"{runai_base_url}"
-        self._api_token = self._generate_api_token(
-            runai_base_url=runai_base_url,
-            realm=realm,
-            client_id=client_id,
-            client_secret=client_secret,
-        )
-        self._session = self._create_session(self._api_token, retries)
+
+        self._session = self._create_session(retries)
+
+        self._token_refresh_thread_lock = threading.Lock()
+        self._token_refresh_thread_is_locked = False
+
+        self._api_token = None
+        self._api_token_expiary = None
+        self._refresh_token()
+
         if debug:
             logging.basicConfig(level=logging.DEBUG)
 
-    def _create_session(
-        self,
-        api_token: str,
-        retries: int,
-    ) -> requests.Session:
-
+    def _create_session(self, retries: int) -> requests.Session:
         session = requests.Session()
-        session.headers.update(
-            {"authorization": f"Bearer {api_token}", "content-type": "application/json"}
-        )
 
         retries = Retry(
             total=retries if retries else 1,
@@ -85,29 +83,61 @@ class RunaiClient:
 
         return session
 
-    def _generate_api_token(
-        self, runai_base_url: str, realm: str, client_id: str, client_secret: str
-    ) -> str:
-        data = f"grant_type=client_credentials&client_id={client_id}&client_secret={client_secret}"
-        headers = {"content-type": "application/x-www-form-urlencoded"}
-        url = f"{runai_base_url}/auth/realms/{realm}/protocol/openid-connect/token"
+    def _generate_api_token(self) -> str:
+        headers = {"Accept": "*/*", "Content-type": "application/json"}
+        data = json.dumps({"grantType": "app_token", "AppId": self.client_id, "AppSecret": self.client_secret})
+        url = f"{self._base_url}/api/v1/token"
         try:
-            resp = requests.post(url, data=data, headers=headers)
+            logger.debug(f"Generating API token for client_id: {self.client_id} and cluster_id: {self.cluster_id}")
+            resp = requests.post(url=url, data=data, headers=headers)
             if not resp.ok:
                 raise errors.RunaiHTTPError(resp)
             resp_json = resp.json()
-            if "access_token" not in resp_json:
+            if "accessToken" not in resp_json:
                 raise errors.RunaiClientError(
-                    message=f"Failed to get access token from response. Body={resp_json}",
-                    err=None,
-                )
-            return resp_json["access_token"]
+                    message=f"Failed to get access token from response. Body={resp_json}", err=None)
+            return resp_json["accessToken"]
 
         except requests.exceptions.JSONDecodeError as err:
             raise errors.RunaiClientError(
-                message=f"Failed to decode response to json, response: {resp.text}",
-                err=err,
+                message=f"Failed to decode response to json, response: {resp.text}", err=err)
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as err:
+            raise errors.RunaiClientError(
+                message="Connection error occurred while generating API token.", err=err
             )
+
+    def _set_token_expiary(self) -> None:
+        token_payload = self._api_token.split(".")[1]
+        token_payload_decoded = json.loads(base64.b64decode(token_payload + "=="))
+        self._api_token_expiary = token_payload_decoded.get("exp", 0)
+
+    def _is_token_about_to_expire(self) -> bool:
+        if not self._api_token:
+            return True  # If no token is set, treat it as expired
+        current_time = datetime.datetime.now(datetime.timezone.utc)
+        current_time_timestamp = current_time.timestamp()
+        logger.debug(f"Token expires at: {datetime.datetime.fromtimestamp(self._api_token_expiary)} and current time is: {current_time}")
+        # Check if the token will expire in the next 60 seconds
+        return self._api_token_expiary - current_time_timestamp <= 60
+
+    def _refresh_token(self):
+        with self._token_refresh_thread_lock:
+            self._token_refresh_thread_is_locked = True
+            token = self._generate_api_token()
+            logger.debug("API token refreshed successfully.")
+            self._api_token = token
+            self._set_token_expiary()
+            self._session.headers.update({"Authorization": f"Bearer {token}"})
+            logger.debug("Updated session headers with the new token.")
+            self._token_refresh_thread_is_locked = False
+
+    def _check_token_expired(self):
+        if self._is_token_about_to_expire():
+            logger.debug("Need to refresh token")
+            if self._token_refresh_thread_is_locked is not True:
+                self._refresh_token()
+            else:
+                logger.debug("Another thread is already refreshing the token. Skipping refresh")
 
     def config_cluster_id(self, cluster_id: str):
         # Validate cluster_id has UUID4 format
@@ -121,9 +151,8 @@ class RunaiClient:
 
         self.cluster_id = cluster_id
 
-    def request(
-        self, http_method: Callable, url: str, **kwargs: Any
-    ) -> requests.Response:
+    def request(self, http_method: Callable, url: str, **kwargs: Any) -> requests.Response:
+        self._check_token_expired()  # Refresh token if about to expire
 
         full_url = f"{self._base_url}{url}"
         logger.debug(f"Making {http_method.__name__.upper()} call to: {full_url}")
@@ -132,14 +161,10 @@ class RunaiClient:
             resp = http_method(url=full_url, **kwargs)
             if not resp.ok:
                 raise errors.RunaiHTTPError(resp)
-            logger.debug(
-                f"Request to {full_url} succeeded with status code: {resp.status_code}"
-            )
+            logger.debug(f"Request to {full_url} succeeded with status code: {resp.status_code}")
             return resp
         except requests.exceptions.RequestException as e:
-            raise errors.RunaiClientError(
-                message=f"Request failed for URL {full_url}", err=e
-            )
+            raise errors.RunaiClientError(message=f"Request failed for URL {full_url}", err=e)
 
     def get(self, url: str, params: Optional[Any] = None) -> Dict:
         logger.debug(f"Params: {params}")
@@ -157,7 +182,7 @@ class RunaiClient:
         if resp.headers["Content-Type"].__contains__("text/plain"):
             return resp.text
         return resp.json()
-    
+
     def patch(self, url: str, data: dict) -> Dict:
         logger.debug(f"Data: {data}")
         resp = self.request(self._session.patch, url, data=data)

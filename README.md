@@ -8,6 +8,7 @@ This project provides a Python client SDK to interact with the [Run:ai REST API]
 - Static type checks
 - Retry mechanism for resiliency on intermittent network errors
 - Debug messages flag
+- Automatic token refresh
 
 ## Requirements
 - **Run:ai control-plane version 2.18 and above:** Required for compatibility with the SDK.
@@ -40,7 +41,6 @@ pip3 install runapy
 from runai.client import RunaiClient
 
 client = RunaiClient(
-            realm="myorgrealm",
             client_id="API",
             client_secret="clientsecret",
             runai_base_url="https://myorg.run.ai",
@@ -51,7 +51,6 @@ client = RunaiClient(
 ```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `realm`      | `string` | **Required**: Can be obtained from the UI login screen at your Run:ai domain app.run.ai -> app.run.ai/auth/realms/<realm>|
 | `client_id`      | `string` | **Required**: The Run:ai application client ID, usually representing the application name |
 | `client_secret`      | `string` | **Required**: The client secret associated with the Run:ai application, acting as a password |
 | `runai_base_url`      | `string` | **Required**: The base URL for the Run:ai instance your organization uses. Example: `https://myorg.run.ai`|
@@ -80,7 +79,6 @@ For example, to access projects:
 from runai.client import RunaiClient
 
 client = RunaiClient(
-            realm="myorgrealm",
             client_id="API",
             client_secret="clientsecret",
             runai_base_url="https://myorg.run.ai",

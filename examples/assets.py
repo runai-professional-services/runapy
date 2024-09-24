@@ -1,7 +1,6 @@
 from runai.client import RunaiClient
 
 client = RunaiClient(
-    realm="runai",
     client_id="api-client",
     client_secret="SECRET",
     runai_base_url="https://ps.runailabs-cs.com",

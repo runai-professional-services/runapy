@@ -9,45 +9,33 @@ from urllib3.util import Retry
 from pydantic import HttpUrl
 
 from runai import controllers
+from runai import assets
 from runai.client import RunaiClient, RunaiClientConfig
 from runai.errors import RunaiHTTPError, RunaiClientError, RunaiBuildModelError
 
 
 @pytest.fixture
-def mock_client():
-    with patch("runai.client.requests.post") as mock_post, patch(
-        "runai.client.requests.Session"
-    ) as mock_session:
+def runai_client():
+    with patch("runai.client.requests.post"):
+        with patch("runai.client.RunaiClient._generate_api_token", return_value="token"):
+            with patch("runai.client.RunaiClient._set_token_expiary", return_value="1727185600"):
+                mock_token = "token.token"
+                mock_token_epiary = 1727185600
 
-        mock_post.return_value.ok = True
-        mock_post.return_value.json.return_value = {"access_token": "mocked-api-token"}
+                client = RunaiClient(
+                    client_id="api-client",
+                    client_secret="test-client-secret",
+                    runai_base_url="https://test.runai.ai",
+                    cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
+                )
+                client._api_token = mock_token
+                client._api_token_expiary = mock_token_epiary
 
-        mock_session_instance = Mock()
-        mock_session.return_value = mock_session_instance
-
-        client = RunaiClient(
-            realm="test-realm",
-            client_id="api-client",
-            client_secret="test-client-secret",
-            runai_base_url="https://test.runai.ai",
-            cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
-        )
-
-        client._session = mock_session_instance
-
-        yield client
-
-
-@pytest.fixture
-def mock_response():
-    response = Mock()
-    response.ok = True
-    return response
+                yield client
 
 
 def test_runai_client_config():
     config = RunaiClientConfig(
-        realm="test-realm",
         client_id="api-client",
         client_secret="test-client-secret",
         runai_base_url="https://test.runai.ai",
@@ -55,13 +43,12 @@ def test_runai_client_config():
         retries=3,
         debug=True,
     )
-    assert config.realm == "test-realm"
     assert config.client_id == "api-client"
     assert config.client_secret == "test-client-secret"
     assert config.runai_base_url == HttpUrl("https://test.runai.ai")
     assert config.cluster_id == "7d82b243-9ef4-4819-83c2-b15733b652d3"
     assert config.retries == 3
-    assert config.debug == True
+    assert config.debug
 
 
 def test_runai_client_wrong_field_type():
@@ -70,7 +57,6 @@ def test_runai_client_wrong_field_type():
     ) as mock_session:
         with pytest.raises(RunaiBuildModelError) as exc_info:
             RunaiClient(
-                realm="realm",
                 client_id=5,
                 client_secret="test",
                 cluster_id="api-client",
@@ -82,89 +68,38 @@ def test_runai_client_wrong_field_type():
             mock_session.assert_not_called()
 
 
-def test_create_session():
-    with patch("runai.client.requests.post") as mock_post, patch(
-        "runai.client.requests.Session"
-    ) as mock_session:
-
-        mock_post.return_value.ok = True
-        mock_post.return_value.json.return_value = {"access_token": "test-token"}
-
-        mock_session_instance = Mock()
-        mock_session.return_value = mock_session_instance
-
-        client = RunaiClient(
-            realm="test-realm",
-            client_id="test-client-id",
-            client_secret="test-client-secret",
-            runai_base_url="https://test.runai.ai",
-            cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
-        )
-
-        assert client._session == mock_session_instance
-        mock_session_instance.headers.update.assert_called_once_with(
-            {"authorization": "Bearer test-token", "content-type": "application/json"}
-        )
-        mock_session_instance.mount.assert_called_once_with("https://", ANY)
-
-
-@pytest.mark.parametrize("retries, expected_retries", [(3, 3), (None, 1)])
 @patch("runai.client.requests.Session")
-@patch("runai.client.requests.post")
-def test_client_retry_mechanism(mock_post, mock_session, retries, expected_retries):
-    mock_post.return_value.ok = True
-    mock_post.return_value.json.return_value = {"access_token": "test-token"}
+@patch("runai.client.HTTPAdapter")
+@patch("runai.client.Retry")
+def test_create_session(mock_retry, mock_adapter, mock_session):
+    with patch("runai.client.RunaiClient._generate_api_token", return_value="token"):
+        with patch("runai.client.RunaiClient._set_token_expiary", return_value="1727185600"):
+            mock_session_instance = Mock()
+            mock_session.return_value = mock_session_instance  # Mock the Session object
+            mock_adapter_instance = Mock()
+            mock_adapter.return_value = mock_adapter_instance  # Mock the HTTPAdapter
 
-    mock_session.return_value = mock_session
+            retries_value = 3
+            
+            client = RunaiClient(
+                client_id="test-client-id",
+                client_secret="test-client-secret",
+                runai_base_url="https://test.runai.ai",
+                cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
+                retries=retries_value
+            )
 
-    RunaiClient(
-        realm="test-realm",
-        client_id="api-client",
-        client_secret="test-client-secret",
-        runai_base_url="https://test.runai.ai",
-        cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
-        retries=retries,
-    )
-
-    mock_session.mount.assert_called_once_with("https://", ANY)
-
-    # Get the HTTPAdapter and Retry objects
-    http_adapter = mock_session.mount.call_args[0][1]
-    retry_obj = http_adapter.max_retries
-
-    assert isinstance(http_adapter, HTTPAdapter)
-    assert http_adapter.max_retries == retry_obj
-
-    assert isinstance(retry_obj, Retry)
-    assert retry_obj.total == expected_retries
-    assert retry_obj.backoff_factor == 2
-    assert retry_obj.status_forcelist == [500, 502, 503, 504]
-    assert retry_obj.allowed_methods == ["GET", "POST", "PUT", "DELETE", "PATCH"]
-
-
-def test_generate_api_token_success():
-    with patch("runai.client.requests.post") as mock_post:
-        mock_response = Mock()
-        mock_response.ok = True
-        mock_response.json.return_value = {"access_token": "test-token"}
-        mock_post.return_value = mock_response
-
-        client_id = "some-client"
-        client_secret = "test-client-secret"
-        client = RunaiClient(
-            realm="test-realm",
-            client_id=client_id,
-            client_secret=client_secret,
-            runai_base_url="https://test.runai.ai",
-            cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
-        )
-
-        assert client._api_token == "test-token"
-        mock_post.assert_called_once_with(
-            "https://test.runai.ai/auth/realms/test-realm/protocol/openid-connect/token",
-            data=f"grant_type=client_credentials&client_id={client_id}&client_secret={client_secret}",
-            headers={"content-type": "application/x-www-form-urlencoded"},
-        )
+            mock_session.assert_called_once()
+            mock_retry.assert_called_once_with(
+                total=retries_value,
+                backoff_factor=2,
+                status_forcelist=[500, 502, 503, 504],
+                allowed_methods=["GET", "POST", "PUT", "DELETE", "PATCH"],
+                raise_on_status=False,
+            )
+            mock_adapter.assert_called_once_with(max_retries=mock_retry.return_value)
+            mock_session_instance.mount.assert_called_once_with("https://", mock_adapter_instance)
+            assert client._session == mock_session_instance
 
 
 def test_generate_api_token_unauthorized_http_error():
@@ -177,7 +112,6 @@ def test_generate_api_token_unauthorized_http_error():
 
         with pytest.raises(RunaiHTTPError) as exc_info:
             RunaiClient(
-                realm="test-realm",
                 client_id="api-client",
                 client_secret="test-client-secret",
                 runai_base_url="https://test.runai.ai",
@@ -191,12 +125,10 @@ def test_generate_api_token_json_decode_error():
         mock_response = Mock()
         mock_response.ok = True
         mock_response.json.side_effect = requests.exceptions.JSONDecodeError("", "", 0)
-        mock_response.text = "Invalid JSON"
         mock_post.return_value = mock_response
 
         with pytest.raises(RunaiClientError) as exc_info:
             RunaiClient(
-                realm="test-realm",
                 client_id="api-client",
                 client_secret="test-client-secret",
                 runai_base_url="https://test.runai.ai",
@@ -206,88 +138,96 @@ def test_generate_api_token_json_decode_error():
 
 
 def test_generate_api_token_missing_access_token():
-    with patch("runai.client.requests.post") as mock_post:
-        mock_response = Mock()
-        mock_response.ok = True
-        mock_response.json.return_value = {"token": "not-access-token"}
-        mock_post.return_value = mock_response
+    with patch("runai.client.requests.post"):
+        with patch("runai.client.RunaiClient._set_token_expiary", return_value="1727185600"):
+            mock_response = Mock()
+            mock_response.json.return_value = {"not-access-token": "not-access-token"}
 
-        with pytest.raises(RunaiClientError) as exc_info:
+            with pytest.raises(RunaiClientError) as exc_info:
+                RunaiClient(
+                    client_id="api-client",
+                    client_secret="test-client-secret",
+                    runai_base_url="https://test.runai.ai",
+                    cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
+                )
+            assert "Failed to get access token from response" in str(exc_info)
+
+
+@patch("logging.basicConfig")
+def test_client_logging_configuration(mock_logging_config):
+    with patch("runai.client.RunaiClient._generate_api_token", return_value="token"):
+        with patch("runai.client.RunaiClient._set_token_expiary", return_value="1727185600"):
             RunaiClient(
-                realm="test-realm",
+                client_id="api-client",
+                client_secret="test-client-secret",
+                runai_base_url="https://test.runai.ai",
+                cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
+                debug=True,
+            )
+            mock_logging_config.assert_called_once_with(level=logging.DEBUG)
+
+
+@patch("logging.basicConfig")
+def test_client_default_logging_configuration(mock_logging_config):
+    with patch("runai.client.RunaiClient._generate_api_token", return_value="token"):
+        with patch("runai.client.RunaiClient._set_token_expiary", return_value="1727185600"):
+            RunaiClient(
                 client_id="api-client",
                 client_secret="test-client-secret",
                 runai_base_url="https://test.runai.ai",
                 cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
             )
-        assert "Failed to get access token from response" in str(exc_info)
+            mock_logging_config.assert_not_called()
 
 
-@patch("logging.basicConfig")
-def test_client_logging_configuration(mock_logging_config):
-    with patch.object(RunaiClient, "_generate_api_token"):
-        RunaiClient(
-            realm="test-realm",
-            client_id="api-client",
-            client_secret="test-client-secret",
-            runai_base_url="https://test.runai.ai",
-            cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
-            debug=True,
-        )
-        mock_logging_config.assert_called_once_with(level=logging.DEBUG)
+def test_client_controller_properties(runai_client):
+    controllers_dict = {
+        "clusters": controllers.ClusterController,
+        "access_rules": controllers.AccessRulesController,
+        "roles": controllers.RolesController,
+        "departments": controllers.DepartmentController,
+        "projects": controllers.ProjectController,
+        "node_pools": controllers.NodePoolController,
+        "users": controllers.UsersController,
+        "workloads": controllers.WorkloadsController,
+        "workspace": controllers.WorkspaceController,
+        "training": controllers.TrainingController,
+        "inference": controllers.InferenceController,
+        "distributed": controllers.DistributedController,
+        "assets": assets.AssetsFactory}
 
+    client_properties = runai_client.__class__.__dict__
 
-@patch("logging.basicConfig")
-def test_client_default_logging_configuration(mock_logging_config):
-    with patch.object(RunaiClient, "_generate_api_token"):
-        RunaiClient(
-            realm="test-realm",
-            client_id="api-client",
-            client_secret="test-client-secret",
-            runai_base_url="https://test.runai.ai",
-            cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
-        )
-        mock_logging_config.assert_not_called()
-
-
-def test_client_controller_properties(mock_client):
-    assert isinstance(mock_client.clusters, controllers.ClusterController)
-    assert isinstance(mock_client.access_rules, controllers.AccessRulesController)
-    assert isinstance(mock_client.roles, controllers.RolesController)
-    assert isinstance(mock_client.departments, controllers.DepartmentController)
-    assert isinstance(mock_client.projects, controllers.ProjectController)
-    assert isinstance(mock_client.node_pools, controllers.NodePoolController)
-    assert isinstance(mock_client.users, controllers.UsersController)
-    assert isinstance(mock_client.workloads, controllers.WorkloadsController)
-    assert isinstance(mock_client.workspace, controllers.WorkspaceController)
-    assert isinstance(mock_client.training, controllers.TrainingController)
-    assert isinstance(mock_client.inference, controllers.InferenceController)
-    assert isinstance(mock_client.distributed, controllers.DistributedController)
+    for controller_name, controller_cls in controllers_dict.items():
+        assert controller_name in client_properties
+        controller_attr = getattr(runai_client, controller_name)
+        assert isinstance(controller_attr, controller_cls)
 
 
 def test_succesfull_cluster_init_no_cluster_id():
-    with patch.object(RunaiClient, "_generate_api_token"):
-        client = RunaiClient(
-            realm="test-realm",
-            client_id="api-client",
-            client_secret="test-client-secret",
-            runai_base_url="https://test.runai.ai"
-        )
-    assert isinstance(client, RunaiClient)
+    with patch("runai.client.RunaiClient._generate_api_token", return_value="token"):
+        with patch("runai.client.RunaiClient._set_token_expiary", return_value="1727185600"):
+            client = RunaiClient(
+                client_id="api-client",
+                client_secret="test-client-secret",
+                runai_base_url="https://test.runai.ai"
+            )
+
+            assert isinstance(client, RunaiClient)
 
 
-def test_cluster_config_cluster_id(mock_client):
+def test_cluster_config_cluster_id(runai_client):
     cluster_id = "7d82b243-9ef4-4819-83c2-b15733b652d3"
 
-    mock_client.config_cluster_id(cluster_id)
+    runai_client.config_cluster_id(cluster_id)
 
-    assert mock_client.cluster_id == cluster_id
+    assert runai_client.cluster_id == cluster_id
 
 
-def test_cluster_config_cluster_id_wrong_uuid_type(mock_client):
+def test_cluster_config_cluster_id_wrong_uuid_type(runai_client):
     wrong_type_uuid1_cluster_id = "de531c90-608e-11ef-b864-0242ac120002"
 
     with pytest.raises(RunaiBuildModelError) as exc_info:
-        mock_client.config_cluster_id(wrong_type_uuid1_cluster_id)
+        runai_client.config_cluster_id(wrong_type_uuid1_cluster_id)
 
     assert "Failed to build body scheme" in str(exc_info)

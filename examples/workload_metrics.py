@@ -21,7 +21,6 @@ import datetime
 from runai.client import RunaiClient
 
 client = RunaiClient(
-    realm=REALM,
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,
     runai_base_url=BASE_URL,

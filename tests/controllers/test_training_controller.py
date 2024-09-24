@@ -57,16 +57,16 @@ class TestTrainingController:
         assert controller.client == mock_client
 
     def test_init_missing_cluster_id(self):
-        with patch.object(RunaiClient, "_generate_api_token"):
-            client = RunaiClient(
-                realm="test-realm",
-                client_id="api-client",
-                client_secret="test-client-secret",
-                runai_base_url="https://test.runai.ai"
-            )
-        with pytest.raises(errors.RunaiClusterIDNotConfigured) as exc_info:
-            controllers.TrainingController(client)
-        assert "cluster_id is not configured" in str(exc_info)
+        with patch("runai.client.RunaiClient._generate_api_token", return_value="token"):
+            with patch("runai.client.RunaiClient._set_token_expiary", return_value="1727185600"):
+                client = RunaiClient(
+                    client_id="api-client",
+                    client_secret="test-client-secret",
+                    runai_base_url="https://test.runai.ai"
+                )
+            with pytest.raises(errors.RunaiClusterIDNotConfigured) as exc_info:
+                controllers.TrainingController(client)
+            assert "cluster_id is not configured" in str(exc_info)
 
     def test_create(self, controller):
         controller.client.post.return_value = mock_workload_response

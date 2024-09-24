@@ -20,7 +20,6 @@ from runai.client import RunaiClient
 
 # Create Run:ai client
 client = RunaiClient(
-    realm=RELAM,
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,
     runai_base_url=RUNAI_BASE_URL,
