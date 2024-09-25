@@ -1,11 +1,9 @@
 import logging
 
-from unittest.mock import Mock, patch, ANY
+from unittest.mock import Mock, patch
 
 import pytest
 import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util import Retry
 from pydantic import HttpUrl
 
 from runai import controllers
@@ -231,3 +229,36 @@ def test_cluster_config_cluster_id_wrong_uuid_type(runai_client):
         runai_client.config_cluster_id(wrong_type_uuid1_cluster_id)
 
     assert "Failed to build body scheme" in str(exc_info)
+
+
+def test_client_with_bearer_token_init():
+    token = "token.token"
+    client = RunaiClient(
+        bearer_token=token,
+        runai_base_url="https://test.runai.ai",
+        cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
+    )
+    assert client.bearer_token == token
+    assert client._api_token == token
+
+
+def test_client_init_incompatible_bearer_token_with_client_creds():
+    with pytest.raises(RunaiClientError) as exc_info:
+        RunaiClient(
+            client_id="client",
+            client_secret="secret",
+            bearer_token="token.token",
+            runai_base_url="https://test.runai.ai",
+            cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
+        )
+    assert 'The parameter "bearer_token" cannot be set together with "client_id" and "client_secret' in str(exc_info)
+
+
+def test_client_init_missing_client_secret():
+    with pytest.raises(RunaiClientError) as exc_info:
+        RunaiClient(
+            client_id="client",
+            runai_base_url="https://test.runai.ai",
+            cluster_id="7d82b243-9ef4-4819-83c2-b15733b652d3",
+        )
+    assert 'The parameters "client_id" and "client_secret" must be set if "bearer_token" is not configured' in str(exc_info)

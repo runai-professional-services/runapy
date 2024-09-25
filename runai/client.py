@@ -8,7 +8,7 @@ from typing import Optional, Any, Dict, Callable
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, HttpUrl, model_validator
 
 from runai import assets
 from . import errors
@@ -19,12 +19,28 @@ logger = logging.getLogger(__name__)
 
 
 class RunaiClientConfig(BaseModel):
-    client_id: str
-    client_secret: str
     runai_base_url: HttpUrl
+    client_id: Optional[str] = None
+    client_secret: Optional[str] = None
     cluster_id: Optional[str] = None
     retries: Optional[int] = None
     debug: Optional[bool] = False
+    bearer_token: Optional[str] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def bearer_or_credentials(cls, values):
+        client_id = values.get('client_id')
+        client_secret = values.get('client_secret')
+        bearer_token = values.get('bearer_token')
+
+        if bearer_token is not None and (client_id is not None or client_secret is not None):
+            raise errors.RunaiClientError('The parameter "bearer_token" cannot be set together with "client_id" and "client_secret"', None)
+
+        if bearer_token is None and (client_id is None or client_secret is None):
+            raise errors.RunaiClientError('The parameters "client_id" and "client_secret" must be set if "bearer_token" is not configured', None)
+
+        return values
 
 
 class RunaiClient:
@@ -34,12 +50,13 @@ class RunaiClient:
 
     def __init__(
         self,
-        client_id: str,
-        client_secret: str,
         runai_base_url: str,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
         cluster_id: Optional[str] = None,
         retries: Optional[int] = None,
         debug: Optional[bool] = False,
+        bearer_token: Optional[str] = None
     ):
         self.config = {
             "client_id": client_id,
@@ -48,6 +65,7 @@ class RunaiClient:
             "cluster_id": cluster_id,
             "retries": retries,
             "debug": debug,
+            "bearer_token": bearer_token,
         }
         models.build_model(model=RunaiClientConfig, data=self.config)
 
@@ -55,6 +73,7 @@ class RunaiClient:
         self.client_id = client_id
         self.client_secret = client_secret
         self._base_url = f"{runai_base_url}"
+        self.bearer_token = bearer_token
 
         self._session = self._create_session(retries)
 
@@ -62,8 +81,13 @@ class RunaiClient:
         self._token_refresh_thread_is_locked = False
 
         self._api_token = None
-        self._api_token_expiary = None
-        self._refresh_token()
+
+        if bearer_token is None:  # Default to application token if CLIv2 token not provided
+            self._api_token_expiary = None
+            self._refresh_token()
+        else:
+            self._api_token = self.bearer_token
+            self._session.headers.update({"Authorization": f"Bearer {self._api_token}"})
 
         if debug:
             logging.basicConfig(level=logging.DEBUG)
@@ -132,6 +156,9 @@ class RunaiClient:
             self._token_refresh_thread_is_locked = False
 
     def _check_token_expired(self):
+        if self.bearer_token is not None:  # Skip token refresh for CLIv2 token
+            return
+
         if self._is_token_about_to_expire():
             logger.debug("Need to refresh token")
             if self._token_refresh_thread_is_locked is not True:
