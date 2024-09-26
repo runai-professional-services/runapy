@@ -67,8 +67,8 @@ class NodePoolCreateRequest(BaseModel):
 
 
 class Resource(BaseModel):
-    deserved: int
-    limit: int
+    deserved: Optional[int] = None
+    limit: Optional[int] = None
     overQuotaWeight: Optional[int] = None
 
 
@@ -912,6 +912,7 @@ class CredentialsGetAllQueryParams(BaseModel):
     cluster_id: Optional[str] = None,
     usage_info: Optional[bool] = None,
     status_info: Optional[bool] = None
+
 
 def build_query_params(query_model: BaseModel, params: dict) -> BaseModel:
     try:
