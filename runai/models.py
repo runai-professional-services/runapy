@@ -845,8 +845,9 @@ class WorkloadsTelemetryQueryParams(BaseModel):
 class WorkloadMetricsQueryParams(BaseModel):
     start: str
     end: str
-    metricType: Literal[
+    metricType: List[Literal[
         "GPU_UTILIZATION",
+        "GPU_MEMORY_USAGE_BYTES",
         "GPU_MEMORY_REQUEST_BYTES",
         "CPU_USAGE_CORES",
         "CPU_REQUEST_CORES",
@@ -857,7 +858,7 @@ class WorkloadMetricsQueryParams(BaseModel):
         "POD_COUNT",
         "RUNNING_POD_COUNT",
         "GPU_ALLOCATION",
-    ]
+    ]]
     numberOfSamples: Optional[int] = 20
 
 

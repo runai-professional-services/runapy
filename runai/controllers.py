@@ -677,7 +677,7 @@ class WorkloadsController(Controller):
         workload_id: str,
         start: str,
         end: str,
-        metric_type: Literal[
+        metric_type: List[Literal[
             "GPU_MEMORY_REQUEST_BYTES",
             "CPU_USAGE_CORES",
             "CPU_REQUEST_CORES",
@@ -688,7 +688,7 @@ class WorkloadsController(Controller):
             "POD_COUNT",
             "RUNNING_POD_COUNT",
             "GPU_ALLOCATION",
-        ],
+        ]],
         number_of_samples: Optional[int] = 20,
     ):
         path = f"/api/v1/workloads/{workload_id}/metrics"

@@ -41,4 +41,4 @@ if __name__ == "__main__":
                                                     start=start_date,
                                                     end=end_date,
                                                     number_of_samples=1000,
-                                                    metric_type="GPU_UTILIZATION"))
+                                                    metric_type=["GPU_UTILIZATION", "GPU_MEMORY_USAGE_BYTES", "CPU_USAGE_CORES", "CPU_MEMORY_USAGE_BYTES"]))
