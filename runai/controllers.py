@@ -321,11 +321,8 @@ class ProjectController(Controller):
         payload = model.model_dump_json()
 
         return self.client.put(path, payload)
-    
-    def patch(self,
-              project_id: int,
-              resources: List[dict]
-              ) -> dict:
+
+    def patch(self, project_id: int, resources: List[dict]) -> dict:
         path = f"/api/v1/org-unit/projects/{project_id}/resources"
 
         data = {"resources": resources}
@@ -399,7 +396,7 @@ class DepartmentController(Controller):
             resource = models.build_model(models.Resources, resource)
             payload.append(resource.model_dump())
 
-        return self.client.put(path, payload)
+        return self.client.put(path, json=payload)
     
     def patch(self,
               department_id: int,
@@ -451,7 +448,6 @@ class AccessRulesController(Controller):
         filterBy: Optional[str] = None,
         sortOrder: Optional[Literal["asc", "desc"]] = "asc",
     ) -> List:
-
         path = "/api/v1/authorization/access-rules"
 
         params = {
@@ -482,7 +478,6 @@ class AccessRulesController(Controller):
         scope_id: str,
         scope_type: Literal["system", "tenant", "cluster", "department", "project"],
     ) -> dict:
-
         path = "/api/v1/authorization/access-rules"
 
         data = {
@@ -677,18 +672,20 @@ class WorkloadsController(Controller):
         workload_id: str,
         start: str,
         end: str,
-        metric_type: List[Literal[
-            "GPU_MEMORY_REQUEST_BYTES",
-            "CPU_USAGE_CORES",
-            "CPU_REQUEST_CORES",
-            "CPU_LIMIT_CORES",
-            "CPU_MEMORY_USAGE_BYTES",
-            "CPU_MEMORY_REQUEST_BYTES",
-            "CPU_MEMORY_LIMIT_BYTES",
-            "POD_COUNT",
-            "RUNNING_POD_COUNT",
-            "GPU_ALLOCATION",
-        ]],
+        metric_type: List[
+            Literal[
+                "GPU_MEMORY_REQUEST_BYTES",
+                "CPU_USAGE_CORES",
+                "CPU_REQUEST_CORES",
+                "CPU_LIMIT_CORES",
+                "CPU_MEMORY_USAGE_BYTES",
+                "CPU_MEMORY_REQUEST_BYTES",
+                "CPU_MEMORY_LIMIT_BYTES",
+                "POD_COUNT",
+                "RUNNING_POD_COUNT",
+                "GPU_ALLOCATION",
+            ]
+        ],
         number_of_samples: Optional[int] = 20,
     ):
         path = f"/api/v1/workloads/{workload_id}/metrics"
