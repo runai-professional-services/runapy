@@ -588,7 +588,7 @@ class AssetMetaRequest(BaseModel):
     departmentId: Optional[str] = None
     projectId: Optional[str] = None
     autoDelete: Optional[bool] = False
-
+    
 
 class S3CreateRequestSpec(BaseModel):
     bucket: str
@@ -600,6 +600,55 @@ class S3CreateRequestSpec(BaseModel):
 class S3CreateRequest(BaseModel):
     meta: AssetMetaRequest
     spec: S3CreateRequestSpec
+
+
+class Datasource(BaseModel):
+    id: str  # UUID type ensures valid UUIDs
+    name: Optional[str] = None
+    kind: str
+
+
+class TemplateCreateRequestSpecificEnv(BaseModel):
+    command: Optional[str] = None
+    args: Optional[str] = None
+    runAsUid: Optional[int] = None
+    runAsGid: Optional[int] = None
+    supplementalGroups: Optional[str] = None
+    nodeType: Optional[str] = None
+    nodePools: Optional[List[str]] = None
+    podAffinity: Optional[PodAffinity] = None
+    terminateAfterPreemption: Optional[bool] = None
+    autoDeletionTimeAfterCompletionSeconds: Optional[int] = None
+    backoffLimit: Optional[int] = None
+    annotations: Optional[List[Annotations]] = None
+    labels: Optional[List[Labels]] = None
+    allowOverQuota: Optional[bool] = None
+
+
+class TemplateCreateRequestAsset(BaseModel):
+    environment: str
+    compute: Optional[str] = None
+    datasources: Optional[List[Datasource]] = None
+    workloadVolumes: Optional[List[str]] = None
+
+
+class TemplateCreateRequestSpec(BaseModel):
+    assets: TemplateCreateRequestAsset
+    specificEnv: Optional[TemplateCreateRequestSpecificEnv] = None
+
+
+class TemplateCreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: TemplateCreateRequestSpec
+
+
+class TemplateUpdateRequestMeta(BaseModel):
+    name: str
+
+
+class TemplateUpdateRequest(BaseModel):
+    meta: TemplateUpdateRequestMeta
+    spec: TemplateCreateRequestSpec
 
 
 class AccessKeyRequestSpec(BaseModel):
