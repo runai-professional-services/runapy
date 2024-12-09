@@ -32,6 +32,220 @@ class Controller(abc.ABC):
         ]
 
 
+class TemplateController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+        self.path = "/api/v1/asset/workload-template"
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
+
+    def all(self) -> List:
+
+        return self.client.get(self.path)
+    
+    def create(
+        self,
+        name: str,
+        scope: str,
+        assets: dict,
+        specificenv: Optional[dict] = None,
+    ):
+        """
+        assets example:
+        "environment": "1f21043c-3a8a-4049-bd62-4c3135545178",
+        "compute": "bbe5a6d1-1c63-4448-b534-036514f8b756",
+        "datasources": [id: 1, kind: "accessKey"],
+        "workloadVolumes": "my-volume"
+
+        specificEnv example:
+        "command": "python",
+        "args": "-x my-script.py",
+        "runAsUid": 500,
+        "runAsGid": 30,
+        "supplementalGroups": "2,3,5,8",
+        "environmentVariables": [
+        {}
+        ],
+        "nodeType": "my-node-type",
+        "nodePools": [
+        "my-node-pool-a",
+        "my-node-pool-b"
+        ],
+        "podAffinity": {
+        "type": "Required",
+        "key": "string"
+        },
+        "terminateAfterPreemption": false,
+        "autoDeletionTimeAfterCompletionSeconds": 15,
+        "backoffLimit": 3,
+        "annotations": [
+        {}
+        ],
+        "labels": [
+        {
+        "name": "stage",
+        "value": "initial-research",
+        "exclude": false
+        }
+        ],
+        """
+        data = {
+            "meta": {
+                "name": name,
+                "scope": scope,
+                "clusterId": self.client.cluster_id
+            },
+
+            "spec": {
+                "assets": assets,
+                "specificEnv": specificenv,
+            }
+        }
+
+        template = models.build_model(models.TemplateCreateRequest, data)
+        payload = template.model_dump_json()
+
+        return self.client.post(self.path, payload)
+
+    def get_by_name(self, template_name: str):
+        templates = self.all()
+
+        template = next(
+            (entry for entry in templates['entries'] 
+            if entry['meta']['name'] == template_name),
+            None
+        )
+        
+        return template
+
+    def update(
+        self,
+        asset_id: str,
+        name: str,
+        assets: dict,
+        specificenv: Optional[dict] = None,
+    ):
+        """
+        Used to update an existing template. 
+
+        assets example:
+        "environment": "1f21043c-3a8a-4049-bd62-4c3135545178",
+        "compute": "bbe5a6d1-1c63-4448-b534-036514f8b756"
+        "datasources": [id: 1, kind: "accessKey"]
+        "workloadVolumes": "my-volume"
+
+        specificEnv example:
+        "command": "python",
+        "args": "-x my-script.py",
+        "runAsUid": 500,
+        "runAsGid": 30,
+        "supplementalGroups": "2,3,5,8",
+        "environmentVariables": [
+            {"name": "HOME",
+            "value": "/home/my-folder",
+            "secret": {
+                "name": "postgress_secret",
+                "key": "POSTGRES_PASSWORD"
+            },
+            "exclude": false}
+        ],
+        "nodeType": "my-node-type",
+        "nodePools": [
+        "my-node-pool-a",
+        "my-node-pool-b"
+        ],
+        "podAffinity": {
+        "type": "Required",
+        "key": "string"
+        },
+        "terminateAfterPreemption": false,
+        "autoDeletionTimeAfterCompletionSeconds": 15,
+        "backoffLimit": 3,
+        "annotations": [
+            {"name": "billing",
+            "value": "my-billing-unit",
+            "exclude": false}
+        ],
+        "labels": [
+        {
+        "name": "stage",
+        "value": "initial-research",
+        "exclude": false
+        }
+        ],
+        """
+
+        path = f"{self.path}/{asset_id}"
+
+        data = {
+            "meta": {
+                "name": name,
+            },
+            "spec": {
+                "assets": assets,
+                "specificEnv": specificenv,
+            }
+        }
+
+        template_request = models.build_model(
+            model=models.TemplateUpdateRequest, data=data
+        )
+
+        payload = template_request.model_dump_json()
+
+        return self.client.put(path, payload)
+
+    def delete(self, asset_id: int):
+        path = f"{self.path}/{asset_id}"
+
+        resp = self.client.delete(path)
+        return resp
+    
+
+class ComputeController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+        self.path = "/api/v1/asset/compute"
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
+
+    def all(self) -> List:
+        return self.client.get(self.path)
+    
+    def get_by_name(self, compute_name: str):
+        computes = self.all()
+
+        compute = next(
+            (entry for entry in computes['entries'] 
+            if entry['meta']['name'] == compute_name),
+            None
+        )
+        
+        return compute
+
+
+class EnvironmentController(Controller):
+    def __init__(self, client):
+        super().__init__(client)
+        self.path = "/api/v1/asset/environment"
+        if self.client.cluster_id is None:
+            raise errors.RunaiClusterIDNotConfigured()
+
+    def all(self) -> List:
+        return self.client.get(self.path)
+    
+    def get_by_name(self, environment_name: str):
+        environments = self.all()
+
+        environment = next(
+            (entry for entry in environments['entries'] 
+            if entry['meta']['name'] == environment_name), 
+            None
+        )
+        
+        return environment
+
+
 class NodePoolController(Controller):
     def __init__(self, client):
         super().__init__(client)
@@ -677,7 +891,7 @@ class WorkloadsController(Controller):
         workload_id: str,
         start: str,
         end: str,
-        metric_type: List[Literal[
+        metric_type: Literal[
             "GPU_MEMORY_REQUEST_BYTES",
             "CPU_USAGE_CORES",
             "CPU_REQUEST_CORES",
@@ -688,7 +902,7 @@ class WorkloadsController(Controller):
             "POD_COUNT",
             "RUNNING_POD_COUNT",
             "GPU_ALLOCATION",
-        ]],
+        ],
         number_of_samples: Optional[int] = 20,
     ):
         path = f"/api/v1/workloads/{workload_id}/metrics"

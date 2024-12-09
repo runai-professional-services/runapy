@@ -512,7 +512,7 @@ class WorkspaceWorkloadSpec(WorkloadBaseSpec):
     )
 
 
-class WorkspaceCreateRequest(BaseModel):
+class WorkspaceCreateRequest(BaseModel):    
     name: str
     projectId: str
     clusterId: str
@@ -588,7 +588,7 @@ class AssetMetaRequest(BaseModel):
     departmentId: Optional[str] = None
     projectId: Optional[str] = None
     autoDelete: Optional[bool] = False
-
+    
 
 class S3CreateRequestSpec(BaseModel):
     bucket: str
@@ -600,6 +600,55 @@ class S3CreateRequestSpec(BaseModel):
 class S3CreateRequest(BaseModel):
     meta: AssetMetaRequest
     spec: S3CreateRequestSpec
+
+
+class Datasource(BaseModel):
+    id: str  # UUID type ensures valid UUIDs
+    name: Optional[str] = None
+    kind: str
+
+
+class TemplateCreateRequestSpecificEnv(BaseModel):
+    command: Optional[str] = None
+    args: Optional[str] = None
+    runAsUid: Optional[int] = None
+    runAsGid: Optional[int] = None
+    supplementalGroups: Optional[str] = None
+    nodeType: Optional[str] = None
+    nodePools: Optional[List[str]] = None
+    podAffinity: Optional[PodAffinity] = None
+    terminateAfterPreemption: Optional[bool] = None
+    autoDeletionTimeAfterCompletionSeconds: Optional[int] = None
+    backoffLimit: Optional[int] = None
+    annotations: Optional[List[Annotations]] = None
+    labels: Optional[List[Labels]] = None
+    allowOverQuota: Optional[bool] = None
+
+
+class TemplateCreateRequestAsset(BaseModel):
+    environment: str
+    compute: Optional[str] = None
+    datasources: Optional[List[Datasource]] = None
+    workloadVolumes: Optional[List[str]] = None
+
+
+class TemplateCreateRequestSpec(BaseModel):
+    assets: TemplateCreateRequestAsset
+    specificEnv: Optional[TemplateCreateRequestSpecificEnv] = None
+
+
+class TemplateCreateRequest(BaseModel):
+    meta: AssetMetaRequest
+    spec: TemplateCreateRequestSpec
+
+
+class TemplateUpdateRequestMeta(BaseModel):
+    name: str
+
+
+class TemplateUpdateRequest(BaseModel):
+    meta: TemplateUpdateRequestMeta
+    spec: TemplateCreateRequestSpec
 
 
 class AccessKeyRequestSpec(BaseModel):
@@ -845,9 +894,8 @@ class WorkloadsTelemetryQueryParams(BaseModel):
 class WorkloadMetricsQueryParams(BaseModel):
     start: str
     end: str
-    metricType: List[Literal[
+    metricType: Literal[
         "GPU_UTILIZATION",
-        "GPU_MEMORY_USAGE_BYTES",
         "GPU_MEMORY_REQUEST_BYTES",
         "CPU_USAGE_CORES",
         "CPU_REQUEST_CORES",
@@ -858,7 +906,7 @@ class WorkloadMetricsQueryParams(BaseModel):
         "POD_COUNT",
         "RUNNING_POD_COUNT",
         "GPU_ALLOCATION",
-    ]]
+    ]
     numberOfSamples: Optional[int] = 20
 
 
