@@ -14,7 +14,7 @@ print(client.workloads.count_workloads(deleted=True))
 
 print(client.workloads.get_workload_metrics(
     workload_id="7202a18e-051d-4362-b6d2-06d94094df6c",
-    metric_type="GPU_UTILIZATION",
+    metric_type=["GPU_UTILIZATION"],
     start="2023-06-06T12:09:18.211Z",
     end="2025-06-06T12:09:18.211Z"
     ))

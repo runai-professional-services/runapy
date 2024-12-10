@@ -112,7 +112,7 @@ class TestWorkloadsController:
         workload_id = "ce254bb8-5a7a-401b-b8bf-2b009c861c31"
         start = "2023-06-06T12:09:18.211Z"
         end = "2025-06-06T12:09:18.211Z"
-        metric_type = "GPU_MEMORY_REQUEST_BYTES"
+        metric_type = ["GPU_MEMORY_REQUEST_BYTES"]
 
         controller.get_workload_metrics(
             workload_id=workload_id,
