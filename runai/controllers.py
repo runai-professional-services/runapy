@@ -36,8 +36,6 @@ class TemplateController(Controller):
     def __init__(self, client):
         super().__init__(client)
         self.path = "/api/v1/asset/workload-template"
-        if self.client.cluster_id is None:
-            raise errors.RunaiClusterIDNotConfigured()
 
     def all(self) -> List:
 
@@ -92,8 +90,7 @@ class TemplateController(Controller):
         data = {
             "meta": {
                 "name": name,
-                "scope": scope,
-                "clusterId": self.client.cluster_id
+                "scope": scope
             },
 
             "spec": {
@@ -206,8 +203,6 @@ class ComputeController(Controller):
     def __init__(self, client):
         super().__init__(client)
         self.path = "/api/v1/asset/compute"
-        if self.client.cluster_id is None:
-            raise errors.RunaiClusterIDNotConfigured()
 
     def all(self) -> List:
         return self.client.get(self.path)
@@ -228,8 +223,6 @@ class EnvironmentController(Controller):
     def __init__(self, client):
         super().__init__(client)
         self.path = "/api/v1/asset/environment"
-        if self.client.cluster_id is None:
-            raise errors.RunaiClusterIDNotConfigured()
 
     def all(self) -> List:
         return self.client.get(self.path)

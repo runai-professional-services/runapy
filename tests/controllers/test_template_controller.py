@@ -12,7 +12,6 @@ class TestTemplateController:
     @pytest.fixture
     def mock_client(self):
         client = Mock()
-        client.cluster_id = "71f69d83-ba66-4822-adf8-55ce55efd219"
         return client
 
     @pytest.fixture
@@ -22,21 +21,8 @@ class TestTemplateController:
     def test_init(self, mock_client):
         controller = controllers.TemplateController(mock_client)
         assert controller.client == mock_client
-
-    def test_init_missing_cluster_id(self):
-        with patch("runai.client.RunaiClient._generate_api_token", return_value="token"):
-            with patch("runai.client.RunaiClient._set_token_expiary", return_value="1727185600"):
-                client = RunaiClient(
-                    client_id="api-client",
-                    client_secret="test-client-secret",
-                    runai_base_url="https://test.runai.ai"
-                )
-        with pytest.raises(errors.RunaiClusterIDNotConfigured) as exc_info:
-            controllers.TemplateController(client)
-        assert "cluster_id is not configured" in str(exc_info)
-
+        
     def test_all(self, controller):
-        # TODO: understand if anything needs to be passed in the response
         mock_response = [{"id": 1, "name": "pool1"}, {"id": 2, "name": "pool2"}]
 
         controller.client.get.return_value = mock_response
@@ -61,9 +47,8 @@ class TestTemplateController:
         )
 
     def test_create(self, controller):
-        cluster_id = controller.client.cluster_id
-        name="my-template"
-        scope="cluster"
+        name = "my-template"
+        scope = "cluster"
         assets = {
             "environment": "1f21043c-3a8a-4049-bd62-4c3135545178",
             "compute": "bbe5a6d1-1c63-4448-b534-036514f8b756",
@@ -72,9 +57,9 @@ class TestTemplateController:
         }
 
         expected_payload = {"meta": {"name": name, "scope": scope, "workloadSupportedTypes": None, 
-        "description": None, "clusterId": cluster_id, "departmentId": None,
-        "projectId": None,"autoDelete": False}, "spec": {"assets": assets, "specificEnv": None}}
-        # Trim spaces to match actual json string payload
+        "description": None, "clusterId": None, "departmentId": None, "projectId": None,
+        "autoDelete": False}, "spec": {"assets": assets, "specificEnv": None}}
+        
         expected_payload = json.dumps(expected_payload).replace(" ", "")
 
         controller.create(
