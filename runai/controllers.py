@@ -46,6 +46,7 @@ class TemplateController(Controller):
         name: str,
         scope: str,
         assets: dict,
+        clusterId: Optional[str] = None,
         specificenv: Optional[dict] = None,
     ):
         """
@@ -90,7 +91,8 @@ class TemplateController(Controller):
         data = {
             "meta": {
                 "name": name,
-                "scope": scope
+                "scope": scope,
+                "clusterId": clusterId,
             },
 
             "spec": {

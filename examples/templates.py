@@ -8,11 +8,11 @@ client = RunaiClient(
     cluster_id=CLUSTER_ID
 )
 
-# Get all templates
+# Print all templates
 print(client.templates.all())
 
 # Print all environments
-print(client.environment.all())
+print(client.environments.all())
 
 # Get the jupyter-lab environment resource
 jupyter_lab = client.environments.get_by_name(environment_name="jupyter-lab")
@@ -25,7 +25,7 @@ cpu_only_id = cpu_only['meta']['id']
 # Create a template named my-template with the compute cpu-only and the jupyter_lab environment
 print(client.templates.create(
     name="my-template",
-    scope="cluster",
+    scope="tenant",
     assets = {
         "environment": jupyter_lab_id,
         "compute": cpu_only_id
