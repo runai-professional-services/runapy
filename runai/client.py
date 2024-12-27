@@ -244,6 +244,18 @@ class RunaiClient:
     @property
     def projects(self) -> controllers.ProjectController:
         return controllers.ProjectController(self)
+    
+    @property
+    def templates(self) -> controllers.TemplateController:
+        return controllers.TemplateController(self)
+    
+    @property
+    def compute(self) -> controllers.ComputeController:
+        return controllers.ComputeController(self)
+
+    @property
+    def environments(self) -> controllers.EnvironmentController:
+        return controllers.EnvironmentController(self)
 
     @property
     def node_pools(self) -> controllers.NodePoolController:
