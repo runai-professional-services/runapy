@@ -23,7 +23,7 @@ def example_app_token():
     Example of using app_token
 
     get application token
-    Retrieve access token for an application. The application token is retrieved from the authorization server.
+    Retrieve access token for an application. The application token is retrieved from the authorization server. This endpoint is deprecated.  Use /api/v1/token with the grantType parameter set to app_token instead, with AppID and appSecret set accordingly to get an application token
     """
     try:
         # Prepare the request parameters
@@ -39,30 +39,6 @@ def example_app_token():
 
     except Exception as e:
         print(f"Exception when calling app_token: {e}")
-
-
-def example_exchange_code_for_token():
-    """
-    Example of using exchange_code_for_token
-
-    exchange code for token
-    Exchanges an authorization code for an access token. The authorization code is retrieved from the authorization server.
-    """
-    try:
-        # Prepare the request parameters
-        redirect_uri = "example_redirect_uri"
-
-        code = "example_code"
-
-        # Make the API call
-        api_response = api_instance.exchange_code_for_token(
-            redirect_uri=redirect_uri,
-            code=code,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling exchange_code_for_token: {e}")
 
 
 def example_grant_token():
@@ -87,6 +63,7 @@ def example_grant_token():
             username="",
             password="",
             client_id="",
+            client_secret="",
         )
 
         # Make the API call
@@ -98,24 +75,3 @@ def example_grant_token():
 
     except Exception as e:
         print(f"Exception when calling grant_token: {e}")
-
-
-def example_refresh_token():
-    """
-    Example of using refresh_token
-
-    refresh token
-    Refreshes an user tokens. The refresh token is retrieved from the authorization server.
-    """
-    try:
-        # Prepare the request parameters
-        refresh_token = "example_refresh_token"
-
-        # Make the API call
-        api_response = api_instance.refresh_token(
-            refresh_token=refresh_token,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling refresh_token: {e}")

@@ -103,8 +103,8 @@ class TestAuditLogsApi:
             )
         assert exc_info.value.status == 400
 
-    def test_get_audit_logs1(self):
-        """Test case for get_audit_logs1
+    def test_get_audit_logs(self):
+        """Test case for get_audit_logs
 
         Get audit logs Get audit logs based on query params filter
         """
@@ -128,7 +128,7 @@ class TestAuditLogsApi:
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
 
         # Make request
-        response = self.api.get_audit_logs1(
+        response = self.api.get_audit_logs(
             start=start,
             end=end,
         )
@@ -157,10 +157,10 @@ class TestAuditLogsApi:
         assert "filterBy=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, GetAuditLogs1200Response)
+        assert isinstance(response, GetAuditLogs200Response)
 
-    def test_get_audit_logs1_error(self):
-        """Test error handling for get_audit_logs1"""
+    def test_get_audit_logs_error(self):
+        """Test error handling for get_audit_logs"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -173,7 +173,7 @@ class TestAuditLogsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_audit_logs1(
+            self.api.get_audit_logs(
                 start=start,
                 end=end,
             )

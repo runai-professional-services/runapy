@@ -55,9 +55,12 @@ def example_count_users():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.count_users(
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -103,7 +106,7 @@ def example_create_user():
     Example of using create_user
 
     Create a new user.
-    Create a new user and assign it with a password. It is possible to force the user to change the password upon next login by setting needToChangePassword to true. This endpoint requires ADMIN role. Deprecated endpoint. Use the new endpoint api/v1/users instead.
+    Deprecated endpoint. Use the new endpoint api/v1/users instead and api/v1/authorization/access-rules to give user permissions.
     """
     try:
         # Prepare the request parameters
@@ -143,7 +146,8 @@ def example_create_user_0():
 
         # Create example data for UserCreationRequest1
         user_creation_request1 = models.UserCreationRequest1(
-            email="", reset_password=True
+            email="A@9LCSLv1C1ylmgd0.Y2TA5TkIRHRRA401iz1CiIy.dNTRddzXYdswQltRTtwKQzBuNJxBelKTmfIQcBkWgeAShmXXoTaDzlkczbtHjkljEhQVqeWYqqMQZlEQb",
+            reset_password=True,
         )
 
         # Make the API call
@@ -349,7 +353,7 @@ def example_get_users():
     Example of using get_users
 
     Get users list.
-    Return the list of users of the tenant.
+    Deprecated, use /api/v1/users instead.  Return the list of users of the tenant.
     """
     try:
         # Prepare the request parameters
@@ -391,6 +395,8 @@ def example_get_users_0():
 
         limit = 42
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.get_users_0(
             filter=filter,
@@ -399,6 +405,7 @@ def example_get_users_0():
             sort_order=sort_order,
             offset=offset,
             limit=limit,
+            search=search,
         )
         print(f"API response: {api_response}")
 

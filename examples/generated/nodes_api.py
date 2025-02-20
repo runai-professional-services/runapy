@@ -22,7 +22,7 @@ def example_get_node_metrics():
     """
     Example of using get_node_metrics
 
-    Get the node metrics data. [Experimental]
+    Get the node metrics data.
     Retrieve the node metrics data by Universally Unique Identifier (UUID).
     """
     try:

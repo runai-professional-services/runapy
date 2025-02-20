@@ -15,6 +15,40 @@ class NodePoolsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def count_nodepools(
+        self,
+        filter_by: Optional[List[str]] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count nodepools
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            filter_by=['[\"name!=some-name\"]']
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+        ]
+        resource_path = f"/api/v1/node_pools/count".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     @deprecated_message()
     def create_node_pool(
         self,
@@ -235,7 +269,7 @@ class NodePoolsApi(RunaiAPIService):
 
 
         ### Description
-        Get the node pool metrics data. [Experimental]
+        Get the node pool metrics data.
 
         ### Parameters:
         ```python

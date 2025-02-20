@@ -32,10 +32,13 @@ def example_count_access_rules():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.count_access_rules(
             include_deleted=include_deleted,
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -151,6 +154,8 @@ def example_get_access_rules():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.get_access_rules(
             subject_type=subject_type,
@@ -167,6 +172,7 @@ def example_get_access_rules():
             sort_order=sort_order,
             sort_by=sort_by,
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 

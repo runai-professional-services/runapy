@@ -18,6 +18,47 @@ api_client = ApiClient(configuration)
 api_instance = ReportsApi(api_client)
 
 
+def example_are_reports_available():
+    """
+    Example of using are_reports_available
+
+    Reports availability
+
+    """
+    try:
+        # Make the API call with no parameters
+        api_response = api_instance.are_reports_available()
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling are_reports_available: {e}")
+
+
+def example_count_reports():
+    """
+    Example of using count_reports
+
+    Count reports
+
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        search = "example_search"
+
+        # Make the API call
+        api_response = api_instance.count_reports(
+            filter_by=filter_by,
+            search=search,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_reports: {e}")
+
+
 def example_create_report():
     """
     Example of using create_report
@@ -31,12 +72,9 @@ def example_create_report():
         # Create example data for ReportRequestFields
         report_request_fields = models.ReportRequestFields(
             name="2023 GPU report",
-            start=datetime.datetime.strptime(
-                "2013-10-20 19:20:30.00", "%Y-%m-%d %H:%M:%S.%f"
-            ),
-            end=datetime.datetime.strptime(
-                "2013-10-20 19:20:30.00", "%Y-%m-%d %H:%M:%S.%f"
-            ),
+            description="This report shows the GPU usage of all projects in the organization",
+            start="2023-06-07T09:09:18.211Z",
+            end="2023-06-07T12:09:18.211Z",
             group_by="Nodepool",
             filter_by=["projectName==some-name"],
         )
@@ -110,3 +148,38 @@ def example_get_report_by_id():
 
     except Exception as e:
         print(f"Exception when calling get_report_by_id: {e}")
+
+
+def example_list_reports():
+    """
+    Example of using list_reports
+
+    List reports
+
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        sort_order = "example_sort_order"
+
+        offset = 42
+
+        limit = 42
+
+        search = "example_search"
+
+        # Make the API call
+        api_response = api_instance.list_reports(
+            filter_by=filter_by,
+            sort_by=sort_by,
+            sort_order=sort_order,
+            offset=offset,
+            limit=limit,
+            search=search,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling list_reports: {e}")

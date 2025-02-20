@@ -523,6 +523,7 @@ class TestPolicyApi:
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
         cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        include_fallback_policies = True  # bool | whether to include fallback policies in the list. Default to false.
 
         # Make request
         response = self.api.list_policies()
@@ -545,6 +546,8 @@ class TestPolicyApi:
         assert "projectId=" in kwargs["url"]
         # Verify query parameters
         assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "includeFallbackPolicies=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, PolicyListResponse)

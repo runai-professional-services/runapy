@@ -277,8 +277,68 @@ class DepartmentsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    @deprecated_message()
     def get_department_metrics(
+        self,
+        department_id: str,
+        metric_type: List[models.OrgUnitMetricType],
+        start: datetime,
+        end: datetime,
+        number_of_samples: Optional[int] = None,
+        nodepool_name: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get department metrics data.
+
+        ### Parameters:
+        ```python
+        department_id: str
+        metric_type: Optional[models.List[OrgUnitMetricType]]
+        start: Optional[datetime]
+        end: Optional[datetime]
+        number_of_samples: Optional[int]
+        nodepool_name: Optional[str]
+        ```
+        department_id: The id of the department.
+        metric_type: Specify which data to request.
+        start: Start date of time range to fetch data in ISO 8601 timestamp format.
+        end: End date of time range to fetch data in ISO 8601 timestamp format.
+        number_of_samples: The number of samples to take in the specified time range. - Default: 20
+        nodepool_name: Filter using the nodepool.
+
+        ### Example:
+        ```python
+        DepartmentsApi(
+            department_id='1',
+                        metric_type=[runai.OrgUnitMetricType()],
+                        start='2023-06-06T12:09:18.211Z',
+                        end='2023-06-07T12:09:18.211Z',
+                        number_of_samples=20,
+                        nodepool_name='default'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("metricType", metric_type),
+            ("start", start),
+            ("end", end),
+            ("numberOfSamples", number_of_samples),
+            ("nodepoolName", nodepool_name),
+        ]
+        resource_path = f"/api/v1/org_unit/departments/{department_id}/metrics".replace(
+            "_", "-"
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    @deprecated_message()
+    def get_department_metrics_0(
         self,
         cluster_uuid: str,
         department_id: str,
@@ -491,6 +551,60 @@ class DepartmentsApi(RunaiAPIService):
         resource_path = f"/v1/k8s/clusters/{cluster_uuid}/departments/metrics".replace(
             "_", "-"
         )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_departments_telemetry(
+        self,
+        telemetry_type: models.OrgUnitTelemetryType,
+        cluster_id: Optional[str] = None,
+        nodepool_name: Optional[str] = None,
+        department_id: Optional[str] = None,
+        group_by: Optional[List[str]] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get departments telemetry
+
+        ### Parameters:
+        ```python
+        telemetry_type: Optional[models.OrgUnitTelemetryType]
+        cluster_id: Optional[str]
+        nodepool_name: Optional[str]
+        department_id: Optional[str]
+        group_by: Optional[List[str]]
+        ```
+        telemetry_type: specifies what data to request
+        cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        nodepool_name: Filter using the nodepool.
+        department_id: Filter using the department id.
+        group_by: department fields to group the data by
+
+        ### Example:
+        ```python
+        DepartmentsApi(
+            telemetry_type=runai.OrgUnitTelemetryType(),
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        nodepool_name='default',
+                        department_id='1',
+                        group_by=['group_by_example']
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("clusterId", cluster_id),
+            ("nodepoolName", nodepool_name),
+            ("departmentId", department_id),
+            ("groupBy", group_by),
+            ("telemetryType", telemetry_type),
+        ]
+        resource_path = f"/api/v1/org_unit/departments/telemetry".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params

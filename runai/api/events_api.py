@@ -20,6 +20,7 @@ class EventsApi(RunaiAPIService):
         workload_id: str,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
+        sort_order: Optional[str] = None,
     ):
         r"""
 
@@ -32,17 +33,20 @@ class EventsApi(RunaiAPIService):
         workload_id: str
         offset: Optional[int]
         limit: Optional[int]
+        sort_order: Optional[str]
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
+        sort_order: Sort results in descending or ascending order. - Default: desc
 
         ### Example:
         ```python
         EventsApi(
             workload_id='workload_id_example',
                         offset=100,
-                        limit=50
+                        limit=50,
+                        sort_order=desc
         )
         ```
         """
@@ -51,6 +55,7 @@ class EventsApi(RunaiAPIService):
         query_params = [
             ("offset", offset),
             ("limit", limit),
+            ("sortOrder", sort_order),
         ]
         resource_path = f"/api/v1/workloads/{workload_id}/events".replace("_", "-")
         method = "GET"

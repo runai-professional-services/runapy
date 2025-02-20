@@ -176,3 +176,99 @@ class TestDistributedApi:
                 workload_id=workload_id,
             )
         assert exc_info.value.status == 400
+
+    def test_resume_distributed(self):
+        """Test case for resume_distributed
+
+        Resume a distributed training. Resume a distributed training that was suspended using a workload id.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+
+        # Make request
+        response = self.api.resume_distributed(
+            workload_id=workload_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/workloads/distributed/{workloadId}/resume" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, HttpResponse)
+
+    def test_resume_distributed_error(self):
+        """Test error handling for resume_distributed"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = "workload_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.resume_distributed(
+                workload_id=workload_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_suspend_distributed(self):
+        """Test case for suspend_distributed
+
+        Suspend a distributed training. Suspend a distributed training from running using a workload id.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+
+        # Make request
+        response = self.api.suspend_distributed(
+            workload_id=workload_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/workloads/distributed/{workloadId}/suspend" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, HttpResponse)
+
+    def test_suspend_distributed_error(self):
+        """Test error handling for suspend_distributed"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = "workload_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.suspend_distributed(
+                workload_id=workload_id,
+            )
+        assert exc_info.value.status == 400

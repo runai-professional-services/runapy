@@ -57,6 +57,12 @@ class Organizations(_ApiGroup):
         return api.ResearcherCommandLineInterfaceApi(self.api_client)
 
     @property
+    def researcher_command_line_interface_deprecated(
+        self,
+    ) -> api.ResearcherCommandLineInterfaceDeprecatedApi:
+        return api.ResearcherCommandLineInterfaceDeprecatedApi(self.api_client)
+
+    @property
     def administrator_command_line_interface(
         self,
     ) -> api.AdministratorCommandLineInterfaceApi:
@@ -91,14 +97,14 @@ class AuthenticationAndAuthorization(_ApiGroup):
     def users(self) -> api.UsersApi:
         return api.UsersApi(self.api_client)
 
+    @property
+    def user_applications(self) -> api.UserApplicationsApi:
+        return api.UserApplicationsApi(self.api_client)
+
 
 class Audit(_ApiGroup):
     def __init__(self, api_client: ApiClient):
         self.api_client = api_client
-
-    @property
-    def audit(self) -> api.AuditApi:
-        return api.AuditApi(self.api_client)
 
     @property
     def audit_logs(self) -> api.AuditLogsApi:
@@ -229,6 +235,27 @@ class Policies(_ApiGroup):
         return api.PolicyApi(self.api_client)
 
 
+class Notifications(_ApiGroup):
+    def __init__(self, api_client: ApiClient):
+        self.api_client = api_client
+
+    @property
+    def notification_state(self) -> api.NotificationStateApi:
+        return api.NotificationStateApi(self.api_client)
+
+    @property
+    def notification_types(self) -> api.NotificationTypesApi:
+        return api.NotificationTypesApi(self.api_client)
+
+    @property
+    def notification_channels(self) -> api.NotificationChannelsApi:
+        return api.NotificationChannelsApi(self.api_client)
+
+    @property
+    def subscriptions(self) -> api.SubscriptionsApi:
+        return api.SubscriptionsApi(self.api_client)
+
+
 class RunaiClient:
     def __init__(self, api_client=None):
         self.api_client = api_client
@@ -285,3 +312,7 @@ class RunaiClient:
     @property
     def policies(self) -> Policies:
         return Policies(self.api_client)
+
+    @property
+    def notifications(self) -> Notifications:
+        return Notifications(self.api_client)

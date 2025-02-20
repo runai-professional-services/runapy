@@ -51,6 +51,7 @@ class TestProjectsApi:
         filter_by = [
             '["name!=some-name"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.count_projects()
@@ -65,9 +66,11 @@ class TestProjectsApi:
 
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, CountDepartments200Response)
+        assert isinstance(response, CountResponse)
 
     def test_count_projects_error(self):
         """Test error handling for count_projects"""
@@ -400,6 +403,83 @@ class TestProjectsApi:
     def test_get_project_metrics(self):
         """Test case for get_project_metrics
 
+        Get project metrics data. Retrieves project data metrics from the metrics database. Use in reporting and analysis tools.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        project_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"  # str | The project id
+        metric_type = [
+            runai.OrgUnitMetricType()
+        ]  # List[OrgUnitMetricType] | Specify which data to request.
+        start = "2023-06-06T12:09:18.211Z"  # datetime | Start date of time range to fetch data in ISO 8601 timestamp format.
+        end = "2023-06-07T12:09:18.211Z"  # datetime | End date of time range to fetch data in ISO 8601 timestamp format.
+        number_of_samples = (
+            20  # int | The number of samples to take in the specified time range.
+        )
+        nodepool_name = "default"  # str | Filter using the nodepool.
+
+        # Make request
+        response = self.api.get_project_metrics(
+            project_id=project_id,
+            metric_type=metric_type,
+            start=start,
+            end=end,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/projects/{projectId}/metrics" in kwargs["url"]
+
+        # Verify query parameters
+        assert "metricType=" in kwargs["url"]
+        # Verify query parameters
+        assert "start=" in kwargs["url"]
+        # Verify query parameters
+        assert "end=" in kwargs["url"]
+        # Verify query parameters
+        assert "numberOfSamples=" in kwargs["url"]
+        # Verify query parameters
+        assert "nodepoolName=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, MetricsResponse)
+
+    def test_get_project_metrics_error(self):
+        """Test error handling for get_project_metrics"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        project_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"
+        metric_type = [runai.OrgUnitMetricType()]
+        start = "2023-06-06T12:09:18.211Z"
+        end = "2023-06-07T12:09:18.211Z"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_project_metrics(
+                project_id=project_id,
+                metric_type=metric_type,
+                start=start,
+                end=end,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_project_metrics_0(self):
+        """Test case for get_project_metrics_0
+
         Get metrics data for a specific project. Retrieves data from the metrics database. \\n Use in reporting and analysis tools. \\n Use a time range to return historical data (optional). If you use a &#x60;start&#x60; date, an &#x60;end&#x60; date is required.
         """
         # Mock response
@@ -419,7 +499,7 @@ class TestProjectsApi:
         nodepool_name = "default"  # str | Filter by unique nodepool name.
 
         # Make request
-        response = self.api.get_project_metrics(
+        response = self.api.get_project_metrics_0(
             cluster_uuid=cluster_uuid,
             project_id=project_id,
         )
@@ -447,8 +527,8 @@ class TestProjectsApi:
         # Verify response
         assert isinstance(response, Project)
 
-    def test_get_project_metrics_error(self):
-        """Test error handling for get_project_metrics"""
+    def test_get_project_metrics_0_error(self):
+        """Test error handling for get_project_metrics_0"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -461,7 +541,7 @@ class TestProjectsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_project_metrics(
+            self.api.get_project_metrics_0(
                 cluster_uuid=cluster_uuid,
                 project_id=project_id,
             )
@@ -488,6 +568,7 @@ class TestProjectsApi:
         sort_order = asc  # str | Sort results in descending or ascending order.
         offset = 100  # int | The offset of the first item returned in the collection.
         limit = 50  # int | The maximum number of entries to return.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.get_projects()
@@ -510,6 +591,8 @@ class TestProjectsApi:
         assert "offset=" in kwargs["url"]
         # Verify query parameters
         assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, GetProjects200Response)
@@ -647,6 +730,73 @@ class TestProjectsApi:
             )
         assert exc_info.value.status == 400
 
+    def test_get_projects_telemetry(self):
+        """Test case for get_projects_telemetry
+
+        Get projects telemetry Get projects telemetry data by the given query parameters
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        telemetry_type = (
+            runai.OrgUnitTelemetryType()
+        )  # OrgUnitTelemetryType | specifies what data to request
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        nodepool_id = "1"  # str | Filter using the nodepool.
+        department_id = "1"  # str | Filter using the department id.
+        group_by = [
+            "group_by_example"
+        ]  # List[str] | project fields to group the data by
+
+        # Make request
+        response = self.api.get_projects_telemetry(
+            telemetry_type=telemetry_type,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/projects/telemetry" in kwargs["url"]
+
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "nodepoolId=" in kwargs["url"]
+        # Verify query parameters
+        assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "groupBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "telemetryType=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, TelemetryResponse)
+
+    def test_get_projects_telemetry_error(self):
+        """Test error handling for get_projects_telemetry"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        telemetry_type = runai.OrgUnitTelemetryType()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_projects_telemetry(
+                telemetry_type=telemetry_type,
+            )
+        assert exc_info.value.status == 400
+
     def test_patch_project_resources(self):
         """Test case for patch_project_resources
 
@@ -705,7 +855,7 @@ class TestProjectsApi:
     def test_update_project(self):
         """Test case for update_project
 
-        Update project Get projects telemetry data by the given query parameters
+        Update project Update project by Id
         """
         # Mock response
         mock_response = mock.Mock()

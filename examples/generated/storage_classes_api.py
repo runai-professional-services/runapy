@@ -31,10 +31,13 @@ def example_get_storage_classes():
 
         name = "example_name"
 
+        include_none = True
+
         # Make the API call
         api_response = api_instance.get_storage_classes(
             cluster_id=cluster_id,
             name=name,
+            include_none=include_none,
         )
         print(f"API response: {api_response}")
 
@@ -53,9 +56,12 @@ def example_v1_get_storage_classes():
         # Prepare the request parameters
         uuid = "example_uuid"
 
+        include_none = True
+
         # Make the API call
         api_response = api_instance.v1_get_storage_classes(
             uuid=uuid,
+            include_none=include_none,
         )
         print(f"API response: {api_response}")
 

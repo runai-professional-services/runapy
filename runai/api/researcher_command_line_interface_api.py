@@ -24,7 +24,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Download RunAI Researcher command line binary [Experimental]
+        Download RunAI Researcher command line binary
 
         ### Parameters:
         ```python
@@ -44,7 +44,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         """
 
         resource_path = (
-            f"/api/v1/cli/dist/{operating_system}/{architecture}/runai".replace(
+            f"/api/v1/cli_exposer/dist/{operating_system}/{architecture}/runai".replace(
                 "_", "-"
             )
         )
@@ -61,7 +61,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Download Linux installer script [Experimental]
+        Download Linux installer script
 
         ### Parameters:
         ```python
@@ -75,7 +75,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         ```
         """
 
-        resource_path = f"/api/v1/cli/installer/linux".replace("_", "-")
+        resource_path = f"/api/v1/cli_exposer/installer/linux".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -89,7 +89,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Get Linux installer script commands [Experimental]
+        Get Linux installer script commands
 
         ### Parameters:
         ```python
@@ -103,7 +103,9 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         ```
         """
 
-        resource_path = f"/api/v1/cli/installer/linux/commands".replace("_", "-")
+        resource_path = f"/api/v1/cli_exposer/installer/linux/commands".replace(
+            "_", "-"
+        )
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -117,7 +119,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Download Mac installer script [Experimental]
+        Download Mac installer script
 
         ### Parameters:
         ```python
@@ -131,7 +133,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         ```
         """
 
-        resource_path = f"/api/v1/cli/installer/mac".replace("_", "-")
+        resource_path = f"/api/v1/cli_exposer/installer/mac".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -145,7 +147,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Get Mac installer script commands [Experimental]
+        Get Mac installer script commands
 
         ### Parameters:
         ```python
@@ -159,7 +161,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         ```
         """
 
-        resource_path = f"/api/v1/cli/installer/mac/commands".replace("_", "-")
+        resource_path = f"/api/v1/cli_exposer/installer/mac/commands".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -173,7 +175,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Download Unix installer script [Experimental]
+        Download Unix installer script
 
         ### Parameters:
         ```python
@@ -187,7 +189,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         ```
         """
 
-        resource_path = f"/api/v1/cli/installer/unix".replace("_", "-")
+        resource_path = f"/api/v1/cli_exposer/installer/unix".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -201,7 +203,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Get Unix installer script commands [Experimental]
+        Get Unix installer script commands
 
         ### Parameters:
         ```python
@@ -215,7 +217,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         ```
         """
 
-        resource_path = f"/api/v1/cli/installer/unix/commands".replace("_", "-")
+        resource_path = f"/api/v1/cli_exposer/installer/unix/commands".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -229,7 +231,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Get Windows MSI installer script commands [Experimental]
+        Get Windows MSI installer script commands
 
         ### Parameters:
         ```python
@@ -243,7 +245,9 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         ```
         """
 
-        resource_path = f"/api/v1/cli/installer/windows/commands".replace("_", "-")
+        resource_path = f"/api/v1/cli_exposer/installer/windows/commands".replace(
+            "_", "-"
+        )
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -258,7 +262,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
 
 
         ### Description
-        Get CLI document by name [Experimental]
+        Get CLI document by name
 
         ### Parameters:
         ```python
@@ -274,7 +278,7 @@ class ResearcherCommandLineInterfaceApi(RunaiAPIService):
         ```
         """
 
-        resource_path = f"/api/v1/cli/docs/{document_name}".replace("_", "-")
+        resource_path = f"/api/v1/cli_exposer/docs/{document_name}".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,

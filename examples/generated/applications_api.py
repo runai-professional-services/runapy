@@ -52,7 +52,9 @@ def example_create_application_0():
         # Prepare the request parameters
 
         # Create example data for ApplicationCreationRequest
-        application_creation_request = models.ApplicationCreationRequest(name="")
+        application_creation_request = models.ApplicationCreationRequest(
+            name="awat5ikwowtta-3mh2lcafqw3zhes0"
+        )
 
         # Make the API call
         api_response = api_instance.create_application_0(

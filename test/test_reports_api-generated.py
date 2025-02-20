@@ -36,6 +36,99 @@ class TestReportsApi:
         yield
         self.request_patcher.stop()
 
+    def test_are_reports_available(self):
+        """Test case for are_reports_available
+
+        Reports availability
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.are_reports_available()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/reports/availability" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, AreReportsAvailable200Response)
+
+    def test_are_reports_available_error(self):
+        """Test error handling for are_reports_available"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.are_reports_available()
+        assert exc_info.value.status == 400
+
+    def test_count_reports(self):
+        """Test case for count_reports
+
+        Count reports
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["name!=some-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
+
+        # Make request
+        response = self.api.count_reports()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/reports/count" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, CountResponse)
+
+    def test_count_reports_error(self):
+        """Test error handling for count_reports"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.count_reports()
+        assert exc_info.value.status == 400
+
     def test_create_report(self):
         """Test case for create_report
 
@@ -225,4 +318,69 @@ class TestReportsApi:
             self.api.get_report_by_id(
                 report_id=report_id,
             )
+        assert exc_info.value.status == 400
+
+    def test_list_reports(self):
+        """Test case for list_reports
+
+        List reports
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["name!=some-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        sort_by = (
+            runai.ReportFilterAndSortFields()
+        )  # ReportFilterAndSortFields | Sort results by a parameters.
+        sort_order = asc  # str | Sort results in descending or ascending order.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
+        search = "test project"  # str | Filter results by a free text search.
+
+        # Make request
+        response = self.api.list_reports()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/reports" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, ListReports200Response)
+
+    def test_list_reports_error(self):
+        """Test error handling for list_reports"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.list_reports()
         assert exc_info.value.status == 400

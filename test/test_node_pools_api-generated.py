@@ -36,6 +36,54 @@ class TestNodePoolsApi:
         yield
         self.request_patcher.stop()
 
+    def test_count_nodepools(self):
+        """Test case for count_nodepools
+
+        Count nodepools Count nodepools
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["name!=some-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+
+        # Make request
+        response = self.api.count_nodepools()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/node-pools/count" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, CountNodepools200Response)
+
+    def test_count_nodepools_error(self):
+        """Test error handling for count_nodepools"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.count_nodepools()
+        assert exc_info.value.status == 400
+
     def test_create_node_pool(self):
         """Test case for create_node_pool
 
@@ -336,7 +384,7 @@ class TestNodePoolsApi:
     def test_get_nodepool_metrics(self):
         """Test case for get_nodepool_metrics
 
-        Get the node pool metrics data. [Experimental] Retrieve the node pool metrics data by Universally Unique Identifier (UUID).
+        Get the node pool metrics data. Retrieve the node pool metrics data by Universally Unique Identifier (UUID).
         """
         # Mock response
         mock_response = mock.Mock()

@@ -39,7 +39,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_binary(self):
         """Test case for get_binary
 
-        Download RunAI Researcher command line binary [Experimental] This endpoint returns a binary file that run the Run:AI CLI.
+        Download RunAI Researcher command line binary This endpoint returns a binary file that run the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -64,7 +64,8 @@ class TestResearcherCommandLineInterfaceApi:
         # Verify request method and URL
         assert kwargs["method"] == "GET"
         assert (
-            "/api/v1/cli/dist/{operatingSystem}/{architecture}/runai" in kwargs["url"]
+            "/api/v1/cli-exposer/dist/{operatingSystem}/{architecture}/runai"
+            in kwargs["url"]
         )
 
         # Verify response
@@ -93,7 +94,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_installer_linux(self):
         """Test case for get_installer_linux
 
-        Download Linux installer script [Experimental] This endpoint returns a Linux script that can be used to install the Run:AI CLI.
+        Download Linux installer script This endpoint returns a Linux script that can be used to install the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -112,7 +113,7 @@ class TestResearcherCommandLineInterfaceApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/api/v1/cli/installer/linux" in kwargs["url"]
+        assert "/api/v1/cli-exposer/installer/linux" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, str)
@@ -135,7 +136,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_installer_linux_commands(self):
         """Test case for get_installer_linux_commands
 
-        Get Linux installer script commands [Experimental] This endpoint returns a linux script commands that can be used to install the Run:AI CLI.
+        Get Linux installer script commands This endpoint returns a linux script commands that can be used to install the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -154,7 +155,7 @@ class TestResearcherCommandLineInterfaceApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/api/v1/cli/installer/linux/commands" in kwargs["url"]
+        assert "/api/v1/cli-exposer/installer/linux/commands" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, Command)
@@ -177,7 +178,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_installer_mac(self):
         """Test case for get_installer_mac
 
-        Download Mac installer script [Experimental] This endpoint returns a Mac script that can be used to install the Run:AI CLI.
+        Download Mac installer script This endpoint returns a Mac script that can be used to install the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -196,7 +197,7 @@ class TestResearcherCommandLineInterfaceApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/api/v1/cli/installer/mac" in kwargs["url"]
+        assert "/api/v1/cli-exposer/installer/mac" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, str)
@@ -219,7 +220,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_installer_mac_commands(self):
         """Test case for get_installer_mac_commands
 
-        Get Mac installer script commands [Experimental] This endpoint returns a Mac script commands that can be used to install the Run:AI CLI.
+        Get Mac installer script commands This endpoint returns a Mac script commands that can be used to install the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -238,7 +239,7 @@ class TestResearcherCommandLineInterfaceApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/api/v1/cli/installer/mac/commands" in kwargs["url"]
+        assert "/api/v1/cli-exposer/installer/mac/commands" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, Command)
@@ -261,7 +262,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_installer_unix(self):
         """Test case for get_installer_unix
 
-        Download Unix installer script [Experimental] This endpoint returns a unix script that can be used to install the Run:AI CLI.
+        Download Unix installer script This endpoint returns a unix script that can be used to install the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -280,7 +281,7 @@ class TestResearcherCommandLineInterfaceApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/api/v1/cli/installer/unix" in kwargs["url"]
+        assert "/api/v1/cli-exposer/installer/unix" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, str)
@@ -303,7 +304,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_installer_unix_commands(self):
         """Test case for get_installer_unix_commands
 
-        Get Unix installer script commands [Experimental] This endpoint returns a unix script commands that can be used to install the Run:AI CLI.
+        Get Unix installer script commands This endpoint returns a unix script commands that can be used to install the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -322,7 +323,7 @@ class TestResearcherCommandLineInterfaceApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/api/v1/cli/installer/unix/commands" in kwargs["url"]
+        assert "/api/v1/cli-exposer/installer/unix/commands" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, Command)
@@ -345,7 +346,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_installer_windows_commands(self):
         """Test case for get_installer_windows_commands
 
-        Get Windows MSI installer script commands [Experimental] This endpoint returns a windows script commands that can be used to install the Run:AI CLI.
+        Get Windows MSI installer script commands This endpoint returns a windows script commands that can be used to install the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -364,7 +365,7 @@ class TestResearcherCommandLineInterfaceApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/api/v1/cli/installer/windows/commands" in kwargs["url"]
+        assert "/api/v1/cli-exposer/installer/windows/commands" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, Command)
@@ -387,7 +388,7 @@ class TestResearcherCommandLineInterfaceApi:
     def test_get_manual_document(self):
         """Test case for get_manual_document
 
-        Get CLI document by name [Experimental] This endpoint returns a document of help for the Run:AI CLI.
+        Get CLI document by name This endpoint returns a document of help for the Run:AI CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -409,7 +410,7 @@ class TestResearcherCommandLineInterfaceApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/api/v1/cli/docs/{documentName}" in kwargs["url"]
+        assert "/api/v1/cli-exposer/docs/{documentName}" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, str)

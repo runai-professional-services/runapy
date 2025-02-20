@@ -18,6 +18,7 @@ class ProjectsApi(RunaiAPIService):
     def count_projects(
         self,
         filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -28,13 +29,16 @@ class ProjectsApi(RunaiAPIService):
         ### Parameters:
         ```python
         filter_by: Optional[List[str]]
+        search: Optional[str]
         ```
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
         ProjectsApi(
-            filter_by=['[\"name!=some-name\"]']
+            filter_by=['[\"name!=some-name\"]'],
+                        search='test project'
         )
         ```
         """
@@ -42,6 +46,7 @@ class ProjectsApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("filterBy", filter_by),
+            ("search", search),
         ]
         resource_path = f"/api/v1/org_unit/projects/count".replace("_", "-")
         method = "GET"
@@ -274,8 +279,68 @@ class ProjectsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    @deprecated_message()
     def get_project_metrics(
+        self,
+        project_id: str,
+        metric_type: List[models.OrgUnitMetricType],
+        start: datetime,
+        end: datetime,
+        number_of_samples: Optional[int] = None,
+        nodepool_name: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get project metrics data.
+
+        ### Parameters:
+        ```python
+        project_id: str
+        metric_type: Optional[models.List[OrgUnitMetricType]]
+        start: Optional[datetime]
+        end: Optional[datetime]
+        number_of_samples: Optional[int]
+        nodepool_name: Optional[str]
+        ```
+        project_id: The project id
+        metric_type: Specify which data to request.
+        start: Start date of time range to fetch data in ISO 8601 timestamp format.
+        end: End date of time range to fetch data in ISO 8601 timestamp format.
+        number_of_samples: The number of samples to take in the specified time range. - Default: 20
+        nodepool_name: Filter using the nodepool.
+
+        ### Example:
+        ```python
+        ProjectsApi(
+            project_id='575c19e8-c7c3-45b0-8290-2f47397a8383',
+                        metric_type=[runai.OrgUnitMetricType()],
+                        start='2023-06-06T12:09:18.211Z',
+                        end='2023-06-07T12:09:18.211Z',
+                        number_of_samples=20,
+                        nodepool_name='default'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("metricType", metric_type),
+            ("start", start),
+            ("end", end),
+            ("numberOfSamples", number_of_samples),
+            ("nodepoolName", nodepool_name),
+        ]
+        resource_path = f"/api/v1/org_unit/projects/{project_id}/metrics".replace(
+            "_", "-"
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    @deprecated_message()
+    def get_project_metrics_0(
         self,
         cluster_uuid: str,
         project_id: str,
@@ -343,6 +408,7 @@ class ProjectsApi(RunaiAPIService):
         sort_order: Optional[str] = None,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -357,12 +423,14 @@ class ProjectsApi(RunaiAPIService):
         sort_order: Optional[str]
         offset: Optional[int]
         limit: Optional[int]
+        search: Optional[str]
         ```
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
         sort_by: Sort results by a parameters.
         sort_order: Sort results in descending or ascending order. - Default: asc
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
@@ -371,7 +439,8 @@ class ProjectsApi(RunaiAPIService):
                         sort_by=runai.ProjectFilterSortFields(),
                         sort_order=asc,
                         offset=100,
-                        limit=50
+                        limit=50,
+                        search='test project'
         )
         ```
         """
@@ -383,6 +452,7 @@ class ProjectsApi(RunaiAPIService):
             ("sortOrder", sort_order),
             ("offset", offset),
             ("limit", limit),
+            ("search", search),
         ]
         resource_path = f"/api/v1/org_unit/projects".replace("_", "-")
         method = "GET"
@@ -485,6 +555,60 @@ class ProjectsApi(RunaiAPIService):
         resource_path = f"/v1/k8s/clusters/{cluster_uuid}/projects/metrics".replace(
             "_", "-"
         )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_projects_telemetry(
+        self,
+        telemetry_type: models.OrgUnitTelemetryType,
+        cluster_id: Optional[str] = None,
+        nodepool_id: Optional[str] = None,
+        department_id: Optional[str] = None,
+        group_by: Optional[List[str]] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get projects telemetry
+
+        ### Parameters:
+        ```python
+        telemetry_type: Optional[models.OrgUnitTelemetryType]
+        cluster_id: Optional[str]
+        nodepool_id: Optional[str]
+        department_id: Optional[str]
+        group_by: Optional[List[str]]
+        ```
+        telemetry_type: specifies what data to request
+        cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        nodepool_id: Filter using the nodepool.
+        department_id: Filter using the department id.
+        group_by: project fields to group the data by
+
+        ### Example:
+        ```python
+        ProjectsApi(
+            telemetry_type=runai.OrgUnitTelemetryType(),
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        nodepool_id='1',
+                        department_id='1',
+                        group_by=['group_by_example']
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("clusterId", cluster_id),
+            ("nodepoolId", nodepool_id),
+            ("departmentId", department_id),
+            ("groupBy", group_by),
+            ("telemetryType", telemetry_type),
+        ]
+        resource_path = f"/api/v1/org_unit/projects/telemetry".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params

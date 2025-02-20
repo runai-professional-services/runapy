@@ -68,7 +68,7 @@ def example_get_workload_pod_metrics():
     """
     Example of using get_workload_pod_metrics
 
-    Get pod metrics data. [Experimental]
+    Get pod metrics data.
     Retrieve pod&#39;s metrics data for use in analysis applications.
     """
     try:

@@ -17,6 +17,33 @@ configuration = Configuration(
 api_client = ApiClient(configuration)
 api_instance = NodePoolsApi(api_client)
 
+def example_count_nodepools():
+    """
+    Example of using count_nodepools
+    
+    Count nodepools
+    Count nodepools
+    """
+    try:
+        # Prepare the request parameters
+        
+        
+        
+        filter_by = ["example_item_1", "example_item_2"]
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.count_nodepools(
+            filter_by=filter_by,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_nodepools: {e}")
+
 def example_create_node_pool():
     """
     Example of using create_node_pool
@@ -202,7 +229,7 @@ def example_get_nodepool_metrics():
     """
     Example of using get_nodepool_metrics
     
-    Get the node pool metrics data. [Experimental]
+    Get the node pool metrics data.
     Retrieve the node pool metrics data by Universally Unique Identifier (UUID).
     """
     try:

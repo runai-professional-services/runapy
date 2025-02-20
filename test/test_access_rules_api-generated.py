@@ -52,6 +52,7 @@ class TestAccessRulesApi:
         filter_by = [
             '["name!=some-access-rule-name","createdAt>=2023-01-01T00:00:00Z"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.count_access_rules()
@@ -68,9 +69,11 @@ class TestAccessRulesApi:
         assert "includeDeleted=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, CountDepartments200Response)
+        assert isinstance(response, CountAccessRules200Response)
 
     def test_count_access_rules_error(self):
         """Test error handling for count_access_rules"""
@@ -267,6 +270,7 @@ class TestAccessRulesApi:
         filter_by = [
             '["name!=some-access-rule-name","createdAt>=2023-01-01T00:00:00Z"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.get_access_rules()
@@ -307,6 +311,8 @@ class TestAccessRulesApi:
         assert "sortBy=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, GetAccessRules200Response)

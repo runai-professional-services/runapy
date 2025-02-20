@@ -51,6 +51,7 @@ class TestEventsApi:
         workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
         offset = 100  # int | The offset of the first item returned in the collection.
         limit = 50  # int | The maximum number of entries to return.
+        sort_order = desc  # str | Sort results in descending or ascending order.
 
         # Make request
         response = self.api.get_workload_events(
@@ -69,6 +70,8 @@ class TestEventsApi:
         assert "offset=" in kwargs["url"]
         # Verify query parameters
         assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, GetWorkloadEvents200Response)

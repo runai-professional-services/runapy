@@ -15,6 +15,73 @@ class ReportsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def are_reports_available(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Reports availability
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        ReportsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/org_unit/reports/availability".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def count_reports(
+        self,
+        filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count reports
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        search: Optional[str]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
+
+        ### Example:
+        ```python
+        ReportsApi(
+            filter_by=['[\"name!=some-name\"]'],
+                        search='test project'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("search", search),
+        ]
+        resource_path = f"/api/v1/org_unit/reports/count".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def create_report(
         self,
         report_request_fields: models.ReportRequestFields,
@@ -141,4 +208,63 @@ class ReportsApi(RunaiAPIService):
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
+        )
+
+    def list_reports(
+        self,
+        filter_by: Optional[List[str]] = None,
+        sort_by: Optional[models.ReportFilterAndSortFields] = None,
+        sort_order: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        search: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        List reports
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        sort_by: Optional[models.ReportFilterAndSortFields]
+        sort_order: Optional[str]
+        offset: Optional[int]
+        limit: Optional[int]
+        search: Optional[str]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        sort_by: Sort results by a parameters.
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+        search: Filter results by a free text search.
+
+        ### Example:
+        ```python
+        ReportsApi(
+            filter_by=['[\"name!=some-name\"]'],
+                        sort_by=runai.ReportFilterAndSortFields(),
+                        sort_order=asc,
+                        offset=100,
+                        limit=50,
+                        search='test project'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("sortBy", sort_by),
+            ("sortOrder", sort_order),
+            ("offset", offset),
+            ("limit", limit),
+            ("search", search),
+        ]
+        resource_path = f"/api/v1/org_unit/reports".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
         )

@@ -19,6 +19,7 @@ class StorageClassesApi(RunaiAPIService):
         self,
         cluster_id: str,
         name: Optional[str] = None,
+        include_none: Optional[bool] = None,
     ):
         r"""
 
@@ -30,15 +31,18 @@ class StorageClassesApi(RunaiAPIService):
         ```python
         cluster_id: Optional[str]
         name: Optional[str]
+        include_none: Optional[bool]
         ```
         cluster_id: The id of the cluster
         name: filter by name
+        include_none: Include runai-none storage class to be able to create PVCs without a storage class
 
         ### Example:
         ```python
         StorageClassesApi(
             cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
-                        name='name_example'
+                        name='name_example',
+                        include_none=True
         )
         ```
         """
@@ -47,6 +51,7 @@ class StorageClassesApi(RunaiAPIService):
         query_params = [
             ("clusterId", cluster_id),
             ("name", name),
+            ("includeNone", include_none),
         ]
         resource_path = f"/api/v1/storage_classes".replace("_", "-")
         method = "GET"
@@ -58,6 +63,7 @@ class StorageClassesApi(RunaiAPIService):
     def v1_get_storage_classes(
         self,
         uuid: str,
+        include_none: Optional[bool] = None,
     ):
         r"""
         ## Deprecated endpoint, consider alternative method
@@ -68,20 +74,26 @@ class StorageClassesApi(RunaiAPIService):
         ### Parameters:
         ```python
         uuid: str
+        include_none: Optional[bool]
         ```
         uuid: Unique identifier of the cluster
+        include_none: Include runai-none storage class to be able to create PVCs without a storage class
 
         ### Example:
         ```python
         StorageClassesApi(
-            uuid='uuid_example'
+            uuid='uuid_example',
+                        include_none=True
         )
         ```
         """
 
+        # Query params:
+        query_params = [
+            ("includeNone", include_none),
+        ]
         resource_path = f"/v1/k8s/clusters/{uuid}/storage_classes".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
+            resource_path=resource_path, method=method, query_params=query_params
         )

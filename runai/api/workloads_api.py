@@ -19,6 +19,7 @@ class WorkloadsApi(RunaiAPIService):
         self,
         deleted: Optional[bool] = None,
         filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -30,15 +31,18 @@ class WorkloadsApi(RunaiAPIService):
         ```python
         deleted: Optional[bool]
         filter_by: Optional[List[str]]
+        search: Optional[str]
         ```
         deleted: Return only deleted resources when &#x60;true&#x60;.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
         WorkloadsApi(
             deleted=True,
-                        filter_by=['[\"name!=some-workload-name\",\"allocatedGPU>=2\",\"createdAt>=2021-01-01T00:00:00Z\"]']
+                        filter_by=['[\"name!=some-workload-name\",\"allocatedGPU>=2\",\"createdAt>=2021-01-01T00:00:00Z\"]'],
+                        search='test project'
         )
         ```
         """
@@ -47,6 +51,7 @@ class WorkloadsApi(RunaiAPIService):
         query_params = [
             ("deleted", deleted),
             ("filterBy", filter_by),
+            ("search", search),
         ]
         resource_path = f"/api/v1/workloads/count".replace("_", "-")
         method = "GET"
@@ -97,7 +102,7 @@ class WorkloadsApi(RunaiAPIService):
 
 
         ### Description
-        Get workload metrics data. [Experimental]
+        Get workload metrics data.
 
         ### Parameters:
         ```python
@@ -146,6 +151,7 @@ class WorkloadsApi(RunaiAPIService):
         sort_order: Optional[str] = None,
         sort_by: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -161,6 +167,7 @@ class WorkloadsApi(RunaiAPIService):
         sort_order: Optional[str]
         sort_by: Optional[str]
         filter_by: Optional[List[str]]
+        search: Optional[str]
         ```
         deleted: Return only deleted resources when &#x60;true&#x60;.
         offset: The offset of the first item returned in the collection.
@@ -168,6 +175,7 @@ class WorkloadsApi(RunaiAPIService):
         sort_order: Sort results in descending or ascending order. - Default: asc
         sort_by: Sort results by a parameter.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
@@ -177,7 +185,8 @@ class WorkloadsApi(RunaiAPIService):
                         limit=50,
                         sort_order=asc,
                         sort_by='sort_by_example',
-                        filter_by=['[\"name!=some-workload-name\",\"allocatedGPU>=2\",\"createdAt>=2021-01-01T00:00:00Z\"]']
+                        filter_by=['[\"name!=some-workload-name\",\"allocatedGPU>=2\",\"createdAt>=2021-01-01T00:00:00Z\"]'],
+                        search='test project'
         )
         ```
         """
@@ -190,6 +199,7 @@ class WorkloadsApi(RunaiAPIService):
             ("sortOrder", sort_order),
             ("sortBy", sort_by),
             ("filterBy", filter_by),
+            ("search", search),
         ]
         resource_path = f"/api/v1/workloads".replace("_", "-")
         method = "GET"
@@ -209,7 +219,7 @@ class WorkloadsApi(RunaiAPIService):
 
 
         ### Description
-        Get the workloads telemetry. [Experimental]
+        Get the workloads telemetry.
 
         ### Parameters:
         ```python

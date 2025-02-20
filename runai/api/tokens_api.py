@@ -51,46 +51,6 @@ class TokensApi(RunaiAPIService):
             body=body_params,
         )
 
-    @deprecated_message()
-    def exchange_code_for_token(
-        self,
-        redirect_uri: str,
-        code: str,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        exchange code for token
-
-        ### Parameters:
-        ```python
-        redirect_uri: Optional[str]
-        code: Optional[str]
-        ```
-        redirect_uri: The redirect uri to redirect to after the authorization server completes the authorization flow
-        code: The exchange code retrieved from the idp server
-
-        ### Example:
-        ```python
-        TokensApi(
-            redirect_uri='redirect_uri_example',
-                        code='code_example'
-        )
-        ```
-        """
-
-        # Query params:
-        query_params = [
-            ("redirectUri", redirect_uri),
-            ("code", code),
-        ]
-        resource_path = f"/v1/k8s/auth/token/exchange".replace("_", "-")
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path, method=method, query_params=query_params
-        )
-
     def grant_token(
         self,
         user_agent: Optional[str] = None,
@@ -128,39 +88,4 @@ class TokensApi(RunaiAPIService):
             resource_path=resource_path,
             method=method,
             body=body_params,
-        )
-
-    @deprecated_message()
-    def refresh_token(
-        self,
-        refresh_token: str,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        refresh token
-
-        ### Parameters:
-        ```python
-        refresh_token: Optional[str]
-        ```
-        refresh_token: The refresh token retrieved from the idp server
-
-        ### Example:
-        ```python
-        TokensApi(
-            refresh_token='refresh_token_example'
-        )
-        ```
-        """
-
-        # Query params:
-        query_params = [
-            ("refreshToken", refresh_token),
-        ]
-        resource_path = f"/v1/k8s/auth/oauth/tokens/refresh".replace("_", "-")
-        method = "POST"
-        return self._api_client.call_api(
-            resource_path=resource_path, method=method, query_params=query_params
         )

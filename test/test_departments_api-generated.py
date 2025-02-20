@@ -67,7 +67,7 @@ class TestDepartmentsApi:
         assert "filterBy=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, CountDepartments200Response)
+        assert isinstance(response, CountResponse)
 
     def test_count_departments_error(self):
         """Test error handling for count_departments"""
@@ -402,6 +402,83 @@ class TestDepartmentsApi:
     def test_get_department_metrics(self):
         """Test case for get_department_metrics
 
+        Get department metrics data. Retrieves department data metrics from the metrics database. Use in reporting and analysis tools.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        department_id = "1"  # str | The id of the department.
+        metric_type = [
+            runai.OrgUnitMetricType()
+        ]  # List[OrgUnitMetricType] | Specify which data to request.
+        start = "2023-06-06T12:09:18.211Z"  # datetime | Start date of time range to fetch data in ISO 8601 timestamp format.
+        end = "2023-06-07T12:09:18.211Z"  # datetime | End date of time range to fetch data in ISO 8601 timestamp format.
+        number_of_samples = (
+            20  # int | The number of samples to take in the specified time range.
+        )
+        nodepool_name = "default"  # str | Filter using the nodepool.
+
+        # Make request
+        response = self.api.get_department_metrics(
+            department_id=department_id,
+            metric_type=metric_type,
+            start=start,
+            end=end,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/departments/{departmentId}/metrics" in kwargs["url"]
+
+        # Verify query parameters
+        assert "metricType=" in kwargs["url"]
+        # Verify query parameters
+        assert "start=" in kwargs["url"]
+        # Verify query parameters
+        assert "end=" in kwargs["url"]
+        # Verify query parameters
+        assert "numberOfSamples=" in kwargs["url"]
+        # Verify query parameters
+        assert "nodepoolName=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, MetricsResponse)
+
+    def test_get_department_metrics_error(self):
+        """Test error handling for get_department_metrics"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        department_id = "1"
+        metric_type = [runai.OrgUnitMetricType()]
+        start = "2023-06-06T12:09:18.211Z"
+        end = "2023-06-07T12:09:18.211Z"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_department_metrics(
+                department_id=department_id,
+                metric_type=metric_type,
+                start=start,
+                end=end,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_department_metrics_0(self):
+        """Test case for get_department_metrics_0
+
         Get metrics for a specific department. Get metrics for a specific department in the cluster.  Use a time range to return historical data (optional). If you use a &#x60;start&#x60; date, an &#x60;end&#x60; date is required.
         """
         # Mock response
@@ -421,7 +498,7 @@ class TestDepartmentsApi:
         nodepool_name = "default"  # str | Filter by unique nodepool name.
 
         # Make request
-        response = self.api.get_department_metrics(
+        response = self.api.get_department_metrics_0(
             cluster_uuid=cluster_uuid,
             department_id=department_id,
         )
@@ -449,8 +526,8 @@ class TestDepartmentsApi:
         # Verify response
         assert isinstance(response, Department)
 
-    def test_get_department_metrics_error(self):
-        """Test error handling for get_department_metrics"""
+    def test_get_department_metrics_0_error(self):
+        """Test error handling for get_department_metrics_0"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -463,7 +540,7 @@ class TestDepartmentsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_department_metrics(
+            self.api.get_department_metrics_0(
                 cluster_uuid=cluster_uuid,
                 department_id=department_id,
             )
@@ -651,6 +728,73 @@ class TestDepartmentsApi:
         with pytest.raises(ApiException) as exc_info:
             self.api.get_departments_metrics(
                 cluster_uuid=cluster_uuid,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_departments_telemetry(self):
+        """Test case for get_departments_telemetry
+
+        Get departments telemetry
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        telemetry_type = (
+            runai.OrgUnitTelemetryType()
+        )  # OrgUnitTelemetryType | specifies what data to request
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        nodepool_name = "default"  # str | Filter using the nodepool.
+        department_id = "1"  # str | Filter using the department id.
+        group_by = [
+            "group_by_example"
+        ]  # List[str] | department fields to group the data by
+
+        # Make request
+        response = self.api.get_departments_telemetry(
+            telemetry_type=telemetry_type,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/departments/telemetry" in kwargs["url"]
+
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "nodepoolName=" in kwargs["url"]
+        # Verify query parameters
+        assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "groupBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "telemetryType=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, TelemetryResponse)
+
+    def test_get_departments_telemetry_error(self):
+        """Test error handling for get_departments_telemetry"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        telemetry_type = runai.OrgUnitTelemetryType()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_departments_telemetry(
+                telemetry_type=telemetry_type,
             )
         assert exc_info.value.status == 400
 

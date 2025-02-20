@@ -184,6 +184,42 @@ def example_get_department_metrics():
     """
     Example of using get_department_metrics
 
+    Get department metrics data.
+    Retrieves department data metrics from the metrics database. Use in reporting and analysis tools.
+    """
+    try:
+        # Prepare the request parameters
+        department_id = "example_department_id"
+
+        metric_type = ["example_item_1", "example_item_2"]
+
+        start = "2024-12-29T12:00:00Z"
+
+        end = "2024-12-29T12:00:00Z"
+
+        number_of_samples = 42
+
+        nodepool_name = "example_nodepool_name"
+
+        # Make the API call
+        api_response = api_instance.get_department_metrics(
+            department_id=department_id,
+            metric_type=metric_type,
+            start=start,
+            end=end,
+            number_of_samples=number_of_samples,
+            nodepool_name=nodepool_name,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_department_metrics: {e}")
+
+
+def example_get_department_metrics_0():
+    """
+    Example of using get_department_metrics_0
+
     Get metrics for a specific department.
     Get metrics for a specific department in the cluster.  Use a time range to return historical data (optional). If you use a &#x60;start&#x60; date, an &#x60;end&#x60; date is required.
     """
@@ -202,7 +238,7 @@ def example_get_department_metrics():
         nodepool_name = "example_nodepool_name"
 
         # Make the API call
-        api_response = api_instance.get_department_metrics(
+        api_response = api_instance.get_department_metrics_0(
             cluster_uuid=cluster_uuid,
             department_id=department_id,
             start=start,
@@ -213,7 +249,7 @@ def example_get_department_metrics():
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_department_metrics: {e}")
+        print(f"Exception when calling get_department_metrics_0: {e}")
 
 
 def example_get_departments():
@@ -307,6 +343,38 @@ def example_get_departments_metrics():
 
     except Exception as e:
         print(f"Exception when calling get_departments_metrics: {e}")
+
+
+def example_get_departments_telemetry():
+    """
+    Example of using get_departments_telemetry
+
+    Get departments telemetry
+
+    """
+    try:
+        # Prepare the request parameters
+
+        cluster_id = "example_cluster_id"
+
+        nodepool_name = "example_nodepool_name"
+
+        department_id = "example_department_id"
+
+        group_by = ["example_item_1", "example_item_2"]
+
+        # Make the API call
+        api_response = api_instance.get_departments_telemetry(
+            telemetry_type=telemetry_type,
+            cluster_id=cluster_id,
+            nodepool_name=nodepool_name,
+            department_id=department_id,
+            group_by=group_by,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_departments_telemetry: {e}")
 
 
 def example_patch_department_resources():

@@ -77,7 +77,7 @@ class TestPodsApi:
 
 
         # Verify response
-        assert isinstance(response, CountDepartments200Response)
+        assert isinstance(response, CountAccessRules200Response)
 
     def test_count_pods_error(self):
         """Test error handling for count_pods"""
@@ -153,7 +153,7 @@ class TestPodsApi:
     def test_get_workload_pod_metrics(self):
         """Test case for get_workload_pod_metrics
 
-        Get pod metrics data. [Experimental] Retrieve pod&#39;s metrics data for use in analysis applications.
+        Get pod metrics data. Retrieve pod&#39;s metrics data for use in analysis applications.
         """
         # Mock response
         mock_response = mock.Mock()

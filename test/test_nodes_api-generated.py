@@ -39,7 +39,7 @@ class TestNodesApi:
     def test_get_node_metrics(self):
         """Test case for get_node_metrics
 
-        Get the node metrics data. [Experimental] Retrieve the node metrics data by Universally Unique Identifier (UUID).
+        Get the node metrics data. Retrieve the node metrics data by Universally Unique Identifier (UUID).
         """
         # Mock response
         mock_response = mock.Mock()

@@ -32,10 +32,13 @@ def example_count_workloads():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.count_workloads(
             deleted=deleted,
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -68,7 +71,7 @@ def example_get_workload_metrics():
     """
     Example of using get_workload_metrics
 
-    Get workload metrics data. [Experimental]
+    Get workload metrics data.
     Retrieves workloads data metrics from the metrics database. Use in reporting and analysis tools.
     """
     try:
@@ -119,6 +122,8 @@ def example_get_workloads():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.get_workloads(
             deleted=deleted,
@@ -127,6 +132,7 @@ def example_get_workloads():
             sort_order=sort_order,
             sort_by=sort_by,
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -138,7 +144,7 @@ def example_get_workloads_telemetry():
     """
     Example of using get_workloads_telemetry
 
-    Get the workloads telemetry. [Experimental]
+    Get the workloads telemetry.
     Retrieves workload data by telemetry type.
     """
     try:

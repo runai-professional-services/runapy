@@ -113,3 +113,69 @@ class DistributedApi(RunaiAPIService):
             resource_path=resource_path,
             method=method,
         )
+
+    def resume_distributed(
+        self,
+        workload_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Resume a distributed training.
+
+        ### Parameters:
+        ```python
+        workload_id: str
+        ```
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
+
+        ### Example:
+        ```python
+        DistributedApi(
+            workload_id='workload_id_example'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workloads/distributed/{workload_id}/resume".replace(
+            "_", "-"
+        )
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def suspend_distributed(
+        self,
+        workload_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Suspend a distributed training.
+
+        ### Parameters:
+        ```python
+        workload_id: str
+        ```
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
+
+        ### Example:
+        ```python
+        DistributedApi(
+            workload_id='workload_id_example'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workloads/distributed/{workload_id}/suspend".replace(
+            "_", "-"
+        )
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )

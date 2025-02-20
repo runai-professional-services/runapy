@@ -52,6 +52,7 @@ class TestStorageClassesApi:
             "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | The id of the cluster
         )
         name = "name_example"  # str | filter by name
+        include_none = True  # bool | Include runai-none storage class to be able to create PVCs without a storage class
 
         # Make request
         response = self.api.get_storage_classes(
@@ -70,6 +71,8 @@ class TestStorageClassesApi:
         assert "clusterId=" in kwargs["url"]
         # Verify query parameters
         assert "name=" in kwargs["url"]
+        # Verify query parameters
+        assert "includeNone=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, StorageClasses1)
@@ -105,6 +108,7 @@ class TestStorageClassesApi:
 
         # Test parameters
         uuid = "uuid_example"  # str | Unique identifier of the cluster
+        include_none = True  # bool | Include runai-none storage class to be able to create PVCs without a storage class
 
         # Make request
         response = self.api.v1_get_storage_classes(
@@ -118,6 +122,9 @@ class TestStorageClassesApi:
         # Verify request method and URL
         assert kwargs["method"] == "GET"
         assert "/v1/k8s/clusters/{uuid}/storage-classes" in kwargs["url"]
+
+        # Verify query parameters
+        assert "includeNone=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, V1GetStorageClasses200Response)

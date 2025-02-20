@@ -103,7 +103,8 @@ class TestUsersApi:
         # Test parameters
         filter_by = [
             '["username=@test,lastLogin>=2024-09-24T00:00:00.00Z,isLocal==false"]'
-        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are <= Less than or equal, >= Greater than or equal, =@ contains. Dates are in ISO 8601 timestamp format and available for operators <= and >=.
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are <= Less than or equal, >= Greater than or equal, =@ contains. Dates are in ISO 8601 timestamp format and available for operators <= None, >= and ==.
+        search = "test@run"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.count_users()
@@ -118,9 +119,11 @@ class TestUsersApi:
 
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, CountDepartments200Response)
+        assert isinstance(response, CountAccessRules200Response)
 
     def test_count_users_error(self):
         """Test error handling for count_users"""
@@ -191,7 +194,7 @@ class TestUsersApi:
     def test_create_user(self):
         """Test case for create_user
 
-        Create a new user. Create a new user and assign it with a password. It is possible to force the user to change the password upon next login by setting needToChangePassword to true. This endpoint requires ADMIN role. Deprecated endpoint. Use the new endpoint api/v1/users instead.
+        Create a new user. Deprecated endpoint. Use the new endpoint api/v1/users instead and api/v1/authorization/access-rules to give user permissions.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -721,7 +724,7 @@ class TestUsersApi:
     def test_get_users(self):
         """Test case for get_users
 
-        Get users list. Return the list of users of the tenant.
+        Get users list. Deprecated, use /api/v1/users instead.  Return the list of users of the tenant.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -789,13 +792,14 @@ class TestUsersApi:
         filter = "runai.is_local:true"  # str | Filter results by user attribute.
         filter_by = [
             '["username=@test,lastLogin>=2024-09-24T00:00:00.00Z,isLocal==false"]'
-        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are <= Less than or equal, >= Greater than or equal, =@ contains. Dates are in ISO 8601 timestamp format and available for operators <= and >=.
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are <= Less than or equal, >= Greater than or equal, =@ contains. Dates are in ISO 8601 timestamp format and available for operators <= None, >= and ==.
         sort_by = (
             runai.UsersFilterSortFields()
         )  # UsersFilterSortFields | Sort results by a parameters.
         sort_order = asc  # str | Sort results in descending or ascending order.
         offset = 100  # int | The offset of the first item returned in the collection.
         limit = 500  # int | The maximum number of entries to return.
+        search = "test@run"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.get_users_0()
@@ -820,6 +824,8 @@ class TestUsersApi:
         assert "offset=" in kwargs["url"]
         # Verify query parameters
         assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, List[User2])

@@ -30,9 +30,12 @@ def example_count_projects():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.count_projects(
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -187,6 +190,42 @@ def example_get_project_metrics():
     """
     Example of using get_project_metrics
 
+    Get project metrics data.
+    Retrieves project data metrics from the metrics database. Use in reporting and analysis tools.
+    """
+    try:
+        # Prepare the request parameters
+        project_id = "example_project_id"
+
+        metric_type = ["example_item_1", "example_item_2"]
+
+        start = "2024-12-29T12:00:00Z"
+
+        end = "2024-12-29T12:00:00Z"
+
+        number_of_samples = 42
+
+        nodepool_name = "example_nodepool_name"
+
+        # Make the API call
+        api_response = api_instance.get_project_metrics(
+            project_id=project_id,
+            metric_type=metric_type,
+            start=start,
+            end=end,
+            number_of_samples=number_of_samples,
+            nodepool_name=nodepool_name,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_project_metrics: {e}")
+
+
+def example_get_project_metrics_0():
+    """
+    Example of using get_project_metrics_0
+
     Get metrics data for a specific project.
     Retrieves data from the metrics database. \\n Use in reporting and analysis tools. \\n Use a time range to return historical data (optional). If you use a &#x60;start&#x60; date, an &#x60;end&#x60; date is required.
     """
@@ -205,7 +244,7 @@ def example_get_project_metrics():
         nodepool_name = "example_nodepool_name"
 
         # Make the API call
-        api_response = api_instance.get_project_metrics(
+        api_response = api_instance.get_project_metrics_0(
             cluster_uuid=cluster_uuid,
             project_id=project_id,
             start=start,
@@ -216,7 +255,7 @@ def example_get_project_metrics():
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_project_metrics: {e}")
+        print(f"Exception when calling get_project_metrics_0: {e}")
 
 
 def example_get_projects():
@@ -237,6 +276,8 @@ def example_get_projects():
 
         limit = 42
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.get_projects(
             filter_by=filter_by,
@@ -244,6 +285,7 @@ def example_get_projects():
             sort_order=sort_order,
             offset=offset,
             limit=limit,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -311,6 +353,38 @@ def example_get_projects_metrics():
         print(f"Exception when calling get_projects_metrics: {e}")
 
 
+def example_get_projects_telemetry():
+    """
+    Example of using get_projects_telemetry
+
+    Get projects telemetry
+    Get projects telemetry data by the given query parameters
+    """
+    try:
+        # Prepare the request parameters
+
+        cluster_id = "example_cluster_id"
+
+        nodepool_id = "example_nodepool_id"
+
+        department_id = "example_department_id"
+
+        group_by = ["example_item_1", "example_item_2"]
+
+        # Make the API call
+        api_response = api_instance.get_projects_telemetry(
+            telemetry_type=telemetry_type,
+            cluster_id=cluster_id,
+            nodepool_id=nodepool_id,
+            department_id=department_id,
+            group_by=group_by,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_projects_telemetry: {e}")
+
+
 def example_patch_project_resources():
     """
     Example of using patch_project_resources
@@ -340,7 +414,7 @@ def example_update_project():
     Example of using update_project
 
     Update project
-    Get projects telemetry data by the given query parameters
+    Update project by Id
     """
     try:
         # Prepare the request parameters

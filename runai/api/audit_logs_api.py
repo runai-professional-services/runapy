@@ -69,7 +69,7 @@ class AuditLogsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    def get_audit_logs1(
+    def get_audit_logs(
         self,
         start: datetime,
         end: datetime,

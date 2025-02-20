@@ -80,3 +80,45 @@ def example_get_distributed():
 
     except Exception as e:
         print(f"Exception when calling get_distributed: {e}")
+
+
+def example_resume_distributed():
+    """
+    Example of using resume_distributed
+
+    Resume a distributed training.
+    Resume a distributed training that was suspended using a workload id.
+    """
+    try:
+        # Prepare the request parameters
+        workload_id = "example_workload_id"
+
+        # Make the API call
+        api_response = api_instance.resume_distributed(
+            workload_id=workload_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling resume_distributed: {e}")
+
+
+def example_suspend_distributed():
+    """
+    Example of using suspend_distributed
+
+    Suspend a distributed training.
+    Suspend a distributed training from running using a workload id.
+    """
+    try:
+        # Prepare the request parameters
+        workload_id = "example_workload_id"
+
+        # Make the API call
+        api_response = api_instance.suspend_distributed(
+            workload_id=workload_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling suspend_distributed: {e}")

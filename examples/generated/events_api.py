@@ -33,11 +33,14 @@ def example_get_workload_events():
 
         limit = 42
 
+        sort_order = "example_sort_order"
+
         # Make the API call
         api_response = api_instance.get_workload_events(
             workload_id=workload_id,
             offset=offset,
             limit=limit,
+            sort_order=sort_order,
         )
         print(f"API response: {api_response}")
 

@@ -414,6 +414,7 @@ class PolicyApi(RunaiAPIService):
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
         cluster_id: Optional[str] = None,
+        include_fallback_policies: Optional[bool] = None,
     ):
         r"""
 
@@ -428,12 +429,14 @@ class PolicyApi(RunaiAPIService):
         department_id: Optional[str]
         project_id: Optional[str]
         cluster_id: Optional[str]
+        include_fallback_policies: Optional[bool]
         ```
         workload_type: Policy for a specific workload type.
         scope: filter by this scope.
         department_id: Filter using the department id.
         project_id: project id to filter by
         cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        include_fallback_policies: whether to include fallback policies in the list. Default to false.
 
         ### Example:
         ```python
@@ -442,7 +445,8 @@ class PolicyApi(RunaiAPIService):
                         scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        include_fallback_policies=True
         )
         ```
         """
@@ -454,6 +458,7 @@ class PolicyApi(RunaiAPIService):
             ("departmentId", department_id),
             ("projectId", project_id),
             ("clusterId", cluster_id),
+            ("includeFallbackPolicies", include_fallback_policies),
         ]
         resource_path = f"/api/v2/policy".replace("_", "-")
         method = "GET"

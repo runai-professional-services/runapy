@@ -99,7 +99,7 @@ class PodsApi(RunaiAPIService):
 
 
         ### Description
-        Get pod metrics data. [Experimental]
+        Get pod metrics data.
 
         ### Parameters:
         ```python

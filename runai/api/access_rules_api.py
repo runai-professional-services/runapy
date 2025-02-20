@@ -19,6 +19,7 @@ class AccessRulesApi(RunaiAPIService):
         self,
         include_deleted: Optional[bool] = None,
         filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -30,15 +31,18 @@ class AccessRulesApi(RunaiAPIService):
         ```python
         include_deleted: Optional[bool]
         filter_by: Optional[List[str]]
+        search: Optional[str]
         ```
         include_deleted: True to include deleted objects in the result. - Default: False
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
         AccessRulesApi(
             include_deleted=False,
-                        filter_by=['[\"name!=some-access-rule-name\",\"createdAt>=2023-01-01T00:00:00Z\"]']
+                        filter_by=['[\"name!=some-access-rule-name\",\"createdAt>=2023-01-01T00:00:00Z\"]'],
+                        search='test project'
         )
         ```
         """
@@ -47,6 +51,7 @@ class AccessRulesApi(RunaiAPIService):
         query_params = [
             ("includeDeleted", include_deleted),
             ("filterBy", filter_by),
+            ("search", search),
         ]
         resource_path = f"/api/v1/authorization/access_rules/count".replace("_", "-")
         method = "GET"
@@ -171,6 +176,7 @@ class AccessRulesApi(RunaiAPIService):
         sort_order: Optional[str] = None,
         sort_by: Optional[models.AccessRulesSortFilterFields] = None,
         filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -194,6 +200,7 @@ class AccessRulesApi(RunaiAPIService):
         sort_order: Optional[str]
         sort_by: Optional[models.AccessRulesSortFilterFields]
         filter_by: Optional[List[str]]
+        search: Optional[str]
         ```
         subject_type: The type of resource we want to filter by.
         subject_id_filter: Part of the subject id that we want to filter by.
@@ -209,6 +216,7 @@ class AccessRulesApi(RunaiAPIService):
         sort_order: Sort results in descending or ascending order. - Default: asc
         sort_by: Sort results by a parameter.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
@@ -226,7 +234,8 @@ class AccessRulesApi(RunaiAPIService):
                         role_id=56,
                         sort_order=asc,
                         sort_by=runai.AccessRulesSortFilterFields(),
-                        filter_by=['[\"name!=some-access-rule-name\",\"createdAt>=2023-01-01T00:00:00Z\"]']
+                        filter_by=['[\"name!=some-access-rule-name\",\"createdAt>=2023-01-01T00:00:00Z\"]'],
+                        search='test project'
         )
         ```
         """
@@ -247,6 +256,7 @@ class AccessRulesApi(RunaiAPIService):
             ("sortOrder", sort_order),
             ("sortBy", sort_by),
             ("filterBy", filter_by),
+            ("search", search),
         ]
         resource_path = f"/api/v1/authorization/access_rules".replace("_", "-")
         method = "GET"

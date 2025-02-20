@@ -52,6 +52,7 @@ class TestWorkloadsApi:
         filter_by = [
             '["name!=some-workload-name","allocatedGPU>=2","createdAt>=2021-01-01T00:00:00Z"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.count_workloads()
@@ -68,9 +69,11 @@ class TestWorkloadsApi:
         assert "deleted=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, CountDepartments200Response)
+        assert isinstance(response, CountAccessRules200Response)
 
     def test_count_workloads_error(self):
         """Test error handling for count_workloads"""
@@ -138,7 +141,7 @@ class TestWorkloadsApi:
     def test_get_workload_metrics(self):
         """Test case for get_workload_metrics
 
-        Get workload metrics data. [Experimental] Retrieves workloads data metrics from the metrics database. Use in reporting and analysis tools.
+        Get workload metrics data. Retrieves workloads data metrics from the metrics database. Use in reporting and analysis tools.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -229,6 +232,7 @@ class TestWorkloadsApi:
         filter_by = [
             '["name!=some-workload-name","allocatedGPU>=2","createdAt>=2021-01-01T00:00:00Z"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.get_workloads()
@@ -253,6 +257,8 @@ class TestWorkloadsApi:
         assert "sortBy=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, GetWorkloads200Response)
@@ -275,7 +281,7 @@ class TestWorkloadsApi:
     def test_get_workloads_telemetry(self):
         """Test case for get_workloads_telemetry
 
-        Get the workloads telemetry. [Experimental] Retrieves workload data by telemetry type.
+        Get the workloads telemetry. Retrieves workload data by telemetry type.
         """
         # Mock response
         mock_response = mock.Mock()

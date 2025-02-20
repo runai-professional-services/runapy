@@ -27,7 +27,7 @@ class NodesApi(RunaiAPIService):
 
 
         ### Description
-        Get the node metrics data. [Experimental]
+        Get the node metrics data.
 
         ### Parameters:
         ```python
