@@ -477,7 +477,7 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
-        distributed_policy_overwrite_request_v2: Optional[DistributedPolicyOverwriteRequestV2]
+        distributed_policy_overwrite_request_v2: DistributedPolicyOverwriteRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
         distributed_policy_overwrite_request_v2: See model DistributedPolicyOverwriteRequestV2 for more information.
@@ -523,7 +523,7 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
-        inference_policy_overwrite_request_v2: Optional[InferencePolicyOverwriteRequestV2]
+        inference_policy_overwrite_request_v2: InferencePolicyOverwriteRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
         inference_policy_overwrite_request_v2: See model InferencePolicyOverwriteRequestV2 for more information.
@@ -569,7 +569,7 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
-        training_policy_overwrite_request_v2: Optional[TrainingPolicyOverwriteRequestV2]
+        training_policy_overwrite_request_v2: TrainingPolicyOverwriteRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
         training_policy_overwrite_request_v2: See model TrainingPolicyOverwriteRequestV2 for more information.
@@ -615,7 +615,7 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
-        workspace_policy_overwrite_request_v2: Optional[WorkspacePolicyOverwriteRequestV2]
+        workspace_policy_overwrite_request_v2: WorkspacePolicyOverwriteRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
         workspace_policy_overwrite_request_v2: See model WorkspacePolicyOverwriteRequestV2 for more information.
@@ -661,7 +661,7 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
-        distributed_policy_change_request_v2: Optional[DistributedPolicyChangeRequestV2]
+        distributed_policy_change_request_v2: DistributedPolicyChangeRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
         distributed_policy_change_request_v2: See model DistributedPolicyChangeRequestV2 for more information.
@@ -707,7 +707,7 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
-        inference_policy_change_request_v2: Optional[InferencePolicyChangeRequestV2]
+        inference_policy_change_request_v2: InferencePolicyChangeRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
         inference_policy_change_request_v2: See model InferencePolicyChangeRequestV2 for more information.
@@ -753,7 +753,7 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
-        training_policy_change_request_v2: Optional[TrainingPolicyChangeRequestV2]
+        training_policy_change_request_v2: TrainingPolicyChangeRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
         training_policy_change_request_v2: See model TrainingPolicyChangeRequestV2 for more information.
@@ -799,7 +799,7 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
-        workspace_policy_change_request_v2: Optional[WorkspacePolicyChangeRequestV2]
+        workspace_policy_change_request_v2: WorkspacePolicyChangeRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
         workspace_policy_change_request_v2: See model WorkspacePolicyChangeRequestV2 for more information.

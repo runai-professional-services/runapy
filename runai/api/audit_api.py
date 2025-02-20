@@ -15,6 +15,7 @@ class AuditApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    @deprecated_message()
     def get_audit_logs(
         self,
         start: Optional[datetime] = None,
@@ -32,7 +33,7 @@ class AuditApi(RunaiAPIService):
         download: Optional[str] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get audit logs.

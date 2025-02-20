@@ -22,7 +22,7 @@ def example_create_workspace1():
     """
     Example of using create_workspace1
 
-    Create a workspace [Experimental]
+    Create a workspace.
     Create a new workspace in a specific project in the cluster.
     """
     try:
@@ -45,7 +45,7 @@ def example_delete_workspace():
     """
     Example of using delete_workspace
 
-    Delete a workspace [Experimental]
+    Delete a workspace.
     Delete a workspace using the workspace id.
     """
     try:
@@ -65,7 +65,7 @@ def example_get_workspace():
     """
     Example of using get_workspace
 
-    Get workspace data [Experimental]
+    Get workspace data.
     Retrieve workspace details using a workload id.
     """
     try:
@@ -86,7 +86,7 @@ def example_resume_workspace():
     """
     Example of using resume_workspace
 
-    Resume a workspace [Experimental]
+    Resume a workspace.
     Resume the workspace operation using the workspace id.
     """
     try:
@@ -107,7 +107,7 @@ def example_suspend_workspace():
     """
     Example of using suspend_workspace
 
-    Suspend a workspace [Experimental]
+    Suspend a workspace.
     Suspend a workspace using the workspace id.
     """
     try:

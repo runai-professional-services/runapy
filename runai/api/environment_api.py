@@ -90,6 +90,7 @@ class EnvironmentApi(RunaiAPIService):
         comply_to_project: Optional[int] = None,
         comply_to_workload_type: Optional[str] = None,
         comply_to_replica_type: Optional[str] = None,
+        status_info: Optional[bool] = None,
     ):
         r"""
 
@@ -104,12 +105,14 @@ class EnvironmentApi(RunaiAPIService):
         comply_to_project: Optional[int]
         comply_to_workload_type: Optional[str]
         comply_to_replica_type: Optional[str]
+        status_info: Optional[bool]
         ```
         asset_id: Unique identifier of the asset.
         usage_info: Whether the query should include asset usage information as part of the response.
         comply_to_project: Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
         comply_to_workload_type: Include workload creation compliance information of an asset, for a given workload type, as part of the response. To check compliance, you need to provide both project id and workload type.
         comply_to_replica_type: Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
+        status_info: Whether the query should include asset status information as part of the response.
 
         ### Example:
         ```python
@@ -118,7 +121,8 @@ class EnvironmentApi(RunaiAPIService):
                         usage_info=True,
                         comply_to_project=56,
                         comply_to_workload_type='comply_to_workload_type_example',
-                        comply_to_replica_type='comply_to_replica_type_example'
+                        comply_to_replica_type='comply_to_replica_type_example',
+                        status_info=True
         )
         ```
         """
@@ -129,6 +133,7 @@ class EnvironmentApi(RunaiAPIService):
             ("complyToProject", comply_to_project),
             ("complyToWorkloadType", comply_to_workload_type),
             ("complyToReplicaType", comply_to_replica_type),
+            ("statusInfo", status_info),
         ]
         resource_path = f"/api/v1/asset/environment/{asset_id}".replace("_", "-")
         method = "GET"
@@ -152,6 +157,7 @@ class EnvironmentApi(RunaiAPIService):
         is_workspace: Optional[bool] = None,
         is_inference: Optional[bool] = None,
         comply_to_replica_type: Optional[str] = None,
+        status_info: Optional[bool] = None,
     ):
         r"""
 
@@ -175,6 +181,7 @@ class EnvironmentApi(RunaiAPIService):
         is_workspace: Optional[bool]
         is_inference: Optional[bool]
         comply_to_replica_type: Optional[str]
+        status_info: Optional[bool]
         ```
         name: Filter results by name.
         scope: Filter results by scope.
@@ -190,6 +197,7 @@ class EnvironmentApi(RunaiAPIService):
         is_workspace: Filter results to workload of type workspace.
         is_inference: Filter results to workload of type inference.
         comply_to_replica_type: Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
+        status_info: Whether the query should include asset status information as part of the response.
 
         ### Example:
         ```python
@@ -207,7 +215,8 @@ class EnvironmentApi(RunaiAPIService):
                         is_training=True,
                         is_workspace=True,
                         is_inference=True,
-                        comply_to_replica_type='comply_to_replica_type_example'
+                        comply_to_replica_type='comply_to_replica_type_example',
+                        status_info=True
         )
         ```
         """
@@ -228,6 +237,7 @@ class EnvironmentApi(RunaiAPIService):
             ("isWorkspace", is_workspace),
             ("isInference", is_inference),
             ("complyToReplicaType", comply_to_replica_type),
+            ("statusInfo", status_info),
         ]
         resource_path = f"/api/v1/asset/environment".replace("_", "-")
         method = "GET"

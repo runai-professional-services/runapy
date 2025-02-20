@@ -15,6 +15,40 @@ class DepartmentsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def count_departments(
+        self,
+        filter_by: Optional[List[str]] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count departments
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+
+        ### Example:
+        ```python
+        DepartmentsApi(
+            filter_by=['[\"name!=some-name\"]']
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+        ]
+        resource_path = f"/api/v1/org_unit/departments/count".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def create_department(
         self,
         department_creation_request: models.DepartmentCreationRequest,
@@ -306,7 +340,8 @@ class DepartmentsApi(RunaiAPIService):
     def get_departments(
         self,
         filter_by: Optional[List[str]] = None,
-        sort_by: Optional[str] = None,
+        sort_by: Optional[models.DepartmentFilterSortFields] = None,
+        verbosity: Optional[models.Verbosity] = None,
         sort_order: Optional[str] = None,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
@@ -320,13 +355,15 @@ class DepartmentsApi(RunaiAPIService):
         ### Parameters:
         ```python
         filter_by: Optional[List[str]]
-        sort_by: Optional[str]
+        sort_by: Optional[models.DepartmentFilterSortFields]
+        verbosity: Optional[models.Verbosity]
         sort_order: Optional[str]
         offset: Optional[int]
         limit: Optional[int]
         ```
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
         sort_by: Sort results by a parameters.
+        verbosity: Departments verbosity. If it is set to \&quot;verbose\&quot;, status will be returned. If it is not defined or set to \&quot;brief\&quot; only unit specific data will be returned.
         sort_order: Sort results in descending or ascending order. - Default: asc
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
@@ -335,7 +372,8 @@ class DepartmentsApi(RunaiAPIService):
         ```python
         DepartmentsApi(
             filter_by=['[\"name!=some-name\"]'],
-                        sort_by='sort_by_example',
+                        sort_by=runai.DepartmentFilterSortFields(),
+                        verbosity=runai.Verbosity(),
                         sort_order=asc,
                         offset=100,
                         limit=50
@@ -347,6 +385,7 @@ class DepartmentsApi(RunaiAPIService):
         query_params = [
             ("filterBy", filter_by),
             ("sortBy", sort_by),
+            ("verbosity", verbosity),
             ("sortOrder", sort_order),
             ("offset", offset),
             ("limit", limit),

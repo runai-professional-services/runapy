@@ -27,6 +27,10 @@ class Organizations(_ApiGroup):
         return api.DepartmentsApi(self.api_client)
 
     @property
+    def reports(self) -> api.ReportsApi:
+        return api.ReportsApi(self.api_client)
+
+    @property
     def node_pools(self) -> api.NodePoolsApi:
         return api.NodePoolsApi(self.api_client)
 
@@ -96,6 +100,10 @@ class Audit(_ApiGroup):
     def audit(self) -> api.AuditApi:
         return api.AuditApi(self.api_client)
 
+    @property
+    def audit_logs(self) -> api.AuditLogsApi:
+        return api.AuditLogsApi(self.api_client)
+
 
 class Datavolumes(_ApiGroup):
     def __init__(self, api_client: ApiClient):
@@ -145,6 +153,10 @@ class Workloads(_ApiGroup):
     @property
     def distributed(self) -> api.DistributedApi:
         return api.DistributedApi(self.api_client)
+
+    @property
+    def workloads_batch(self) -> api.WorkloadsBatchApi:
+        return api.WorkloadsBatchApi(self.api_client)
 
 
 class WorkloadAssets(_ApiGroup):
@@ -198,6 +210,10 @@ class WorkloadAssets(_ApiGroup):
     @property
     def config_map(self) -> api.ConfigMapApi:
         return api.ConfigMapApi(self.api_client)
+
+    @property
+    def secret(self) -> api.SecretApi:
+        return api.SecretApi(self.api_client)
 
     @property
     def template(self) -> api.TemplateApi:

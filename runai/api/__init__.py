@@ -7,6 +7,7 @@ from runai.api.administrator_command_line_interface_api import (
 )
 from runai.api.applications_api import ApplicationsApi
 from runai.api.audit_api import AuditApi
+from runai.api.audit_logs_api import AuditLogsApi
 from runai.api.clusters_api import ClustersApi
 from runai.api.compute_api import ComputeApi
 from runai.api.config_map_api import ConfigMapApi
@@ -32,11 +33,13 @@ from runai.api.pods_api import PodsApi
 from runai.api.policy_api import PolicyApi
 from runai.api.projects_api import ProjectsApi
 from runai.api.registry_api import RegistryApi
+from runai.api.reports_api import ReportsApi
 from runai.api.researcher_command_line_interface_api import (
     ResearcherCommandLineInterfaceApi,
 )
 from runai.api.roles_api import RolesApi
 from runai.api.s3_api import S3Api
+from runai.api.secret_api import SecretApi
 from runai.api.storage_classes_api import StorageClassesApi
 from runai.api.template_api import TemplateApi
 from runai.api.tenant_api import TenantApi
@@ -44,4 +47,5 @@ from runai.api.tokens_api import TokensApi
 from runai.api.trainings_api import TrainingsApi
 from runai.api.users_api import UsersApi
 from runai.api.workloads_api import WorkloadsApi
+from runai.api.workloads_batch_api import WorkloadsBatchApi
 from runai.api.workspaces_api import WorkspacesApi

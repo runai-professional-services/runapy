@@ -22,7 +22,7 @@ def example_create_distributed():
     """
     Example of using create_distributed
 
-    Create a distributed training. [Experimental]
+    Create a distributed training.
     Use to create a distributed training.
     """
     try:
@@ -45,7 +45,7 @@ def example_delete_distributed():
     """
     Example of using delete_distributed
 
-    Delete a distributed training by id. [Experimental]
+    Delete a distributed training by id.
     Use to delete a distributed training by workload id.
     """
     try:

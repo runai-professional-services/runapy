@@ -15,13 +15,14 @@ class NodePoolsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    @deprecated_message()
     def create_node_pool(
         self,
         cluster_id: str,
         node_pool_create_request: Optional[models.NodePoolCreateRequest] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Create a Node Pool.
@@ -54,13 +55,49 @@ class NodePoolsApi(RunaiAPIService):
             body=body_params,
         )
 
+    def create_nodepool(
+        self,
+        nodepool_create_fields: models.NodepoolCreateFields,
+    ):
+        r"""
+
+
+        ### Description
+        Create nodepool
+
+        ### Parameters:
+        ```python
+        nodepool_create_fields: NodepoolCreateFields
+        ```
+        nodepool_create_fields: Nodepool to create.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            nodepool_create_fields=runai.NodepoolCreateFields()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = nodepool_create_fields
+
+        resource_path = f"/api/v1/node_pools".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    @deprecated_message()
     def delete_node_pool(
         self,
         cluster_id: str,
         id: int,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Delete a Node Pool by id.§
@@ -91,12 +128,44 @@ class NodePoolsApi(RunaiAPIService):
             method=method,
         )
 
+    def delete_nodepool(
+        self,
+        nodepool_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Delete nodepool
+
+        ### Parameters:
+        ```python
+        nodepool_id: str
+        ```
+        nodepool_id: The unique id identifying the Node Pool.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            nodepool_id='17'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/node_pools/{nodepool_id}".replace("_", "-")
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    @deprecated_message()
     def get_node_pools(
         self,
         cluster_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get the cluster&#39;s Node Pools.
@@ -116,6 +185,37 @@ class NodePoolsApi(RunaiAPIService):
         """
 
         resource_path = f"/v1/k8s/clusters/{cluster_id}/node_pools".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_nodepool(
+        self,
+        nodepool_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Get nodepool
+
+        ### Parameters:
+        ```python
+        nodepool_id: str
+        ```
+        nodepool_id: The unique id identifying the Node Pool.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            nodepool_id='17'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/node_pools/{nodepool_id}".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -181,6 +281,100 @@ class NodePoolsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    def get_nodepools(
+        self,
+        filter_by: Optional[List[str]] = None,
+        sort_by: Optional[models.NodepoolSortFilterFields] = None,
+        sort_order: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get nodepools
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        sort_by: Optional[models.NodepoolSortFilterFields]
+        sort_order: Optional[str]
+        offset: Optional[int]
+        limit: Optional[int]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        sort_by: Sort results by a parameters.
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            filter_by=['[\"name!=some-name\"]'],
+                        sort_by=runai.NodepoolSortFilterFields(),
+                        sort_order=asc,
+                        offset=100,
+                        limit=50
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("sortBy", sort_by),
+            ("sortOrder", sort_order),
+            ("offset", offset),
+            ("limit", limit),
+        ]
+        resource_path = f"/api/v1/node_pools".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def patch_nodepool(
+        self,
+        nodepool_id: str,
+        nodepool_update_fields: models.NodepoolUpdateFields,
+    ):
+        r"""
+
+
+        ### Description
+        Patch nodepool fields
+
+        ### Parameters:
+        ```python
+        nodepool_id: str
+        nodepool_update_fields: NodepoolUpdateFields
+        ```
+        nodepool_id: The unique id identifying the Node Pool.
+        nodepool_update_fields: Fields to update.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            nodepool_id='17',
+                        nodepool_update_fields=runai.NodepoolUpdateFields()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = nodepool_update_fields
+
+        resource_path = f"/api/v1/node_pools/{nodepool_id}".replace("_", "-")
+        method = "PATCH"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    @deprecated_message()
     def update_node_pool(
         self,
         cluster_id: str,
@@ -188,7 +382,7 @@ class NodePoolsApi(RunaiAPIService):
         update_node_pool_request: models.UpdateNodePoolRequest,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Update a Node Pool.
@@ -226,6 +420,7 @@ class NodePoolsApi(RunaiAPIService):
             body=body_params,
         )
 
+    @deprecated_message()
     def update_node_pool_labels(
         self,
         cluster_id: str,
@@ -233,7 +428,7 @@ class NodePoolsApi(RunaiAPIService):
         node_pool_labels_request: models.NodePoolLabelsRequest,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Update labels of a Node Pool.
@@ -264,6 +459,45 @@ class NodePoolsApi(RunaiAPIService):
         resource_path = f"/v1/k8s/clusters/{cluster_id}/node_pools/{id}/labels".replace(
             "_", "-"
         )
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_nodepool(
+        self,
+        nodepool_id: str,
+        nodepool_update_fields: models.NodepoolUpdateFields,
+    ):
+        r"""
+
+
+        ### Description
+        Update nodepool
+
+        ### Parameters:
+        ```python
+        nodepool_id: str
+        nodepool_update_fields: NodepoolUpdateFields
+        ```
+        nodepool_id: The unique id identifying the Node Pool.
+        nodepool_update_fields: Nodepool to update.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            nodepool_id='17',
+                        nodepool_update_fields=runai.NodepoolUpdateFields()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = nodepool_update_fields
+
+        resource_path = f"/api/v1/node_pools/{nodepool_id}".replace("_", "-")
         method = "PUT"
         return self._api_client.call_api(
             resource_path=resource_path,

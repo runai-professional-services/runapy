@@ -18,6 +18,39 @@ api_client = ApiClient(configuration)
 api_instance = NodesApi(api_client)
 
 
+def example_get_node_metrics():
+    """
+    Example of using get_node_metrics
+
+    Get the node metrics data. [Experimental]
+    Retrieve the node metrics data by Universally Unique Identifier (UUID).
+    """
+    try:
+        # Prepare the request parameters
+        node_id = "example_node_id"
+
+        metric_type = ["example_item_1", "example_item_2"]
+
+        start = "2024-12-29T12:00:00Z"
+
+        end = "2024-12-29T12:00:00Z"
+
+        number_of_samples = 42
+
+        # Make the API call
+        api_response = api_instance.get_node_metrics(
+            node_id=node_id,
+            metric_type=metric_type,
+            start=start,
+            end=end,
+            number_of_samples=number_of_samples,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_node_metrics: {e}")
+
+
 def example_get_node_telemetry():
     """
     Example of using get_node_telemetry

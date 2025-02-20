@@ -53,32 +53,39 @@ class ClustersApi(RunaiAPIService):
     def delete_cluster(
         self,
         cluster_uuid: str,
+        force: Optional[bool] = None,
     ):
         r"""
 
 
         ### Description
-        Delete a cluster.
+        Delete a cluster by id.
 
         ### Parameters:
         ```python
         cluster_uuid: str
+        force: Optional[bool]
         ```
         cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
+        force: if true will force cluster instant deletion otherwise will start cluster graceful deletion process.  - Default: False
 
         ### Example:
         ```python
         ClustersApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc'
+            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+                        force=False
         )
         ```
         """
 
+        # Query params:
+        query_params = [
+            ("force", force),
+        ]
         resource_path = f"/api/v1/clusters/{cluster_uuid}".replace("_", "-")
         method = "DELETE"
         return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
+            resource_path=resource_path, method=method, query_params=query_params
         )
 
     def get_cluster_by_uuid(

@@ -43,9 +43,9 @@ class LogoApi(RunaiAPIService):
             method=method,
         )
 
-    def upload_tenant_logo1(
+    def upload_tenant_logo(
         self,
-        logo200_response: Optional[models.Logo200Response] = None,
+        get_tenant_logo200_response: Optional[models.GetTenantLogo200Response] = None,
     ):
         r"""
 
@@ -55,20 +55,20 @@ class LogoApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        logo200_response: Logo200Response
+        get_tenant_logo200_response: GetTenantLogo200Response
         ```
-        logo200_response: See model Logo200Response for more information.
+        get_tenant_logo200_response: See model GetTenantLogo200Response for more information.
 
         ### Example:
         ```python
         LogoApi(
-            logo200_response=runai.Logo200Response()
+            get_tenant_logo200_response=runai.GetTenantLogo200Response()
         )
         ```
         """
 
         # Body params:
-        body_params = logo200_response
+        body_params = get_tenant_logo200_response
 
         resource_path = f"/api/v1/logo".replace("_", "-")
         method = "POST"

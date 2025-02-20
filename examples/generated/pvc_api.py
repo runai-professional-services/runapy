@@ -279,7 +279,7 @@ def example_update_pvc_asset_by_id():
         # Create example data for PVCUpdateRequest
         pvc_update_request = models.PVCUpdateRequest(
             meta = {"name":"my-asset"},
-            spec = runai.models.pvc_updatable_fields.PvcUpdatableFields(
+            spec = runai.models.pvc_fields_updatable.PvcFieldsUpdatable(
                     path = '/container/my-claim', )
         )
 

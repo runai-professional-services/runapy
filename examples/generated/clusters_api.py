@@ -47,17 +47,21 @@ def example_delete_cluster():
     """
     Example of using delete_cluster
 
-    Delete a cluster.
-    Use to delete a cluster by Universally Unique Identifier (UUID).
+    Delete a cluster by id.
+    Use to delete a cluster by Universally Unique Identifier (UUID).  Will return 202 for success if this api was called on a cluster that its version is &gt;&#x3D;2.20,  and force query param is false or not provided. Will return 204 for success if force query param is true, or if cluster is in a version &lt; 2.20
     """
     try:
         # Prepare the request parameters
         cluster_uuid = "example_cluster_uuid"
 
+        force = True
+
         # Make the API call
-        api_instance.delete_cluster(
+        api_response = api_instance.delete_cluster(
             cluster_uuid=cluster_uuid,
+            force=force,
         )
+        print(f"API response: {api_response}")
 
     except Exception as e:
         print(f"Exception when calling delete_cluster: {e}")

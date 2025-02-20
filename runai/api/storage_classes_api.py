@@ -17,10 +17,50 @@ class StorageClassesApi(RunaiAPIService):
 
     def get_storage_classes(
         self,
-        uuid: str,
+        cluster_id: str,
+        name: Optional[str] = None,
     ):
         r"""
 
+
+        ### Description
+        get a Storage Class/Classes for a given cluster
+
+        ### Parameters:
+        ```python
+        cluster_id: Optional[str]
+        name: Optional[str]
+        ```
+        cluster_id: The id of the cluster
+        name: filter by name
+
+        ### Example:
+        ```python
+        StorageClassesApi(
+            cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        name='name_example'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("clusterId", cluster_id),
+            ("name", name),
+        ]
+        resource_path = f"/api/v1/storage_classes".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    @deprecated_message()
+    def v1_get_storage_classes(
+        self,
+        uuid: str,
+    ):
+        r"""
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get all storageClasses from a cluster.

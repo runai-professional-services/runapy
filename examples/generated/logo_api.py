@@ -34,9 +34,9 @@ def example_get_tenant_logo():
         print(f"Exception when calling get_tenant_logo: {e}")
 
 
-def example_upload_tenant_logo1():
+def example_upload_tenant_logo():
     """
-    Example of using upload_tenant_logo1
+    Example of using upload_tenant_logo
 
     Upload logo for tenant. (base64)
     Use to upload a base64 logo file. Max size 128kb.
@@ -44,13 +44,13 @@ def example_upload_tenant_logo1():
     try:
         # Prepare the request parameters
 
-        # Create example data for Logo200Response
-        logo200_response = models.Logo200Response(logo="")
+        # Create example data for GetTenantLogo200Response
+        get_tenant_logo200_response = models.GetTenantLogo200Response(logo="")
 
         # Make the API call
-        api_instance.upload_tenant_logo1(
-            logo200_response=logo200_response,
+        api_instance.upload_tenant_logo(
+            get_tenant_logo200_response=get_tenant_logo200_response,
         )
 
     except Exception as e:
-        print(f"Exception when calling upload_tenant_logo1: {e}")
+        print(f"Exception when calling upload_tenant_logo: {e}")

@@ -23,7 +23,7 @@ class InferencesApi(RunaiAPIService):
 
 
         ### Description
-        Create an inference. [Experimental]
+        Create an inference.
 
         ### Parameters:
         ```python
@@ -58,13 +58,13 @@ class InferencesApi(RunaiAPIService):
 
 
         ### Description
-        Delete an inference. [Experimental]
+        Delete an inference.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -89,13 +89,13 @@ class InferencesApi(RunaiAPIService):
 
 
         ### Description
-        Get inference data. [Experimental]
+        Get inference data.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -124,7 +124,7 @@ class InferencesApi(RunaiAPIService):
 
 
         ### Description
-        Get inference metrics data. [Experimental]
+        Get inference metrics data.
 
         ### Parameters:
         ```python
@@ -134,7 +134,7 @@ class InferencesApi(RunaiAPIService):
         end: Optional[datetime]
         number_of_samples: Optional[int]
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
         metric_type: Specify which data to request.
         start: Start date of time range to fetch data in ISO 8601 timestamp format.
         end: End date of time range to fetch data in ISO 8601 timestamp format.
@@ -180,7 +180,7 @@ class InferencesApi(RunaiAPIService):
 
 
         ### Description
-        Get inference pod&#39;s metrics data. [Experimental]
+        Get inference pod&#39;s metrics data.
 
         ### Parameters:
         ```python
@@ -191,7 +191,7 @@ class InferencesApi(RunaiAPIService):
         end: Optional[datetime]
         number_of_samples: Optional[int]
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
         pod_id: The requested pod id.
         metric_type: Specifies metrics data to request. Inference metrics are only available for inference workloads.
         start: Start date of time range to fetch data in ISO 8601 timestamp format.
@@ -226,4 +226,43 @@ class InferencesApi(RunaiAPIService):
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def update_inference_spec(
+        self,
+        workload_id: str,
+        inference_update_request: Optional[models.InferenceUpdateRequest] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Update inference spec. [Experimental]
+
+        ### Parameters:
+        ```python
+        workload_id: str
+        inference_update_request: InferenceUpdateRequest
+        ```
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
+        inference_update_request: See model InferenceUpdateRequest for more information.
+
+        ### Example:
+        ```python
+        InferencesApi(
+            workload_id='workload_id_example',
+                        inference_update_request=runai.InferenceUpdateRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = inference_update_request
+
+        resource_path = f"/api/v1/workloads/inferences/{workload_id}".replace("_", "-")
+        method = "PATCH"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )

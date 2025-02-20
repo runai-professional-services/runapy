@@ -23,7 +23,7 @@ def example_get_workload_events():
     Example of using get_workload_events
 
     Get the workload events.
-    Retrieve all the workload events by workload id.
+    Retrieve all the workload events using a workload id.
     """
     try:
         # Prepare the request parameters
@@ -50,7 +50,7 @@ def example_get_workload_history():
     Example of using get_workload_history
 
     Get the workload history.
-    Retrieve the details workload history including events by workload id.
+    Retrieve workload history details, including events, using a workload id.
     """
     try:
         # Prepare the request parameters

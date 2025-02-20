@@ -110,7 +110,7 @@ class PodsApi(RunaiAPIService):
         end: Optional[datetime]
         number_of_samples: Optional[int]
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
         pod_id: The requested pod id.
         metric_type: Specify which metric data to request. Advanced GPU metrics are only supported if the &#39;Advanced GPU Metrics&#39; feature flag in the settings is enabled.
         start: Start date of time range to fetch data in ISO 8601 timestamp format.
@@ -165,7 +165,7 @@ class PodsApi(RunaiAPIService):
         offset: Optional[int]
         limit: Optional[int]
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
         deleted: Return only deleted resources when &#x60;true&#x60;.
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50

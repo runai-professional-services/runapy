@@ -22,18 +22,42 @@ def example_get_storage_classes():
     """
     Example of using get_storage_classes
 
+    get a Storage Class/Classes for a given cluster
+
+    """
+    try:
+        # Prepare the request parameters
+        cluster_id = "example_cluster_id"
+
+        name = "example_name"
+
+        # Make the API call
+        api_response = api_instance.get_storage_classes(
+            cluster_id=cluster_id,
+            name=name,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_storage_classes: {e}")
+
+
+def example_v1_get_storage_classes():
+    """
+    Example of using v1_get_storage_classes
+
     Get all storageClasses from a cluster.
-    Retrieve a list of storageClass names by Universally Unique Identifier (UUID) of the cluster.
+    this API is used by cluster versions &lt; 2.20
     """
     try:
         # Prepare the request parameters
         uuid = "example_uuid"
 
         # Make the API call
-        api_response = api_instance.get_storage_classes(
+        api_response = api_instance.v1_get_storage_classes(
             uuid=uuid,
         )
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_storage_classes: {e}")
+        print(f"Exception when calling v1_get_storage_classes: {e}")

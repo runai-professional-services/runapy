@@ -50,6 +50,40 @@ class UsersApi(RunaiAPIService):
             body=body_params,
         )
 
+    def count_users(
+        self,
+        filter_by: Optional[List[str]] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count users
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains. Dates are in ISO 8601 timestamp format and available for operators &lt;&#x3D; and &gt;&#x3D;.
+
+        ### Example:
+        ```python
+        UsersApi(
+            filter_by=['[\"username=@test,lastLogin>=2024-09-24T00:00:00.00Z,isLocal==false\"]']
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+        ]
+        resource_path = f"/api/v1/users/count".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     @deprecated_message()
     def create_group(
         self,
@@ -503,6 +537,11 @@ class UsersApi(RunaiAPIService):
     def get_users_0(
         self,
         filter: Optional[str] = None,
+        filter_by: Optional[List[str]] = None,
+        sort_by: Optional[models.UsersFilterSortFields] = None,
+        sort_order: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
     ):
         r"""
 
@@ -513,13 +552,28 @@ class UsersApi(RunaiAPIService):
         ### Parameters:
         ```python
         filter: Optional[str]
+        filter_by: Optional[List[str]]
+        sort_by: Optional[models.UsersFilterSortFields]
+        sort_order: Optional[str]
+        offset: Optional[int]
+        limit: Optional[int]
         ```
         filter: Filter results by user attribute.
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains. Dates are in ISO 8601 timestamp format and available for operators &lt;&#x3D; and &gt;&#x3D;.
+        sort_by: Sort results by a parameters.
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 500
 
         ### Example:
         ```python
         UsersApi(
-            filter='runai.is_local:true'
+            filter='runai.is_local:true',
+                        filter_by=['[\"username=@test,lastLogin>=2024-09-24T00:00:00.00Z,isLocal==false\"]'],
+                        sort_by=runai.UsersFilterSortFields(),
+                        sort_order=asc,
+                        offset=100,
+                        limit=500
         )
         ```
         """
@@ -527,6 +581,11 @@ class UsersApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("filter", filter),
+            ("filterBy", filter_by),
+            ("sortBy", sort_by),
+            ("sortOrder", sort_order),
+            ("offset", offset),
+            ("limit", limit),
         ]
         resource_path = f"/api/v1/users".replace("_", "-")
         method = "GET"

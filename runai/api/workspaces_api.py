@@ -23,7 +23,7 @@ class WorkspacesApi(RunaiAPIService):
 
 
         ### Description
-        Create a workspace [Experimental]
+        Create a workspace.
 
         ### Parameters:
         ```python
@@ -58,13 +58,13 @@ class WorkspacesApi(RunaiAPIService):
 
 
         ### Description
-        Delete a workspace [Experimental]
+        Delete a workspace.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -89,13 +89,13 @@ class WorkspacesApi(RunaiAPIService):
 
 
         ### Description
-        Get workspace data [Experimental]
+        Get workspace data.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -120,13 +120,13 @@ class WorkspacesApi(RunaiAPIService):
 
 
         ### Description
-        Resume a workspace [Experimental]
+        Resume a workspace.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -153,13 +153,13 @@ class WorkspacesApi(RunaiAPIService):
 
 
         ### Description
-        Suspend a workspace [Experimental]
+        Suspend a workspace.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python

@@ -22,7 +22,7 @@ def example_create_training1():
     """
     Example of using create_training1
 
-    Create a training. [Experimental]
+    Create a training.
     Create a training workload using container related fields.
     """
     try:
@@ -45,7 +45,7 @@ def example_delete_training():
     """
     Example of using delete_training
 
-    Delete a training. [Experimental]
+    Delete a training.
     Delete a training using a workload id.
     """
     try:
@@ -65,7 +65,7 @@ def example_get_training():
     """
     Example of using get_training
 
-    Get training data. [Experimental]
+    Get training data.
     Retrieve training details using a workload id.
     """
     try:
@@ -86,7 +86,7 @@ def example_resume_training():
     """
     Example of using resume_training
 
-    Resume a training. [Experimental]
+    Resume a training.
     Resume a training that was suspended using a workload id.
     """
     try:
@@ -107,7 +107,7 @@ def example_suspend_training():
     """
     Example of using suspend_training
 
-    Suspend a training. [Experimental]
+    Suspend a training.
     Suspend a training from running using a workload id.
     """
     try:

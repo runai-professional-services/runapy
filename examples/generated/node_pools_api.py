@@ -22,7 +22,7 @@ def example_create_node_pool():
     Example of using create_node_pool
     
     Create a Node Pool.
-    Use to create a node pool in a cluster by Universally Unique Identifier (UUID).
+    Use to create a node pool in a cluster by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools instead.
     """
     try:
         # Prepare the request parameters
@@ -53,12 +53,41 @@ def example_create_node_pool():
     except Exception as e:
         print(f"Exception when calling create_node_pool: {e}")
 
+def example_create_nodepool():
+    """
+    Example of using create_nodepool
+    
+    Create nodepool
+    Create nodepool
+    """
+    try:
+        # Prepare the request parameters
+        
+        # Create example data for NodepoolCreateFields
+        nodepool_create_fields = models.NodepoolCreateFields(
+            name = 'v100',
+            label_key = 'node-type',
+            label_value = 'type-x',
+            cluster_id = 'd73a738f-fab3-430a-8fa3-5241493d7128',
+            over_provisioning_ratio = 1,
+            placement_strategy = {cpu=spread, gpu=spread}
+        )
+
+        # Make the API call
+        api_response = api_instance.create_nodepool(
+            nodepool_create_fields=nodepool_create_fields,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling create_nodepool: {e}")
+
 def example_delete_node_pool():
     """
     Example of using delete_node_pool
     
     Delete a Node Pool by id.§
-    Use to delete a node pool by Universally Unique Identifier (UUID).
+    Use to delete a node pool by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools/{id} instead.
     """
     try:
         # Prepare the request parameters
@@ -88,12 +117,39 @@ def example_delete_node_pool():
     except Exception as e:
         print(f"Exception when calling delete_node_pool: {e}")
 
+def example_delete_nodepool():
+    """
+    Example of using delete_nodepool
+    
+    Delete nodepool
+    Delete nodepool
+    """
+    try:
+        # Prepare the request parameters
+        nodepool_id = "example_nodepool_id"
+        
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.delete_nodepool(
+            nodepool_id=nodepool_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling delete_nodepool: {e}")
+
 def example_get_node_pools():
     """
     Example of using get_node_pools
     
     Get the cluster&#39;s Node Pools.
-    Retrieve all the node pools with details from the cluster by Universally Unique Identifier (UUID).
+    Retrieve all the node pools with details from the cluster by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools instead.
     """
     try:
         # Prepare the request parameters
@@ -114,6 +170,33 @@ def example_get_node_pools():
 
     except Exception as e:
         print(f"Exception when calling get_node_pools: {e}")
+
+def example_get_nodepool():
+    """
+    Example of using get_nodepool
+    
+    Get nodepool
+    Get nodepool
+    """
+    try:
+        # Prepare the request parameters
+        nodepool_id = "example_nodepool_id"
+        
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.get_nodepool(
+            nodepool_id=nodepool_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_nodepool: {e}")
 
 def example_get_nodepool_metrics():
     """
@@ -187,12 +270,111 @@ def example_get_nodepool_metrics():
     except Exception as e:
         print(f"Exception when calling get_nodepool_metrics: {e}")
 
+def example_get_nodepools():
+    """
+    Example of using get_nodepools
+    
+    Get nodepools
+    Get nodepools
+    """
+    try:
+        # Prepare the request parameters
+        
+        
+        
+        filter_by = ["example_item_1", "example_item_2"]
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        sort_order = "example_sort_order"
+        
+        
+        
+        
+        
+        
+        
+        
+        offset = 42
+        
+        
+        
+        
+        
+        
+        
+        limit = 42
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.get_nodepools(
+            filter_by=filter_by,
+            sort_by=sort_by,
+            sort_order=sort_order,
+            offset=offset,
+            limit=limit,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_nodepools: {e}")
+
+def example_patch_nodepool():
+    """
+    Example of using patch_nodepool
+    
+    Patch nodepool fields
+    Update only specific fields of a nodepool
+    """
+    try:
+        # Prepare the request parameters
+        nodepool_id = "example_nodepool_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        # Create example data for NodepoolUpdateFields
+        nodepool_update_fields = models.NodepoolUpdateFields(
+            label_key = 'node-type',
+            label_value = 'type-x',
+            over_provisioning_ratio = 1,
+            placement_strategy = {cpu=spread, gpu=spread}
+        )
+
+        # Make the API call
+        api_response = api_instance.patch_nodepool(
+            nodepool_id=nodepool_id,
+            nodepool_update_fields=nodepool_update_fields,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling patch_nodepool: {e}")
+
 def example_update_node_pool():
     """
     Example of using update_node_pool
     
     Update a Node Pool.
-    Use to update the details of a node pool by Universally Unique Identifier (UUID).
+    Use to update the details of a node pool by Universally Unique Identifier (UUID). Deprecated, please use PATCH /api/v1/node-pools/{id} instead.
     """
     try:
         # Prepare the request parameters
@@ -236,7 +418,7 @@ def example_update_node_pool_labels():
     Example of using update_node_pool_labels
     
     Update labels of a Node Pool.
-    Use to update the labels of a node pool.
+    Use to update the labels of a node pool. Deprecated, please use PATCH /api/v1/node-pools/{id} instead.
     """
     try:
         # Prepare the request parameters
@@ -272,4 +454,40 @@ def example_update_node_pool_labels():
 
     except Exception as e:
         print(f"Exception when calling update_node_pool_labels: {e}")
+
+def example_update_nodepool():
+    """
+    Example of using update_nodepool
+    
+    Update nodepool
+    Update nodepool
+    """
+    try:
+        # Prepare the request parameters
+        nodepool_id = "example_nodepool_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        # Create example data for NodepoolUpdateFields
+        nodepool_update_fields = models.NodepoolUpdateFields(
+            label_key = 'node-type',
+            label_value = 'type-x',
+            over_provisioning_ratio = 1,
+            placement_strategy = {cpu=spread, gpu=spread}
+        )
+
+        # Make the API call
+        api_response = api_instance.update_nodepool(
+            nodepool_id=nodepool_id,
+            nodepool_update_fields=nodepool_update_fields,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling update_nodepool: {e}")
 

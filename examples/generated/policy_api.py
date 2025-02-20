@@ -475,7 +475,7 @@ def example_update_distributed_policy_v2():
                 rules=runai.models.distributed_policy_rules_v2.DistributedPolicyRulesV2(),
                 imposed_assets=runai.models.distributed_imposed_assets.DistributedImposedAssets(),
             ),
-            reset=["security.runAsGpu", "compute.gpu"],
+            reset=["master.security.runAsGpu", "worker.compute.gpu"],
         )
 
         # Make the API call
@@ -515,7 +515,7 @@ def example_update_inference_policy_v2():
                 rules=runai.models.rules.rules(),
                 imposed_assets=[""],
             ),
-            reset=["security.runAsGpu", "compute.gpu"],
+            reset=["master.security.runAsGpu", "worker.compute.gpu"],
         )
 
         # Make the API call
@@ -555,7 +555,7 @@ def example_update_training_policy_v2():
                 rules=runai.models.rules.rules(),
                 imposed_assets=[""],
             ),
-            reset=["security.runAsGpu", "compute.gpu"],
+            reset=["master.security.runAsGpu", "worker.compute.gpu"],
         )
 
         # Make the API call
@@ -595,7 +595,7 @@ def example_update_workspace_policy_v2():
                 rules=runai.models.rules.rules(),
                 imposed_assets=[""],
             ),
-            reset=["security.runAsGpu", "compute.gpu"],
+            reset=["master.security.runAsGpu", "worker.compute.gpu"],
         )
 
         # Make the API call

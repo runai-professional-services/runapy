@@ -77,7 +77,7 @@ class TestPodsApi:
 
 
         # Verify response
-        assert isinstance(response, CountAccessRules200Response)
+        assert isinstance(response, CountDepartments200Response)
 
     def test_count_pods_error(self):
         """Test error handling for count_pods"""
@@ -164,7 +164,7 @@ class TestPodsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = 'workload_id_example'   # str | Unique identifier of the workload.
+        workload_id = 'workload_id_example'   # str | The  Universally Unique Identifier (UUID) of the workload.
         pod_id = 'pod_id_example'   # str | The requested pod id.
         metric_type = [runai.PodMetricType()]   # List[PodMetricType] | Specify which metric data to request. Advanced GPU metrics are only supported if the 'Advanced GPU Metrics' feature flag in the settings is enabled.
         start = '2023-06-06T12:09:18.211Z'   # datetime | Start date of time range to fetch data in ISO 8601 timestamp format.
@@ -244,7 +244,7 @@ class TestPodsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = 'workload_id_example'   # str | Unique identifier of the workload.
+        workload_id = 'workload_id_example'   # str | The  Universally Unique Identifier (UUID) of the workload.
         deleted = True   # bool | Return only deleted resources when `true`.
         offset = 100   # int | The offset of the first item returned in the collection.
         limit = 50   # int | The maximum number of entries to return.

@@ -37,12 +37,13 @@ def example_create_template():
                         datasources = [
                             runai.models.asset_id_and_kind.AssetIdAndKind(
                                 id = '0', 
-                                kind = 'compute', )
+                                kind = 'compute', 
+                                overrides = {containerPath=/container/directory}, )
                             ], 
                         workload_volumes = [
                             ''
                             ], ), 
-                    specific_env = {autoScaling={maxReplicas=1, scaleToZeroRetentionSeconds=2146, minReplicas=0, thresholdMetric=throughput, thresholdValue=5}, terminateAfterPreemption=false, backoffLimit=3, autoDeletionTimeAfterCompletionSeconds=15, annotations=[Ljava.lang.Object;@468173fa, nodeType=my-node-type, command=python, runAsUid=500, labels=[Ljava.lang.Object;@62765aec, args=-x my-script.py, environmentVariables=[Ljava.lang.Object;@6f5bd362, runAsGid=30, supplementalGroups=2,3,5,8, allowOverQuota=true, nodePools=["my-node-pool-a","my-node-pool-b"], podAffinity={type=Required, key=key}, connections=[Ljava.lang.Object;@3a401749}, )
+                    specific_env = {autoScaling={maxReplicas=1, scaleToZeroRetentionSeconds=2029, minReplicas=0, thresholdMetric=throughput, thresholdValue=2}, terminateAfterPreemption=false, backoffLimit=3, autoDeletionTimeAfterCompletionSeconds=15, annotations=[Ljava.lang.Object;@78910096, nodeType=my-node-type, command=python, runAsUid=500, labels=[Ljava.lang.Object;@39dec536, args=-x my-script.py, tolerations=[Ljava.lang.Object;@4a1a256d, environmentVariables=[Ljava.lang.Object;@4cb957b8, runAsGid=30, supplementalGroups=2,3,5,8, allowOverQuota=true, nodePools=["my-node-pool-a","my-node-pool-b"], podAffinity={type=Required, key=key}, connections=[Ljava.lang.Object;@3cdc7b09}, )
         )
 
         # Make the API call
@@ -235,12 +236,13 @@ def example_update_template():
                         datasources = [
                             runai.models.asset_id_and_kind.AssetIdAndKind(
                                 id = '0', 
-                                kind = 'compute', )
+                                kind = 'compute', 
+                                overrides = {containerPath=/container/directory}, )
                             ], 
                         workload_volumes = [
                             ''
                             ], ), 
-                    specific_env = {autoScaling={maxReplicas=1, scaleToZeroRetentionSeconds=2146, minReplicas=0, thresholdMetric=throughput, thresholdValue=5}, terminateAfterPreemption=false, backoffLimit=3, autoDeletionTimeAfterCompletionSeconds=15, annotations=[Ljava.lang.Object;@468173fa, nodeType=my-node-type, command=python, runAsUid=500, labels=[Ljava.lang.Object;@62765aec, args=-x my-script.py, environmentVariables=[Ljava.lang.Object;@6f5bd362, runAsGid=30, supplementalGroups=2,3,5,8, allowOverQuota=true, nodePools=["my-node-pool-a","my-node-pool-b"], podAffinity={type=Required, key=key}, connections=[Ljava.lang.Object;@3a401749}, )
+                    specific_env = {autoScaling={maxReplicas=1, scaleToZeroRetentionSeconds=2029, minReplicas=0, thresholdMetric=throughput, thresholdValue=2}, terminateAfterPreemption=false, backoffLimit=3, autoDeletionTimeAfterCompletionSeconds=15, annotations=[Ljava.lang.Object;@78910096, nodeType=my-node-type, command=python, runAsUid=500, labels=[Ljava.lang.Object;@39dec536, args=-x my-script.py, tolerations=[Ljava.lang.Object;@4a1a256d, environmentVariables=[Ljava.lang.Object;@4cb957b8, runAsGid=30, supplementalGroups=2,3,5,8, allowOverQuota=true, nodePools=["my-node-pool-a","my-node-pool-b"], podAffinity={type=Required, key=key}, connections=[Ljava.lang.Object;@3cdc7b09}, )
         )
 
         # Make the API call

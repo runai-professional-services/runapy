@@ -55,28 +55,6 @@ def example_get_tenant_settings_by_key():
         print(f"Exception when calling get_tenant_settings_by_key: {e}")
 
 
-def example_logo():
-    """
-    Example of using logo
-
-    Get tenant logo.
-    Get tennant logo
-    """
-    try:
-        # Prepare the request parameters
-
-        tenant_id = 42
-
-        # Make the API call
-        api_response = api_instance.logo(
-            tenant_id=tenant_id,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling logo: {e}")
-
-
 def example_update_tenant_setting():
     """
     Example of using update_tenant_setting
@@ -100,28 +78,3 @@ def example_update_tenant_setting():
 
     except Exception as e:
         print(f"Exception when calling update_tenant_setting: {e}")
-
-
-def example_upload_tenant_logo():
-    """
-    Example of using upload_tenant_logo
-
-    Upload a tenant logo.
-    Upload tenant logo file. Max size of 128kb.
-    """
-    try:
-        # Prepare the request parameters
-
-        tenant_id = 42
-
-        # Create example data for Logo200Response
-        logo200_response = models.Logo200Response(logo="")
-
-        # Make the API call
-        api_instance.upload_tenant_logo(
-            tenant_id=tenant_id,
-            logo200_response=logo200_response,
-        )
-
-    except Exception as e:
-        print(f"Exception when calling upload_tenant_logo: {e}")

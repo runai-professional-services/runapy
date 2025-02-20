@@ -18,6 +18,28 @@ api_client = ApiClient(configuration)
 api_instance = ProjectsApi(api_client)
 
 
+def example_count_projects():
+    """
+    Example of using count_projects
+
+    Count projects
+    count projects
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        # Make the API call
+        api_response = api_instance.count_projects(
+            filter_by=filter_by,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_projects: {e}")
+
+
 def example_create_project():
     """
     Example of using create_project
@@ -46,7 +68,7 @@ def example_create_project_0():
     Example of using create_project_0
 
     Create a new project.
-    Creates a new project in a specific cluster.
+    Creates a new project in a specific cluster. Deprecated - use &#x60;/api/v1/org-unit/projects&#x60; instead.
     """
     try:
         # Prepare the request parameters
@@ -94,7 +116,7 @@ def example_delete_project_0():
     Example of using delete_project_0
 
     Delete a project.
-    Deletes a project from a specific cluster.
+    Deletes a project from a specific cluster. Deprecated - use &#x60;/api/v1/org-unit/projects/{projectId}&#x60; instead.
     """
     try:
         # Prepare the request parameters
@@ -139,7 +161,7 @@ def example_get_project_0():
     Example of using get_project_0
 
     List details of a specific project.
-    Retrieves the details of a specific project from a specific cluster. \\n Use for project analysis. \\n **Requires &#x60;view&#x60; permissions to the queried project.**
+    Retrieves the details of a specific project from a specific cluster. Use for project analysis. **Requires &#x60;view&#x60; permissions to the queried project**. Deprecated - use &#x60;/api/v1/org-unit/projects/{projectId}&#x60; instead.
     """
     try:
         # Prepare the request parameters
@@ -209,8 +231,6 @@ def example_get_projects():
 
         filter_by = ["example_item_1", "example_item_2"]
 
-        sort_by = "example_sort_by"
-
         sort_order = "example_sort_order"
 
         offset = 42
@@ -236,7 +256,7 @@ def example_get_projects_0():
     Example of using get_projects_0
 
     List all projects and their details.
-    Retrieves a list of all projects and details from a specific cluster. \\n Use in reporting and analysis tools.
+    Retrieves a list of all projects and details from a specific cluster. Use in reporting and analysis tools. Deprecated - use &#x60;/api/v1/org-unit/projects&#x60; instead.
     """
     try:
         # Prepare the request parameters
@@ -345,7 +365,7 @@ def example_update_project_0():
     Example of using update_project_0
 
     Update a project.
-    Updates a project&#39;s details in a specific cluster. \\n For example, node pool resources, and others.
+    Updates a project&#39;s details in a specific cluster. For example, node pool resources, and others. Deprecated - use &#x60;/api/v1/org-unit/projects/{projectId}&#x60; instead.
     """
     try:
         # Prepare the request parameters

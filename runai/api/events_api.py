@@ -33,7 +33,7 @@ class EventsApi(RunaiAPIService):
         offset: Optional[int]
         limit: Optional[int]
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
 
@@ -76,7 +76,7 @@ class EventsApi(RunaiAPIService):
         offset: Optional[int]
         limit: Optional[int]
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
 

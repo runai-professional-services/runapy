@@ -22,7 +22,7 @@ def example_create_inference1():
     """
     Example of using create_inference1
 
-    Create an inference. [Experimental]
+    Create an inference.
     Create an inference using container related fields.
     """
     try:
@@ -45,7 +45,7 @@ def example_delete_inference():
     """
     Example of using delete_inference
 
-    Delete an inference. [Experimental]
+    Delete an inference.
     Delete an inference using a workload id.
     """
     try:
@@ -65,7 +65,7 @@ def example_get_inference():
     """
     Example of using get_inference
 
-    Get inference data. [Experimental]
+    Get inference data.
     Retrieve inference details using a workload id.
     """
     try:
@@ -86,7 +86,7 @@ def example_get_inference_workload_metrics():
     """
     Example of using get_inference_workload_metrics
 
-    Get inference metrics data. [Experimental]
+    Get inference metrics data.
     Retrieve inference metrics data by id. Supported from control-plane version 2.18 or later.
     """
     try:
@@ -119,7 +119,7 @@ def example_get_inference_workload_pod_metrics():
     """
     Example of using get_inference_workload_pod_metrics
 
-    Get inference pod&#39;s metrics data. [Experimental]
+    Get inference pod&#39;s metrics data.
     Retrieve inference metrics pod&#39;s data by workload and pod id. Supported from control-plane version 2.18 or later.
     """
     try:
@@ -149,3 +149,28 @@ def example_get_inference_workload_pod_metrics():
 
     except Exception as e:
         print(f"Exception when calling get_inference_workload_pod_metrics: {e}")
+
+
+def example_update_inference_spec():
+    """
+    Example of using update_inference_spec
+
+    Update inference spec. [Experimental]
+    Update the specification of an existing inference workload.
+    """
+    try:
+        # Prepare the request parameters
+        workload_id = "example_workload_id"
+
+        # Create example data for InferenceUpdateRequest
+        inference_update_request = models.InferenceUpdateRequest()
+
+        # Make the API call
+        api_response = api_instance.update_inference_spec(
+            workload_id=workload_id,
+            inference_update_request=inference_update_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling update_inference_spec: {e}")

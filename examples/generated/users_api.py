@@ -43,6 +43,28 @@ def example_change_user_password():
         print(f"Exception when calling change_user_password: {e}")
 
 
+def example_count_users():
+    """
+    Example of using count_users
+
+    Count users
+    count users
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        # Make the API call
+        api_response = api_instance.count_users(
+            filter_by=filter_by,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_users: {e}")
+
+
 def example_create_group():
     """
     Example of using create_group
@@ -248,7 +270,7 @@ def example_get_roles():
     Example of using get_roles
 
     Get all possible permissions.
-    Get the complete set of permissions that a tenant can grant to users and applications. Deprecated endpoint. please reffer to Roles &amp; Access rules API.
+    Get the complete set of permissions that a tenant can grant to users and applications. Deprecated endpoint. please refer to Roles &amp; Access rules API.
     """
     try:
         # Make the API call with no parameters
@@ -361,9 +383,22 @@ def example_get_users_0():
         # Prepare the request parameters
         filter = "example_filter"
 
+        filter_by = ["example_item_1", "example_item_2"]
+
+        sort_order = "example_sort_order"
+
+        offset = 42
+
+        limit = 42
+
         # Make the API call
         api_response = api_instance.get_users_0(
             filter=filter,
+            filter_by=filter_by,
+            sort_by=sort_by,
+            sort_order=sort_order,
+            offset=offset,
+            limit=limit,
         )
         print(f"API response: {api_response}")
 

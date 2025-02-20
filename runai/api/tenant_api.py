@@ -74,38 +74,6 @@ class TenantApi(RunaiAPIService):
             method=method,
         )
 
-    @deprecated_message()
-    def logo(
-        self,
-        tenant_id: int,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Get tenant logo.
-
-        ### Parameters:
-        ```python
-        tenant_id: int
-        ```
-        tenant_id: See model int for more information.
-
-        ### Example:
-        ```python
-        TenantApi(
-            tenant_id=56
-        )
-        ```
-        """
-
-        resource_path = f"/v1/k8s/tenant/{tenant_id}/logo".replace("_", "-")
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
     def update_tenant_setting(
         self,
         tenant_setting_creation_request: Optional[
@@ -137,46 +105,6 @@ class TenantApi(RunaiAPIService):
 
         resource_path = f"/v1/k8s/setting".replace("_", "-")
         method = "PUT"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
-    @deprecated_message()
-    def upload_tenant_logo(
-        self,
-        tenant_id: int,
-        logo200_response: Optional[models.Logo200Response] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Upload a tenant logo.
-
-        ### Parameters:
-        ```python
-        tenant_id: int
-        logo200_response: Logo200Response
-        ```
-        tenant_id: See model int for more information.
-        logo200_response: See model Logo200Response for more information.
-
-        ### Example:
-        ```python
-        TenantApi(
-            tenant_id=56,
-                        logo200_response=runai.Logo200Response()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = logo200_response
-
-        resource_path = f"/v1/k8s/tenant/{tenant_id}/logo".replace("_", "-")
-        method = "POST"
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,

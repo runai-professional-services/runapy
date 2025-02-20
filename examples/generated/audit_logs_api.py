@@ -50,9 +50,9 @@ def example_download_audit_logs():
         print(f"Exception when calling download_audit_logs: {e}")
 
 
-def example_get_audit_logs():
+def example_get_audit_logs1():
     """
-    Example of using get_audit_logs
+    Example of using get_audit_logs1
 
     Get audit logs
     Get audit logs based on query params filter
@@ -75,7 +75,7 @@ def example_get_audit_logs():
         filter_by = ["example_item_1", "example_item_2"]
 
         # Make the API call
-        api_response = api_instance.get_audit_logs(
+        api_response = api_instance.get_audit_logs1(
             start=start,
             end=end,
             offset=offset,
@@ -87,4 +87,4 @@ def example_get_audit_logs():
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_audit_logs: {e}")
+        print(f"Exception when calling get_audit_logs1: {e}")

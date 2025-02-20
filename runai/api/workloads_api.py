@@ -68,7 +68,7 @@ class WorkloadsApi(RunaiAPIService):
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -107,7 +107,7 @@ class WorkloadsApi(RunaiAPIService):
         end: Optional[datetime]
         number_of_samples: Optional[int]
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
         metric_type: Specify which data to request.
         start: Start date of time range to fetch data in ISO 8601 timestamp format.
         end: End date of time range to fetch data in ISO 8601 timestamp format.

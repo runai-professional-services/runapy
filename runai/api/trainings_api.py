@@ -23,7 +23,7 @@ class TrainingsApi(RunaiAPIService):
 
 
         ### Description
-        Create a training. [Experimental]
+        Create a training.
 
         ### Parameters:
         ```python
@@ -58,13 +58,13 @@ class TrainingsApi(RunaiAPIService):
 
 
         ### Description
-        Delete a training. [Experimental]
+        Delete a training.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -89,13 +89,13 @@ class TrainingsApi(RunaiAPIService):
 
 
         ### Description
-        Get training data. [Experimental]
+        Get training data.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -120,13 +120,13 @@ class TrainingsApi(RunaiAPIService):
 
 
         ### Description
-        Resume a training. [Experimental]
+        Resume a training.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -153,13 +153,13 @@ class TrainingsApi(RunaiAPIService):
 
 
         ### Description
-        Suspend a training. [Experimental]
+        Suspend a training.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python

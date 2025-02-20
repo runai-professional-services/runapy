@@ -15,6 +15,59 @@ class NodesApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def get_node_metrics(
+        self,
+        node_id: str,
+        metric_type: List[models.NodeMetricType],
+        start: datetime,
+        end: datetime,
+        number_of_samples: Optional[int] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get the node metrics data. [Experimental]
+
+        ### Parameters:
+        ```python
+        node_id: str
+        metric_type: Optional[models.List[NodeMetricType]]
+        start: Optional[datetime]
+        end: Optional[datetime]
+        number_of_samples: Optional[int]
+        ```
+        node_id: The node UUID.
+        metric_type: Specify which data to request.
+        start: Start date of time range to fetch data in ISO 8601 timestamp format.
+        end: End date of time range to fetch data in ISO 8601 timestamp format.
+        number_of_samples: The number of samples to take in the specified time range. - Default: 20
+
+        ### Example:
+        ```python
+        NodesApi(
+            node_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
+                        metric_type=[runai.NodeMetricType()],
+                        start='2023-06-06T12:09:18.211Z',
+                        end='2023-06-07T12:09:18.211Z',
+                        number_of_samples=20
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("metricType", metric_type),
+            ("start", start),
+            ("end", end),
+            ("numberOfSamples", number_of_samples),
+        ]
+        resource_path = f"/api/v1/nodes/{node_id}/metrics".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def get_node_telemetry(
         self,
         telemetry_type: models.NodeTelemetryType,

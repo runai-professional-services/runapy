@@ -18,6 +18,28 @@ api_client = ApiClient(configuration)
 api_instance = DepartmentsApi(api_client)
 
 
+def example_count_departments():
+    """
+    Example of using count_departments
+
+    Count departments
+    count departments
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        # Make the API call
+        api_response = api_instance.count_departments(
+            filter_by=filter_by,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_departments: {e}")
+
+
 def example_create_department():
     """
     Example of using create_department
@@ -206,8 +228,6 @@ def example_get_departments():
 
         filter_by = ["example_item_1", "example_item_2"]
 
-        sort_by = "example_sort_by"
-
         sort_order = "example_sort_order"
 
         offset = 42
@@ -218,6 +238,7 @@ def example_get_departments():
         api_response = api_instance.get_departments(
             filter_by=filter_by,
             sort_by=sort_by,
+            verbosity=verbosity,
             sort_order=sort_order,
             offset=offset,
             limit=limit,

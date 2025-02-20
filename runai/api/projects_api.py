@@ -15,6 +15,40 @@ class ProjectsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def count_projects(
+        self,
+        filter_by: Optional[List[str]] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count projects
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+
+        ### Example:
+        ```python
+        ProjectsApi(
+            filter_by=['[\"name!=some-name\"]']
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+        ]
+        resource_path = f"/api/v1/org_unit/projects/count".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def create_project(
         self,
         project_creation_request: models.ProjectCreationRequest,
@@ -305,7 +339,7 @@ class ProjectsApi(RunaiAPIService):
     def get_projects(
         self,
         filter_by: Optional[List[str]] = None,
-        sort_by: Optional[str] = None,
+        sort_by: Optional[models.ProjectFilterSortFields] = None,
         sort_order: Optional[str] = None,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
@@ -319,7 +353,7 @@ class ProjectsApi(RunaiAPIService):
         ### Parameters:
         ```python
         filter_by: Optional[List[str]]
-        sort_by: Optional[str]
+        sort_by: Optional[models.ProjectFilterSortFields]
         sort_order: Optional[str]
         offset: Optional[int]
         limit: Optional[int]
@@ -334,7 +368,7 @@ class ProjectsApi(RunaiAPIService):
         ```python
         ProjectsApi(
             filter_by=['[\"name!=some-name\"]'],
-                        sort_by='sort_by_example',
+                        sort_by=runai.ProjectFilterSortFields(),
                         sort_order=asc,
                         offset=100,
                         limit=50

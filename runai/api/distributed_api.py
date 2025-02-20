@@ -25,7 +25,7 @@ class DistributedApi(RunaiAPIService):
 
 
         ### Description
-        Create a distributed training. [Experimental]
+        Create a distributed training.
 
         ### Parameters:
         ```python
@@ -60,13 +60,13 @@ class DistributedApi(RunaiAPIService):
 
 
         ### Description
-        Delete a distributed training by id. [Experimental]
+        Delete a distributed training by id.
 
         ### Parameters:
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
@@ -97,7 +97,7 @@ class DistributedApi(RunaiAPIService):
         ```python
         workload_id: str
         ```
-        workload_id: Unique identifier of the workload.
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
