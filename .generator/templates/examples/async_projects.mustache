@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+"""
+Example of using the async Run:ai client to list projects.
+"""
+
+import asyncio
+import logging
+from typing import Optional
+
+from runai.configuration import Configuration
+from runai.api_client import AsyncApiClient
+from runai.runai_client import RunaiClient
+
+
+async def list_projects(
+    client_id: Optional[str] = "{{clientId}}",
+    client_secret: Optional[str] = "{{clientSecret}}",
+    runai_base_url: Optional[str] = "{{runaiBaseUrl}}",
+) -> None:
+    """List all projects using the async client."""
+    # Set up configuration
+    config = Configuration(
+        client_id=client_id,
+        client_secret=client_secret,
+        runai_base_url=runai_base_url,
+        debug=True  # Enable debug logging
+    )
+
+    # Create async client
+    async with RunaiClient(AsyncApiClient(config)) as client:
+        # Create projects API instance
+        projects_api = client.projects
+
+        try:
+            # List projects with pagination
+            offset = 0
+            limit = 10
+            while True:
+                # Get projects page
+                response = await projects_api.get_projects(
+                    offset=offset,
+                    limit=limit,
+                    sort_by="name",
+                    sort_order="asc"
+                )
+
+                # Print projects in this page
+                projects = response.data
+                if not projects:
+                    break
+
+                print(f"\nProjects (offset={offset}, limit={limit}):")
+                for project in projects:
+                    print(f"- {project.name}: {project.description}")
+
+                # Move to next page
+                offset += limit
+
+                # Stop after first page for demo
+                break
+
+        except Exception as e:
+            logging.error(f"Failed to list projects: {str(e)}")
+            raise
+
+
+async def main():
+    """Main entry point."""
+    await list_projects()
+
+
+if __name__ == "__main__":
+    # Set up logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+
+    # Run async main
+    asyncio.run(main())

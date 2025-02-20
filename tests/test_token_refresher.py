@@ -1,0 +1,133 @@
+import unittest
+from unittest.mock import Mock, patch
+import datetime
+import base64
+import json
+from runai.token_refresher import TokenRefresher
+
+
+class TestTokenRefresher(unittest.TestCase):
+    def setUp(self):
+        # Mock API client instance
+        self.api_client = Mock()
+        self.api_client.configuration = Mock()
+        self.api_client.configuration.token_refresh_margin = 60  # 60 seconds margin
+        self.api_client.logger = Mock()
+
+        # Create a sample JWT token that expires in 1 hour
+        self.exp_time = int(
+            (
+                datetime.datetime.now(datetime.timezone.utc)
+                + datetime.timedelta(hours=1)
+            ).timestamp()
+        )
+        token_payload = {"exp": self.exp_time}
+        token_bytes = (
+            base64.b64encode(json.dumps(token_payload).encode()).decode().rstrip("=")
+        )
+        self.test_token = f"header.{token_bytes}.signature"
+
+        self.api_client._token = self.test_token
+        self.refresher = TokenRefresher(self.api_client)
+
+    def test_init(self):
+        """Test initialization of TokenRefresher"""
+        self.assertEqual(self.refresher._api_client_instance, self.api_client)
+        self.assertEqual(self.refresher.configuration, self.api_client.configuration)
+        self.assertFalse(self.refresher._token_refresh_thread_is_locked)
+
+    def test_set_token_expiry(self):
+        """Test token expiry extraction from JWT token"""
+        self.refresher._set_token_expiry()
+        # Verify expiry time was set
+        self.assertTrue(hasattr(self.refresher, "_token_expiry"))
+        self.assertIsInstance(self.refresher._token_expiry, int)
+
+    def test_set_token_expiry_invalid_token(self):
+        """Test handling of invalid token"""
+        self.api_client._token = "invalid.token.format"
+        with self.assertRaises(Exception):
+            self.refresher._set_token_expiry()
+
+    def test_is_token_about_to_expire_no_token(self):
+        """Test token expiry check when no token exists"""
+        self.api_client._token = None
+        self.assertTrue(self.refresher._is_token_about_to_expire())
+
+    @patch("datetime.datetime")
+    def test_is_token_about_to_expire_true(self, mock_datetime):
+        """Test token expiry check when token is about to expire"""
+        # Set current time to be very close to token expiry
+        current_time = Mock()
+        current_time.timestamp.return_value = self.exp_time - 30
+        mock_datetime.now.return_value = current_time
+        mock_datetime.timezone = datetime.timezone
+        mock_datetime.fromtimestamp = datetime.datetime.fromtimestamp
+
+        self.assertTrue(self.refresher._is_token_about_to_expire())
+
+    @patch("datetime.datetime")
+    def test_is_token_about_to_expire_false(self, mock_datetime):
+        """Test token expiry check when token is not about to expire"""
+        # Set current time to be far from token expiry
+        current_time = Mock()
+        current_time.timestamp.return_value = self.exp_time - 3600
+        mock_datetime.now.return_value = current_time
+        mock_datetime.timezone = datetime.timezone
+        mock_datetime.fromtimestamp = datetime.datetime.fromtimestamp
+
+        self.assertFalse(self.refresher._is_token_about_to_expire())
+
+    def test_refresh_token(self):
+        """Test token refresh functionality"""
+        # Create a new valid token
+        exp_time = int(
+            (
+                datetime.datetime.now(datetime.timezone.utc)
+                + datetime.timedelta(hours=2)
+            ).timestamp()
+        )
+        token_payload = {"exp": exp_time}
+        token_bytes = (
+            base64.b64encode(json.dumps(token_payload).encode()).decode().rstrip("=")
+        )
+        new_token = f"header.{token_bytes}.signature"
+
+        self.api_client._make_token_request.return_value = new_token
+        self.refresher._refresh_token()
+
+        # Verify token was refreshed
+        self.api_client._make_token_request.assert_called_once()
+        self.assertEqual(self.api_client._token, new_token)
+        self.api_client.set_default_header.assert_called_once_with(
+            "authorization", f"Bearer {new_token}"
+        )
+
+    def test_check_token_expired_needs_refresh(self):
+        """Test check_token_expired when token needs refresh"""
+        # Mock token about to expire
+        self.refresher._is_token_about_to_expire = Mock(return_value=True)
+        self.refresher._refresh_token = Mock()
+
+        self.refresher._check_token_expired()
+
+        self.refresher._refresh_token.assert_called_once()
+        self.api_client.logger.debug.assert_called_with("Need to refresh token")
+
+    def test_check_token_expired_already_refreshing(self):
+        """Test check_token_expired when another thread is already refreshing"""
+        # Mock token about to expire
+        self.refresher._is_token_about_to_expire = Mock(return_value=True)
+        self.refresher._token_refresh_thread_is_locked = True
+        self.refresher._refresh_token = Mock()
+
+        self.refresher._check_token_expired()
+
+        self.refresher._refresh_token.assert_not_called()
+        self.api_client.logger.debug.assert_called_with(
+            "Another thread is already refreshing the token, skipping refresh"
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -13,21 +13,25 @@ class CLIv2Config:
         """
         self.cliv2_dir = Path(cliv2_config_path)
         if not self.cliv2_dir.is_dir():
-            raise ValueError(f"Invalid path to Run:ai CLIv2 configuration: {cliv2_config_path}")
+            raise ValueError(
+                f"Invalid path to Run:ai CLIv2 configuration: {cliv2_config_path}"
+            )
 
         self.auth_file_path = self.cliv2_dir / "authentication.json"
         self.config_file_path = self.cliv2_dir / "config.json"
 
-        self.token = None
-        self.cluster_uuid = None
-        self.control_plane_url = None
+        self.token = (None,)
+        self.cluster_uuid = (None,)
+        self.control_plane_url = (None,)
 
     def load(self) -> None:
         """
         Load and parse both authentication.json and config.json files.
         Raises an error if any required field is missing.
         """
-        encoded_token = self._load_json_fields(self.auth_file_path, ["accessToken"])["accessToken"]
+        encoded_token = self._load_json_fields(self.auth_file_path, ["accessToken"])[
+            "accessToken"
+        ]
         self.token = self._decode_base64_token(encoded_token)
 
         config_data = self._load_json(self.config_file_path)
@@ -61,7 +65,7 @@ class CLIv2Config:
         :raises JSONDecodeError: If the file is not valid JSON.
         """
         try:
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 return json.load(file)
         except FileNotFoundError:
             raise FileNotFoundError(f"File not found: {file_path}")
@@ -77,7 +81,9 @@ class CLIv2Config:
         :raises ValueError: If the token is not valid Base64.
         """
         try:
-            decoded_bytes = base64.urlsafe_b64decode(token + '==')  # Ensure proper padding for Base64
-            return decoded_bytes.decode('utf-8')
+            decoded_bytes = base64.urlsafe_b64decode(
+                token + "=="
+            )  # Ensure proper padding for Base64
+            return decoded_bytes.decode("utf-8")
         except (base64.binascii.Error, UnicodeDecodeError):
             raise ValueError("Invalid Base64 encoded token")

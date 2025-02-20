@@ -1,0 +1,84 @@
+import abc
+
+from runai import api
+from runai.api_client import ApiClient
+
+class _ApiGroup(abc.ABC):
+    def options(self) -> list:
+        # List cls properties
+        return [
+            attr for attr in dir(self)
+            if isinstance(getattr(type(self), attr, None), property)
+        ]
+
+{{#apiInfo}}
+{{#apis}}
+{{#-first}}
+{{! Using first element to get the tagGroups once instead of x num of APIs }}
+{{#vendorExtensions.x-tagGroups}}
+
+class {{#lambda.titlecase}}{{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}{{/lambda.titlecase}}(_ApiGroup):
+    def __init__(self, api_client: ApiClient):
+        self.api_client = api_client
+    {{#apiInfo}}
+    {{#apis}}
+    {{#-first}}
+    {{#tags}}
+    @property
+    def {{#lambda.snakecase}}{{.}}{{/lambda.snakecase}}(self) -> api.{{#lambda.titlecase}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}{{/lambda.titlecase}}Api:
+        return api.{{#lambda.titlecase}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}{{/lambda.titlecase}}Api(self.api_client)
+
+    {{/tags}}
+    {{/-first}}
+    {{/apis}}
+    {{/apiInfo}}
+{{/vendorExtensions.x-tagGroups}}
+{{/-first}}
+{{/apis}}
+{{/apiInfo}}
+
+class RunaiClient:
+    def __init__(self, api_client=None):
+        self.api_client = api_client
+        {{#x-tagGroups}}
+        self.{{name}} = {{name}}(api_client)
+        {{/x-tagGroups}}
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.aclose()
+
+    def __del__(self):
+        self.close()
+
+    def close(self):
+        """Close the client and cleanup resources."""
+        if self.api_client:
+            self.api_client.close()
+
+    async def aclose(self):
+        """Close the client and cleanup resources asynchronously."""
+        if self.api_client:
+            await self.api_client.close()
+
+    {{#apiInfo}}
+    {{#apis}}
+    {{#-first}}
+    {{! Using first element to get the tagGroups once instead of x num of APIs }}
+    {{#vendorExtensions.x-tagGroups}}
+    @property
+    def {{#lambda.snakecase}}{{name}}{{/lambda.snakecase}}(self) -> {{#lambda.titlecase}}{{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}{{/lambda.titlecase}}:
+        return {{#lambda.titlecase}}{{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}{{/lambda.titlecase}}(self.api_client)
+
+    {{/vendorExtensions.x-tagGroups}}
+    {{/-first}}
+    {{/apis}}
+    {{/apiInfo}}

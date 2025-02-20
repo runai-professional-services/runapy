@@ -1,0 +1,47 @@
+packageVersion: 1.218.0
+
+templateDir: ./templates
+files:
+  runai_client.mustache:
+    folder: runai
+    destinationFilename: runai_client.py
+    templateType: SupportingFiles
+  cliv2_config_loader.mustache:
+    folder: runai
+    destinationFilename: cliv2_config_loader.py
+    templateType: SupportingFiles
+  token_refresher.mustache:
+    folder: runai
+    destinationFilename: token_refresher.py
+    templateType: SupportingFiles
+  api_services.mustache:
+    destinationFilename: .py
+    templateType: API
+  runai_api_service.mustache:
+    destinationFilename: runai_api_service.py
+    folder: runai/api
+    templateType: SupportingFiles
+  async_rest.mustache:
+    folder: runai
+    destinationFilename: async_rest.py
+    templateType: SupportingFiles
+  apis_tests.mustache:
+    folder: tests
+    destinationFilename: -generated.py
+    templateType: APITests
+  test_token_refresher.mustache:
+    folder: tests
+    destinationFilename: test_token_refresher.py
+    templateType: SupportingFiles
+  test_runai_client.mustache:
+    folder: tests
+    destinationFilename: test_runai_client.py
+    templateType: SupportingFiles
+  test_configuration.mustache:
+    folder: tests
+    destinationFilename: test_configuration.py
+    templateType: SupportingFiles
+  examples.mustache:
+    folder: examples/generated
+    destinationFilename: .py
+    templateType: API

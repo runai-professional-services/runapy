@@ -1,0 +1,11 @@
+name: 'Setup Poetry'
+description: 'Installs and configures Poetry'
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        poetry config virtualenvs.create true
+        poetry config virtualenvs.in-project true 

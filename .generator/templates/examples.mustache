@@ -1,0 +1,76 @@
+{{#operations}}
+"""
+Examples for using the {{classname}}
+"""
+
+from runai.configuration import Configuration
+from runai.api_client import ApiClient
+from runai.api import {{classname}}
+from runai import models
+
+# Configure API key authorization
+configuration = Configuration(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+    runai_base_url="https://org.run.ai",
+)
+
+api_client = ApiClient(configuration)
+api_instance = {{classname}}(api_client)
+
+{{#operation}}
+def example_{{operationId}}():
+    """
+    Example of using {{operationId}}
+    
+    {{summary}}
+    {{notes}}
+    """
+    try:
+        {{#hasParams}}
+        # Prepare the request parameters
+        {{#allParams}}
+        {{#isModel}}
+        
+        # Create example data for {{dataType}}
+        {{paramName}} = models.{{dataType}}(
+            {{#vars}}
+            {{name}} = {{{example}}}{{^example}}None{{/example}}{{^-last}},{{/-last}}
+            {{/vars}}
+        )
+        {{/isModel}}
+        {{^isModel}}
+        {{#isString}}{{paramName}} = "example_{{paramName}}"{{/isString}}
+        {{#isInteger}}{{paramName}} = 42{{/isInteger}}
+        {{#isBoolean}}{{paramName}} = True{{/isBoolean}}
+        {{#isArray}}{{paramName}} = ["example_item_1", "example_item_2"]{{/isArray}}
+        {{#isObject}}{{paramName}} = {"name": "example", "value": 42}{{/isObject}}
+        {{#isFloat}}{{paramName}} = 3.14{{/isFloat}}
+        {{#isDate}}{{paramName}} = "2024-12-29"{{/isDate}}
+        {{#isDateTime}}{{paramName}} = "2024-12-29T12:00:00Z"{{/isDateTime}}
+        {{/isModel}}
+        {{/allParams}}
+
+        # Make the API call
+        {{#returnType}}api_response = {{/returnType}}api_instance.{{operationId}}(
+            {{#allParams}}
+            {{paramName}}={{paramName}},
+            {{/allParams}}
+        )
+        {{#returnType}}
+        print(f"API response: {api_response}")
+        {{/returnType}}
+        {{/hasParams}}
+        {{^hasParams}}
+        # Make the API call with no parameters
+        {{#returnType}}api_response = {{/returnType}}api_instance.{{operationId}}()
+        {{#returnType}}
+        print(f"API response: {api_response}")
+        {{/returnType}}
+        {{/hasParams}}
+
+    except Exception as e:
+        print(f"Exception when calling {{operationId}}: {e}")
+
+{{/operation}}
+{{/operations}}

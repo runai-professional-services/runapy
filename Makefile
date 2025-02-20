@@ -1,23 +1,13 @@
-.PHONY: test
-test:
-	poetry run coverage run -m pytest
+include $(shell [ -f .env ] && echo .env)
 
-.PHONY: coverage
-coverage: test
-	poetry run coverage report
-
-.PHONY: build
+PHONY: build
 build:
 	poetry build
 
-.PHONY: publish
+PHONY: publish
 publish:
-	poetry publish --build
+	poetry publish -r testpypi --username __token__ --password $(PYPI_TOKEN)
 
-.PHONY: format
-format:
-	poetry run black
-
-.PHONY: bump-version
-bump-version:
-	poetry version --next-phase ${phase}
+PHONY: publish-test
+publish-test:
+	poetry publish -r testpypi --username __token__ --password $(TEST_PYPI_TOKEN)

@@ -14,7 +14,9 @@ Make sure you are logged in to the CLIv2 with the your user `runai login`
 Ensure to replace `"/path/to/.runai"` with the actual path to your `.runai` configuration directory, typically located in your home directory.
 """
 
-from runai.client import RunaiClient
+from runai.configuration import Configuration
+from runai.api_client import ApiClient
+from runai.runai_client import RunaiClient
 from runai.cliv2_config_loader import CLIv2Config
 
 config = CLIv2Config(cliv2_config_path="/path/to/.runai")
@@ -25,8 +27,7 @@ token = config.token
 runai_base_url = config.control_plane_url
 cluster_id = config.cluster_uuid
 
-client = RunaiClient(
-    cluster_id=cluster_id,
-    bearer_token=token,
-    runai_base_url=runai_base_url
-)
+configuration = Configuration(bearer_token=token, runai_base_url=runai_base_url)
+
+api_client = ApiClient(configuration)
+client = RunaiClient(api_client)

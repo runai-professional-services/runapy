@@ -1,63 +1,79 @@
-from runai.client import RunaiClient
+from runai.configuration import Configuration
+from runai.api_client import ApiClient
+from runai.runai_client import RunaiClient
 
-# Scroll to the bottom to see the controller methods and implementation
+from runai import models
 
-inference_llm_sample_autoscaling_spec = {
-        "image": "gcr.io/run-ai-demo/llm",
-        "imagePullPolicy": "Always",
-        "nodePools": ["default"],
-        "annotations": [{"name": "workloadNumber", "value": "1231"}],
-        "servingPort": {"protocol": "http", "container": 8000},
-        "autoscaling": {
-            "metric": "concurrency",
-            "maxReplicas": 3,
-            "minReplicas": 0,
-            "metricThreshold": 2,
-            "scaleToZeroRetentionSeconds": 900,
-        },
-        "compute": {
-            "cpuCoreRequest": 0.1,
-            "gpuRequestType": "portion",
-            "cpuMemoryRequest": "100M",
-            "gpuDevicesRequest": 1,
-            "gpuPortionRequest": 1,
-        },
-        "environmentVariables": [
-            {"name": "RUNAI_MODEL", "value": "meta-llama/Llama-2-7b-chat-hf"},
-            {"name": "HF_TOKEN", "value": "hf_1234567890"},
-        ],
-    }
+configuration = Configuration(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+    runai_base_url="https://org.run.ai",
+)
 
+api_client = ApiClient(configuration)
+client = RunaiClient(api_client)
 
-client = RunaiClient(
-    client_id=CLIENT_ID,
-    client_secret=CLIENT_SECRET,
-    runai_base_url=BASE_URL,
-    cluster_id=CLUSTER_ID
-)    
+# Create 4 gpu chatbot llm inference workload in 'test' project
+## 1. Fetch the projects id given to be used in the workload creation
+response = client.organizations.projects.get_projects(filter_by=["name==test"]).data[
+    "projects"
+][0]
+project_id = response["id"]
+cluster_id = response["clusterId"]
 
-# Create the inference workload
-inference = client.inference.create(
-    inference_name="inference-job1",
-    use_given_name_as_prefix=False,
-    project_id=PROJECT_ID,
-    cluster_id=CLUSTER_ID,
-    spec=inference_llm_sample_autoscaling_spec
+## 2. Create 4 gpu chatbot llm inference workload
+response = client.workloads.inferences.create_inference1(
+    inference_creation_request=models.InferenceCreationRequest(
+        name="llm-chat",
+        projectId=project_id,
+        clusterId=cluster_id,
+        spec=models.InferenceSpecSpec(
+            image="runai.jfrog.io/core-llm/llm-app",
+            command="start-notebook.sh",
+            environmentVariables=[
+                models.EnvironmentVariable(
+                    name="RUNAI_MODEL_NAME",
+                    value="meta-llama/Llama-3.1-8B-Instruct",
+                ),
+                models.EnvironmentVariable(
+                    name="RUNAI_MODEL_BASE_URL",
+                    value="http://chatbot.runai-test.svc.cluster.local",
+                ),
+                models.EnvironmentVariable(
+                    name="RUNAI_MODEL_TOKEN_LIMIT",
+                    value="8192",
+                ),
+                models.EnvironmentVariable(
+                    name="RUNAI_MODEL_MAX_LENGTH",
+                    value="16384",
+                ),
+                models.EnvironmentVariable(
+                    name="PATH_PREFIX",
+                    value="/${RUNAI_PROJECT}/${RUNAI_JOB_NAME}",
+                ),
+            ],
+            autoscaling=models.AutoScaling(
+                maxReplicas=2, minReplicas=1, metric="troughput", metricThreshold=100
+            ),
+            compute=models.ComputeFields(
+                gpuDevicesRequest=1,
+                gpuPortionRequest=4,
+                cpuCoreRequest=2,
+                cpuMemoryRequest="200M",
+                gpuRequestType=models.GpuRequestType.PORTION,
+            ),
+            exposedUrls=[
+                models.ExposedUrl(
+                    container=3000,
+                    name="ChatbotUI",
+                    tool_name="ChatbotUI",
+                    tool_type="chatbot-ui",
+                )
+            ],
+            servingPort=models.ServingPort(
+                container=3000, protocol=models.ServingPortProtocol.HTTP
+            ),
+        ),
     )
-
-inference_id = inference["workloadId"]
-
-# Get the inference workload
-print(client.inference.get(inference_id=inference_id))
-
-# Delete the inference workload
-print(client.inference.delete(inference_id=inference_id))
-
-
-# Get the metrics of the inference workload
-print(client.inference.get_metrics(
-    inference_id=inference_id,
-    start="2023-06-06T12:09:18.211Z",
-    end="2025-06-06T12:09:18.211Z",
-    metric_type="THROUGHPUT"
-    ))
+)
+print(response)

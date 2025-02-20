@@ -1,70 +1,43 @@
-from runai.client import RunaiClient
+from runai.configuration import Configuration
+from runai.api_client import ApiClient
+from runai.runai_client import RunaiClient
 
-# Scroll to the bottom to see the controller methods and implementation
-# It is recommened to switch the workload_name to imply on the used spec
-# Visit https://app.run.ai/api/docs to see all options under the spec
+from runai import models
 
-tensorboard_jupyter_training_sample_two_gpu_spec = {
-        "image": "gcr.io/run-ai-demo/jupyter-tensorboard",
-        "labels": [{"name": "MY_TRAINING_NUMBER", "value": "10241"}],
-        "imagePullPolicy": "Always",
-        "nodePools": ["default"],
-        "compute": {
-            "cpuCoreRequest": 0.2,
-            "cpuMemoryRequest": "200M",
-            "gpuDevicesRequest": 2,
-        },
-        "backoffLimit": 6,
-        "exposedUrls": [
-            {"toolName": "Jupyter", "toolType": "jupyter-notebook", "container": 8888},
-            {"toolName": "TensorBoard", "toolType": "tensorboard", "container": 6006},
-        ],
-        "environmentVariables": [{"name": "LOG_DIR", "value": "./"}],
-        "priorityClass": "train",
-    }
+configuration = Configuration(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+    runai_base_url="https://org.run.ai",
+)
 
-client = RunaiClient(
-    client_id=CLIENT_ID,
-    client_secret=CLIENT_SECRET,
-    runai_base_url=BASE_URL,
-    cluster_id=CLUSTER_ID
-)    
+api_client = ApiClient(configuration)
+client = RunaiClient(api_client)
 
-# First, get the project ID of the relevant project
-# If alraedy known, skip this step
 
-filter_by = f"clusterId=={CLUSTER_ID}"
-respone = client.projects.all(filterBy=filter_by)
+# Create a training workload in project 'test'
+## 1. Fetch the projects id given to be used in the workload creation
+response = client.organizations.projects.get_projects(filter_by=["name==test"]).data[
+    "projects"
+][0]
+project_id = response["id"]
+cluster_id = response["clusterId"]
 
-projects_list = respone["projects"]
-
-project_name = "my-project-name"
-project_id = None
-
-for project in projects_list:
-    if project["name"] == project_name:
-        project_id = project["id"]
-
-training = client.training.create(
-        training_name="training-tensor-jupyter-two-gpus",
-        use_given_name_as_prefix=False,
-        project_id=project_id,
-        cluster_id=CLUSTER_ID,
-        spec=tensorboard_jupyter_training_sample_two_gpu_spec
-        )
-
-print(training)
-
-training_id = training["workloadId"]
-
-# Get a training
-print(client.training.get(training_id=training_id))
-
-# Suspend a training
-print(client.training.suspend(training_id=training_id))
-
-# Resume a training
-print(client.training.resume(training_id=training_id))
-
-# Delete a training
-print(client.training.delete(training_id=training_id))
+## 2. Create 1 gpu training workload with Run:ai quickstart-demo image
+response = client.workloads.trainings.create_training1(
+    training_creation_request=models.TrainingCreationRequest(
+        name="test",
+        projectId=project_id,
+        clusterId=cluster_id,
+        spec=models.TrainingSpecSpec(
+            image="gcr.io/run-ai-demo/quickstart-demo",
+            compute=models.ComputeFields(
+                gpuDevicesRequest=1,
+                gpuPortionRequest=1,
+                cpuCoreRequest=0.1,
+                cpuMemoryRequest="100M",
+                gpuRequestType="portion",
+            ),
+        ),
+    )
+)
+print(response)
