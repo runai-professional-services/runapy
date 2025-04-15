@@ -36,8 +36,8 @@ class TestRolesApi:
         yield
         self.request_patcher.stop()
 
-    def test_get_role(self):
-        """Test case for get_role
+    def test_get_role_v1(self):
+        """Test case for get_role_v1
 
         Get a role by id. Retrieve the details of a role by id.
         """
@@ -51,7 +51,7 @@ class TestRolesApi:
         role_id_path = 32  # int | The id of the role to retrieve
 
         # Make request
-        response = self.api.get_role(
+        response = self.api.get_role_v1(
             role_id_path=role_id_path,
         )
 
@@ -66,8 +66,8 @@ class TestRolesApi:
         # Verify response
         assert isinstance(response, Role1)
 
-    def test_get_role_error(self):
-        """Test error handling for get_role"""
+    def test_get_role_v1_error(self):
+        """Test error handling for get_role_v1"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -79,13 +79,13 @@ class TestRolesApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_role(
+            self.api.get_role_v1(
                 role_id_path=role_id_path,
             )
         assert exc_info.value.status == 400
 
-    def test_get_roles(self):
-        """Test case for get_roles
+    def test_get_roles_v1(self):
+        """Test case for get_roles_v1
 
         Get a list of roles. Use to retrieve a list of roles.
         """
@@ -98,7 +98,7 @@ class TestRolesApi:
         # Test parameters
 
         # Make request
-        response = self.api.get_roles()
+        response = self.api.get_roles_v1()
 
         # Verify request was made
         assert self.mock_request.called
@@ -111,8 +111,8 @@ class TestRolesApi:
         # Verify response
         assert isinstance(response, List[Role1])
 
-    def test_get_roles_error(self):
-        """Test error handling for get_roles"""
+    def test_get_roles_v1_error(self):
+        """Test error handling for get_roles_v1"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -123,5 +123,5 @@ class TestRolesApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_roles()
+            self.api.get_roles_v1()
         assert exc_info.value.status == 400

@@ -53,9 +53,10 @@ def example_delete_training():
         workload_id = "example_workload_id"
 
         # Make the API call
-        api_instance.delete_training(
+        api_response = api_instance.delete_training(
             workload_id=workload_id,
         )
+        print(f"API response: {api_response}")
 
     except Exception as e:
         print(f"Exception when calling delete_training: {e}")

@@ -92,14 +92,14 @@ class TestInferencesApi:
         # Mock response
         mock_response = mock.Mock()
         mock_response.status = 200
-        mock_response.read.return_value = json.dumps({})
+        mock_response.read.return_value = json.dumps({"data": {}})
         self.mock_request.return_value = mock_response
 
         # Test parameters
         workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
-        self.api.delete_inference(
+        response = self.api.delete_inference(
             workload_id=workload_id,
         )
 
@@ -110,6 +110,9 @@ class TestInferencesApi:
         # Verify request method and URL
         assert kwargs["method"] == "DELETE"
         assert "/api/v1/workloads/inferences/{workloadId}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, HttpResponse)
 
     def test_delete_inference_error(self):
         """Test error handling for delete_inference"""

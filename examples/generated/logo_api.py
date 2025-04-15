@@ -44,12 +44,12 @@ def example_upload_tenant_logo():
     try:
         # Prepare the request parameters
 
-        # Create example data for GetTenantLogo200Response
-        get_tenant_logo200_response = models.GetTenantLogo200Response(logo="")
+        # Create example data for LogoCreationRequest
+        logo_creation_request = models.LogoCreationRequest(logo="")
 
         # Make the API call
         api_instance.upload_tenant_logo(
-            get_tenant_logo200_response=get_tenant_logo200_response,
+            logo_creation_request=logo_creation_request,
         )
 
     except Exception as e:

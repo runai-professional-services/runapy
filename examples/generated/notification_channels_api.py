@@ -40,6 +40,31 @@ def example_create_notification_channel_config():
         print(f"Exception when calling create_notification_channel_config: {e}")
 
 
+def example_create_slack_app():
+    """
+    Example of using create_slack_app
+
+    Create Slack app
+    Create Slack app
+    """
+    try:
+        # Prepare the request parameters
+
+        # Create example data for CreateSlackAppRequestBody
+        create_slack_app_request_body = models.CreateSlackAppRequestBody(
+            access_token=""
+        )
+
+        # Make the API call
+        api_response = api_instance.create_slack_app(
+            create_slack_app_request_body=create_slack_app_request_body,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling create_slack_app: {e}")
+
+
 def example_delete_notification_channel_config():
     """
     Example of using delete_notification_channel_config

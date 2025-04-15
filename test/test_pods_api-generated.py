@@ -54,9 +54,11 @@ class TestPodsApi:
         # Test parameters
         deleted = True   # bool | Return only deleted resources when `true`.
         filter_by = ['[\"nodeName!=some-node-name\"]']   # List[str] | Filter results using a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contains, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
+        search = 'test project'   # str | Filter results by a free text search.
 
         # Make request
         response = self.api.count_pods(
+            
             
             
         )
@@ -73,6 +75,8 @@ class TestPodsApi:
         assert "deleted=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
 
 
@@ -92,6 +96,7 @@ class TestPodsApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.count_pods(
+                
                 
                 
             )
@@ -248,10 +253,12 @@ class TestPodsApi:
         deleted = True   # bool | Return only deleted resources when `true`.
         offset = 100   # int | The offset of the first item returned in the collection.
         limit = 50   # int | The maximum number of entries to return.
+        search = 'test project'   # str | Filter results by a free text search.
 
         # Make request
         response = self.api.get_workload_pods(
             workload_id=workload_id,
+            
             
             
             
@@ -271,6 +278,8 @@ class TestPodsApi:
         assert "offset=" in kwargs["url"]
         # Verify query parameters
         assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
 
 
@@ -292,6 +301,7 @@ class TestPodsApi:
         with pytest.raises(ApiException) as exc_info:
             self.api.get_workload_pods(
                 workload_id=workload_id,
+                
                 
                 
                 
@@ -320,9 +330,11 @@ class TestPodsApi:
         filter_by = ['[\"nodeName!=some-node-name\"]']   # List[str] | Filter results using a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contains, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
         verbosity = brief   # PodVerbosity | response verbosity level. if full, the response includes workloadName and projectName fields. 
         completed = "all\'   # str | Return only completed resources when \'true", return only non-completed resources when 'false'. By default, or when empty, returns all resources.
+        search = 'test project'   # str | Filter results by a free text search.
 
         # Make request
         response = self.api.list_pods(
+            
             
             
             
@@ -357,6 +369,8 @@ class TestPodsApi:
         assert "verbosity=" in kwargs["url"]
         # Verify query parameters
         assert "completed=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
 
 
@@ -376,6 +390,7 @@ class TestPodsApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.list_pods(
+                
                 
                 
                 

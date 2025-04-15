@@ -45,6 +45,33 @@ def example_get_storage_classes():
         print(f"Exception when calling get_storage_classes: {e}")
 
 
+def example_get_storage_classes_v2():
+    """
+    Example of using get_storage_classes_v2
+
+    get a Storage Class/Classes for a given cluster
+
+    """
+    try:
+        # Prepare the request parameters
+        cluster_id = "example_cluster_id"
+
+        name = "example_name"
+
+        include_none = True
+
+        # Make the API call
+        api_response = api_instance.get_storage_classes_v2(
+            cluster_id=cluster_id,
+            name=name,
+            include_none=include_none,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_storage_classes_v2: {e}")
+
+
 def example_v1_get_storage_classes():
     """
     Example of using v1_get_storage_classes

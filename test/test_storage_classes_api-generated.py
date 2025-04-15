@@ -52,7 +52,7 @@ class TestStorageClassesApi:
             "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | The id of the cluster
         )
         name = "name_example"  # str | filter by name
-        include_none = True  # bool | Include runai-none storage class to be able to create PVCs without a storage class
+        include_none = True  # bool | Include runai-none storage class, which is used for static provisioning of PVC. In static provisioning storage is omitted.
 
         # Make request
         response = self.api.get_storage_classes(
@@ -91,6 +91,65 @@ class TestStorageClassesApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_storage_classes(
+                cluster_id=cluster_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_storage_classes_v2(self):
+        """Test case for get_storage_classes_v2
+
+        get a Storage Class/Classes for a given cluster
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = (
+            "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | The id of the cluster
+        )
+        name = "name_example"  # str | filter by name
+        include_none = True  # bool | Include runai-none storage class, which is used for static provisioning of PVC. In static provisioning storage is omitted.
+
+        # Make request
+        response = self.api.get_storage_classes_v2(
+            cluster_id=cluster_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v2/storage-classes" in kwargs["url"]
+
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "name=" in kwargs["url"]
+        # Verify query parameters
+        assert "includeNone=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, StorageClassesV2)
+
+    def test_get_storage_classes_v2_error(self):
+        """Test error handling for get_storage_classes_v2"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_storage_classes_v2(
                 cluster_id=cluster_id,
             )
         assert exc_info.value.status == 400

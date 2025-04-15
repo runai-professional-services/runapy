@@ -35,7 +35,7 @@ class StorageClassesApi(RunaiAPIService):
         ```
         cluster_id: The id of the cluster
         name: filter by name
-        include_none: Include runai-none storage class to be able to create PVCs without a storage class
+        include_none: Include runai-none storage class, which is used for static provisioning of PVC. In static provisioning storage is omitted.
 
         ### Example:
         ```python
@@ -54,6 +54,50 @@ class StorageClassesApi(RunaiAPIService):
             ("includeNone", include_none),
         ]
         resource_path = f"/api/v1/storage_classes".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_storage_classes_v2(
+        self,
+        cluster_id: str,
+        name: Optional[str] = None,
+        include_none: Optional[bool] = None,
+    ):
+        r"""
+
+
+        ### Description
+        get a Storage Class/Classes for a given cluster
+
+        ### Parameters:
+        ```python
+        cluster_id: Optional[str]
+        name: Optional[str]
+        include_none: Optional[bool]
+        ```
+        cluster_id: The id of the cluster
+        name: filter by name
+        include_none: Include runai-none storage class, which is used for static provisioning of PVC. In static provisioning storage is omitted.
+
+        ### Example:
+        ```python
+        StorageClassesApi(
+            cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        name='name_example',
+                        include_none=True
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("clusterId", cluster_id),
+            ("name", name),
+            ("includeNone", include_none),
+        ]
+        resource_path = f"/api/v2/storage_classes".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params

@@ -20,9 +20,11 @@ from runai.api.environment_api import EnvironmentApi
 from runai.api.events_api import EventsApi
 from runai.api.git_api import GitApi
 from runai.api.host_path_api import HostPathApi
+from runai.api.idps_api import IdpsApi
 from runai.api.inferences_api import InferencesApi
 from runai.api.jobs_api import JobsApi
 from runai.api.logo_api import LogoApi
+from runai.api.me_api import MeApi
 from runai.api.nfs_api import NFSApi
 from runai.api.node_pools_api import NodePoolsApi
 from runai.api.nodes_api import NodesApi
@@ -42,6 +44,7 @@ from runai.api.researcher_command_line_interface_api import (
 from runai.api.researcher_command_line_interface_deprecated_api import (
     ResearcherCommandLineInterfaceDeprecatedApi,
 )
+from runai.api.revisions_api import RevisionsApi
 from runai.api.roles_api import RolesApi
 from runai.api.s3_api import S3Api
 from runai.api.secret_api import SecretApi

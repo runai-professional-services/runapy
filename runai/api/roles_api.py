@@ -15,7 +15,7 @@ class RolesApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
-    def get_role(
+    def get_role_v1(
         self,
         role_id_path: int,
     ):
@@ -46,7 +46,7 @@ class RolesApi(RunaiAPIService):
             method=method,
         )
 
-    def get_roles(
+    def get_roles_v1(
         self,
     ):
         r"""

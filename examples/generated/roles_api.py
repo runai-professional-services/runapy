@@ -18,9 +18,9 @@ api_client = ApiClient(configuration)
 api_instance = RolesApi(api_client)
 
 
-def example_get_role():
+def example_get_role_v1():
     """
-    Example of using get_role
+    Example of using get_role_v1
 
     Get a role by id.
     Retrieve the details of a role by id.
@@ -31,26 +31,26 @@ def example_get_role():
         role_id_path = 42
 
         # Make the API call
-        api_response = api_instance.get_role(
+        api_response = api_instance.get_role_v1(
             role_id_path=role_id_path,
         )
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_role: {e}")
+        print(f"Exception when calling get_role_v1: {e}")
 
 
-def example_get_roles():
+def example_get_roles_v1():
     """
-    Example of using get_roles
+    Example of using get_roles_v1
 
     Get a list of roles.
     Use to retrieve a list of roles.
     """
     try:
         # Make the API call with no parameters
-        api_response = api_instance.get_roles()
+        api_response = api_instance.get_roles_v1()
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_roles: {e}")
+        print(f"Exception when calling get_roles_v1: {e}")

@@ -90,9 +90,7 @@ class TestLogoApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        get_tenant_logo200_response = (
-            runai.GetTenantLogo200Response()
-        )  # GetTenantLogo200Response |
+        logo_creation_request = runai.LogoCreationRequest()  # LogoCreationRequest |
 
         # Make request
         self.api.upload_tenant_logo()

@@ -32,10 +32,13 @@ def example_count_pods():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.count_pods(
             deleted=deleted,
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -117,12 +120,15 @@ def example_get_workload_pods():
 
         limit = 42
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.get_workload_pods(
             workload_id=workload_id,
             deleted=deleted,
             offset=offset,
             limit=limit,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -154,6 +160,8 @@ def example_list_pods():
 
         completed = "example_completed"
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.list_pods(
             deleted=deleted,
@@ -164,6 +172,7 @@ def example_list_pods():
             filter_by=filter_by,
             verbosity=verbosity,
             completed=completed,
+            search=search,
         )
         print(f"API response: {api_response}")
 

@@ -101,6 +101,14 @@ class AuthenticationAndAuthorization(_ApiGroup):
     def user_applications(self) -> api.UserApplicationsApi:
         return api.UserApplicationsApi(self.api_client)
 
+    @property
+    def idps(self) -> api.IdpsApi:
+        return api.IdpsApi(self.api_client)
+
+    @property
+    def me(self) -> api.MeApi:
+        return api.MeApi(self.api_client)
+
 
 class Audit(_ApiGroup):
     def __init__(self, api_client: ApiClient):
@@ -155,6 +163,10 @@ class Workloads(_ApiGroup):
     @property
     def inferences(self) -> api.InferencesApi:
         return api.InferencesApi(self.api_client)
+
+    @property
+    def revisions(self) -> api.RevisionsApi:
+        return api.RevisionsApi(self.api_client)
 
     @property
     def distributed(self) -> api.DistributedApi:

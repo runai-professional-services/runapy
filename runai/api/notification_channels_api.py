@@ -50,6 +50,45 @@ class NotificationChannelsApi(RunaiAPIService):
             body=body_params,
         )
 
+    def create_slack_app(
+        self,
+        create_slack_app_request_body: Optional[
+            models.CreateSlackAppRequestBody
+        ] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Create Slack app
+
+        ### Parameters:
+        ```python
+        create_slack_app_request_body: CreateSlackAppRequestBody
+        ```
+        create_slack_app_request_body: See model CreateSlackAppRequestBody for more information.
+
+        ### Example:
+        ```python
+        NotificationChannelsApi(
+            create_slack_app_request_body=runai.CreateSlackAppRequestBody()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = create_slack_app_request_body
+
+        resource_path = f"/api/v1/notification_channels/slack/create_app".replace(
+            "_", "-"
+        )
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
     def delete_notification_channel_config(
         self,
         name: str,
