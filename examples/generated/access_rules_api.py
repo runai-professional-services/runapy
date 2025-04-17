@@ -18,6 +18,29 @@ api_client = ApiClient(configuration)
 api_instance = AccessRulesApi(api_client)
 
 
+def example_access_rules_batch():
+    """
+    Example of using access_rules_batch
+
+    Access Rules batch delete operation.
+
+    """
+    try:
+        # Prepare the request parameters
+
+        # Create example data for AccessRulesBatch
+        access_rules_batch = models.AccessRulesBatch(ids=[""], action="delete")
+
+        # Make the API call
+        api_response = api_instance.access_rules_batch(
+            access_rules_batch=access_rules_batch,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling access_rules_batch: {e}")
+
+
 def example_count_access_rules():
     """
     Example of using count_access_rules

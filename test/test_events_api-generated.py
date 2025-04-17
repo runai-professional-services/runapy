@@ -36,6 +36,125 @@ class TestEventsApi:
         yield
         self.request_patcher.stop()
 
+    def test_get_revision_events(self):
+        """Test case for get_revision_events
+
+        Get revision events by id. [Experimental] Retrieve all the revision events using a revision id. Supported for clusters v2.21+.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        revision_id = "revision_id_example"  # str | The  Universally Unique Identifier (UUID) of the revision.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
+        sort_order = desc  # str | Sort results in descending or ascending order.
+
+        # Make request
+        response = self.api.get_revision_events(
+            revision_id=revision_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert (
+            "/api/v1/workloads/inferences/revisions/{revisionId}/events"
+            in kwargs["url"]
+        )
+
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetWorkloadEvents200Response)
+
+    def test_get_revision_events_error(self):
+        """Test error handling for get_revision_events"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        revision_id = "revision_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_revision_events(
+                revision_id=revision_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_revision_history(self):
+        """Test case for get_revision_history
+
+        Get the revision history. [Experimental] Retrieve revision history details, including events, using a revision id. Supported for clusters v2.21+.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        revision_id = "revision_id_example"  # str | The  Universally Unique Identifier (UUID) of the revision.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
+
+        # Make request
+        response = self.api.get_revision_history(
+            revision_id=revision_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert (
+            "/api/v1/workloads/inferences/revisions/{revisionId}/history"
+            in kwargs["url"]
+        )
+
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetWorkloadHistory200Response)
+
+    def test_get_revision_history_error(self):
+        """Test error handling for get_revision_history"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        revision_id = "revision_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_revision_history(
+                revision_id=revision_id,
+            )
+        assert exc_info.value.status == 400
+
     def test_get_workload_events(self):
         """Test case for get_workload_events
 

@@ -22,8 +22,8 @@ def example_count_inference_workload_revisions():
     """
     Example of using count_inference_workload_revisions
 
-    Get inference workload revisions count.
-    Retrieve the number of an inference workload revisions from a cluster.
+    Get inference workload revisions count. [Experimental]
+    Retrieve the number of an inference workload revisions from a cluster. Supported for clusters v2.21+.
     """
     try:
         # Prepare the request parameters
@@ -46,8 +46,8 @@ def example_get_inference_workload_revisions():
     """
     Example of using get_inference_workload_revisions
 
-    Get inference workload revisions by id.
-    Retrieve the details of inference workload revisions by workload id.
+    Get inference workload revisions by id. [Experimental]
+    Retrieve the details of inference workload revisions by workload id. Supported for clusters v2.21+.
     """
     try:
         # Prepare the request parameters
@@ -70,8 +70,8 @@ def example_get_revision():
     """
     Example of using get_revision
 
-    Get revision data.
-    Retrieve revision details using a revision id.
+    Get revision data. [Experimental]
+    Retrieve revision details using a revision id. Supported for clusters v2.21+.
     """
     try:
         # Prepare the request parameters

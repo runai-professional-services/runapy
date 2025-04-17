@@ -810,12 +810,14 @@ class TestProjectsApi:
 
         # Test parameters
         project_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"  # str | The project id
-        resources = [runai.Resources()]  # List[Resources] | Project resources to patch.
+        resources_nullable = [
+            runai.ResourcesNullable()
+        ]  # List[ResourcesNullable] | Project resources to patch.
 
         # Make request
         response = self.api.patch_project_resources(
             project_id=project_id,
-            resources=resources,
+            resources_nullable=resources_nullable,
         )
 
         # Verify request was made
@@ -842,13 +844,13 @@ class TestProjectsApi:
 
         # Test parameters
         project_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"
-        resources = [runai.Resources()]
+        resources_nullable = [runai.ResourcesNullable()]
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.patch_project_resources(
                 project_id=project_id,
-                resources=resources,
+                resources_nullable=resources_nullable,
             )
         assert exc_info.value.status == 400
 
@@ -987,14 +989,14 @@ class TestProjectsApi:
 
         # Test parameters
         project_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"  # str | The project id
-        resources = [
-            runai.Resources()
-        ]  # List[Resources] | Project resources to update.
+        resources_nullable = [
+            runai.ResourcesNullable()
+        ]  # List[ResourcesNullable] | Project resources to update.
 
         # Make request
         response = self.api.update_project_resources(
             project_id=project_id,
-            resources=resources,
+            resources_nullable=resources_nullable,
         )
 
         # Verify request was made
@@ -1021,12 +1023,12 @@ class TestProjectsApi:
 
         # Test parameters
         project_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"
-        resources = [runai.Resources()]
+        resources_nullable = [runai.ResourcesNullable()]
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.update_project_resources(
                 project_id=project_id,
-                resources=resources,
+                resources_nullable=resources_nullable,
             )
         assert exc_info.value.status == 400

@@ -39,7 +39,7 @@ class TestRevisionsApi:
     def test_count_inference_workload_revisions(self):
         """Test case for count_inference_workload_revisions
 
-        Get inference workload revisions count. Retrieve the number of an inference workload revisions from a cluster.
+        Get inference workload revisions count. [Experimental] Retrieve the number of an inference workload revisions from a cluster. Supported for clusters v2.21+.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -93,7 +93,7 @@ class TestRevisionsApi:
     def test_get_inference_workload_revisions(self):
         """Test case for get_inference_workload_revisions
 
-        Get inference workload revisions by id. Retrieve the details of inference workload revisions by workload id.
+        Get inference workload revisions by id. [Experimental] Retrieve the details of inference workload revisions by workload id. Supported for clusters v2.21+.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -145,7 +145,7 @@ class TestRevisionsApi:
     def test_get_revision(self):
         """Test case for get_revision
 
-        Get revision data. Retrieve revision details using a revision id.
+        Get revision data. [Experimental] Retrieve revision details using a revision id. Supported for clusters v2.21+.
         """
         # Mock response
         mock_response = mock.Mock()

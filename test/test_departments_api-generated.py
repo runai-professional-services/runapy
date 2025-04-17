@@ -811,14 +811,14 @@ class TestDepartmentsApi:
 
         # Test parameters
         department_id = "1"  # str | The id of the department.
-        resources = [
-            runai.Resources()
-        ]  # List[Resources] | Department resources to update.
+        resources_nullable = [
+            runai.ResourcesNullable()
+        ]  # List[ResourcesNullable] | Department resources to update.
 
         # Make request
         response = self.api.patch_department_resources(
             department_id=department_id,
-            resources=resources,
+            resources_nullable=resources_nullable,
         )
 
         # Verify request was made
@@ -845,13 +845,13 @@ class TestDepartmentsApi:
 
         # Test parameters
         department_id = "1"
-        resources = [runai.Resources()]
+        resources_nullable = [runai.ResourcesNullable()]
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.patch_department_resources(
                 department_id=department_id,
-                resources=resources,
+                resources_nullable=resources_nullable,
             )
         assert exc_info.value.status == 400
 
@@ -1052,14 +1052,14 @@ class TestDepartmentsApi:
 
         # Test parameters
         department_id = "1"  # str | The id of the department.
-        resources = [
-            runai.Resources()
-        ]  # List[Resources] | Department resources to update.
+        resources_nullable = [
+            runai.ResourcesNullable()
+        ]  # List[ResourcesNullable] | Department resources to update.
 
         # Make request
         response = self.api.update_department_resources(
             department_id=department_id,
-            resources=resources,
+            resources_nullable=resources_nullable,
         )
 
         # Verify request was made
@@ -1086,12 +1086,12 @@ class TestDepartmentsApi:
 
         # Test parameters
         department_id = "1"
-        resources = [runai.Resources()]
+        resources_nullable = [runai.ResourcesNullable()]
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.update_department_resources(
                 department_id=department_id,
-                resources=resources,
+                resources_nullable=resources_nullable,
             )
         assert exc_info.value.status == 400

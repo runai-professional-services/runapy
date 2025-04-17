@@ -24,7 +24,7 @@ class RevisionsApi(RunaiAPIService):
 
 
         ### Description
-        Get inference workload revisions count.
+        Get inference workload revisions count. [Experimental]
 
         ### Parameters:
         ```python
@@ -66,7 +66,7 @@ class RevisionsApi(RunaiAPIService):
 
 
         ### Description
-        Get inference workload revisions by id.
+        Get inference workload revisions by id. [Experimental]
 
         ### Parameters:
         ```python
@@ -105,7 +105,7 @@ class RevisionsApi(RunaiAPIService):
 
 
         ### Description
-        Get revision data.
+        Get revision data. [Experimental]
 
         ### Parameters:
         ```python

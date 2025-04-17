@@ -223,6 +223,7 @@ class TestEnvironmentApi:
         is_inference = True  # bool | Filter results to workload of type inference.
         comply_to_replica_type = "comply_to_replica_type_example"  # str | Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
+        include_descendants = True  # bool | Whether the query should include asset from all nested layers within the specified entity
 
         # Make request
         response = self.api.list_environment_assets()
@@ -265,6 +266,8 @@ class TestEnvironmentApi:
         assert "complyToReplicaType=" in kwargs["url"]
         # Verify query parameters
         assert "statusInfo=" in kwargs["url"]
+        # Verify query parameters
+        assert "includeDescendants=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, EnvironmentListResponse)

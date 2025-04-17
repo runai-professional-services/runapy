@@ -98,7 +98,8 @@ def example_create_nodepool():
             cluster_id = 'd73a738f-fab3-430a-8fa3-5241493d7128',
             over_provisioning_ratio = 1,
             placement_strategy = {cpu=spread, gpu=spread},
-            gpu_network_acceleration_label_key = ''
+            gpu_network_acceleration_label_key = '',
+            gpu_network_acceleration_detection = 'Auto'
         )
 
         # Make the API call
@@ -385,7 +386,8 @@ def example_patch_nodepool():
             label_value = 'type-x',
             over_provisioning_ratio = 1,
             placement_strategy = {cpu=spread, gpu=spread},
-            gpu_network_acceleration_label_key = ''
+            gpu_network_acceleration_label_key = '',
+            gpu_network_acceleration_detection = 'Auto'
         )
 
         # Make the API call
@@ -508,7 +510,8 @@ def example_update_nodepool():
             label_value = 'type-x',
             over_provisioning_ratio = 1,
             placement_strategy = {cpu=spread, gpu=spread},
-            gpu_network_acceleration_label_key = ''
+            gpu_network_acceleration_label_key = '',
+            gpu_network_acceleration_detection = 'Auto'
         )
 
         # Make the API call

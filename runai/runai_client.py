@@ -109,6 +109,10 @@ class AuthenticationAndAuthorization(_ApiGroup):
     def me(self) -> api.MeApi:
         return api.MeApi(self.api_client)
 
+    @property
+    def settings(self) -> api.SettingsApi:
+        return api.SettingsApi(self.api_client)
+
 
 class Audit(_ApiGroup):
     def __init__(self, api_client: ApiClient):

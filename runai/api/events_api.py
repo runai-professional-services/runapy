@@ -15,6 +15,105 @@ class EventsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def get_revision_events(
+        self,
+        revision_id: str,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_order: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get revision events by id. [Experimental]
+
+        ### Parameters:
+        ```python
+        revision_id: str
+        offset: Optional[int]
+        limit: Optional[int]
+        sort_order: Optional[str]
+        ```
+        revision_id: The  Universally Unique Identifier (UUID) of the revision.
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+        sort_order: Sort results in descending or ascending order. - Default: desc
+
+        ### Example:
+        ```python
+        EventsApi(
+            revision_id='revision_id_example',
+                        offset=100,
+                        limit=50,
+                        sort_order=desc
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("offset", offset),
+            ("limit", limit),
+            ("sortOrder", sort_order),
+        ]
+        resource_path = (
+            f"/api/v1/workloads/inferences/revisions/{revision_id}/events".replace(
+                "_", "-"
+            )
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_revision_history(
+        self,
+        revision_id: str,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get the revision history. [Experimental]
+
+        ### Parameters:
+        ```python
+        revision_id: str
+        offset: Optional[int]
+        limit: Optional[int]
+        ```
+        revision_id: The  Universally Unique Identifier (UUID) of the revision.
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+
+        ### Example:
+        ```python
+        EventsApi(
+            revision_id='revision_id_example',
+                        offset=100,
+                        limit=50
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("offset", offset),
+            ("limit", limit),
+        ]
+        resource_path = (
+            f"/api/v1/workloads/inferences/revisions/{revision_id}/history".replace(
+                "_", "-"
+            )
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def get_workload_events(
         self,
         workload_id: str,

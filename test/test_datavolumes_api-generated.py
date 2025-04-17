@@ -36,6 +36,67 @@ class TestDatavolumesApi:
         yield
         self.request_patcher.stop()
 
+    def test_count_datavolumes(self):
+        """Test case for count_datavolumes
+
+        Count data volumes. Retrieve the number of data volumes.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        request_type = (
+            runai.DatavolumeRequestType()
+        )  # DatavolumeRequestType | Which datavolumes would be returned in the response. Originated - datavolumes that are originated in the permitted scopes of the caller. UsableInProject - datavolumes that can be used in a specific project; if you use this value, you must also provide the project ID in the \"usableInProjectId\" query param.
+        usable_in_project_id = "5"  # str | Only when using \"UsableInProject\" requestType; Filter results for only datavolumes that are shared with - or originated in - the project.
+        filter_by = [
+            '["name!=some-datavolume-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+
+        # Make request
+        response = self.api.count_datavolumes(
+            request_type=request_type,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/datavolumes/count" in kwargs["url"]
+
+        # Verify query parameters
+        assert "requestType=" in kwargs["url"]
+        # Verify query parameters
+        assert "usableInProjectId=" in kwargs["url"]
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, CountAccessRules200Response)
+
+    def test_count_datavolumes_error(self):
+        """Test error handling for count_datavolumes"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        request_type = runai.DatavolumeRequestType()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.count_datavolumes(
+                request_type=request_type,
+            )
+        assert exc_info.value.status == 400
+
     def test_create_datavolume(self):
         """Test case for create_datavolume
 

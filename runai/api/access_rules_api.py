@@ -15,6 +15,41 @@ class AccessRulesApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def access_rules_batch(
+        self,
+        access_rules_batch: Optional[models.AccessRulesBatch] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Access Rules batch delete operation.
+
+        ### Parameters:
+        ```python
+        access_rules_batch: AccessRulesBatch
+        ```
+        access_rules_batch: See model AccessRulesBatch for more information.
+
+        ### Example:
+        ```python
+        AccessRulesApi(
+            access_rules_batch=runai.AccessRulesBatch()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = access_rules_batch
+
+        resource_path = f"/api/v1/authorization/access_rules/batch".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
     def count_access_rules(
         self,
         include_deleted: Optional[bool] = None,

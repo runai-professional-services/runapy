@@ -843,7 +843,7 @@ def example_update_access_key():
         
         # Create example data for AccessKeyUpdateRequest
         access_key_update_request = models.AccessKeyUpdateRequest(
-            meta = {"name":"my-asset"}
+            meta = {"description":"my-credentials"}
         )
 
         # Make the API call
@@ -876,7 +876,7 @@ def example_update_docker_registry():
         
         # Create example data for DockerRegistryUpdateRequest
         docker_registry_update_request = models.DockerRegistryUpdateRequest(
-            meta = {"name":"my-asset"}
+            meta = {"description":"my-credentials"}
         )
 
         # Make the API call
@@ -909,7 +909,7 @@ def example_update_generic_secret():
         
         # Create example data for GenericSecretUpdateRequest
         generic_secret_update_request = models.GenericSecretUpdateRequest(
-            meta = {"name":"my-asset"}
+            meta = {"description":"my-credentials"}
         )
 
         # Make the API call
@@ -942,7 +942,7 @@ def example_update_password():
         
         # Create example data for PasswordUpdateRequest
         password_update_request = models.PasswordUpdateRequest(
-            meta = {"name":"my-asset"}
+            meta = {"description":"my-credentials"}
         )
 
         # Make the API call

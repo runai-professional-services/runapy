@@ -23,7 +23,7 @@ def example_get_binary():
     Example of using get_binary
 
     Download RunAI Researcher command line binary
-    This endpoint returns a binary file that run the Run:AI CLI.
+    This endpoint returns a binary file that run the Run:ai CLI.
     """
     try:
         # Prepare the request parameters
@@ -47,7 +47,7 @@ def example_get_installer_linux():
     Example of using get_installer_linux
 
     Download Linux installer script
-    This endpoint returns a Linux script that can be used to install the Run:AI CLI.
+    This endpoint returns a Linux script that can be used to install the Run:ai CLI.
     """
     try:
         # Make the API call with no parameters
@@ -63,7 +63,7 @@ def example_get_installer_linux_commands():
     Example of using get_installer_linux_commands
 
     Get Linux installer script commands
-    This endpoint returns a linux script commands that can be used to install the Run:AI CLI.
+    This endpoint returns a linux script commands that can be used to install the Run:ai CLI.
     """
     try:
         # Make the API call with no parameters
@@ -79,7 +79,7 @@ def example_get_installer_mac():
     Example of using get_installer_mac
 
     Download Mac installer script
-    This endpoint returns a Mac script that can be used to install the Run:AI CLI.
+    This endpoint returns a Mac script that can be used to install the Run:ai CLI.
     """
     try:
         # Make the API call with no parameters
@@ -95,7 +95,7 @@ def example_get_installer_mac_commands():
     Example of using get_installer_mac_commands
 
     Get Mac installer script commands
-    This endpoint returns a Mac script commands that can be used to install the Run:AI CLI.
+    This endpoint returns a Mac script commands that can be used to install the Run:ai CLI.
     """
     try:
         # Make the API call with no parameters
@@ -111,7 +111,7 @@ def example_get_installer_unix():
     Example of using get_installer_unix
 
     Download Unix installer script
-    This endpoint returns a unix script that can be used to install the Run:AI CLI.
+    This endpoint returns a unix script that can be used to install the Run:ai CLI.
     """
     try:
         # Make the API call with no parameters
@@ -127,7 +127,7 @@ def example_get_installer_unix_commands():
     Example of using get_installer_unix_commands
 
     Get Unix installer script commands
-    This endpoint returns a unix script commands that can be used to install the Run:AI CLI.
+    This endpoint returns a unix script commands that can be used to install the Run:ai CLI.
     """
     try:
         # Make the API call with no parameters
@@ -143,7 +143,7 @@ def example_get_installer_windows_commands():
     Example of using get_installer_windows_commands
 
     Get Windows MSI installer script commands
-    This endpoint returns a windows script commands that can be used to install the Run:AI CLI.
+    This endpoint returns a windows script commands that can be used to install the Run:ai CLI.
     """
     try:
         # Make the API call with no parameters
@@ -159,7 +159,7 @@ def example_get_manual_document():
     Example of using get_manual_document
 
     Get CLI document by name
-    This endpoint returns a document of help for the Run:AI CLI.
+    This endpoint returns a document of help for the Run:ai CLI.
     """
     try:
         # Prepare the request parameters

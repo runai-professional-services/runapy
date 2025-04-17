@@ -48,6 +48,7 @@ from runai.api.revisions_api import RevisionsApi
 from runai.api.roles_api import RolesApi
 from runai.api.s3_api import S3Api
 from runai.api.secret_api import SecretApi
+from runai.api.settings_api import SettingsApi
 from runai.api.storage_classes_api import StorageClassesApi
 from runai.api.subscriptions_api import SubscriptionsApi
 from runai.api.template_api import TemplateApi

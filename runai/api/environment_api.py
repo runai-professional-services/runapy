@@ -158,6 +158,7 @@ class EnvironmentApi(RunaiAPIService):
         is_inference: Optional[bool] = None,
         comply_to_replica_type: Optional[str] = None,
         status_info: Optional[bool] = None,
+        include_descendants: Optional[bool] = None,
     ):
         r"""
 
@@ -182,6 +183,7 @@ class EnvironmentApi(RunaiAPIService):
         is_inference: Optional[bool]
         comply_to_replica_type: Optional[str]
         status_info: Optional[bool]
+        include_descendants: Optional[bool]
         ```
         name: Filter results by name.
         scope: Filter results by scope.
@@ -198,6 +200,7 @@ class EnvironmentApi(RunaiAPIService):
         is_inference: Filter results to workload of type inference.
         comply_to_replica_type: Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
         status_info: Whether the query should include asset status information as part of the response.
+        include_descendants: Whether the query should include asset from all nested layers within the specified entity
 
         ### Example:
         ```python
@@ -216,7 +219,8 @@ class EnvironmentApi(RunaiAPIService):
                         is_workspace=True,
                         is_inference=True,
                         comply_to_replica_type='comply_to_replica_type_example',
-                        status_info=True
+                        status_info=True,
+                        include_descendants=True
         )
         ```
         """
@@ -238,6 +242,7 @@ class EnvironmentApi(RunaiAPIService):
             ("isInference", is_inference),
             ("complyToReplicaType", comply_to_replica_type),
             ("statusInfo", status_info),
+            ("includeDescendants", include_descendants),
         ]
         resource_path = f"/api/v1/asset/environment".replace("_", "-")
         method = "GET"

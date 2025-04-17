@@ -388,12 +388,12 @@ def example_patch_department_resources():
         # Prepare the request parameters
         department_id = "example_department_id"
 
-        resources = ["example_item_1", "example_item_2"]
+        resources_nullable = ["example_item_1", "example_item_2"]
 
         # Make the API call
         api_response = api_instance.patch_department_resources(
             department_id=department_id,
-            resources=resources,
+            resources_nullable=resources_nullable,
         )
         print(f"API response: {api_response}")
 
@@ -495,12 +495,12 @@ def example_update_department_resources():
         # Prepare the request parameters
         department_id = "example_department_id"
 
-        resources = ["example_item_1", "example_item_2"]
+        resources_nullable = ["example_item_1", "example_item_2"]
 
         # Make the API call
         api_response = api_instance.update_department_resources(
             department_id=department_id,
-            resources=resources,
+            resources_nullable=resources_nullable,
         )
         print(f"API response: {api_response}")
 

@@ -91,6 +91,48 @@ class PodsApi(RunaiAPIService):
             method=method,
         )
 
+    def get_revision_pods(
+        self,
+        revision_id: str,
+        deleted: Optional[bool] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get revision pods by id. [Experimental]
+
+        ### Parameters:
+        ```python
+        revision_id: str
+        deleted: Optional[bool]
+        ```
+        revision_id: The  Universally Unique Identifier (UUID) of the revision.
+        deleted: Return only deleted resources when &#x60;true&#x60;.
+
+        ### Example:
+        ```python
+        PodsApi(
+            revision_id='revision_id_example',
+                        deleted=True
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("deleted", deleted),
+        ]
+        resource_path = (
+            f"/api/v1/workloads/inferences/revisions/{revision_id}/pods".replace(
+                "_", "-"
+            )
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def get_workload_pod_metrics(
         self,
         workload_id: str,

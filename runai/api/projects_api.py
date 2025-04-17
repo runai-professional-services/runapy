@@ -617,7 +617,7 @@ class ProjectsApi(RunaiAPIService):
     def patch_project_resources(
         self,
         project_id: str,
-        resources: List[models.Resources],
+        resources_nullable: List[models.ResourcesNullable],
     ):
         r"""
 
@@ -628,22 +628,22 @@ class ProjectsApi(RunaiAPIService):
         ### Parameters:
         ```python
         project_id: str
-        resources: List[Resources]
+        resources_nullable: List[ResourcesNullable]
         ```
         project_id: The project id
-        resources: Project resources to patch.
+        resources_nullable: Project resources to patch.
 
         ### Example:
         ```python
         ProjectsApi(
             project_id='575c19e8-c7c3-45b0-8290-2f47397a8383',
-                        resources=[runai.Resources()]
+                        resources_nullable=[runai.ResourcesNullable()]
         )
         ```
         """
 
         # Body params:
-        body_params = resources
+        body_params = resources_nullable
 
         resource_path = f"/api/v1/org_unit/projects/{project_id}/resources".replace(
             "_", "-"
@@ -750,7 +750,7 @@ class ProjectsApi(RunaiAPIService):
     def update_project_resources(
         self,
         project_id: str,
-        resources: List[models.Resources],
+        resources_nullable: List[models.ResourcesNullable],
     ):
         r"""
 
@@ -761,22 +761,22 @@ class ProjectsApi(RunaiAPIService):
         ### Parameters:
         ```python
         project_id: str
-        resources: List[Resources]
+        resources_nullable: List[ResourcesNullable]
         ```
         project_id: The project id
-        resources: Project resources to update.
+        resources_nullable: Project resources to update.
 
         ### Example:
         ```python
         ProjectsApi(
             project_id='575c19e8-c7c3-45b0-8290-2f47397a8383',
-                        resources=[runai.Resources()]
+                        resources_nullable=[runai.ResourcesNullable()]
         )
         ```
         """
 
         # Body params:
-        body_params = resources
+        body_params = resources_nullable
 
         resource_path = f"/api/v1/org_unit/projects/{project_id}/resources".replace(
             "_", "-"

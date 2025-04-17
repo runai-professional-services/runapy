@@ -18,6 +18,32 @@ api_client = ApiClient(configuration)
 api_instance = DatavolumesApi(api_client)
 
 
+def example_count_datavolumes():
+    """
+    Example of using count_datavolumes
+
+    Count data volumes.
+    Retrieve the number of data volumes.
+    """
+    try:
+        # Prepare the request parameters
+
+        usable_in_project_id = "example_usable_in_project_id"
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        # Make the API call
+        api_response = api_instance.count_datavolumes(
+            request_type=request_type,
+            usable_in_project_id=usable_in_project_id,
+            filter_by=filter_by,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_datavolumes: {e}")
+
+
 def example_create_datavolume():
     """
     Example of using create_datavolume

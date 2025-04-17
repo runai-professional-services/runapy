@@ -36,6 +36,52 @@ class TestAccessRulesApi:
         yield
         self.request_patcher.stop()
 
+    def test_access_rules_batch(self):
+        """Test case for access_rules_batch
+
+        Access Rules batch delete operation.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        access_rules_batch = runai.AccessRulesBatch()  # AccessRulesBatch |
+
+        # Make request
+        response = self.api.access_rules_batch()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/authorization/access-rules/batch" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, BatchResponse)
+
+    def test_access_rules_batch_error(self):
+        """Test error handling for access_rules_batch"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.access_rules_batch()
+        assert exc_info.value.status == 400
+
     def test_count_access_rules(self):
         """Test case for count_access_rules
 

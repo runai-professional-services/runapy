@@ -39,7 +39,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_binary_deprecated(self):
         """Test case for get_binary_deprecated
 
-        Download RunAI Researcher command line binary This endpoint returns a binary file that run the Run:AI CLI.
+        Download RunAI Researcher command line binary This endpoint returns a binary file that run the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -93,7 +93,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_installer_linux_commands_deprecated(self):
         """Test case for get_installer_linux_commands_deprecated
 
-        Get Linux installer script commands This endpoint returns a linux script commands that can be used to install the Run:AI CLI.
+        Get Linux installer script commands This endpoint returns a linux script commands that can be used to install the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -135,7 +135,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_installer_linux_deprecated(self):
         """Test case for get_installer_linux_deprecated
 
-        Download Linux installer script This endpoint returns a Linux script that can be used to install the Run:AI CLI.
+        Download Linux installer script This endpoint returns a Linux script that can be used to install the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -177,7 +177,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_installer_mac_commands_deprecated(self):
         """Test case for get_installer_mac_commands_deprecated
 
-        Get Mac installer script commands This endpoint returns a Mac script commands that can be used to install the Run:AI CLI.
+        Get Mac installer script commands This endpoint returns a Mac script commands that can be used to install the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -219,7 +219,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_installer_mac_deprecated(self):
         """Test case for get_installer_mac_deprecated
 
-        Download Mac installer script This endpoint returns a Mac script that can be used to install the Run:AI CLI.
+        Download Mac installer script This endpoint returns a Mac script that can be used to install the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -261,7 +261,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_installer_unix_commands_deprecated(self):
         """Test case for get_installer_unix_commands_deprecated
 
-        Get Unix installer script commands This endpoint returns a unix script commands that can be used to install the Run:AI CLI.
+        Get Unix installer script commands This endpoint returns a unix script commands that can be used to install the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -303,7 +303,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_installer_unix_deprecated(self):
         """Test case for get_installer_unix_deprecated
 
-        Download Unix installer script This endpoint returns a unix script that can be used to install the Run:AI CLI.
+        Download Unix installer script This endpoint returns a unix script that can be used to install the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -345,7 +345,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_installer_windows_commands_deprecated(self):
         """Test case for get_installer_windows_commands_deprecated
 
-        Get Windows MSI installer script commands This endpoint returns a windows script commands that can be used to install the Run:AI CLI.
+        Get Windows MSI installer script commands This endpoint returns a windows script commands that can be used to install the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -387,7 +387,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
     def test_get_manual_document_deprecated(self):
         """Test case for get_manual_document_deprecated
 
-        Get CLI document by name This endpoint returns a document of help for the Run:AI CLI.
+        Get CLI document by name This endpoint returns a document of help for the Run:ai CLI.
         """
         # Mock response
         mock_response = mock.Mock()

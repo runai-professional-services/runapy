@@ -67,6 +67,30 @@ def example_get_pods():
         print(f"Exception when calling get_pods: {e}")
 
 
+def example_get_revision_pods():
+    """
+    Example of using get_revision_pods
+
+    Get revision pods by id. [Experimental]
+    Retrieve the details of revision pods by revision id. Supported for clusters v2.21+.
+    """
+    try:
+        # Prepare the request parameters
+        revision_id = "example_revision_id"
+
+        deleted = True
+
+        # Make the API call
+        api_response = api_instance.get_revision_pods(
+            revision_id=revision_id,
+            deleted=deleted,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_revision_pods: {e}")
+
+
 def example_get_workload_pod_metrics():
     """
     Example of using get_workload_pod_metrics

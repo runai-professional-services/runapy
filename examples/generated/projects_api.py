@@ -396,12 +396,12 @@ def example_patch_project_resources():
         # Prepare the request parameters
         project_id = "example_project_id"
 
-        resources = ["example_item_1", "example_item_2"]
+        resources_nullable = ["example_item_1", "example_item_2"]
 
         # Make the API call
         api_response = api_instance.patch_project_resources(
             project_id=project_id,
-            resources=resources,
+            resources_nullable=resources_nullable,
         )
         print(f"API response: {api_response}")
 
@@ -476,12 +476,12 @@ def example_update_project_resources():
         # Prepare the request parameters
         project_id = "example_project_id"
 
-        resources = ["example_item_1", "example_item_2"]
+        resources_nullable = ["example_item_1", "example_item_2"]
 
         # Make the API call
         api_response = api_instance.update_project_resources(
             project_id=project_id,
-            resources=resources,
+            resources_nullable=resources_nullable,
         )
         print(f"API response: {api_response}")
 

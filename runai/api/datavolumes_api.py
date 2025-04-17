@@ -15,6 +15,50 @@ class DatavolumesApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def count_datavolumes(
+        self,
+        request_type: models.DatavolumeRequestType,
+        usable_in_project_id: Optional[str] = None,
+        filter_by: Optional[List[str]] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count data volumes.
+
+        ### Parameters:
+        ```python
+        request_type: Optional[models.DatavolumeRequestType]
+        usable_in_project_id: Optional[str]
+        filter_by: Optional[List[str]]
+        ```
+        request_type: Which datavolumes would be returned in the response. Originated - datavolumes that are originated in the permitted scopes of the caller. UsableInProject - datavolumes that can be used in a specific project; if you use this value, you must also provide the project ID in the \&quot;usableInProjectId\&quot; query param.
+        usable_in_project_id: Only when using \&quot;UsableInProject\&quot; requestType; Filter results for only datavolumes that are shared with - or originated in - the project.
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+
+        ### Example:
+        ```python
+        DatavolumesApi(
+            request_type=runai.DatavolumeRequestType(),
+                        usable_in_project_id='5',
+                        filter_by=['[\"name!=some-datavolume-name\"]']
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("requestType", request_type),
+            ("usableInProjectId", usable_in_project_id),
+            ("filterBy", filter_by),
+        ]
+        resource_path = f"/api/v1/datavolumes/count".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def create_datavolume(
         self,
         datavolume_creation_fields: models.DatavolumeCreationFields,
