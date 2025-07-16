@@ -30,7 +30,7 @@ def example_create_pvc_asset():
         # Create example data for PVCCreationRequest
         pvc_creation_request = models.PVCCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-            spec = {path=/container/my-claim, claimName=my-claim, claimInfo={storageClass=my-storage-class, size=1G, accessModes={readOnlyMany=false, readWriteMany=false, readWriteOnce=true}, volumeMode=Filesystem}, ephemeral=false, readOnly=false, existingPvc=false}
+            spec = {path=/container/my-claim, claimName=my-claim, dataSharing=false, claimInfo={storageClass=my-storage-class, addedAttrValues=[Ljava.lang.Object;@53d2d002, size=1G, accessModes={readOnlyMany=false, readWriteMany=false, readWriteOnce=true}, volumeMode=Filesystem}, ephemeral=false, readOnly=false, existingPvc=false}
         )
 
         # Make the API call

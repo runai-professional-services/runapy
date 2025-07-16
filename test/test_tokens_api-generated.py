@@ -85,7 +85,7 @@ class TestTokensApi:
     def test_grant_token(self):
         """Test case for grant_token
 
-        Create an application token. Use to create application tokens. Select a token using the &#x60;grant_type&#x60; parameter.
+        Create a token Create tokens using the &#x60;grant_type&#x60; parameter.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -94,8 +94,11 @@ class TestTokensApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        user_agent = "user_agent_example"  # str |
-        token_request = runai.TokenRequest()  # TokenRequest |
+        token_request = {
+            "grantType": "client_credentials",
+            "clientID": "clientID",
+            "clientSecret": "clientSecret",
+        }  # TokenRequest |
 
         # Make request
         response = self.api.grant_token()
@@ -107,9 +110,6 @@ class TestTokensApi:
         # Verify request method and URL
         assert kwargs["method"] == "POST"
         assert "/api/v1/token" in kwargs["url"]
-
-        # Verify headers
-        assert kwargs["headers"]["User-Agent"] is not None
 
         # Verify body
         assert kwargs["body"] is not None

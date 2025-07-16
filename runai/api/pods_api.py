@@ -59,38 +59,6 @@ class PodsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    @deprecated_message()
-    def get_pods(
-        self,
-        uuid: str,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        get all pods from a specific cluster. Deprecated - please use api/v1/workloads/pods instead
-
-        ### Parameters:
-        ```python
-        uuid: str
-        ```
-        uuid: Unique identifier of the cluster
-
-        ### Example:
-        ```python
-        PodsApi(
-            uuid='uuid_example'
-        )
-        ```
-        """
-
-        resource_path = f"/v1/k8s/clusters/{uuid}/pods".replace("_", "-")
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
     def get_revision_pods(
         self,
         revision_id: str,

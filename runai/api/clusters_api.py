@@ -281,6 +281,7 @@ class ClustersApi(RunaiAPIService):
     def get_clusters(
         self,
         verbosity: Optional[str] = None,
+        include_requested_for_delete: Optional[bool] = None,
     ):
         r"""
 
@@ -291,13 +292,16 @@ class ClustersApi(RunaiAPIService):
         ### Parameters:
         ```python
         verbosity: Optional[str]
+        include_requested_for_delete: Optional[bool]
         ```
         verbosity: response verbosity level.  - Default: full
+        include_requested_for_delete: When true, includes clusters that are marked for deletion
 
         ### Example:
         ```python
         ClustersApi(
-            verbosity=full
+            verbosity=full,
+                        include_requested_for_delete=true
         )
         ```
         """
@@ -305,6 +309,7 @@ class ClustersApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("verbosity", verbosity),
+            ("includeRequestedForDelete", include_requested_for_delete),
         ]
         resource_path = f"/api/v1/clusters".replace("_", "-")
         method = "GET"

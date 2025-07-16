@@ -194,9 +194,9 @@ class TestTemplateApi:
         # Test parameters
         name = "name_example"  # str | Filter results by name.
         scope = "scope_example"  # str | Filter results by scope.
-        project_id = 56  # int | Filter results by project id. if scope filter is project, only assets from the specific project will be included in the response. otherwise, the response will include both project, department, cluster and tenant assets.
-        department_id = "1"  # str | Filter using the department id.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
+        department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         distributed_framework = "distributed_framework_example"  # str | Filter results to workload of type distributed and distributedFramework.
         is_distributed = True  # bool | Filter results to workload of type distributed.
         is_training = True  # bool | Filter results to workload of type training.

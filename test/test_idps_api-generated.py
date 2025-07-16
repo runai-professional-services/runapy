@@ -166,14 +166,14 @@ class TestIdpsApi:
         # Mock response
         mock_response = mock.Mock()
         mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
+        mock_response.read.return_value = json.dumps({})
         self.mock_request.return_value = mock_response
 
         # Test parameters
         idp = "idp_example"  # str | The alias of the idp
 
         # Make request
-        response = self.api.get_idp(
+        self.api.get_idp(
             idp=idp,
         )
 
@@ -184,9 +184,6 @@ class TestIdpsApi:
         # Verify request method and URL
         assert kwargs["method"] == "GET"
         assert "/api/v1/idps/{idp}" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, Idp1)
 
     def test_get_idp_error(self):
         """Test error handling for get_idp"""

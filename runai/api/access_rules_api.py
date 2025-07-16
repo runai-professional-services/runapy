@@ -17,32 +17,71 @@ class AccessRulesApi(RunaiAPIService):
 
     def access_rules_batch(
         self,
-        access_rules_batch: Optional[models.AccessRulesBatch] = None,
+        access_rules_batch_fields: Optional[models.AccessRulesBatchFields] = None,
     ):
         r"""
 
 
         ### Description
-        Access Rules batch delete operation.
+        Delete Multiple Access Rules
 
         ### Parameters:
         ```python
-        access_rules_batch: AccessRulesBatch
+        access_rules_batch_fields: AccessRulesBatchFields
         ```
-        access_rules_batch: See model AccessRulesBatch for more information.
+        access_rules_batch_fields: See model AccessRulesBatchFields for more information.
 
         ### Example:
         ```python
         AccessRulesApi(
-            access_rules_batch=runai.AccessRulesBatch()
+            access_rules_batch_fields=runai.AccessRulesBatchFields()
         )
         ```
         """
 
         # Body params:
-        body_params = access_rules_batch
+        body_params = access_rules_batch_fields
 
         resource_path = f"/api/v1/authorization/access_rules/batch".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def access_rules_batch_create(
+        self,
+        access_rules_batch_create_fields: Optional[
+            models.AccessRulesBatchCreateFields
+        ] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Create Multiple Access Rules
+
+        ### Parameters:
+        ```python
+        access_rules_batch_create_fields: AccessRulesBatchCreateFields
+        ```
+        access_rules_batch_create_fields: See model AccessRulesBatchCreateFields for more information.
+
+        ### Example:
+        ```python
+        AccessRulesApi(
+            access_rules_batch_create_fields=runai.AccessRulesBatchCreateFields()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = access_rules_batch_create_fields
+
+        resource_path = f"/api/v1/authorization/access_rules/batch_create".replace(
+            "_", "-"
+        )
         method = "POST"
         return self._api_client.call_api(
             resource_path=resource_path,

@@ -113,6 +113,14 @@ class AuthenticationAndAuthorization(_ApiGroup):
     def settings(self) -> api.SettingsApi:
         return api.SettingsApi(self.api_client)
 
+    @property
+    def org_unit(self) -> api.OrgUnitApi:
+        return api.OrgUnitApi(self.api_client)
+
+    @property
+    def logout(self) -> api.LogoutApi:
+        return api.LogoutApi(self.api_client)
+
 
 class Audit(_ApiGroup):
     def __init__(self, api_client: ApiClient):
@@ -137,16 +145,8 @@ class Workloads(_ApiGroup):
         self.api_client = api_client
 
     @property
-    def deployments(self) -> api.DeploymentsApi:
-        return api.DeploymentsApi(self.api_client)
-
-    @property
     def events(self) -> api.EventsApi:
         return api.EventsApi(self.api_client)
-
-    @property
-    def jobs(self) -> api.JobsApi:
-        return api.JobsApi(self.api_client)
 
     @property
     def pods(self) -> api.PodsApi:
@@ -179,6 +179,14 @@ class Workloads(_ApiGroup):
     @property
     def workloads_batch(self) -> api.WorkloadsBatchApi:
         return api.WorkloadsBatchApi(self.api_client)
+
+    @property
+    def workloads_priorities(self) -> api.WorkloadsPrioritiesApi:
+        return api.WorkloadsPrioritiesApi(self.api_client)
+
+    @property
+    def distributed_inferences(self) -> api.DistributedInferencesApi:
+        return api.DistributedInferencesApi(self.api_client)
 
 
 class WorkloadAssets(_ApiGroup):

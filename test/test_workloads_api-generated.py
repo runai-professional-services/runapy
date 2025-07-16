@@ -90,6 +90,54 @@ class TestWorkloadsApi:
             self.api.count_workloads()
         assert exc_info.value.status == 400
 
+    def test_get_category_by_id(self):
+        """Test case for get_category_by_id
+
+        Get workload category by id. Retrieves a specific workload category by its ID. Workload categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        category_id = "category_id_example"  # str | The unique identifier of the workload category.
+
+        # Make request
+        response = self.api.get_category_by_id(
+            category_id=category_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workload-categories/{categoryId}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, WorkloadCategory)
+
+    def test_get_category_by_id_error(self):
+        """Test error handling for get_category_by_id"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        category_id = "category_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_category_by_id(
+                category_id=category_id,
+            )
+        assert exc_info.value.status == 400
+
     def test_get_workload(self):
         """Test case for get_workload
 
@@ -209,6 +257,54 @@ class TestWorkloadsApi:
                 metric_type=metric_type,
                 start=start,
                 end=end,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_workload_type(self):
+        """Test case for get_workload_type
+
+        List workload type by id. Retrieves a specific workload type by its ID.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_type_id = "workload_type_id_example"  # str | The unique identifier of the workload type.
+
+        # Make request
+        response = self.api.get_workload_type(
+            workload_type_id=workload_type_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workload-types/{workloadTypeId}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, WorkloadTypeConfig)
+
+    def test_get_workload_type_error(self):
+        """Test error handling for get_workload_type"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_type_id = "workload_type_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_workload_type(
+                workload_type_id=workload_type_id,
             )
         assert exc_info.value.status == 400
 
@@ -340,5 +436,150 @@ class TestWorkloadsApi:
         with pytest.raises(ApiException) as exc_info:
             self.api.get_workloads_telemetry(
                 telemetry_type=telemetry_type,
+            )
+        assert exc_info.value.status == 400
+
+    def test_list_categories(self):
+        """Test case for list_categories
+
+        List workload categories. Retrieves a list of workload categories. These categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.list_categories()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workload-categories" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, ListCategories200Response)
+
+    def test_list_categories_error(self):
+        """Test error handling for list_categories"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.list_categories()
+        assert exc_info.value.status == 400
+
+    def test_list_workload_types(self):
+        """Test case for list_workload_types
+
+        List workload types. Retrieves a list of workload types with their configurations - their corresponding workload categories and priorities.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        external_types_only = False  # bool | Return only external workload types.
+
+        # Make request
+        response = self.api.list_workload_types()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workload-types" in kwargs["url"]
+
+        # Verify query parameters
+        assert "externalTypesOnly=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, ListWorkloadTypes200Response)
+
+    def test_list_workload_types_error(self):
+        """Test error handling for list_workload_types"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.list_workload_types()
+        assert exc_info.value.status == 400
+
+    def test_update_workload_type(self):
+        """Test case for update_workload_type
+
+        Update a workload type by id. Update the default category or priority assigned to a workload type.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_type_id = "workload_type_id_example"  # str | The unique identifier of the workload type to update.
+        workload_type_config_update_fields = (
+            runai.WorkloadTypeConfigUpdateFields()
+        )  # WorkloadTypeConfigUpdateFields | Workload type to update.
+
+        # Make request
+        response = self.api.update_workload_type(
+            workload_type_id=workload_type_id,
+            workload_type_config_update_fields=workload_type_config_update_fields,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/workload-types/{workloadTypeId}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, WorkloadTypeConfig)
+
+    def test_update_workload_type_error(self):
+        """Test error handling for update_workload_type"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_type_id = "workload_type_id_example"
+        workload_type_config_update_fields = runai.WorkloadTypeConfigUpdateFields()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_workload_type(
+                workload_type_id=workload_type_id,
+                workload_type_config_update_fields=workload_type_config_update_fields,
             )
         assert exc_info.value.status == 400

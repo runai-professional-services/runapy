@@ -15,7 +15,7 @@ class SettingsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
-    def get_idm_setting_by_key(
+    def get_security_setting_by_key(
         self,
         key: models.SettingsKeyEnum,
     ):
@@ -23,7 +23,7 @@ class SettingsApi(RunaiAPIService):
 
 
         ### Description
-        Get idm setting by key
+        Get security setting by key
 
         ### Parameters:
         ```python
@@ -46,14 +46,14 @@ class SettingsApi(RunaiAPIService):
             method=method,
         )
 
-    def get_idm_settings(
+    def get_security_settings(
         self,
     ):
         r"""
 
 
         ### Description
-        Get idm settings
+        Get security settings
 
         ### Parameters:
         ```python
@@ -74,36 +74,36 @@ class SettingsApi(RunaiAPIService):
             method=method,
         )
 
-    def update_idm_setting_by_key(
+    def update_security_setting_by_key(
         self,
         key: models.SettingsKeyEnum,
-        update_idm_setting_by_key_request: models.UpdateIdmSettingByKeyRequest,
+        update_security_setting_by_key_request: models.UpdateSecuritySettingByKeyRequest,
     ):
         r"""
 
 
         ### Description
-        Update idm setting by key
+        Update security setting by key
 
         ### Parameters:
         ```python
         key: models.SettingsKeyEnum
-        update_idm_setting_by_key_request: UpdateIdmSettingByKeyRequest
+        update_security_setting_by_key_request: UpdateSecuritySettingByKeyRequest
         ```
         key: The settings key
-        update_idm_setting_by_key_request: See model UpdateIdmSettingByKeyRequest for more information.
+        update_security_setting_by_key_request: See model UpdateSecuritySettingByKeyRequest for more information.
 
         ### Example:
         ```python
         SettingsApi(
             key=runai.SettingsKeyEnum(),
-                        update_idm_setting_by_key_request={"enabled":false,"idpAlias":"oidc"}
+                        update_security_setting_by_key_request={"enabled":false,"idpAlias":"oidc"}
         )
         ```
         """
 
         # Body params:
-        body_params = update_idm_setting_by_key_request
+        body_params = update_security_setting_by_key_request
 
         resource_path = f"/api/v1/security/settings/{key}".replace("_", "-")
         method = "PUT"

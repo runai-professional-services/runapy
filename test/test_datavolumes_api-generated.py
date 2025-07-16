@@ -55,6 +55,7 @@ class TestDatavolumesApi:
         filter_by = [
             '["name!=some-datavolume-name"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.count_datavolumes(
@@ -75,6 +76,8 @@ class TestDatavolumesApi:
         assert "usableInProjectId=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, CountAccessRules200Response)
@@ -147,6 +150,62 @@ class TestDatavolumesApi:
         with pytest.raises(ApiException) as exc_info:
             self.api.create_datavolume(
                 datavolume_creation_fields=datavolume_creation_fields,
+            )
+        assert exc_info.value.status == 400
+
+    def test_datavolume_name_availability(self):
+        """Test case for datavolume_name_availability
+
+        Data volumes name availability. Check if a given data volume name creates naming conflicts under the given scope. Returns conflict (409) in case the name is not available, or 204 (no content) if it is ok.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        data_name = "data_name_example"  # str | the name of the datavolume
+        cluster_id = (
+            "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | The id of the cluster
+        )
+
+        # Make request
+        self.api.datavolume_name_availability(
+            data_name=data_name,
+            cluster_id=cluster_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/datavolumes/name-availability" in kwargs["url"]
+
+        # Verify query parameters
+        assert "dataName=" in kwargs["url"]
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+
+    def test_datavolume_name_availability_error(self):
+        """Test error handling for datavolume_name_availability"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        data_name = "data_name_example"
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.datavolume_name_availability(
+                data_name=data_name,
+                cluster_id=cluster_id,
             )
         assert exc_info.value.status == 400
 
@@ -317,6 +376,7 @@ class TestDatavolumesApi:
         filter_by = [
             '["name!=some-datavolume-name"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.get_datavolumes(
@@ -345,6 +405,8 @@ class TestDatavolumesApi:
         assert "sortOrder=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, GetDatavolumes200Response)

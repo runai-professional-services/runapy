@@ -59,6 +59,37 @@ class WorkloadsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    def get_category_by_id(
+        self,
+        category_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Get workload category by id.
+
+        ### Parameters:
+        ```python
+        category_id: str
+        ```
+        category_id: The unique identifier of the workload category.
+
+        ### Example:
+        ```python
+        WorkloadsApi(
+            category_id='category_id_example'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workload_categories/{category_id}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
     def get_workload(
         self,
         workload_id: str,
@@ -141,6 +172,37 @@ class WorkloadsApi(RunaiAPIService):
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_workload_type(
+        self,
+        workload_type_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        List workload type by id.
+
+        ### Parameters:
+        ```python
+        workload_type_id: str
+        ```
+        workload_type_id: The unique identifier of the workload type.
+
+        ### Example:
+        ```python
+        WorkloadsApi(
+            workload_type_id='workload_type_id_example'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workload_types/{workload_type_id}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
         )
 
     def get_workloads(
@@ -259,4 +321,105 @@ class WorkloadsApi(RunaiAPIService):
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def list_categories(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        List workload categories.
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        WorkloadsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workload_categories".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def list_workload_types(
+        self,
+        external_types_only: Optional[bool] = None,
+    ):
+        r"""
+
+
+        ### Description
+        List workload types.
+
+        ### Parameters:
+        ```python
+        external_types_only: Optional[bool]
+        ```
+        external_types_only: Return only external workload types. - Default: False
+
+        ### Example:
+        ```python
+        WorkloadsApi(
+            external_types_only=False
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("externalTypesOnly", external_types_only),
+        ]
+        resource_path = f"/api/v1/workload_types".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def update_workload_type(
+        self,
+        workload_type_id: str,
+        workload_type_config_update_fields: models.WorkloadTypeConfigUpdateFields,
+    ):
+        r"""
+
+
+        ### Description
+        Update a workload type by id.
+
+        ### Parameters:
+        ```python
+        workload_type_id: str
+        workload_type_config_update_fields: WorkloadTypeConfigUpdateFields
+        ```
+        workload_type_id: The unique identifier of the workload type to update.
+        workload_type_config_update_fields: Workload type to update.
+
+        ### Example:
+        ```python
+        WorkloadsApi(
+            workload_type_id='workload_type_id_example',
+                        workload_type_config_update_fields=runai.WorkloadTypeConfigUpdateFields()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = workload_type_config_update_fields
+
+        resource_path = f"/api/v1/workload_types/{workload_type_id}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )

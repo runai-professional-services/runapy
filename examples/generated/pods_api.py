@@ -46,27 +46,6 @@ def example_count_pods():
         print(f"Exception when calling count_pods: {e}")
 
 
-def example_get_pods():
-    """
-    Example of using get_pods
-
-    get all pods from a specific cluster. Deprecated - please use api/v1/workloads/pods instead
-
-    """
-    try:
-        # Prepare the request parameters
-        uuid = "example_uuid"
-
-        # Make the API call
-        api_response = api_instance.get_pods(
-            uuid=uuid,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling get_pods: {e}")
-
-
 def example_get_revision_pods():
     """
     Example of using get_revision_pods

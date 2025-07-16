@@ -403,6 +403,9 @@ class TestClustersApi:
 
         # Test parameters
         verbosity = full  # str | response verbosity level.
+        include_requested_for_delete = (
+            true  # bool | When True, includes clusters that are marked for deletion
+        )
 
         # Make request
         response = self.api.get_clusters()
@@ -417,6 +420,8 @@ class TestClustersApi:
 
         # Verify query parameters
         assert "verbosity=" in kwargs["url"]
+        # Verify query parameters
+        assert "includeRequestedForDelete=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, List[DisplayedCluster])

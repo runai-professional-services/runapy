@@ -195,9 +195,12 @@ def example_get_clusters():
         # Prepare the request parameters
         verbosity = "example_verbosity"
 
+        include_requested_for_delete = True
+
         # Make the API call
         api_response = api_instance.get_clusters(
             verbosity=verbosity,
+            include_requested_for_delete=include_requested_for_delete,
         )
         print(f"API response: {api_response}")
 

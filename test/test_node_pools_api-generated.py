@@ -67,7 +67,7 @@ class TestNodePoolsApi:
         assert "filterBy=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, CountNodepools200Response)
+        assert isinstance(response, CountNodes200Response)
 
     def test_count_nodepools_error(self):
         """Test error handling for count_nodepools"""

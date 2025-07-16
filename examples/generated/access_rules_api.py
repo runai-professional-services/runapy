@@ -22,23 +22,65 @@ def example_access_rules_batch():
     """
     Example of using access_rules_batch
 
-    Access Rules batch delete operation.
+    Delete Multiple Access Rules
 
     """
     try:
         # Prepare the request parameters
 
-        # Create example data for AccessRulesBatch
-        access_rules_batch = models.AccessRulesBatch(ids=[""], action="delete")
+        # Create example data for AccessRulesBatchFields
+        access_rules_batch_fields = models.AccessRulesBatchFields(
+            ids=[""], action="delete"
+        )
 
         # Make the API call
         api_response = api_instance.access_rules_batch(
-            access_rules_batch=access_rules_batch,
+            access_rules_batch_fields=access_rules_batch_fields,
         )
         print(f"API response: {api_response}")
 
     except Exception as e:
         print(f"Exception when calling access_rules_batch: {e}")
+
+
+def example_access_rules_batch_create():
+    """
+    Example of using access_rules_batch_create
+
+    Create Multiple Access Rules
+    Creates a batch of access rules in a single operation. Requires a list of access rule objects, each specifying the subject, role, and scope. Returns the result of the operation, including which rules were successfully created and any that failed, along with error messages if applicable.
+    """
+    try:
+        # Prepare the request parameters
+
+        # Create example data for AccessRulesBatchCreateFields
+        access_rules_batch_create_fields = models.AccessRulesBatchCreateFields(
+            payload=runai.models.access_rules_batch_create_fields_payload.AccessRulesBatchCreateFields_payload(
+                role_id=53142648,
+                cluster_id="71f69d83-ba66-4822-adf5-55ce55efd210",
+                subjects=[
+                    runai.models.access_rule_subjects_inner.AccessRuleSubjects_inner(
+                        subject_id="user@run.ai",
+                        subject_type=null,
+                    )
+                ],
+                scopes=[
+                    runai.models.access_rule_scopes_inner.AccessRuleScopes_inner(
+                        scope_id="",
+                        scope_type=null,
+                    )
+                ],
+            )
+        )
+
+        # Make the API call
+        api_response = api_instance.access_rules_batch_create(
+            access_rules_batch_create_fields=access_rules_batch_create_fields,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling access_rules_batch_create: {e}")
 
 
 def example_count_access_rules():

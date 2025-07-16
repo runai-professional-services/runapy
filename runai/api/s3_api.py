@@ -175,9 +175,9 @@ class S3Api(RunaiAPIService):
         ```
         name: Filter results by name.
         scope: Filter results by scope.
-        project_id: Filter results by project id. if scope filter is project, only assets from the specific project will be included in the response. otherwise, the response will include both project, department, cluster and tenant assets.
-        department_id: Filter using the department id.
-        cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        project_id: Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
+        department_id: Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
+        cluster_id: Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info: Whether the query should include asset usage information as part of the response.
         comply_to_project: Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
         comply_to_workload_type: Include workload creation compliance information of an asset, for a given workload type, as part of the response. To check compliance, you need to provide both project id and workload type.

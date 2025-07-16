@@ -36,10 +36,10 @@ class TestSettingsApi:
         yield
         self.request_patcher.stop()
 
-    def test_get_idm_setting_by_key(self):
-        """Test case for get_idm_setting_by_key
+    def test_get_security_setting_by_key(self):
+        """Test case for get_security_setting_by_key
 
-        Get idm setting by key
+        Get security setting by key
         """
         # Mock response
         mock_response = mock.Mock()
@@ -51,7 +51,7 @@ class TestSettingsApi:
         key = runai.SettingsKeyEnum()  # SettingsKeyEnum | The settings key
 
         # Make request
-        response = self.api.get_idm_setting_by_key(
+        response = self.api.get_security_setting_by_key(
             key=key,
         )
 
@@ -64,10 +64,10 @@ class TestSettingsApi:
         assert "/api/v1/security/settings/{key}" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Settings)
+        assert isinstance(response, Dict[str, object])
 
-    def test_get_idm_setting_by_key_error(self):
-        """Test error handling for get_idm_setting_by_key"""
+    def test_get_security_setting_by_key_error(self):
+        """Test error handling for get_security_setting_by_key"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -79,15 +79,15 @@ class TestSettingsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_idm_setting_by_key(
+            self.api.get_security_setting_by_key(
                 key=key,
             )
         assert exc_info.value.status == 400
 
-    def test_get_idm_settings(self):
-        """Test case for get_idm_settings
+    def test_get_security_settings(self):
+        """Test case for get_security_settings
 
-        Get idm settings
+        Get security settings
         """
         # Mock response
         mock_response = mock.Mock()
@@ -98,7 +98,7 @@ class TestSettingsApi:
         # Test parameters
 
         # Make request
-        response = self.api.get_idm_settings()
+        response = self.api.get_security_settings()
 
         # Verify request was made
         assert self.mock_request.called
@@ -111,8 +111,8 @@ class TestSettingsApi:
         # Verify response
         assert isinstance(response, SettingsGetResponse)
 
-    def test_get_idm_settings_error(self):
-        """Test error handling for get_idm_settings"""
+    def test_get_security_settings_error(self):
+        """Test error handling for get_security_settings"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -123,13 +123,13 @@ class TestSettingsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_idm_settings()
+            self.api.get_security_settings()
         assert exc_info.value.status == 400
 
-    def test_update_idm_setting_by_key(self):
-        """Test case for update_idm_setting_by_key
+    def test_update_security_setting_by_key(self):
+        """Test case for update_security_setting_by_key
 
-        Update idm setting by key
+        Update security setting by key
         """
         # Mock response
         mock_response = mock.Mock()
@@ -139,15 +139,15 @@ class TestSettingsApi:
 
         # Test parameters
         key = runai.SettingsKeyEnum()  # SettingsKeyEnum | The settings key
-        update_idm_setting_by_key_request = {
+        update_security_setting_by_key_request = {
             "enabled": False,
             "idpAlias": "oidc",
-        }  # UpdateIdmSettingByKeyRequest |
+        }  # UpdateSecuritySettingByKeyRequest |
 
         # Make request
-        self.api.update_idm_setting_by_key(
+        self.api.update_security_setting_by_key(
             key=key,
-            update_idm_setting_by_key_request=update_idm_setting_by_key_request,
+            update_security_setting_by_key_request=update_security_setting_by_key_request,
         )
 
         # Verify request was made
@@ -161,8 +161,8 @@ class TestSettingsApi:
         # Verify body
         assert kwargs["body"] is not None
 
-    def test_update_idm_setting_by_key_error(self):
-        """Test error handling for update_idm_setting_by_key"""
+    def test_update_security_setting_by_key_error(self):
+        """Test error handling for update_security_setting_by_key"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -171,12 +171,12 @@ class TestSettingsApi:
 
         # Test parameters
         key = runai.SettingsKeyEnum()
-        update_idm_setting_by_key_request = {"enabled": False, "idpAlias": "oidc"}
+        update_security_setting_by_key_request = {"enabled": False, "idpAlias": "oidc"}
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.update_idm_setting_by_key(
+            self.api.update_security_setting_by_key(
                 key=key,
-                update_idm_setting_by_key_request=update_idm_setting_by_key_request,
+                update_security_setting_by_key_request=update_security_setting_by_key_request,
             )
         assert exc_info.value.status == 400

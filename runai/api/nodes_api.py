@@ -15,6 +15,49 @@ class NodesApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def count_nodes(
+        self,
+        cluster_uuid: str,
+        filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count nodes
+
+        ### Parameters:
+        ```python
+        cluster_uuid: str
+        filter_by: Optional[List[str]]
+        search: Optional[str]
+        ```
+        cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
+
+        ### Example:
+        ```python
+        NodesApi(
+            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+                        filter_by=['[\"name!=some-name\"]'],
+                        search='test project'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("search", search),
+        ]
+        resource_path = f"/api/v1/clusters/{cluster_uuid}/nodes/count".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def get_node_metrics(
         self,
         node_id: str,
@@ -121,6 +164,12 @@ class NodesApi(RunaiAPIService):
         self,
         cluster_uuid: str,
         node_name: Optional[str] = None,
+        filter_by: Optional[List[str]] = None,
+        sort_by: Optional[models.NodeFilterSortFields] = None,
+        sort_order: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -132,15 +181,33 @@ class NodesApi(RunaiAPIService):
         ```python
         cluster_uuid: str
         node_name: Optional[str]
+        filter_by: Optional[List[str]]
+        sort_by: Optional[models.NodeFilterSortFields]
+        sort_order: Optional[str]
+        offset: Optional[int]
+        limit: Optional[int]
+        search: Optional[str]
         ```
         cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
-        node_name: The node name.
+        node_name: Deprecated - use filterBy instead. The node name; Cannot be used together with filterBy, sort, offset, limit or search query params.
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        sort_by: Sort results by a parameters.
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
         NodesApi(
             cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        node_name='node_name_example'
+                        node_name='node_name_example',
+                        filter_by=['[\"name!=some-name\"]'],
+                        sort_by=runai.NodeFilterSortFields(),
+                        sort_order=asc,
+                        offset=100,
+                        limit=50,
+                        search='test project'
         )
         ```
         """
@@ -148,6 +215,12 @@ class NodesApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("nodeName", node_name),
+            ("filterBy", filter_by),
+            ("sortBy", sort_by),
+            ("sortOrder", sort_order),
+            ("offset", offset),
+            ("limit", limit),
+            ("search", search),
         ]
         resource_path = f"/api/v1/clusters/{cluster_uuid}/nodes".replace("_", "-")
         method = "GET"

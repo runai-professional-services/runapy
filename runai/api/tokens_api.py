@@ -53,28 +53,24 @@ class TokensApi(RunaiAPIService):
 
     def grant_token(
         self,
-        user_agent: Optional[str] = None,
         token_request: Optional[models.TokenRequest] = None,
     ):
         r"""
 
 
         ### Description
-        Create an application token.
+        Create a token
 
         ### Parameters:
         ```python
-        user_agent: str
         token_request: TokenRequest
         ```
-        user_agent: See model str for more information.
         token_request: See model TokenRequest for more information.
 
         ### Example:
         ```python
         TokensApi(
-            user_agent='user_agent_example',
-                        token_request=runai.TokenRequest()
+            token_request={"grantType":"client_credentials","clientID":"clientID","clientSecret":"clientSecret"}
         )
         ```
         """

@@ -39,7 +39,7 @@ class TestAccessRulesApi:
     def test_access_rules_batch(self):
         """Test case for access_rules_batch
 
-        Access Rules batch delete operation.
+        Delete Multiple Access Rules
         """
         # Mock response
         mock_response = mock.Mock()
@@ -48,7 +48,9 @@ class TestAccessRulesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        access_rules_batch = runai.AccessRulesBatch()  # AccessRulesBatch |
+        access_rules_batch_fields = (
+            runai.AccessRulesBatchFields()
+        )  # AccessRulesBatchFields |
 
         # Make request
         response = self.api.access_rules_batch()
@@ -65,7 +67,7 @@ class TestAccessRulesApi:
         assert kwargs["body"] is not None
 
         # Verify response
-        assert isinstance(response, BatchResponse)
+        assert isinstance(response, AccessRuleDeletionBatchResponse)
 
     def test_access_rules_batch_error(self):
         """Test error handling for access_rules_batch"""
@@ -80,6 +82,54 @@ class TestAccessRulesApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.access_rules_batch()
+        assert exc_info.value.status == 400
+
+    def test_access_rules_batch_create(self):
+        """Test case for access_rules_batch_create
+
+        Create Multiple Access Rules Creates a batch of access rules in a single operation. Requires a list of access rule objects, each specifying the subject, role, and scope. Returns the result of the operation, including which rules were successfully created and any that failed, along with error messages if applicable.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        access_rules_batch_create_fields = (
+            runai.AccessRulesBatchCreateFields()
+        )  # AccessRulesBatchCreateFields |
+
+        # Make request
+        response = self.api.access_rules_batch_create()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/authorization/access-rules/batch-create" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, AccessRulesBatchCreateResponse)
+
+    def test_access_rules_batch_create_error(self):
+        """Test error handling for access_rules_batch_create"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.access_rules_batch_create()
         assert exc_info.value.status == 400
 
     def test_count_access_rules(self):

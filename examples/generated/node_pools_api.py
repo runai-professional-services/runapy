@@ -99,7 +99,8 @@ def example_create_nodepool():
             over_provisioning_ratio = 1,
             placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
-            gpu_network_acceleration_detection = 'Auto'
+            gpu_network_acceleration_detection = 'Auto',
+            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true}
         )
 
         # Make the API call
@@ -387,7 +388,8 @@ def example_patch_nodepool():
             over_provisioning_ratio = 1,
             placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
-            gpu_network_acceleration_detection = 'Auto'
+            gpu_network_acceleration_detection = 'Auto',
+            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true}
         )
 
         # Make the API call
@@ -511,7 +513,8 @@ def example_update_nodepool():
             over_provisioning_ratio = 1,
             placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
-            gpu_network_acceleration_detection = 'Auto'
+            gpu_network_acceleration_detection = 'Auto',
+            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true}
         )
 
         # Make the API call

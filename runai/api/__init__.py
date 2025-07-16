@@ -14,16 +14,16 @@ from runai.api.credentials_api import CredentialsApi
 from runai.api.datasources_api import DatasourcesApi
 from runai.api.datavolumes_api import DatavolumesApi
 from runai.api.departments_api import DepartmentsApi
-from runai.api.deployments_api import DeploymentsApi
 from runai.api.distributed_api import DistributedApi
+from runai.api.distributed_inferences_api import DistributedInferencesApi
 from runai.api.environment_api import EnvironmentApi
 from runai.api.events_api import EventsApi
 from runai.api.git_api import GitApi
 from runai.api.host_path_api import HostPathApi
 from runai.api.idps_api import IdpsApi
 from runai.api.inferences_api import InferencesApi
-from runai.api.jobs_api import JobsApi
 from runai.api.logo_api import LogoApi
+from runai.api.logout_api import LogoutApi
 from runai.api.me_api import MeApi
 from runai.api.nfs_api import NFSApi
 from runai.api.node_pools_api import NodePoolsApi
@@ -31,6 +31,7 @@ from runai.api.nodes_api import NodesApi
 from runai.api.notification_channels_api import NotificationChannelsApi
 from runai.api.notification_state_api import NotificationStateApi
 from runai.api.notification_types_api import NotificationTypesApi
+from runai.api.org_unit_api import OrgUnitApi
 from runai.api.pvc_api import PVCApi
 from runai.api.permissions_api import PermissionsApi
 from runai.api.pods_api import PodsApi
@@ -59,4 +60,5 @@ from runai.api.user_applications_api import UserApplicationsApi
 from runai.api.users_api import UsersApi
 from runai.api.workloads_api import WorkloadsApi
 from runai.api.workloads_batch_api import WorkloadsBatchApi
+from runai.api.workloads_priorities_api import WorkloadsPrioritiesApi
 from runai.api.workspaces_api import WorkspacesApi

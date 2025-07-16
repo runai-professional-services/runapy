@@ -20,6 +20,7 @@ class DatavolumesApi(RunaiAPIService):
         request_type: models.DatavolumeRequestType,
         usable_in_project_id: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -32,17 +33,20 @@ class DatavolumesApi(RunaiAPIService):
         request_type: Optional[models.DatavolumeRequestType]
         usable_in_project_id: Optional[str]
         filter_by: Optional[List[str]]
+        search: Optional[str]
         ```
         request_type: Which datavolumes would be returned in the response. Originated - datavolumes that are originated in the permitted scopes of the caller. UsableInProject - datavolumes that can be used in a specific project; if you use this value, you must also provide the project ID in the \&quot;usableInProjectId\&quot; query param.
         usable_in_project_id: Only when using \&quot;UsableInProject\&quot; requestType; Filter results for only datavolumes that are shared with - or originated in - the project.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
         DatavolumesApi(
             request_type=runai.DatavolumeRequestType(),
                         usable_in_project_id='5',
-                        filter_by=['[\"name!=some-datavolume-name\"]']
+                        filter_by=['[\"name!=some-datavolume-name\"]'],
+                        search='test project'
         )
         ```
         """
@@ -52,6 +56,7 @@ class DatavolumesApi(RunaiAPIService):
             ("requestType", request_type),
             ("usableInProjectId", usable_in_project_id),
             ("filterBy", filter_by),
+            ("search", search),
         ]
         resource_path = f"/api/v1/datavolumes/count".replace("_", "-")
         method = "GET"
@@ -92,6 +97,45 @@ class DatavolumesApi(RunaiAPIService):
             resource_path=resource_path,
             method=method,
             body=body_params,
+        )
+
+    def datavolume_name_availability(
+        self,
+        data_name: str,
+        cluster_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Data volumes name availability.
+
+        ### Parameters:
+        ```python
+        data_name: Optional[str]
+        cluster_id: Optional[str]
+        ```
+        data_name: the name of the datavolume
+        cluster_id: The id of the cluster
+
+        ### Example:
+        ```python
+        DatavolumesApi(
+            data_name='data_name_example',
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("dataName", data_name),
+            ("clusterId", cluster_id),
+        ]
+        resource_path = f"/api/v1/datavolumes/name_availability".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
         )
 
     def delete_datavolume(
@@ -198,6 +242,7 @@ class DatavolumesApi(RunaiAPIService):
         sort_by: Optional[str] = None,
         sort_order: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
@@ -214,6 +259,7 @@ class DatavolumesApi(RunaiAPIService):
         sort_by: Optional[str]
         sort_order: Optional[str]
         filter_by: Optional[List[str]]
+        search: Optional[str]
         ```
         request_type: Which datavolumes would be returned in the response. Originated - datavolumes that are originated in the permitted scopes of the caller. UsableInProject - datavolumes that can be used in a specific project; if you use this value, you must also provide the project ID in the \&quot;usableInProjectId\&quot; query param.
         usable_in_project_id: Only when using \&quot;UsableInProject\&quot; requestType; Filter results for only datavolumes that are shared with - or originated in - the project.
@@ -222,6 +268,7 @@ class DatavolumesApi(RunaiAPIService):
         sort_by: Sort results by a parameters.
         sort_order: Sort results in descending or ascending order. - Default: asc
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
@@ -232,7 +279,8 @@ class DatavolumesApi(RunaiAPIService):
                         limit=50,
                         sort_by='sort_by_example',
                         sort_order=asc,
-                        filter_by=['[\"name!=some-datavolume-name\"]']
+                        filter_by=['[\"name!=some-datavolume-name\"]'],
+                        search='test project'
         )
         ```
         """
@@ -246,6 +294,7 @@ class DatavolumesApi(RunaiAPIService):
             ("sortBy", sort_by),
             ("sortOrder", sort_order),
             ("filterBy", filter_by),
+            ("search", search),
         ]
         resource_path = f"/api/v1/datavolumes".replace("_", "-")
         method = "GET"

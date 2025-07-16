@@ -45,12 +45,11 @@ def example_grant_token():
     """
     Example of using grant_token
 
-    Create an application token.
-    Use to create application tokens. Select a token using the &#x60;grant_type&#x60; parameter.
+    Create a token
+    Create tokens using the &#x60;grant_type&#x60; parameter.
     """
     try:
         # Prepare the request parameters
-        user_agent = "example_user_agent"
 
         # Create example data for TokenRequest
         token_request = models.TokenRequest(
@@ -64,11 +63,11 @@ def example_grant_token():
             password="",
             client_id="",
             client_secret="",
+            external_token="",
         )
 
         # Make the API call
         api_response = api_instance.grant_token(
-            user_agent=user_agent,
             token_request=token_request,
         )
         print(f"API response: {api_response}")

@@ -18,6 +18,33 @@ api_client = ApiClient(configuration)
 api_instance = NodesApi(api_client)
 
 
+def example_count_nodes():
+    """
+    Example of using count_nodes
+
+    Count nodes
+    Count nodes
+    """
+    try:
+        # Prepare the request parameters
+        cluster_uuid = "example_cluster_uuid"
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        search = "example_search"
+
+        # Make the API call
+        api_response = api_instance.count_nodes(
+            cluster_uuid=cluster_uuid,
+            filter_by=filter_by,
+            search=search,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_nodes: {e}")
+
+
 def example_get_node_metrics():
     """
     Example of using get_node_metrics
@@ -93,10 +120,26 @@ def example_get_nodes():
 
         node_name = "example_node_name"
 
+        filter_by = ["example_item_1", "example_item_2"]
+
+        sort_order = "example_sort_order"
+
+        offset = 42
+
+        limit = 42
+
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.get_nodes(
             cluster_uuid=cluster_uuid,
             node_name=node_name,
+            filter_by=filter_by,
+            sort_by=sort_by,
+            sort_order=sort_order,
+            offset=offset,
+            limit=limit,
+            search=search,
         )
         print(f"API response: {api_response}")
 

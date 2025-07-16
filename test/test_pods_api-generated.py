@@ -102,59 +102,6 @@ class TestPodsApi:
             )
         assert exc_info.value.status == 400
 
-    def test_get_pods(self):
-        """Test case for get_pods
-
-        get all pods from a specific cluster. Deprecated - please use api/v1/workloads/pods instead 
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({
-            "data": {}
-        })
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        uuid = 'uuid_example'   # str | Unique identifier of the cluster
-
-        # Make request
-        response = self.api.get_pods(
-            uuid=uuid,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/clusters/{uuid}/pods" in kwargs["url"]
-
-
-
-
-        # Verify response
-        assert isinstance(response, List[Pod])
-
-    def test_get_pods_error(self):
-        """Test error handling for get_pods"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        uuid = 'uuid_example' 
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_pods(
-                uuid=uuid,
-            )
-        assert exc_info.value.status == 400
-
     def test_get_revision_pods(self):
         """Test case for get_revision_pods
 

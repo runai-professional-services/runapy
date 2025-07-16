@@ -32,11 +32,14 @@ def example_count_datavolumes():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.count_datavolumes(
             request_type=request_type,
             usable_in_project_id=usable_in_project_id,
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 
@@ -61,6 +64,7 @@ def example_create_datavolume():
             origin_pvc_name="pvc-a",
             project_id="5",
             should_delete_original_volume=False,
+            use_original_volume=True,
         )
 
         # Make the API call
@@ -71,6 +75,29 @@ def example_create_datavolume():
 
     except Exception as e:
         print(f"Exception when calling create_datavolume: {e}")
+
+
+def example_datavolume_name_availability():
+    """
+    Example of using datavolume_name_availability
+
+    Data volumes name availability.
+    Check if a given data volume name creates naming conflicts under the given scope. Returns conflict (409) in case the name is not available, or 204 (no content) if it is ok.
+    """
+    try:
+        # Prepare the request parameters
+        data_name = "example_data_name"
+
+        cluster_id = "example_cluster_id"
+
+        # Make the API call
+        api_instance.datavolume_name_availability(
+            data_name=data_name,
+            cluster_id=cluster_id,
+        )
+
+    except Exception as e:
+        print(f"Exception when calling datavolume_name_availability: {e}")
 
 
 def example_delete_datavolume():
@@ -158,6 +185,8 @@ def example_get_datavolumes():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.get_datavolumes(
             request_type=request_type,
@@ -167,6 +196,7 @@ def example_get_datavolumes():
             sort_by=sort_by,
             sort_order=sort_order,
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 
