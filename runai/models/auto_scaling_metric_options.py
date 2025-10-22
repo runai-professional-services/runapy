@@ -41,7 +41,7 @@ class AutoScalingMetricOptions(BaseModel):
             options=[
                     runai.models.auto_scaling_metric_options_options_inner.AutoScalingMetricOptions_options_inner(
                         value = 'http_requests_total',
-                        displayed = '', )
+                        displayed = 'jUR,rZ#UM/?R,Fp^l6$ARj', )
                     ]
         )
         ```

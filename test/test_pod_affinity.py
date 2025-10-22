@@ -36,7 +36,7 @@ class TestPodAffinity(unittest.TestCase):
 
         # model = PodAffinity()
         if include_optional:
-            return PodAffinity(type="Required", key="")
+            return PodAffinity(type="Required", key="jUR,rZ#UM/?R,Fp^l6$ARj")
         else:
             return PodAffinity()
 

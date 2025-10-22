@@ -17,7 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictInt,
+    field_validator,
+)
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.capability import Capability
@@ -37,61 +44,58 @@ class EnvironmentAssetSpec(BaseModel):
 
     Parameters:
         ```python
-        command: Optional[str]
         args: Optional[str]
-        run_as_uid: Optional[int]
-        run_as_gid: Optional[int]
-        supplemental_groups: Optional[str]
+        command: Optional[str]
         environment_variables: Optional[List[EnvironmentVariableOfAsset]]
-        image: Optional[str]
-        image_pull_policy: Optional[ImagePullPolicy]
-        working_dir: Optional[str]
-        create_home_dir: Optional[bool]
-        probes: Optional[Probes]
-        uid_gid_source: Optional[UidGidSource]
-        capabilities: Optional[List[Capability]]
-        seccomp_profile_type: Optional[SeccompProfileType]
-        run_as_non_root: Optional[bool]
-        read_only_root_filesystem: Optional[bool]
-        tty: Optional[bool]
-        stdin: Optional[bool]
+        run_as_gid: Optional[int]
+        run_as_uid: Optional[int]
+        supplemental_groups: Optional[str]
         allow_privilege_escalation: Optional[bool]
+        capabilities: Optional[List[Capability]]
+        create_home_dir: Optional[bool]
         host_ipc: Optional[bool]
         host_network: Optional[bool]
+        image: Optional[str]
+        image_pull_policy: Optional[ImagePullPolicy]
+        probes: Optional[Probes]
+        read_only_root_filesystem: Optional[bool]
+        run_as_non_root: Optional[bool]
+        seccomp_profile_type: Optional[SeccompProfileType]
+        stdin: Optional[bool]
+        tty: Optional[bool]
+        uid_gid_source: Optional[UidGidSource]
+        working_dir: Optional[str]
         connections: List[Connection]
         override_uid_gid_in_workspace: bool
         ```
-        command: A command to the server as the entry point of the container running the workload.
         args: Arguments to the command that the container running the workload executes.
-        run_as_uid: The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsUid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
-        run_as_gid: The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsGid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
-        supplemental_groups: Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled. Using an empty string implies reverting the supplementary groups of the image.
+        command: A command to the server as the entry point of the container running the workload.
         environment_variables: Set of environment variables to populate into the container running the workspace.
-        image: Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.
-        image_pull_policy: See model ImagePullPolicy for more information.
-        working_dir: Container&#39;s working directory. If not specified, the container runtime default will be used. This may be configured in the container image.
-        create_home_dir: When set to &#x60;true&#x60;, creates a home directory for the container.
-        probes: See model Probes for more information.
-        uid_gid_source: See model UidGidSource for more information.
-        capabilities: Add POSIX capabilities to running containers. Defaults to the default set of capabilities granted by the container runtime.
-        seccomp_profile_type: See model SeccompProfileType for more information.
-        run_as_non_root: Force the container to run as a non-root user.
-        read_only_root_filesystem: If true, mounts the container&#39;s root filesystem as read-only.
-        tty: Whether this container should allocate a TTY for itself, also requires &#39;stdin&#39; to be true.
-        stdin: Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF
+        run_as_gid: The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsGid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
+        run_as_uid: The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsUid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
+        supplemental_groups: Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled. Using an empty string implies reverting the supplementary groups of the image.
         allow_privilege_escalation: Allow the container running the workload and all launched processes to gain additional privileges after the workload starts. For more information consult the User Identity in Container guide at https://docs.run.ai/admin/runai-setup/config/non-root-containers/
+        capabilities: Add POSIX capabilities to running containers. Defaults to the default set of capabilities granted by the container runtime.
+        create_home_dir: When set to &#x60;true&#x60;, creates a home directory for the container.
         host_ipc: Whether to enable host IPC. Defaults to false.
         host_network: Whether to enable host networking. Default to false.
+        image: Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.
+        image_pull_policy: See model ImagePullPolicy for more information.
+        probes: See model Probes for more information.
+        read_only_root_filesystem: If true, mounts the container&#39;s root filesystem as read-only.
+        run_as_non_root: Force the container to run as a non-root user.
+        seccomp_profile_type: See model SeccompProfileType for more information.
+        stdin: Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF
+        tty: Whether this container should allocate a TTY for itself, also requires &#39;stdin&#39; to be true.
+        uid_gid_source: See model UidGidSource for more information.
+        working_dir: Container&#39;s working directory. If not specified, the container runtime default will be used. This may be configured in the container image.
         connections: List of connections that either expose ports from the container (each port is associated with a tool that the container runs), or URL&#39;s to be used for connecting to an external tool that is related to the action of the container (such as Weights &amp; Biases).
         override_uid_gid_in_workspace: Allow specifying uid/gid as part of create workspace. This is relevant only for custom uigGidSource. - Default: False
     Example:
         ```python
         EnvironmentAssetSpec(
-            command='python',
-                        args='-x my-script.py',
-                        run_as_uid=500,
-                        run_as_gid=30,
-                        supplemental_groups='2,3,5,8',
+            args='-x my-script.py',
+                        command='python',
                         environment_variables=[
                     runai.models.environment_variable_of_asset.EnvironmentVariableOfAsset(
                         name = 'HOME',
@@ -107,10 +111,16 @@ class EnvironmentAssetSpec(BaseModel):
                         exclude = False,
                         description = 'Home directory of the user.', )
                     ],
+                        run_as_gid=30,
+                        run_as_uid=500,
+                        supplemental_groups='2,3,5,8',
+                        allow_privilege_escalation=False,
+                        capabilities=["CHOWN","KILL"],
+                        create_home_dir=True,
+                        host_ipc=False,
+                        host_network=False,
                         image='python:3.8',
                         image_pull_policy='Always',
-                        working_dir='/home/myfolder',
-                        create_home_dir=True,
                         probes=runai.models.probes.Probes(
                     readiness = runai.models.probe.Probe(
                         initial_delay_seconds = 0,
@@ -124,16 +134,13 @@ class EnvironmentAssetSpec(BaseModel):
                                 port = 1,
                                 host = 'example.com',
                                 scheme = 'HTTP', ), ), ), ),
-                        uid_gid_source='fromTheImage',
-                        capabilities=[CHOWN, KILL],
-                        seccomp_profile_type='RuntimeDefault',
-                        run_as_non_root=True,
                         read_only_root_filesystem=False,
-                        tty=True,
+                        run_as_non_root=True,
+                        seccomp_profile_type='RuntimeDefault',
                         stdin=True,
-                        allow_privilege_escalation=False,
-                        host_ipc=False,
-                        host_network=False,
+                        tty=True,
+                        uid_gid_source='fromTheImage',
+                        working_dir='/home/myfolder',
                         connections=[
                     runai.models.connection.Connection(
                         name = '0',
@@ -158,82 +165,47 @@ class EnvironmentAssetSpec(BaseModel):
         ```
     """  # noqa: E501
 
-    command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
-        default=None,
-        description="A command to the server as the entry point of the container running the workload.",
-    )
     args: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
         description="Arguments to the command that the container running the workload executes.",
     )
-    run_as_uid: Optional[StrictInt] = Field(
+    command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
-        description="The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsUid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
-        alias="runAsUid",
-    )
-    run_as_gid: Optional[StrictInt] = Field(
-        default=None,
-        description="The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsGid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
-        alias="runAsGid",
-    )
-    supplemental_groups: Optional[StrictStr] = Field(
-        default=None,
-        description="Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled. Using an empty string implies reverting the supplementary groups of the image.",
-        alias="supplementalGroups",
+        description="A command to the server as the entry point of the container running the workload.",
     )
     environment_variables: Optional[List[Optional[EnvironmentVariableOfAsset]]] = Field(
         default=None,
         description="Set of environment variables to populate into the container running the workspace.",
         alias="environmentVariables",
     )
-    image: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+    run_as_gid: Optional[StrictInt] = Field(
         default=None,
-        description="Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.",
+        description="The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsGid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
+        alias="runAsGid",
     )
-    image_pull_policy: Optional[ImagePullPolicy] = Field(
-        default=None, alias="imagePullPolicy"
-    )
-    working_dir: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+    run_as_uid: Optional[StrictInt] = Field(
         default=None,
-        description="Container's working directory. If not specified, the container runtime default will be used. This may be configured in the container image.",
-        alias="workingDir",
+        description="The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsUid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
+        alias="runAsUid",
     )
-    create_home_dir: Optional[StrictBool] = Field(
+    supplemental_groups: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
-        description="When set to `true`, creates a home directory for the container.",
-        alias="createHomeDir",
-    )
-    probes: Optional[Probes] = None
-    uid_gid_source: Optional[UidGidSource] = Field(default=None, alias="uidGidSource")
-    capabilities: Optional[List[Capability]] = Field(
-        default=None,
-        description="Add POSIX capabilities to running containers. Defaults to the default set of capabilities granted by the container runtime.",
-    )
-    seccomp_profile_type: Optional[SeccompProfileType] = Field(
-        default=None, alias="seccompProfileType"
-    )
-    run_as_non_root: Optional[StrictBool] = Field(
-        default=None,
-        description="Force the container to run as a non-root user.",
-        alias="runAsNonRoot",
-    )
-    read_only_root_filesystem: Optional[StrictBool] = Field(
-        default=None,
-        description="If true, mounts the container's root filesystem as read-only.",
-        alias="readOnlyRootFilesystem",
-    )
-    tty: Optional[StrictBool] = Field(
-        default=None,
-        description="Whether this container should allocate a TTY for itself, also requires 'stdin' to be true.",
-    )
-    stdin: Optional[StrictBool] = Field(
-        default=None,
-        description="Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF",
+        description="Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled. Using an empty string implies reverting the supplementary groups of the image.",
+        alias="supplementalGroups",
     )
     allow_privilege_escalation: Optional[StrictBool] = Field(
         default=None,
         description="Allow the container running the workload and all launched processes to gain additional privileges after the workload starts. For more information consult the User Identity in Container guide at https://docs.run.ai/admin/runai-setup/config/non-root-containers/",
         alias="allowPrivilegeEscalation",
+    )
+    capabilities: Optional[List[Capability]] = Field(
+        default=None,
+        description="Add POSIX capabilities to running containers. Defaults to the default set of capabilities granted by the container runtime.",
+    )
+    create_home_dir: Optional[StrictBool] = Field(
+        default=None,
+        description="When set to `true`, creates a home directory for the container.",
+        alias="createHomeDir",
     )
     host_ipc: Optional[StrictBool] = Field(
         default=None,
@@ -245,6 +217,41 @@ class EnvironmentAssetSpec(BaseModel):
         description="Whether to enable host networking. Default to false.",
         alias="hostNetwork",
     )
+    image: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.",
+    )
+    image_pull_policy: Optional[ImagePullPolicy] = Field(
+        default=None, alias="imagePullPolicy"
+    )
+    probes: Optional[Probes] = None
+    read_only_root_filesystem: Optional[StrictBool] = Field(
+        default=None,
+        description="If true, mounts the container's root filesystem as read-only.",
+        alias="readOnlyRootFilesystem",
+    )
+    run_as_non_root: Optional[StrictBool] = Field(
+        default=None,
+        description="Force the container to run as a non-root user.",
+        alias="runAsNonRoot",
+    )
+    seccomp_profile_type: Optional[SeccompProfileType] = Field(
+        default=None, alias="seccompProfileType"
+    )
+    stdin: Optional[StrictBool] = Field(
+        default=None,
+        description="Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF",
+    )
+    tty: Optional[StrictBool] = Field(
+        default=None,
+        description="Whether this container should allocate a TTY for itself, also requires 'stdin' to be true.",
+    )
+    uid_gid_source: Optional[UidGidSource] = Field(default=None, alias="uidGidSource")
+    working_dir: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="Container's working directory. If not specified, the container runtime default will be used. This may be configured in the container image.",
+        alias="workingDir",
+    )
     connections: Optional[List[Connection]] = Field(
         default=None,
         description="List of connections that either expose ports from the container (each port is associated with a tool that the container runs), or URL's to be used for connecting to an external tool that is related to the action of the container (such as Weights & Biases).",
@@ -255,30 +262,80 @@ class EnvironmentAssetSpec(BaseModel):
         alias="overrideUidGidInWorkspace",
     )
     __properties: ClassVar[List[str]] = [
-        "command",
         "args",
-        "runAsUid",
-        "runAsGid",
-        "supplementalGroups",
+        "command",
         "environmentVariables",
-        "image",
-        "imagePullPolicy",
-        "workingDir",
-        "createHomeDir",
-        "probes",
-        "uidGidSource",
-        "capabilities",
-        "seccompProfileType",
-        "runAsNonRoot",
-        "readOnlyRootFilesystem",
-        "tty",
-        "stdin",
+        "runAsGid",
+        "runAsUid",
+        "supplementalGroups",
         "allowPrivilegeEscalation",
+        "capabilities",
+        "createHomeDir",
         "hostIpc",
         "hostNetwork",
+        "image",
+        "imagePullPolicy",
+        "probes",
+        "readOnlyRootFilesystem",
+        "runAsNonRoot",
+        "seccompProfileType",
+        "stdin",
+        "tty",
+        "uidGidSource",
+        "workingDir",
         "connections",
         "overrideUidGidInWorkspace",
     ]
+
+    @field_validator("args")
+    def args_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("command")
+    def command_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("supplemental_groups")
+    def supplemental_groups_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("image")
+    def image_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("working_dir")
+    def working_dir_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -334,25 +391,33 @@ class EnvironmentAssetSpec(BaseModel):
                 if _item_connections:
                     _items.append(_item_connections.to_dict())
             _dict["connections"] = _items
-        # set to None if command (nullable) is None
-        # and model_fields_set contains the field
-        if self.command is None and "command" in self.model_fields_set:
-            _dict["command"] = None
-
         # set to None if args (nullable) is None
         # and model_fields_set contains the field
         if self.args is None and "args" in self.model_fields_set:
             _dict["args"] = None
 
-        # set to None if run_as_uid (nullable) is None
+        # set to None if command (nullable) is None
         # and model_fields_set contains the field
-        if self.run_as_uid is None and "run_as_uid" in self.model_fields_set:
-            _dict["runAsUid"] = None
+        if self.command is None and "command" in self.model_fields_set:
+            _dict["command"] = None
+
+        # set to None if environment_variables (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.environment_variables is None
+            and "environment_variables" in self.model_fields_set
+        ):
+            _dict["environmentVariables"] = None
 
         # set to None if run_as_gid (nullable) is None
         # and model_fields_set contains the field
         if self.run_as_gid is None and "run_as_gid" in self.model_fields_set:
             _dict["runAsGid"] = None
+
+        # set to None if run_as_uid (nullable) is None
+        # and model_fields_set contains the field
+        if self.run_as_uid is None and "run_as_uid" in self.model_fields_set:
+            _dict["runAsUid"] = None
 
         # set to None if supplemental_groups (nullable) is None
         # and model_fields_set contains the field
@@ -362,13 +427,33 @@ class EnvironmentAssetSpec(BaseModel):
         ):
             _dict["supplementalGroups"] = None
 
-        # set to None if environment_variables (nullable) is None
+        # set to None if allow_privilege_escalation (nullable) is None
         # and model_fields_set contains the field
         if (
-            self.environment_variables is None
-            and "environment_variables" in self.model_fields_set
+            self.allow_privilege_escalation is None
+            and "allow_privilege_escalation" in self.model_fields_set
         ):
-            _dict["environmentVariables"] = None
+            _dict["allowPrivilegeEscalation"] = None
+
+        # set to None if capabilities (nullable) is None
+        # and model_fields_set contains the field
+        if self.capabilities is None and "capabilities" in self.model_fields_set:
+            _dict["capabilities"] = None
+
+        # set to None if create_home_dir (nullable) is None
+        # and model_fields_set contains the field
+        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
+            _dict["createHomeDir"] = None
+
+        # set to None if host_ipc (nullable) is None
+        # and model_fields_set contains the field
+        if self.host_ipc is None and "host_ipc" in self.model_fields_set:
+            _dict["hostIpc"] = None
+
+        # set to None if host_network (nullable) is None
+        # and model_fields_set contains the field
+        if self.host_network is None and "host_network" in self.model_fields_set:
+            _dict["hostNetwork"] = None
 
         # set to None if image (nullable) is None
         # and model_fields_set contains the field
@@ -383,43 +468,10 @@ class EnvironmentAssetSpec(BaseModel):
         ):
             _dict["imagePullPolicy"] = None
 
-        # set to None if working_dir (nullable) is None
-        # and model_fields_set contains the field
-        if self.working_dir is None and "working_dir" in self.model_fields_set:
-            _dict["workingDir"] = None
-
-        # set to None if create_home_dir (nullable) is None
-        # and model_fields_set contains the field
-        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
-            _dict["createHomeDir"] = None
-
         # set to None if probes (nullable) is None
         # and model_fields_set contains the field
         if self.probes is None and "probes" in self.model_fields_set:
             _dict["probes"] = None
-
-        # set to None if uid_gid_source (nullable) is None
-        # and model_fields_set contains the field
-        if self.uid_gid_source is None and "uid_gid_source" in self.model_fields_set:
-            _dict["uidGidSource"] = None
-
-        # set to None if capabilities (nullable) is None
-        # and model_fields_set contains the field
-        if self.capabilities is None and "capabilities" in self.model_fields_set:
-            _dict["capabilities"] = None
-
-        # set to None if seccomp_profile_type (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.seccomp_profile_type is None
-            and "seccomp_profile_type" in self.model_fields_set
-        ):
-            _dict["seccompProfileType"] = None
-
-        # set to None if run_as_non_root (nullable) is None
-        # and model_fields_set contains the field
-        if self.run_as_non_root is None and "run_as_non_root" in self.model_fields_set:
-            _dict["runAsNonRoot"] = None
 
         # set to None if read_only_root_filesystem (nullable) is None
         # and model_fields_set contains the field
@@ -429,33 +481,38 @@ class EnvironmentAssetSpec(BaseModel):
         ):
             _dict["readOnlyRootFilesystem"] = None
 
-        # set to None if tty (nullable) is None
+        # set to None if run_as_non_root (nullable) is None
         # and model_fields_set contains the field
-        if self.tty is None and "tty" in self.model_fields_set:
-            _dict["tty"] = None
+        if self.run_as_non_root is None and "run_as_non_root" in self.model_fields_set:
+            _dict["runAsNonRoot"] = None
+
+        # set to None if seccomp_profile_type (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.seccomp_profile_type is None
+            and "seccomp_profile_type" in self.model_fields_set
+        ):
+            _dict["seccompProfileType"] = None
 
         # set to None if stdin (nullable) is None
         # and model_fields_set contains the field
         if self.stdin is None and "stdin" in self.model_fields_set:
             _dict["stdin"] = None
 
-        # set to None if allow_privilege_escalation (nullable) is None
+        # set to None if tty (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.allow_privilege_escalation is None
-            and "allow_privilege_escalation" in self.model_fields_set
-        ):
-            _dict["allowPrivilegeEscalation"] = None
+        if self.tty is None and "tty" in self.model_fields_set:
+            _dict["tty"] = None
 
-        # set to None if host_ipc (nullable) is None
+        # set to None if uid_gid_source (nullable) is None
         # and model_fields_set contains the field
-        if self.host_ipc is None and "host_ipc" in self.model_fields_set:
-            _dict["hostIpc"] = None
+        if self.uid_gid_source is None and "uid_gid_source" in self.model_fields_set:
+            _dict["uidGidSource"] = None
 
-        # set to None if host_network (nullable) is None
+        # set to None if working_dir (nullable) is None
         # and model_fields_set contains the field
-        if self.host_network is None and "host_network" in self.model_fields_set:
-            _dict["hostNetwork"] = None
+        if self.working_dir is None and "working_dir" in self.model_fields_set:
+            _dict["workingDir"] = None
 
         return _dict
 
@@ -470,11 +527,8 @@ class EnvironmentAssetSpec(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "command": obj.get("command"),
                 "args": obj.get("args"),
-                "runAsUid": obj.get("runAsUid"),
-                "runAsGid": obj.get("runAsGid"),
-                "supplementalGroups": obj.get("supplementalGroups"),
+                "command": obj.get("command"),
                 "environmentVariables": (
                     [
                         EnvironmentVariableOfAsset.from_dict(_item)
@@ -483,25 +537,28 @@ class EnvironmentAssetSpec(BaseModel):
                     if obj.get("environmentVariables") is not None
                     else None
                 ),
+                "runAsGid": obj.get("runAsGid"),
+                "runAsUid": obj.get("runAsUid"),
+                "supplementalGroups": obj.get("supplementalGroups"),
+                "allowPrivilegeEscalation": obj.get("allowPrivilegeEscalation"),
+                "capabilities": obj.get("capabilities"),
+                "createHomeDir": obj.get("createHomeDir"),
+                "hostIpc": obj.get("hostIpc"),
+                "hostNetwork": obj.get("hostNetwork"),
                 "image": obj.get("image"),
                 "imagePullPolicy": obj.get("imagePullPolicy"),
-                "workingDir": obj.get("workingDir"),
-                "createHomeDir": obj.get("createHomeDir"),
                 "probes": (
                     Probes.from_dict(obj["probes"])
                     if obj.get("probes") is not None
                     else None
                 ),
-                "uidGidSource": obj.get("uidGidSource"),
-                "capabilities": obj.get("capabilities"),
-                "seccompProfileType": obj.get("seccompProfileType"),
-                "runAsNonRoot": obj.get("runAsNonRoot"),
                 "readOnlyRootFilesystem": obj.get("readOnlyRootFilesystem"),
-                "tty": obj.get("tty"),
+                "runAsNonRoot": obj.get("runAsNonRoot"),
+                "seccompProfileType": obj.get("seccompProfileType"),
                 "stdin": obj.get("stdin"),
-                "allowPrivilegeEscalation": obj.get("allowPrivilegeEscalation"),
-                "hostIpc": obj.get("hostIpc"),
-                "hostNetwork": obj.get("hostNetwork"),
+                "tty": obj.get("tty"),
+                "uidGidSource": obj.get("uidGidSource"),
+                "workingDir": obj.get("workingDir"),
                 "connections": (
                     [Connection.from_dict(_item) for _item in obj["connections"]]
                     if obj.get("connections") is not None

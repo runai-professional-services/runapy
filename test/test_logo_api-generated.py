@@ -81,7 +81,7 @@ class TestLogoApi:
     def test_upload_tenant_logo(self):
         """Test case for upload_tenant_logo
 
-        Upload logo for tenant. (base64) Use to upload a base64 logo file. Max size 128kb.
+        Upload logo for tenant. (base64) Use to upload a base64 logo file (PNG or SVG). Max size 128kb.
         """
         # Mock response
         mock_response = mock.Mock()

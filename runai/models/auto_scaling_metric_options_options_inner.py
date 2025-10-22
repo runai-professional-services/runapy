@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -39,7 +39,7 @@ class AutoScalingMetricOptionsOptionsInner(BaseModel):
         ```python
         AutoScalingMetricOptionsOptionsInner(
             value='http_requests_total',
-                        displayed=''
+                        displayed='jUR,rZ#UM/?R,Fp^l6$ARj'
         )
         ```
     """  # noqa: E501
@@ -47,7 +47,7 @@ class AutoScalingMetricOptionsOptionsInner(BaseModel):
     value: Optional[Annotated[str, Field(strict=True)]] = Field(
         description="The metric to use for autoscaling. Mandatory if minReplicas < maxReplicas, except for the special case where minReplicas is set to 0 and maxReplicas is set to 1, as in this case autoscaling decisions are made according to network activity rather than metrics. Use one of the built-in metrics of 'throughput', 'concurrency' or 'latency', or any other available custom metric. Only the 'throughput' and 'concurrency' metrics support scale-to-zero"
     )
-    displayed: Optional[StrictStr] = Field(
+    displayed: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None, description="Textual description of the value"
     )
     __properties: ClassVar[List[str]] = ["value", "displayed"]
@@ -62,6 +62,16 @@ class AutoScalingMetricOptionsOptionsInner(BaseModel):
             raise ValueError(
                 r"must validate the regular expression /^[a-zA-Z_:][a-zA-Z0-9_:]*$/"
             )
+        return value
+
+    @field_validator("displayed")
+    def displayed_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
         return value
 
     model_config = ConfigDict(

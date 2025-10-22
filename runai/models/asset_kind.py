@@ -58,6 +58,8 @@ class AssetKind(str, Enum):
 
     DATA_MINUS_VOLUME = 'data-volume'
 
+    NGCAPIKEY = 'ngcApiKey'
+
 
     Example:
         ```python
@@ -78,6 +80,7 @@ class AssetKind(str, Enum):
         AssetKind.CONFIG_MINUS_MAP
         AssetKind.SECRET_MINUS_VOLUME
         AssetKind.DATA_MINUS_VOLUME
+        AssetKind.NGCAPIKEY
         ```
     """
 
@@ -98,6 +101,7 @@ class AssetKind(str, Enum):
     CONFIG_MINUS_MAP = "config-map"
     SECRET_MINUS_VOLUME = "secret-volume"
     DATA_MINUS_VOLUME = "data-volume"
+    NGCAPIKEY = "ngcApiKey"
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

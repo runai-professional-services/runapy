@@ -37,11 +37,8 @@ class TestOverridableSpecFields(unittest.TestCase):
         # model = OverridableSpecFields()
         if include_optional:
             return OverridableSpecFields(
-                command="python",
                 args="-x my-script.py",
-                run_as_uid=500,
-                run_as_gid=30,
-                supplemental_groups="2,3,5,8",
+                command="python",
                 environment_variables=[
                     runai.models.environment_variable_of_asset.EnvironmentVariableOfAsset(
                         name="HOME",
@@ -61,6 +58,9 @@ class TestOverridableSpecFields(unittest.TestCase):
                         description="Home directory of the user.",
                     )
                 ],
+                run_as_gid=30,
+                run_as_uid=500,
+                supplemental_groups="2,3,5,8",
             )
         else:
             return OverridableSpecFields()

@@ -36,10 +36,14 @@ class TestMatchExpression(unittest.TestCase):
 
         # model = MatchExpression()
         if include_optional:
-            return MatchExpression(key="", operator="In", values=[""])
+            return MatchExpression(
+                key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                operator="In",
+                values=["jUR,rZ#UM/?R,Fp^l6$ARj"],
+            )
         else:
             return MatchExpression(
-                key="",
+                key="jUR,rZ#UM/?R,Fp^l6$ARj",
                 operator="In",
             )
 

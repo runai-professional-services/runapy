@@ -66,7 +66,7 @@ class AutoScalingRules(BaseModel):
                     max = 1.337,
                     step = 1.337,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         min_replicas=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -76,7 +76,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         max_replicas=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -86,7 +86,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         initial_replicas=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -96,7 +96,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         activation_replicas=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -106,7 +106,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         metric=runai.models.auto_scaling_metric_rules.AutoScalingMetricRules(),
                         metric_threshold=runai.models.integer_rules.IntegerRules(
@@ -117,7 +117,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         concurrency_hard_limit=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -127,7 +127,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         scale_to_zero_retention_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -137,7 +137,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         scale_down_delay_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -147,7 +147,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         initialization_timeout_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -157,7 +157,7 @@ class AutoScalingRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), )
         )
         ```

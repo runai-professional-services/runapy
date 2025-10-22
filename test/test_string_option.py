@@ -36,10 +36,12 @@ class TestStringOption(unittest.TestCase):
 
         # model = StringOption()
         if include_optional:
-            return StringOption(value="", displayed="")
+            return StringOption(
+                value="jUR,rZ#UM/?R,Fp^l6$ARj", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return StringOption(
-                value="",
+                value="jUR,rZ#UM/?R,Fp^l6$ARj",
             )
 
     def testStringOption(self):

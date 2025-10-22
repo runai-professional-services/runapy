@@ -40,7 +40,7 @@ class TestMeasurementResponse(unittest.TestCase):
                 type="ALLOCATED_GPU",
                 labels={"gpu': '3"},
                 values=[
-                    runai.models.measurement_response_values_inner.MeasurementResponse_values_inner(
+                    runai.models.grouped_measurement_response_values_inner.GroupedMeasurementResponse_values_inner(
                         value="85",
                         timestamp=datetime.datetime.strptime(
                             "2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f"
@@ -52,7 +52,7 @@ class TestMeasurementResponse(unittest.TestCase):
             return MeasurementResponse(
                 type="ALLOCATED_GPU",
                 values=[
-                    runai.models.measurement_response_values_inner.MeasurementResponse_values_inner(
+                    runai.models.grouped_measurement_response_values_inner.GroupedMeasurementResponse_values_inner(
                         value="85",
                         timestamp=datetime.datetime.strptime(
                             "2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f"

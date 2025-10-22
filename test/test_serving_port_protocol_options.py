@@ -40,7 +40,7 @@ class TestServingPortProtocolOptions(unittest.TestCase):
                 options=[
                     runai.models.serving_port_protocol_options_options_inner.ServingPortProtocolOptions_options_inner(
                         value="http",
-                        displayed="",
+                        displayed="jUR,rZ#UM/?R,Fp^l6$ARj",
                     )
                 ]
             )

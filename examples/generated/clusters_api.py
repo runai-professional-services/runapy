@@ -137,6 +137,10 @@ def example_get_cluster_metrics():
 
         number_of_samples = 42
 
+        group_by = "example_group_by"
+
+        nodepool_name = "example_nodepool_name"
+
         # Make the API call
         api_response = api_instance.get_cluster_metrics(
             cluster_uuid=cluster_uuid,
@@ -144,6 +148,8 @@ def example_get_cluster_metrics():
             end=end,
             metric_type=metric_type,
             number_of_samples=number_of_samples,
+            group_by=group_by,
+            nodepool_name=nodepool_name,
         )
         print(f"API response: {api_response}")
 

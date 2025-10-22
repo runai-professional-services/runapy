@@ -17,7 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictStr,
+    field_validator,
+)
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.distributed_inference_spec_spec import DistributedInferenceSpecSpec
@@ -62,7 +69,7 @@ class DistributedInferenceCreationRequest(BaseModel):
         description="When true, the requested name will be treated as a prefix. The final name of the workload will be composed of the name followed by a random set of characters.",
         alias="useGivenNameAsPrefix",
     )
-    project_id: StrictStr = Field(
+    project_id: Annotated[str, Field(strict=True)] = Field(
         description="The id of the project.", alias="projectId"
     )
     cluster_id: StrictStr = Field(
@@ -76,6 +83,20 @@ class DistributedInferenceCreationRequest(BaseModel):
         "clusterId",
         "spec",
     ]
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("project_id")
+    def project_id_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

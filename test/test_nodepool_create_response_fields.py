@@ -48,11 +48,20 @@ class TestNodepoolCreateResponseFields(unittest.TestCase):
                 ),
                 gpu_network_acceleration_label_key="",
                 gpu_network_acceleration_detection="Auto",
+                network_topology_name="default-topology",
+                network_topology_id="123e4567-e89b-12d3-a456-426614174000",
                 gpu_resource_optimization=runai.models.gpu_resource_optimization.GPUResourceOptimization(
                     swap_enabled=True,
                     cpu_swap_memory_size="100G",
                     reserved_gpu_memory_for_swap_operations="2G",
                     node_level_scheduler_enabled=True,
+                ),
+                scheduling_configuration=runai.models.scheduling_configuration.SchedulingConfiguration(
+                    placement_strategy=runai.models.scheduling_configuration_placement_strategy.SchedulingConfiguration_placementStrategy(
+                        cpu="spread",
+                        gpu="spread",
+                    ),
+                    min_guaranteed_runtime="5d8h40m",
                 ),
             )
         else:

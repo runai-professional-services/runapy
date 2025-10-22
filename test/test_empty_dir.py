@@ -36,7 +36,9 @@ class TestEmptyDir(unittest.TestCase):
 
         # model = EmptyDir()
         if include_optional:
-            return EmptyDir(path="/mnt/emptydir", medium="0", size_limit="1G")
+            return EmptyDir(
+                path="/mnt/emptydir", medium="jUR,rZ#UM/?R,Fp^l6$ARj0", size_limit="1G"
+            )
         else:
             return EmptyDir()
 

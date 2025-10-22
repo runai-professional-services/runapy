@@ -30,7 +30,7 @@ def example_create_secret_asset():
         # Create example data for SecretAssetCreationRequest
         secret_asset_creation_request = models.SecretAssetCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-            spec = {mountPath=mountPath, credentialAssetId=046b6c7f-0b8a-43b9-b35d-6489e6daee91}
+            spec = {mountPath=mountPath, defaultMode=0644, credentialAssetId=046b6c7f-0b8a-43b9-b35d-6489e6daee91}
         )
 
         # Make the API call

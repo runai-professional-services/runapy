@@ -22,27 +22,25 @@ from typing import Any, ClassVar, Dict, List, Optional
 from runai.models.arbitrary_rules import ArbitraryRules
 from runai.models.array_rules import ArrayRules
 from runai.models.boolean_rules import BooleanRules
-from runai.models.compute_fields_rules import ComputeFieldsRules
-from runai.models.distributed_clean_pod_policy_rules import (
-    DistributedCleanPodPolicyRules,
-)
+from runai.models.clean_pod_policy_rules import CleanPodPolicyRules
 from runai.models.distributed_framework_rules import DistributedFrameworkRules
-from runai.models.distributed_mpi_launcher_creation_policy_rules import (
-    DistributedMpiLauncherCreationPolicyRules,
-)
 from runai.models.exposed_urls_rules import ExposedUrlsRules
 from runai.models.image_pull_policy_rules import ImagePullPolicyRules
 from runai.models.image_pull_secrets_rules import ImagePullSecretsRules
 from runai.models.instances_rules import InstancesRules
 from runai.models.integer_rules import IntegerRules
+from runai.models.mpi_launcher_creation_policy_rules import (
+    MpiLauncherCreationPolicyRules,
+)
 from runai.models.pod_affinity_rules import PodAffinityRules
 from runai.models.ports_rules import PortsRules
 from runai.models.probes_rules import ProbesRules
 from runai.models.related_urls_rules import RelatedUrlsRules
 from runai.models.restart_policy_rule import RestartPolicyRule
-from runai.models.security_flat_fields_rules import SecurityFlatFieldsRules
-from runai.models.storage_fields_rules import StorageFieldsRules
 from runai.models.string_rules import StringRules
+from runai.models.superset_rules_all_of_compute import SupersetRulesAllOfCompute
+from runai.models.superset_rules_all_of_security import SupersetRulesAllOfSecurity
+from runai.models.superset_rules_all_of_storage import SupersetRulesAllOfStorage
 from runai.models.tolerations_rules import TolerationsRules
 from typing import Optional, Set
 from typing_extensions import Self
@@ -54,192 +52,94 @@ class DistributedPolicyRulesV2Worker(BaseModel):
 
     Parameters:
         ```python
-        command: Optional[StringRules]
+        annotations: Optional[InstancesRules]
         args: Optional[StringRules]
+        auto_deletion_time_after_completion_seconds: Optional[IntegerRules]
+        backoff_limit: Optional[IntegerRules]
+        category: Optional[StringRules]
+        command: Optional[StringRules]
+        compute: Optional[SupersetRulesAllOfCompute]
+        create_home_dir: Optional[BooleanRules]
+        environment_variables: Optional[InstancesRules]
+        exposed_urls: Optional[ExposedUrlsRules]
         image: Optional[StringRules]
         image_pull_policy: Optional[ImagePullPolicyRules]
-        working_dir: Optional[StringRules]
-        create_home_dir: Optional[BooleanRules]
-        probes: Optional[ProbesRules]
-        node_type: Optional[StringRules]
-        node_affinity_required: Optional[ArbitraryRules]
-        pod_affinity: Optional[PodAffinityRules]
-        category: Optional[StringRules]
-        priority_class: Optional[StringRules]
-        node_pools: Optional[ArrayRules]
-        environment_variables: Optional[InstancesRules]
-        annotations: Optional[InstancesRules]
-        labels: Optional[InstancesRules]
         image_pull_secrets: Optional[ImagePullSecretsRules]
-        tolerations: Optional[TolerationsRules]
-        terminate_after_preemption: Optional[BooleanRules]
-        auto_deletion_time_after_completion_seconds: Optional[IntegerRules]
-        termination_grace_period_seconds: Optional[IntegerRules]
-        backoff_limit: Optional[IntegerRules]
-        restart_policy: Optional[RestartPolicyRule]
+        labels: Optional[InstancesRules]
+        node_affinity_required: Optional[ArbitraryRules]
+        node_pools: Optional[ArrayRules]
+        node_type: Optional[StringRules]
+        pod_affinity: Optional[PodAffinityRules]
         ports: Optional[PortsRules]
-        exposed_urls: Optional[ExposedUrlsRules]
+        priority_class: Optional[StringRules]
+        probes: Optional[ProbesRules]
         related_urls: Optional[RelatedUrlsRules]
-        security: Optional[SecurityFlatFieldsRules]
-        compute: Optional[ComputeFieldsRules]
-        storage: Optional[StorageFieldsRules]
-        tty: Optional[BooleanRules]
+        restart_policy: Optional[RestartPolicyRule]
+        security: Optional[SupersetRulesAllOfSecurity]
         stdin: Optional[BooleanRules]
-        num_workers: Optional[IntegerRules]
+        storage: Optional[SupersetRulesAllOfStorage]
+        terminate_after_preemption: Optional[BooleanRules]
+        termination_grace_period_seconds: Optional[IntegerRules]
+        tolerations: Optional[TolerationsRules]
+        tty: Optional[BooleanRules]
+        working_dir: Optional[StringRules]
+        clean_pod_policy: Optional[CleanPodPolicyRules]
         distributed_framework: Optional[DistributedFrameworkRules]
+        max_replicas: Optional[IntegerRules]
+        min_replicas: Optional[IntegerRules]
+        mpi_launcher_creation_policy: Optional[MpiLauncherCreationPolicyRules]
+        num_workers: Optional[IntegerRules]
         slots_per_worker: Optional[IntegerRules]
         ssh_auth_mount_path: Optional[StringRules]
-        mpi_launcher_creation_policy: Optional[DistributedMpiLauncherCreationPolicyRules]
-        min_replicas: Optional[IntegerRules]
-        max_replicas: Optional[IntegerRules]
-        clean_pod_policy: Optional[DistributedCleanPodPolicyRules]
         ```
-        command: See model StringRules for more information.
+        annotations: See model InstancesRules for more information.
         args: See model StringRules for more information.
+        auto_deletion_time_after_completion_seconds: See model IntegerRules for more information.
+        backoff_limit: See model IntegerRules for more information.
+        category: See model StringRules for more information.
+        command: See model StringRules for more information.
+        compute: See model SupersetRulesAllOfCompute for more information.
+        create_home_dir: See model BooleanRules for more information.
+        environment_variables: See model InstancesRules for more information.
+        exposed_urls: See model ExposedUrlsRules for more information.
         image: See model StringRules for more information.
         image_pull_policy: See model ImagePullPolicyRules for more information.
-        working_dir: See model StringRules for more information.
-        create_home_dir: See model BooleanRules for more information.
-        probes: See model ProbesRules for more information.
-        node_type: See model StringRules for more information.
-        node_affinity_required: See model ArbitraryRules for more information.
-        pod_affinity: See model PodAffinityRules for more information.
-        category: See model StringRules for more information.
-        priority_class: See model StringRules for more information.
-        node_pools: See model ArrayRules for more information.
-        environment_variables: See model InstancesRules for more information.
-        annotations: See model InstancesRules for more information.
-        labels: See model InstancesRules for more information.
         image_pull_secrets: See model ImagePullSecretsRules for more information.
-        tolerations: See model TolerationsRules for more information.
-        terminate_after_preemption: See model BooleanRules for more information.
-        auto_deletion_time_after_completion_seconds: See model IntegerRules for more information.
-        termination_grace_period_seconds: See model IntegerRules for more information.
-        backoff_limit: See model IntegerRules for more information.
-        restart_policy: See model RestartPolicyRule for more information.
+        labels: See model InstancesRules for more information.
+        node_affinity_required: See model ArbitraryRules for more information.
+        node_pools: See model ArrayRules for more information.
+        node_type: See model StringRules for more information.
+        pod_affinity: See model PodAffinityRules for more information.
         ports: See model PortsRules for more information.
-        exposed_urls: See model ExposedUrlsRules for more information.
+        priority_class: See model StringRules for more information.
+        probes: See model ProbesRules for more information.
         related_urls: See model RelatedUrlsRules for more information.
-        security: See model SecurityFlatFieldsRules for more information.
-        compute: See model ComputeFieldsRules for more information.
-        storage: See model StorageFieldsRules for more information.
-        tty: See model BooleanRules for more information.
+        restart_policy: See model RestartPolicyRule for more information.
+        security: See model SupersetRulesAllOfSecurity for more information.
         stdin: See model BooleanRules for more information.
-        num_workers: See model IntegerRules for more information.
+        storage: See model SupersetRulesAllOfStorage for more information.
+        terminate_after_preemption: See model BooleanRules for more information.
+        termination_grace_period_seconds: See model IntegerRules for more information.
+        tolerations: See model TolerationsRules for more information.
+        tty: See model BooleanRules for more information.
+        working_dir: See model StringRules for more information.
+        clean_pod_policy: See model CleanPodPolicyRules for more information.
         distributed_framework: See model DistributedFrameworkRules for more information.
+        max_replicas: See model IntegerRules for more information.
+        min_replicas: See model IntegerRules for more information.
+        mpi_launcher_creation_policy: See model MpiLauncherCreationPolicyRules for more information.
+        num_workers: See model IntegerRules for more information.
         slots_per_worker: See model IntegerRules for more information.
         ssh_auth_mount_path: See model StringRules for more information.
-        mpi_launcher_creation_policy: See model DistributedMpiLauncherCreationPolicyRules for more information.
-        min_replicas: See model IntegerRules for more information.
-        max_replicas: See model IntegerRules for more information.
-        clean_pod_policy: See model DistributedCleanPodPolicyRules for more information.
     Example:
         ```python
         DistributedPolicyRulesV2Worker(
-            command=runai.models.string_rules.StringRules(),
+            annotations=runai.models.instances_rules.InstancesRules(
+                    instances = runai.models.item_rules.ItemRules(
+                        source_of_rule = {"scope":"project","projectId":3},
+                        can_add = True,
+                        locked = ["HOME","USER"], ), ),
                         args=runai.models.string_rules.StringRules(),
-                        image=runai.models.string_rules.StringRules(),
-                        image_pull_policy=runai.models.image_pull_policy_rules.ImagePullPolicyRules(),
-                        working_dir=runai.models.string_rules.StringRules(),
-                        create_home_dir=runai.models.boolean_rules.BooleanRules(
-                    source_of_rule = {"scope":"project","projectId":3},
-                    required = True,
-                    can_edit = True, ),
-                        probes=runai.models.probes_rules.ProbesRules(
-                    readiness = runai.models.probe_rules.ProbeRules(
-                        initial_delay_seconds = runai.models.integer_rules.IntegerRules(
-                            source_of_rule = {"scope":"project","projectId":3},
-                            required = True,
-                            can_edit = True,
-                            min = 56,
-                            max = 56,
-                            step = 56,
-                            default_from = runai.models.default_from_rule.DefaultFromRule(
-                                field = '',
-                                factor = 1.337, ), ),
-                        period_seconds = runai.models.integer_rules.IntegerRules(
-                            required = True,
-                            can_edit = True,
-                            min = 56,
-                            max = 56,
-                            step = 56, ),
-                        timeout_seconds = ,
-                        success_threshold = ,
-                        failure_threshold = ,
-                        handler = runai.models.probe_handler_rules.ProbeHandlerRules(
-                            http_get = runai.models.probe_handler_rules_http_get.ProbeHandlerRules_httpGet(
-                                path = runai.models.string_rules.StringRules(),
-                                port = ,
-                                host = runai.models.string_rules.StringRules(),
-                                scheme = runai.models.string_rules.StringRules(), ), ), ), ),
-                        node_type=runai.models.string_rules.StringRules(),
-                        node_affinity_required=runai.models.arbitrary_rules.ArbitraryRules(
-                    source_of_rule = {"scope":"project","projectId":3},
-                    required = True,
-                    can_edit = True, ),
-                        pod_affinity=runai.models.pod_affinity_rules.PodAffinityRules(
-                    type = runai.models.pod_affinity_type_rules.PodAffinityTypeRules(),
-                    key = runai.models.string_rules.StringRules(), ),
-                        category=runai.models.string_rules.StringRules(),
-                        priority_class=runai.models.string_rules.StringRules(),
-                        node_pools=runai.models.array_rules.ArrayRules(
-                    source_of_rule = {"scope":"project","projectId":3},
-                    required = True,
-                    options = [
-                        {"value":"value","displayed":"A description of the value."}
-                        ],
-                    can_edit = True, ),
-                        environment_variables=runai.models.instances_rules.InstancesRules(
-                    instances = runai.models.item_rules.ItemRules(
-                        source_of_rule = {"scope":"project","projectId":3},
-                        can_add = True,
-                        locked = ["HOME","USER"], ), ),
-                        annotations=runai.models.instances_rules.InstancesRules(
-                    instances = runai.models.item_rules.ItemRules(
-                        source_of_rule = {"scope":"project","projectId":3},
-                        can_add = True,
-                        locked = ["HOME","USER"], ), ),
-                        labels=runai.models.instances_rules.InstancesRules(
-                    instances = runai.models.item_rules.ItemRules(
-                        source_of_rule = {"scope":"project","projectId":3},
-                        can_add = True,
-                        locked = ["HOME","USER"], ), ),
-                        image_pull_secrets=runai.models.image_pull_secrets_rules.ImagePullSecretsRules(
-                    attributes = runai.models.image_pull_secrets_rules_attributes.ImagePullSecretsRulesAttributes(
-                        name = runai.models.string_rules.StringRules(),
-                        user_credentials = runai.models.boolean_rules.BooleanRules(
-                            source_of_rule = {"scope":"project","projectId":3},
-                            required = True,
-                            can_edit = True, ), ),
-                    instances = runai.models.item_rules.ItemRules(
-                        can_add = True,
-                        locked = ["HOME","USER"], ), ),
-                        tolerations=runai.models.tolerations_rules.TolerationsRules(
-                    attributes = runai.models.toleration_rules.TolerationRules(
-                        operator = runai.models.toleration_operator_rules.TolerationOperatorRules(),
-                        key = runai.models.string_rules.StringRules(),
-                        value = runai.models.string_rules.StringRules(),
-                        effect = runai.models.toleration_effect_rules.TolerationEffectRules(),
-                        seconds = runai.models.integer_rules.IntegerRules(
-                            source_of_rule = {"scope":"project","projectId":3},
-                            required = True,
-                            can_edit = True,
-                            min = 56,
-                            max = 56,
-                            step = 56,
-                            default_from = runai.models.default_from_rule.DefaultFromRule(
-                                field = '',
-                                factor = 1.337, ), ),
-                        exclude = runai.models.boolean_rules.BooleanRules(
-                            required = True,
-                            can_edit = True, ), ),
-                    instances = runai.models.item_rules.ItemRules(
-                        can_add = True,
-                        locked = ["HOME","USER"], ), ),
-                        terminate_after_preemption=runai.models.boolean_rules.BooleanRules(
-                    source_of_rule = {"scope":"project","projectId":3},
-                    required = True,
-                    can_edit = True, ),
                         auto_deletion_time_after_completion_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
                     required = True,
@@ -248,17 +148,7 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
-                        factor = 1.337, ), ),
-                        termination_grace_period_seconds=runai.models.integer_rules.IntegerRules(
-                    source_of_rule = {"scope":"project","projectId":3},
-                    required = True,
-                    can_edit = True,
-                    min = 56,
-                    max = 56,
-                    step = 56,
-                    default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         backoff_limit=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -268,34 +158,65 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
-                        restart_policy=runai.models.restart_policy_rule.RestartPolicyRule(),
-                        ports=runai.models.ports_rules.PortsRules(
-                    attributes = runai.models.port_rules.PortRules(
-                        container = runai.models.integer_rules.IntegerRules(
-                            source_of_rule = {"scope":"project","projectId":3},
-                            required = True,
-                            can_edit = True,
-                            min = 56,
-                            max = 56,
-                            step = 56,
-                            default_from = runai.models.default_from_rule.DefaultFromRule(
-                                field = '',
-                                factor = 1.337, ), ),
-                        service_type = runai.models.port_service_type_rules.PortServiceTypeRules(),
-                        custom_external_port = runai.models.boolean_rules.BooleanRules(
-                            required = True,
-                            can_edit = True, ),
-                        external = runai.models.integer_rules.IntegerRules(
-                            required = True,
-                            can_edit = True,
-                            min = 56,
-                            max = 56,
-                            step = 56, ),
-                        tool_type = runai.models.string_rules.StringRules(),
-                        tool_name = runai.models.string_rules.StringRules(), ),
+                        category=runai.models.string_rules.StringRules(),
+                        command=runai.models.string_rules.StringRules(),
+                        compute=runai.models.superset_rules_all_of_compute.SupersetRules_allOf_compute(
+                    cpu_core_limit = runai.models.number_rules.NumberRules(
+                        source_of_rule = {"scope":"project","projectId":3},
+                        required = True,
+                        can_edit = True,
+                        min = 1.337,
+                        max = 1.337,
+                        step = 1.337,
+                        default_from = runai.models.default_from_rule.DefaultFromRule(
+                            field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            factor = 1.337, ), ),
+                    cpu_core_request = runai.models.number_rules.NumberRules(
+                        required = True,
+                        can_edit = True,
+                        min = 1.337,
+                        max = 1.337,
+                        step = 1.337, ),
+                    cpu_memory_limit = runai.models.quantity_rules.QuantityRules(
+                        required = True,
+                        can_edit = True,
+                        min = '+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598',
+                        max = '+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598', ),
+                    cpu_memory_request = runai.models.quantity_rules.QuantityRules(
+                        required = True,
+                        can_edit = True,
+                        min = '+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598',
+                        max = '+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598', ),
+                    extended_resources = runai.models.extended_resources_rules.ExtendedResourcesRules(
+                        attributes = runai.models.extended_resource_rules.ExtendedResourceRules(
+                            quantity = runai.models.string_rules.StringRules(), ),
+                        instances = runai.models.item_rules.ItemRules(
+                            can_add = True,
+                            locked = ["HOME","USER"], ), ),
+                    gpu_devices_request = runai.models.integer_rules.IntegerRules(
+                        required = True,
+                        can_edit = True,
+                        min = 56,
+                        max = 56,
+                        step = 56, ),
+                    gpu_memory_limit = ,
+                    gpu_memory_request = ,
+                    gpu_portion_limit = ,
+                    gpu_portion_request = ,
+                    gpu_request_type = runai.models.gpu_request_rules.GpuRequestRules(),
+                    large_shm_request = runai.models.boolean_rules.BooleanRules(
+                        required = True,
+                        can_edit = True, ),
+                    mig_profile = null, ),
+                        create_home_dir=runai.models.boolean_rules.BooleanRules(
+                    source_of_rule = {"scope":"project","projectId":3},
+                    required = True,
+                    can_edit = True, ),
+                        environment_variables=runai.models.instances_rules.InstancesRules(
                     instances = runai.models.item_rules.ItemRules(
+                        source_of_rule = {"scope":"project","projectId":3},
                         can_add = True,
                         locked = ["HOME","USER"], ), ),
                         exposed_urls=runai.models.exposed_urls_rules.ExposedUrlsRules(
@@ -308,7 +229,7 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                             max = 56,
                             step = 56,
                             default_from = runai.models.default_from_rule.DefaultFromRule(
-                                field = '',
+                                field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                                 factor = 1.337, ), ),
                         custom_url = runai.models.boolean_rules.BooleanRules(
                             required = True,
@@ -325,6 +246,93 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     instances = runai.models.item_rules.ItemRules(
                         can_add = True,
                         locked = ["HOME","USER"], ), ),
+                        image=runai.models.string_rules.StringRules(),
+                        image_pull_policy=runai.models.image_pull_policy_rules.ImagePullPolicyRules(),
+                        image_pull_secrets=runai.models.image_pull_secrets_rules.ImagePullSecretsRules(
+                    attributes = runai.models.image_pull_secrets_rules_attributes.ImagePullSecretsRulesAttributes(
+                        name = runai.models.string_rules.StringRules(),
+                        user_credentials = runai.models.boolean_rules.BooleanRules(
+                            source_of_rule = {"scope":"project","projectId":3},
+                            required = True,
+                            can_edit = True, ), ),
+                    instances = runai.models.item_rules.ItemRules(
+                        can_add = True,
+                        locked = ["HOME","USER"], ), ),
+                        labels=runai.models.instances_rules.InstancesRules(
+                    instances = runai.models.item_rules.ItemRules(
+                        source_of_rule = {"scope":"project","projectId":3},
+                        can_add = True,
+                        locked = ["HOME","USER"], ), ),
+                        node_affinity_required=runai.models.arbitrary_rules.ArbitraryRules(
+                    source_of_rule = {"scope":"project","projectId":3},
+                    required = True,
+                    can_edit = True, ),
+                        node_pools=runai.models.array_rules.ArrayRules(
+                    source_of_rule = {"scope":"project","projectId":3},
+                    required = True,
+                    options = [
+                        {"value":"value","displayed":"A description of the value."}
+                        ],
+                    can_edit = True, ),
+                        node_type=runai.models.string_rules.StringRules(),
+                        pod_affinity=runai.models.pod_affinity_rules.PodAffinityRules(
+                    type = runai.models.pod_affinity_type_rules.PodAffinityTypeRules(),
+                    key = runai.models.string_rules.StringRules(), ),
+                        ports=runai.models.ports_rules.PortsRules(
+                    attributes = runai.models.port_rules.PortRules(
+                        container = runai.models.integer_rules.IntegerRules(
+                            source_of_rule = {"scope":"project","projectId":3},
+                            required = True,
+                            can_edit = True,
+                            min = 56,
+                            max = 56,
+                            step = 56,
+                            default_from = runai.models.default_from_rule.DefaultFromRule(
+                                field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                factor = 1.337, ), ),
+                        service_type = runai.models.port_service_type_rules.PortServiceTypeRules(),
+                        custom_external_port = runai.models.boolean_rules.BooleanRules(
+                            required = True,
+                            can_edit = True, ),
+                        external = runai.models.integer_rules.IntegerRules(
+                            required = True,
+                            can_edit = True,
+                            min = 56,
+                            max = 56,
+                            step = 56, ),
+                        tool_type = runai.models.string_rules.StringRules(),
+                        tool_name = runai.models.string_rules.StringRules(), ),
+                    instances = runai.models.item_rules.ItemRules(
+                        can_add = True,
+                        locked = ["HOME","USER"], ), ),
+                        priority_class=runai.models.string_rules.StringRules(),
+                        probes=runai.models.probes_rules.ProbesRules(
+                    readiness = runai.models.probe_rules.ProbeRules(
+                        initial_delay_seconds = runai.models.integer_rules.IntegerRules(
+                            source_of_rule = {"scope":"project","projectId":3},
+                            required = True,
+                            can_edit = True,
+                            min = 56,
+                            max = 56,
+                            step = 56,
+                            default_from = runai.models.default_from_rule.DefaultFromRule(
+                                field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                factor = 1.337, ), ),
+                        period_seconds = runai.models.integer_rules.IntegerRules(
+                            required = True,
+                            can_edit = True,
+                            min = 56,
+                            max = 56,
+                            step = 56, ),
+                        timeout_seconds = ,
+                        success_threshold = ,
+                        failure_threshold = ,
+                        handler = runai.models.probe_handler_rules.ProbeHandlerRules(
+                            http_get = runai.models.probe_handler_rules_http_get.ProbeHandlerRules_httpGet(
+                                path = runai.models.string_rules.StringRules(),
+                                port = ,
+                                host = runai.models.string_rules.StringRules(),
+                                scheme = runai.models.string_rules.StringRules(), ), ), ), ),
                         related_urls=runai.models.related_urls_rules.RelatedUrlsRules(
                     attributes = runai.models.related_url_rules.RelatedUrlRules(
                         url = runai.models.string_rules.StringRules(),
@@ -334,18 +342,68 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                         source_of_rule = {"scope":"project","projectId":3},
                         can_add = True,
                         locked = ["HOME","USER"], ), ),
-                        security=runai.models.security_flat_fields_rules.SecurityFlatFieldsRules(),
-                        compute=runai.models.compute_fields_rules.ComputeFieldsRules(),
-                        storage=runai.models.storage_fields_rules.StorageFieldsRules(),
-                        tty=runai.models.boolean_rules.BooleanRules(
-                    source_of_rule = {"scope":"project","projectId":3},
-                    required = True,
-                    can_edit = True, ),
+                        restart_policy=runai.models.restart_policy_rule.RestartPolicyRule(),
+                        security=runai.models.superset_rules_all_of_security.SupersetRules_allOf_security(
+                    allow_privilege_escalation = runai.models.boolean_rules.BooleanRules(
+                        source_of_rule = {"scope":"project","projectId":3},
+                        required = True,
+                        can_edit = True, ),
+                    capabilities = runai.models.array_rules.ArrayRules(
+                        required = True,
+                        options = [
+                            {"value":"value","displayed":"A description of the value."}
+                            ],
+                        can_edit = True, ),
+                    host_ipc = runai.models.boolean_rules.BooleanRules(
+                        required = True,
+                        can_edit = True, ),
+                    host_network = ,
+                    read_only_root_filesystem = ,
+                    run_as_gid = runai.models.integer_rules_optional.IntegerRulesOptional(
+                        can_edit = True,
+                        min = 56,
+                        max = 56,
+                        step = 56,
+                        default_from = runai.models.default_from_rule.DefaultFromRule(
+                            field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            factor = 1.337, ), ),
+                    run_as_non_root = ,
+                    run_as_uid = runai.models.integer_rules_optional.IntegerRulesOptional(
+                        can_edit = True,
+                        min = 56,
+                        max = 56,
+                        step = 56, ),
+                    seccomp_profile_type = runai.models.seccomp_profile_type_rules.SeccompProfileTypeRules(),
+                    supplemental_groups = runai.models.string_rules.StringRules(),
+                    uid_gid_source = runai.models.uid_gid_source_rules.UidGidSourceRules(), ),
                         stdin=runai.models.boolean_rules.BooleanRules(
                     source_of_rule = {"scope":"project","projectId":3},
                     required = True,
                     can_edit = True, ),
-                        num_workers=runai.models.integer_rules.IntegerRules(
+                        storage=runai.models.superset_rules_all_of_storage.SupersetRules_allOf_storage(
+                    config_map_volume = runai.models.config_maps_rules.ConfigMapsRules(
+                        attributes = runai.models.config_map_rules.ConfigMapRules(
+                            config_map = runai.models.string_rules.StringRules(),
+                            mount_path = runai.models.string_rules.StringRules(),
+                            sub_path = runai.models.string_rules.StringRules(),
+                            default_mode = runai.models.string_rules.StringRules(), ),
+                        instances = runai.models.item_rules.ItemRules(
+                            source_of_rule = {"scope":"project","projectId":3},
+                            can_add = True,
+                            locked = ["HOME","USER"], ), ),
+                    data_volume = runai.models.data_volumes_rules.DataVolumesRules(),
+                    empty_dir_volume = runai.models.empty_dirs_rules.EmptyDirsRules(),
+                    git = runai.models.gits_rules.GitsRules(),
+                    host_path = runai.models.host_paths_rules.HostPathsRules(),
+                    nfs = runai.models.nfss_rules.NfssRules(),
+                    pvc = runai.models.pvcs_rules.PvcsRules(),
+                    s3 = runai.models.s3s_rules.S3sRules(),
+                    secret_volume = runai.models.secrets_rules.SecretsRules(), ),
+                        terminate_after_preemption=runai.models.boolean_rules.BooleanRules(
+                    source_of_rule = {"scope":"project","projectId":3},
+                    required = True,
+                    can_edit = True, ),
+                        termination_grace_period_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
                     required = True,
                     can_edit = True,
@@ -353,31 +411,37 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
+                        tolerations=runai.models.tolerations_rules.TolerationsRules(
+                    attributes = runai.models.toleration_rules.TolerationRules(
+                        operator = runai.models.toleration_operator_rules.TolerationOperatorRules(),
+                        key = runai.models.string_rules.StringRules(),
+                        value = runai.models.string_rules.StringRules(),
+                        effect = runai.models.toleration_effect_rules.TolerationEffectRules(),
+                        seconds = runai.models.integer_rules.IntegerRules(
+                            source_of_rule = {"scope":"project","projectId":3},
+                            required = True,
+                            can_edit = True,
+                            min = 56,
+                            max = 56,
+                            step = 56,
+                            default_from = runai.models.default_from_rule.DefaultFromRule(
+                                field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                factor = 1.337, ), ),
+                        exclude = runai.models.boolean_rules.BooleanRules(
+                            required = True,
+                            can_edit = True, ), ),
+                    instances = runai.models.item_rules.ItemRules(
+                        can_add = True,
+                        locked = ["HOME","USER"], ), ),
+                        tty=runai.models.boolean_rules.BooleanRules(
+                    source_of_rule = {"scope":"project","projectId":3},
+                    required = True,
+                    can_edit = True, ),
+                        working_dir=runai.models.string_rules.StringRules(),
+                        clean_pod_policy=runai.models.clean_pod_policy_rules.CleanPodPolicyRules(),
                         distributed_framework=runai.models.distributed_framework_rules.DistributedFrameworkRules(),
-                        slots_per_worker=runai.models.integer_rules.IntegerRules(
-                    source_of_rule = {"scope":"project","projectId":3},
-                    required = True,
-                    can_edit = True,
-                    min = 56,
-                    max = 56,
-                    step = 56,
-                    default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
-                        factor = 1.337, ), ),
-                        ssh_auth_mount_path=runai.models.string_rules.StringRules(),
-                        mpi_launcher_creation_policy=runai.models.distributed_mpi_launcher_creation_policy_rules.DistributedMpiLauncherCreationPolicyRules(),
-                        min_replicas=runai.models.integer_rules.IntegerRules(
-                    source_of_rule = {"scope":"project","projectId":3},
-                    required = True,
-                    can_edit = True,
-                    min = 56,
-                    max = 56,
-                    step = 56,
-                    default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
-                        factor = 1.337, ), ),
                         max_replicas=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
                     required = True,
@@ -386,118 +450,149 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
-                        clean_pod_policy=runai.models.distributed_clean_pod_policy_rules.DistributedCleanPodPolicyRules()
+                        min_replicas=runai.models.integer_rules.IntegerRules(
+                    source_of_rule = {"scope":"project","projectId":3},
+                    required = True,
+                    can_edit = True,
+                    min = 56,
+                    max = 56,
+                    step = 56,
+                    default_from = runai.models.default_from_rule.DefaultFromRule(
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                        factor = 1.337, ), ),
+                        mpi_launcher_creation_policy=runai.models.mpi_launcher_creation_policy_rules.MpiLauncherCreationPolicyRules(),
+                        num_workers=runai.models.integer_rules.IntegerRules(
+                    source_of_rule = {"scope":"project","projectId":3},
+                    required = True,
+                    can_edit = True,
+                    min = 56,
+                    max = 56,
+                    step = 56,
+                    default_from = runai.models.default_from_rule.DefaultFromRule(
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                        factor = 1.337, ), ),
+                        slots_per_worker=runai.models.integer_rules.IntegerRules(
+                    source_of_rule = {"scope":"project","projectId":3},
+                    required = True,
+                    can_edit = True,
+                    min = 56,
+                    max = 56,
+                    step = 56,
+                    default_from = runai.models.default_from_rule.DefaultFromRule(
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                        factor = 1.337, ), ),
+                        ssh_auth_mount_path=runai.models.string_rules.StringRules()
         )
         ```
     """  # noqa: E501
 
-    command: Optional[StringRules] = None
+    annotations: Optional[InstancesRules] = None
     args: Optional[StringRules] = None
+    auto_deletion_time_after_completion_seconds: Optional[IntegerRules] = Field(
+        default=None, alias="autoDeletionTimeAfterCompletionSeconds"
+    )
+    backoff_limit: Optional[IntegerRules] = Field(default=None, alias="backoffLimit")
+    category: Optional[StringRules] = None
+    command: Optional[StringRules] = None
+    compute: Optional[SupersetRulesAllOfCompute] = None
+    create_home_dir: Optional[BooleanRules] = Field(default=None, alias="createHomeDir")
+    environment_variables: Optional[InstancesRules] = Field(
+        default=None, alias="environmentVariables"
+    )
+    exposed_urls: Optional[ExposedUrlsRules] = Field(default=None, alias="exposedUrls")
     image: Optional[StringRules] = None
     image_pull_policy: Optional[ImagePullPolicyRules] = Field(
         default=None, alias="imagePullPolicy"
     )
-    working_dir: Optional[StringRules] = Field(default=None, alias="workingDir")
-    create_home_dir: Optional[BooleanRules] = Field(default=None, alias="createHomeDir")
-    probes: Optional[ProbesRules] = None
-    node_type: Optional[StringRules] = Field(default=None, alias="nodeType")
-    node_affinity_required: Optional[ArbitraryRules] = Field(
-        default=None, alias="nodeAffinityRequired"
-    )
-    pod_affinity: Optional[PodAffinityRules] = Field(default=None, alias="podAffinity")
-    category: Optional[StringRules] = None
-    priority_class: Optional[StringRules] = Field(default=None, alias="priorityClass")
-    node_pools: Optional[ArrayRules] = Field(default=None, alias="nodePools")
-    environment_variables: Optional[InstancesRules] = Field(
-        default=None, alias="environmentVariables"
-    )
-    annotations: Optional[InstancesRules] = None
-    labels: Optional[InstancesRules] = None
     image_pull_secrets: Optional[ImagePullSecretsRules] = Field(
         default=None, alias="imagePullSecrets"
     )
-    tolerations: Optional[TolerationsRules] = None
+    labels: Optional[InstancesRules] = None
+    node_affinity_required: Optional[ArbitraryRules] = Field(
+        default=None, alias="nodeAffinityRequired"
+    )
+    node_pools: Optional[ArrayRules] = Field(default=None, alias="nodePools")
+    node_type: Optional[StringRules] = Field(default=None, alias="nodeType")
+    pod_affinity: Optional[PodAffinityRules] = Field(default=None, alias="podAffinity")
+    ports: Optional[PortsRules] = None
+    priority_class: Optional[StringRules] = Field(default=None, alias="priorityClass")
+    probes: Optional[ProbesRules] = None
+    related_urls: Optional[RelatedUrlsRules] = Field(default=None, alias="relatedUrls")
+    restart_policy: Optional[RestartPolicyRule] = Field(
+        default=None, alias="restartPolicy"
+    )
+    security: Optional[SupersetRulesAllOfSecurity] = None
+    stdin: Optional[BooleanRules] = None
+    storage: Optional[SupersetRulesAllOfStorage] = None
     terminate_after_preemption: Optional[BooleanRules] = Field(
         default=None, alias="terminateAfterPreemption"
-    )
-    auto_deletion_time_after_completion_seconds: Optional[IntegerRules] = Field(
-        default=None, alias="autoDeletionTimeAfterCompletionSeconds"
     )
     termination_grace_period_seconds: Optional[IntegerRules] = Field(
         default=None, alias="terminationGracePeriodSeconds"
     )
-    backoff_limit: Optional[IntegerRules] = Field(default=None, alias="backoffLimit")
-    restart_policy: Optional[RestartPolicyRule] = Field(
-        default=None, alias="restartPolicy"
-    )
-    ports: Optional[PortsRules] = None
-    exposed_urls: Optional[ExposedUrlsRules] = Field(default=None, alias="exposedUrls")
-    related_urls: Optional[RelatedUrlsRules] = Field(default=None, alias="relatedUrls")
-    security: Optional[SecurityFlatFieldsRules] = None
-    compute: Optional[ComputeFieldsRules] = None
-    storage: Optional[StorageFieldsRules] = None
+    tolerations: Optional[TolerationsRules] = None
     tty: Optional[BooleanRules] = None
-    stdin: Optional[BooleanRules] = None
-    num_workers: Optional[IntegerRules] = Field(default=None, alias="numWorkers")
+    working_dir: Optional[StringRules] = Field(default=None, alias="workingDir")
+    clean_pod_policy: Optional[CleanPodPolicyRules] = Field(
+        default=None, alias="cleanPodPolicy"
+    )
     distributed_framework: Optional[DistributedFrameworkRules] = Field(
         default=None, alias="distributedFramework"
     )
+    max_replicas: Optional[IntegerRules] = Field(default=None, alias="maxReplicas")
+    min_replicas: Optional[IntegerRules] = Field(default=None, alias="minReplicas")
+    mpi_launcher_creation_policy: Optional[MpiLauncherCreationPolicyRules] = Field(
+        default=None, alias="mpiLauncherCreationPolicy"
+    )
+    num_workers: Optional[IntegerRules] = Field(default=None, alias="numWorkers")
     slots_per_worker: Optional[IntegerRules] = Field(
         default=None, alias="slotsPerWorker"
     )
     ssh_auth_mount_path: Optional[StringRules] = Field(
         default=None, alias="sshAuthMountPath"
     )
-    mpi_launcher_creation_policy: Optional[
-        DistributedMpiLauncherCreationPolicyRules
-    ] = Field(default=None, alias="mpiLauncherCreationPolicy")
-    min_replicas: Optional[IntegerRules] = Field(default=None, alias="minReplicas")
-    max_replicas: Optional[IntegerRules] = Field(default=None, alias="maxReplicas")
-    clean_pod_policy: Optional[DistributedCleanPodPolicyRules] = Field(
-        default=None, alias="cleanPodPolicy"
-    )
     __properties: ClassVar[List[str]] = [
-        "command",
+        "annotations",
         "args",
+        "autoDeletionTimeAfterCompletionSeconds",
+        "backoffLimit",
+        "category",
+        "command",
+        "compute",
+        "createHomeDir",
+        "environmentVariables",
+        "exposedUrls",
         "image",
         "imagePullPolicy",
-        "workingDir",
-        "createHomeDir",
-        "probes",
-        "nodeType",
-        "nodeAffinityRequired",
-        "podAffinity",
-        "category",
-        "priorityClass",
-        "nodePools",
-        "environmentVariables",
-        "annotations",
-        "labels",
         "imagePullSecrets",
-        "tolerations",
-        "terminateAfterPreemption",
-        "autoDeletionTimeAfterCompletionSeconds",
-        "terminationGracePeriodSeconds",
-        "backoffLimit",
-        "restartPolicy",
+        "labels",
+        "nodeAffinityRequired",
+        "nodePools",
+        "nodeType",
+        "podAffinity",
         "ports",
-        "exposedUrls",
+        "priorityClass",
+        "probes",
         "relatedUrls",
+        "restartPolicy",
         "security",
-        "compute",
-        "storage",
-        "tty",
         "stdin",
-        "numWorkers",
+        "storage",
+        "terminateAfterPreemption",
+        "terminationGracePeriodSeconds",
+        "tolerations",
+        "tty",
+        "workingDir",
+        "cleanPodPolicy",
         "distributedFramework",
+        "maxReplicas",
+        "minReplicas",
+        "mpiLauncherCreationPolicy",
+        "numWorkers",
         "slotsPerWorker",
         "sshAuthMountPath",
-        "mpiLauncherCreationPolicy",
-        "minReplicas",
-        "maxReplicas",
-        "cleanPodPolicy",
     ]
 
     model_config = ConfigDict(
@@ -537,140 +632,186 @@ class DistributedPolicyRulesV2Worker(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of command
-        if self.command:
-            _dict["command"] = self.command.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of annotations
+        if self.annotations:
+            _dict["annotations"] = self.annotations.to_dict()
         # override the default output from pydantic by calling `to_dict()` of args
         if self.args:
             _dict["args"] = self.args.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of auto_deletion_time_after_completion_seconds
+        if self.auto_deletion_time_after_completion_seconds:
+            _dict["autoDeletionTimeAfterCompletionSeconds"] = (
+                self.auto_deletion_time_after_completion_seconds.to_dict()
+            )
+        # override the default output from pydantic by calling `to_dict()` of backoff_limit
+        if self.backoff_limit:
+            _dict["backoffLimit"] = self.backoff_limit.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of category
+        if self.category:
+            _dict["category"] = self.category.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of command
+        if self.command:
+            _dict["command"] = self.command.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of compute
+        if self.compute:
+            _dict["compute"] = self.compute.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of create_home_dir
+        if self.create_home_dir:
+            _dict["createHomeDir"] = self.create_home_dir.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of environment_variables
+        if self.environment_variables:
+            _dict["environmentVariables"] = self.environment_variables.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of exposed_urls
+        if self.exposed_urls:
+            _dict["exposedUrls"] = self.exposed_urls.to_dict()
         # override the default output from pydantic by calling `to_dict()` of image
         if self.image:
             _dict["image"] = self.image.to_dict()
         # override the default output from pydantic by calling `to_dict()` of image_pull_policy
         if self.image_pull_policy:
             _dict["imagePullPolicy"] = self.image_pull_policy.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of working_dir
-        if self.working_dir:
-            _dict["workingDir"] = self.working_dir.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of create_home_dir
-        if self.create_home_dir:
-            _dict["createHomeDir"] = self.create_home_dir.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of probes
-        if self.probes:
-            _dict["probes"] = self.probes.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of node_type
-        if self.node_type:
-            _dict["nodeType"] = self.node_type.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of node_affinity_required
-        if self.node_affinity_required:
-            _dict["nodeAffinityRequired"] = self.node_affinity_required.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of pod_affinity
-        if self.pod_affinity:
-            _dict["podAffinity"] = self.pod_affinity.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of category
-        if self.category:
-            _dict["category"] = self.category.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of priority_class
-        if self.priority_class:
-            _dict["priorityClass"] = self.priority_class.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of node_pools
-        if self.node_pools:
-            _dict["nodePools"] = self.node_pools.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of environment_variables
-        if self.environment_variables:
-            _dict["environmentVariables"] = self.environment_variables.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of annotations
-        if self.annotations:
-            _dict["annotations"] = self.annotations.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of labels
-        if self.labels:
-            _dict["labels"] = self.labels.to_dict()
         # override the default output from pydantic by calling `to_dict()` of image_pull_secrets
         if self.image_pull_secrets:
             _dict["imagePullSecrets"] = self.image_pull_secrets.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of tolerations
-        if self.tolerations:
-            _dict["tolerations"] = self.tolerations.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of labels
+        if self.labels:
+            _dict["labels"] = self.labels.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of node_affinity_required
+        if self.node_affinity_required:
+            _dict["nodeAffinityRequired"] = self.node_affinity_required.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of node_pools
+        if self.node_pools:
+            _dict["nodePools"] = self.node_pools.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of node_type
+        if self.node_type:
+            _dict["nodeType"] = self.node_type.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of pod_affinity
+        if self.pod_affinity:
+            _dict["podAffinity"] = self.pod_affinity.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of ports
+        if self.ports:
+            _dict["ports"] = self.ports.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of priority_class
+        if self.priority_class:
+            _dict["priorityClass"] = self.priority_class.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of probes
+        if self.probes:
+            _dict["probes"] = self.probes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of related_urls
+        if self.related_urls:
+            _dict["relatedUrls"] = self.related_urls.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of restart_policy
+        if self.restart_policy:
+            _dict["restartPolicy"] = self.restart_policy.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of security
+        if self.security:
+            _dict["security"] = self.security.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of stdin
+        if self.stdin:
+            _dict["stdin"] = self.stdin.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of storage
+        if self.storage:
+            _dict["storage"] = self.storage.to_dict()
         # override the default output from pydantic by calling `to_dict()` of terminate_after_preemption
         if self.terminate_after_preemption:
             _dict["terminateAfterPreemption"] = (
                 self.terminate_after_preemption.to_dict()
-            )
-        # override the default output from pydantic by calling `to_dict()` of auto_deletion_time_after_completion_seconds
-        if self.auto_deletion_time_after_completion_seconds:
-            _dict["autoDeletionTimeAfterCompletionSeconds"] = (
-                self.auto_deletion_time_after_completion_seconds.to_dict()
             )
         # override the default output from pydantic by calling `to_dict()` of termination_grace_period_seconds
         if self.termination_grace_period_seconds:
             _dict["terminationGracePeriodSeconds"] = (
                 self.termination_grace_period_seconds.to_dict()
             )
-        # override the default output from pydantic by calling `to_dict()` of backoff_limit
-        if self.backoff_limit:
-            _dict["backoffLimit"] = self.backoff_limit.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of restart_policy
-        if self.restart_policy:
-            _dict["restartPolicy"] = self.restart_policy.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of ports
-        if self.ports:
-            _dict["ports"] = self.ports.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of exposed_urls
-        if self.exposed_urls:
-            _dict["exposedUrls"] = self.exposed_urls.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of related_urls
-        if self.related_urls:
-            _dict["relatedUrls"] = self.related_urls.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of security
-        if self.security:
-            _dict["security"] = self.security.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of compute
-        if self.compute:
-            _dict["compute"] = self.compute.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of storage
-        if self.storage:
-            _dict["storage"] = self.storage.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of tolerations
+        if self.tolerations:
+            _dict["tolerations"] = self.tolerations.to_dict()
         # override the default output from pydantic by calling `to_dict()` of tty
         if self.tty:
             _dict["tty"] = self.tty.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of stdin
-        if self.stdin:
-            _dict["stdin"] = self.stdin.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of num_workers
-        if self.num_workers:
-            _dict["numWorkers"] = self.num_workers.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of working_dir
+        if self.working_dir:
+            _dict["workingDir"] = self.working_dir.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of clean_pod_policy
+        if self.clean_pod_policy:
+            _dict["cleanPodPolicy"] = self.clean_pod_policy.to_dict()
         # override the default output from pydantic by calling `to_dict()` of distributed_framework
         if self.distributed_framework:
             _dict["distributedFramework"] = self.distributed_framework.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of max_replicas
+        if self.max_replicas:
+            _dict["maxReplicas"] = self.max_replicas.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of min_replicas
+        if self.min_replicas:
+            _dict["minReplicas"] = self.min_replicas.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of mpi_launcher_creation_policy
+        if self.mpi_launcher_creation_policy:
+            _dict["mpiLauncherCreationPolicy"] = (
+                self.mpi_launcher_creation_policy.to_dict()
+            )
+        # override the default output from pydantic by calling `to_dict()` of num_workers
+        if self.num_workers:
+            _dict["numWorkers"] = self.num_workers.to_dict()
         # override the default output from pydantic by calling `to_dict()` of slots_per_worker
         if self.slots_per_worker:
             _dict["slotsPerWorker"] = self.slots_per_worker.to_dict()
         # override the default output from pydantic by calling `to_dict()` of ssh_auth_mount_path
         if self.ssh_auth_mount_path:
             _dict["sshAuthMountPath"] = self.ssh_auth_mount_path.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of mpi_launcher_creation_policy
-        if self.mpi_launcher_creation_policy:
-            _dict["mpiLauncherCreationPolicy"] = (
-                self.mpi_launcher_creation_policy.to_dict()
-            )
-        # override the default output from pydantic by calling `to_dict()` of min_replicas
-        if self.min_replicas:
-            _dict["minReplicas"] = self.min_replicas.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of max_replicas
-        if self.max_replicas:
-            _dict["maxReplicas"] = self.max_replicas.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of clean_pod_policy
-        if self.clean_pod_policy:
-            _dict["cleanPodPolicy"] = self.clean_pod_policy.to_dict()
-        # set to None if command (nullable) is None
+        # set to None if annotations (nullable) is None
         # and model_fields_set contains the field
-        if self.command is None and "command" in self.model_fields_set:
-            _dict["command"] = None
+        if self.annotations is None and "annotations" in self.model_fields_set:
+            _dict["annotations"] = None
 
         # set to None if args (nullable) is None
         # and model_fields_set contains the field
         if self.args is None and "args" in self.model_fields_set:
             _dict["args"] = None
+
+        # set to None if auto_deletion_time_after_completion_seconds (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.auto_deletion_time_after_completion_seconds is None
+            and "auto_deletion_time_after_completion_seconds" in self.model_fields_set
+        ):
+            _dict["autoDeletionTimeAfterCompletionSeconds"] = None
+
+        # set to None if backoff_limit (nullable) is None
+        # and model_fields_set contains the field
+        if self.backoff_limit is None and "backoff_limit" in self.model_fields_set:
+            _dict["backoffLimit"] = None
+
+        # set to None if category (nullable) is None
+        # and model_fields_set contains the field
+        if self.category is None and "category" in self.model_fields_set:
+            _dict["category"] = None
+
+        # set to None if command (nullable) is None
+        # and model_fields_set contains the field
+        if self.command is None and "command" in self.model_fields_set:
+            _dict["command"] = None
+
+        # set to None if compute (nullable) is None
+        # and model_fields_set contains the field
+        if self.compute is None and "compute" in self.model_fields_set:
+            _dict["compute"] = None
+
+        # set to None if create_home_dir (nullable) is None
+        # and model_fields_set contains the field
+        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
+            _dict["createHomeDir"] = None
+
+        # set to None if environment_variables (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.environment_variables is None
+            and "environment_variables" in self.model_fields_set
+        ):
+            _dict["environmentVariables"] = None
+
+        # set to None if exposed_urls (nullable) is None
+        # and model_fields_set contains the field
+        if self.exposed_urls is None and "exposed_urls" in self.model_fields_set:
+            _dict["exposedUrls"] = None
 
         # set to None if image (nullable) is None
         # and model_fields_set contains the field
@@ -685,25 +826,18 @@ class DistributedPolicyRulesV2Worker(BaseModel):
         ):
             _dict["imagePullPolicy"] = None
 
-        # set to None if working_dir (nullable) is None
+        # set to None if image_pull_secrets (nullable) is None
         # and model_fields_set contains the field
-        if self.working_dir is None and "working_dir" in self.model_fields_set:
-            _dict["workingDir"] = None
+        if (
+            self.image_pull_secrets is None
+            and "image_pull_secrets" in self.model_fields_set
+        ):
+            _dict["imagePullSecrets"] = None
 
-        # set to None if create_home_dir (nullable) is None
+        # set to None if labels (nullable) is None
         # and model_fields_set contains the field
-        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
-            _dict["createHomeDir"] = None
-
-        # set to None if probes (nullable) is None
-        # and model_fields_set contains the field
-        if self.probes is None and "probes" in self.model_fields_set:
-            _dict["probes"] = None
-
-        # set to None if node_type (nullable) is None
-        # and model_fields_set contains the field
-        if self.node_type is None and "node_type" in self.model_fields_set:
-            _dict["nodeType"] = None
+        if self.labels is None and "labels" in self.model_fields_set:
+            _dict["labels"] = None
 
         # set to None if node_affinity_required (nullable) is None
         # and model_fields_set contains the field
@@ -713,56 +847,60 @@ class DistributedPolicyRulesV2Worker(BaseModel):
         ):
             _dict["nodeAffinityRequired"] = None
 
+        # set to None if node_pools (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_pools is None and "node_pools" in self.model_fields_set:
+            _dict["nodePools"] = None
+
+        # set to None if node_type (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_type is None and "node_type" in self.model_fields_set:
+            _dict["nodeType"] = None
+
         # set to None if pod_affinity (nullable) is None
         # and model_fields_set contains the field
         if self.pod_affinity is None and "pod_affinity" in self.model_fields_set:
             _dict["podAffinity"] = None
 
-        # set to None if category (nullable) is None
+        # set to None if ports (nullable) is None
         # and model_fields_set contains the field
-        if self.category is None and "category" in self.model_fields_set:
-            _dict["category"] = None
+        if self.ports is None and "ports" in self.model_fields_set:
+            _dict["ports"] = None
 
         # set to None if priority_class (nullable) is None
         # and model_fields_set contains the field
         if self.priority_class is None and "priority_class" in self.model_fields_set:
             _dict["priorityClass"] = None
 
-        # set to None if node_pools (nullable) is None
+        # set to None if probes (nullable) is None
         # and model_fields_set contains the field
-        if self.node_pools is None and "node_pools" in self.model_fields_set:
-            _dict["nodePools"] = None
+        if self.probes is None and "probes" in self.model_fields_set:
+            _dict["probes"] = None
 
-        # set to None if environment_variables (nullable) is None
+        # set to None if related_urls (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.environment_variables is None
-            and "environment_variables" in self.model_fields_set
-        ):
-            _dict["environmentVariables"] = None
+        if self.related_urls is None and "related_urls" in self.model_fields_set:
+            _dict["relatedUrls"] = None
 
-        # set to None if annotations (nullable) is None
+        # set to None if restart_policy (nullable) is None
         # and model_fields_set contains the field
-        if self.annotations is None and "annotations" in self.model_fields_set:
-            _dict["annotations"] = None
+        if self.restart_policy is None and "restart_policy" in self.model_fields_set:
+            _dict["restartPolicy"] = None
 
-        # set to None if labels (nullable) is None
+        # set to None if security (nullable) is None
         # and model_fields_set contains the field
-        if self.labels is None and "labels" in self.model_fields_set:
-            _dict["labels"] = None
+        if self.security is None and "security" in self.model_fields_set:
+            _dict["security"] = None
 
-        # set to None if image_pull_secrets (nullable) is None
+        # set to None if stdin (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.image_pull_secrets is None
-            and "image_pull_secrets" in self.model_fields_set
-        ):
-            _dict["imagePullSecrets"] = None
+        if self.stdin is None and "stdin" in self.model_fields_set:
+            _dict["stdin"] = None
 
-        # set to None if tolerations (nullable) is None
+        # set to None if storage (nullable) is None
         # and model_fields_set contains the field
-        if self.tolerations is None and "tolerations" in self.model_fields_set:
-            _dict["tolerations"] = None
+        if self.storage is None and "storage" in self.model_fields_set:
+            _dict["storage"] = None
 
         # set to None if terminate_after_preemption (nullable) is None
         # and model_fields_set contains the field
@@ -772,14 +910,6 @@ class DistributedPolicyRulesV2Worker(BaseModel):
         ):
             _dict["terminateAfterPreemption"] = None
 
-        # set to None if auto_deletion_time_after_completion_seconds (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.auto_deletion_time_after_completion_seconds is None
-            and "auto_deletion_time_after_completion_seconds" in self.model_fields_set
-        ):
-            _dict["autoDeletionTimeAfterCompletionSeconds"] = None
-
         # set to None if termination_grace_period_seconds (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -788,60 +918,28 @@ class DistributedPolicyRulesV2Worker(BaseModel):
         ):
             _dict["terminationGracePeriodSeconds"] = None
 
-        # set to None if backoff_limit (nullable) is None
+        # set to None if tolerations (nullable) is None
         # and model_fields_set contains the field
-        if self.backoff_limit is None and "backoff_limit" in self.model_fields_set:
-            _dict["backoffLimit"] = None
-
-        # set to None if restart_policy (nullable) is None
-        # and model_fields_set contains the field
-        if self.restart_policy is None and "restart_policy" in self.model_fields_set:
-            _dict["restartPolicy"] = None
-
-        # set to None if ports (nullable) is None
-        # and model_fields_set contains the field
-        if self.ports is None and "ports" in self.model_fields_set:
-            _dict["ports"] = None
-
-        # set to None if exposed_urls (nullable) is None
-        # and model_fields_set contains the field
-        if self.exposed_urls is None and "exposed_urls" in self.model_fields_set:
-            _dict["exposedUrls"] = None
-
-        # set to None if related_urls (nullable) is None
-        # and model_fields_set contains the field
-        if self.related_urls is None and "related_urls" in self.model_fields_set:
-            _dict["relatedUrls"] = None
-
-        # set to None if security (nullable) is None
-        # and model_fields_set contains the field
-        if self.security is None and "security" in self.model_fields_set:
-            _dict["security"] = None
-
-        # set to None if compute (nullable) is None
-        # and model_fields_set contains the field
-        if self.compute is None and "compute" in self.model_fields_set:
-            _dict["compute"] = None
-
-        # set to None if storage (nullable) is None
-        # and model_fields_set contains the field
-        if self.storage is None and "storage" in self.model_fields_set:
-            _dict["storage"] = None
+        if self.tolerations is None and "tolerations" in self.model_fields_set:
+            _dict["tolerations"] = None
 
         # set to None if tty (nullable) is None
         # and model_fields_set contains the field
         if self.tty is None and "tty" in self.model_fields_set:
             _dict["tty"] = None
 
-        # set to None if stdin (nullable) is None
+        # set to None if working_dir (nullable) is None
         # and model_fields_set contains the field
-        if self.stdin is None and "stdin" in self.model_fields_set:
-            _dict["stdin"] = None
+        if self.working_dir is None and "working_dir" in self.model_fields_set:
+            _dict["workingDir"] = None
 
-        # set to None if num_workers (nullable) is None
+        # set to None if clean_pod_policy (nullable) is None
         # and model_fields_set contains the field
-        if self.num_workers is None and "num_workers" in self.model_fields_set:
-            _dict["numWorkers"] = None
+        if (
+            self.clean_pod_policy is None
+            and "clean_pod_policy" in self.model_fields_set
+        ):
+            _dict["cleanPodPolicy"] = None
 
         # set to None if distributed_framework (nullable) is None
         # and model_fields_set contains the field
@@ -850,6 +948,29 @@ class DistributedPolicyRulesV2Worker(BaseModel):
             and "distributed_framework" in self.model_fields_set
         ):
             _dict["distributedFramework"] = None
+
+        # set to None if max_replicas (nullable) is None
+        # and model_fields_set contains the field
+        if self.max_replicas is None and "max_replicas" in self.model_fields_set:
+            _dict["maxReplicas"] = None
+
+        # set to None if min_replicas (nullable) is None
+        # and model_fields_set contains the field
+        if self.min_replicas is None and "min_replicas" in self.model_fields_set:
+            _dict["minReplicas"] = None
+
+        # set to None if mpi_launcher_creation_policy (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.mpi_launcher_creation_policy is None
+            and "mpi_launcher_creation_policy" in self.model_fields_set
+        ):
+            _dict["mpiLauncherCreationPolicy"] = None
+
+        # set to None if num_workers (nullable) is None
+        # and model_fields_set contains the field
+        if self.num_workers is None and "num_workers" in self.model_fields_set:
+            _dict["numWorkers"] = None
 
         # set to None if slots_per_worker (nullable) is None
         # and model_fields_set contains the field
@@ -867,32 +988,6 @@ class DistributedPolicyRulesV2Worker(BaseModel):
         ):
             _dict["sshAuthMountPath"] = None
 
-        # set to None if mpi_launcher_creation_policy (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.mpi_launcher_creation_policy is None
-            and "mpi_launcher_creation_policy" in self.model_fields_set
-        ):
-            _dict["mpiLauncherCreationPolicy"] = None
-
-        # set to None if min_replicas (nullable) is None
-        # and model_fields_set contains the field
-        if self.min_replicas is None and "min_replicas" in self.model_fields_set:
-            _dict["minReplicas"] = None
-
-        # set to None if max_replicas (nullable) is None
-        # and model_fields_set contains the field
-        if self.max_replicas is None and "max_replicas" in self.model_fields_set:
-            _dict["maxReplicas"] = None
-
-        # set to None if clean_pod_policy (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.clean_pod_policy is None
-            and "clean_pod_policy" in self.model_fields_set
-        ):
-            _dict["cleanPodPolicy"] = None
-
         return _dict
 
     @classmethod
@@ -906,14 +1001,56 @@ class DistributedPolicyRulesV2Worker(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "command": (
-                    StringRules.from_dict(obj["command"])
-                    if obj.get("command") is not None
+                "annotations": (
+                    InstancesRules.from_dict(obj["annotations"])
+                    if obj.get("annotations") is not None
                     else None
                 ),
                 "args": (
                     StringRules.from_dict(obj["args"])
                     if obj.get("args") is not None
+                    else None
+                ),
+                "autoDeletionTimeAfterCompletionSeconds": (
+                    IntegerRules.from_dict(
+                        obj["autoDeletionTimeAfterCompletionSeconds"]
+                    )
+                    if obj.get("autoDeletionTimeAfterCompletionSeconds") is not None
+                    else None
+                ),
+                "backoffLimit": (
+                    IntegerRules.from_dict(obj["backoffLimit"])
+                    if obj.get("backoffLimit") is not None
+                    else None
+                ),
+                "category": (
+                    StringRules.from_dict(obj["category"])
+                    if obj.get("category") is not None
+                    else None
+                ),
+                "command": (
+                    StringRules.from_dict(obj["command"])
+                    if obj.get("command") is not None
+                    else None
+                ),
+                "compute": (
+                    SupersetRulesAllOfCompute.from_dict(obj["compute"])
+                    if obj.get("compute") is not None
+                    else None
+                ),
+                "createHomeDir": (
+                    BooleanRules.from_dict(obj["createHomeDir"])
+                    if obj.get("createHomeDir") is not None
+                    else None
+                ),
+                "environmentVariables": (
+                    InstancesRules.from_dict(obj["environmentVariables"])
+                    if obj.get("environmentVariables") is not None
+                    else None
+                ),
+                "exposedUrls": (
+                    ExposedUrlsRules.from_dict(obj["exposedUrls"])
+                    if obj.get("exposedUrls") is not None
                     else None
                 ),
                 "image": (
@@ -926,59 +1063,9 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     if obj.get("imagePullPolicy") is not None
                     else None
                 ),
-                "workingDir": (
-                    StringRules.from_dict(obj["workingDir"])
-                    if obj.get("workingDir") is not None
-                    else None
-                ),
-                "createHomeDir": (
-                    BooleanRules.from_dict(obj["createHomeDir"])
-                    if obj.get("createHomeDir") is not None
-                    else None
-                ),
-                "probes": (
-                    ProbesRules.from_dict(obj["probes"])
-                    if obj.get("probes") is not None
-                    else None
-                ),
-                "nodeType": (
-                    StringRules.from_dict(obj["nodeType"])
-                    if obj.get("nodeType") is not None
-                    else None
-                ),
-                "nodeAffinityRequired": (
-                    ArbitraryRules.from_dict(obj["nodeAffinityRequired"])
-                    if obj.get("nodeAffinityRequired") is not None
-                    else None
-                ),
-                "podAffinity": (
-                    PodAffinityRules.from_dict(obj["podAffinity"])
-                    if obj.get("podAffinity") is not None
-                    else None
-                ),
-                "category": (
-                    StringRules.from_dict(obj["category"])
-                    if obj.get("category") is not None
-                    else None
-                ),
-                "priorityClass": (
-                    StringRules.from_dict(obj["priorityClass"])
-                    if obj.get("priorityClass") is not None
-                    else None
-                ),
-                "nodePools": (
-                    ArrayRules.from_dict(obj["nodePools"])
-                    if obj.get("nodePools") is not None
-                    else None
-                ),
-                "environmentVariables": (
-                    InstancesRules.from_dict(obj["environmentVariables"])
-                    if obj.get("environmentVariables") is not None
-                    else None
-                ),
-                "annotations": (
-                    InstancesRules.from_dict(obj["annotations"])
-                    if obj.get("annotations") is not None
+                "imagePullSecrets": (
+                    ImagePullSecretsRules.from_dict(obj["imagePullSecrets"])
+                    if obj.get("imagePullSecrets") is not None
                     else None
                 ),
                 "labels": (
@@ -986,41 +1073,24 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     if obj.get("labels") is not None
                     else None
                 ),
-                "imagePullSecrets": (
-                    ImagePullSecretsRules.from_dict(obj["imagePullSecrets"])
-                    if obj.get("imagePullSecrets") is not None
+                "nodeAffinityRequired": (
+                    ArbitraryRules.from_dict(obj["nodeAffinityRequired"])
+                    if obj.get("nodeAffinityRequired") is not None
                     else None
                 ),
-                "tolerations": (
-                    TolerationsRules.from_dict(obj["tolerations"])
-                    if obj.get("tolerations") is not None
+                "nodePools": (
+                    ArrayRules.from_dict(obj["nodePools"])
+                    if obj.get("nodePools") is not None
                     else None
                 ),
-                "terminateAfterPreemption": (
-                    BooleanRules.from_dict(obj["terminateAfterPreemption"])
-                    if obj.get("terminateAfterPreemption") is not None
+                "nodeType": (
+                    StringRules.from_dict(obj["nodeType"])
+                    if obj.get("nodeType") is not None
                     else None
                 ),
-                "autoDeletionTimeAfterCompletionSeconds": (
-                    IntegerRules.from_dict(
-                        obj["autoDeletionTimeAfterCompletionSeconds"]
-                    )
-                    if obj.get("autoDeletionTimeAfterCompletionSeconds") is not None
-                    else None
-                ),
-                "terminationGracePeriodSeconds": (
-                    IntegerRules.from_dict(obj["terminationGracePeriodSeconds"])
-                    if obj.get("terminationGracePeriodSeconds") is not None
-                    else None
-                ),
-                "backoffLimit": (
-                    IntegerRules.from_dict(obj["backoffLimit"])
-                    if obj.get("backoffLimit") is not None
-                    else None
-                ),
-                "restartPolicy": (
-                    RestartPolicyRule.from_dict(obj["restartPolicy"])
-                    if obj.get("restartPolicy") is not None
+                "podAffinity": (
+                    PodAffinityRules.from_dict(obj["podAffinity"])
+                    if obj.get("podAffinity") is not None
                     else None
                 ),
                 "ports": (
@@ -1028,9 +1098,14 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     if obj.get("ports") is not None
                     else None
                 ),
-                "exposedUrls": (
-                    ExposedUrlsRules.from_dict(obj["exposedUrls"])
-                    if obj.get("exposedUrls") is not None
+                "priorityClass": (
+                    StringRules.from_dict(obj["priorityClass"])
+                    if obj.get("priorityClass") is not None
+                    else None
+                ),
+                "probes": (
+                    ProbesRules.from_dict(obj["probes"])
+                    if obj.get("probes") is not None
                     else None
                 ),
                 "relatedUrls": (
@@ -1038,24 +1113,14 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     if obj.get("relatedUrls") is not None
                     else None
                 ),
+                "restartPolicy": (
+                    RestartPolicyRule.from_dict(obj["restartPolicy"])
+                    if obj.get("restartPolicy") is not None
+                    else None
+                ),
                 "security": (
-                    SecurityFlatFieldsRules.from_dict(obj["security"])
+                    SupersetRulesAllOfSecurity.from_dict(obj["security"])
                     if obj.get("security") is not None
-                    else None
-                ),
-                "compute": (
-                    ComputeFieldsRules.from_dict(obj["compute"])
-                    if obj.get("compute") is not None
-                    else None
-                ),
-                "storage": (
-                    StorageFieldsRules.from_dict(obj["storage"])
-                    if obj.get("storage") is not None
-                    else None
-                ),
-                "tty": (
-                    BooleanRules.from_dict(obj["tty"])
-                    if obj.get("tty") is not None
                     else None
                 ),
                 "stdin": (
@@ -1063,14 +1128,66 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                     if obj.get("stdin") is not None
                     else None
                 ),
-                "numWorkers": (
-                    IntegerRules.from_dict(obj["numWorkers"])
-                    if obj.get("numWorkers") is not None
+                "storage": (
+                    SupersetRulesAllOfStorage.from_dict(obj["storage"])
+                    if obj.get("storage") is not None
+                    else None
+                ),
+                "terminateAfterPreemption": (
+                    BooleanRules.from_dict(obj["terminateAfterPreemption"])
+                    if obj.get("terminateAfterPreemption") is not None
+                    else None
+                ),
+                "terminationGracePeriodSeconds": (
+                    IntegerRules.from_dict(obj["terminationGracePeriodSeconds"])
+                    if obj.get("terminationGracePeriodSeconds") is not None
+                    else None
+                ),
+                "tolerations": (
+                    TolerationsRules.from_dict(obj["tolerations"])
+                    if obj.get("tolerations") is not None
+                    else None
+                ),
+                "tty": (
+                    BooleanRules.from_dict(obj["tty"])
+                    if obj.get("tty") is not None
+                    else None
+                ),
+                "workingDir": (
+                    StringRules.from_dict(obj["workingDir"])
+                    if obj.get("workingDir") is not None
+                    else None
+                ),
+                "cleanPodPolicy": (
+                    CleanPodPolicyRules.from_dict(obj["cleanPodPolicy"])
+                    if obj.get("cleanPodPolicy") is not None
                     else None
                 ),
                 "distributedFramework": (
                     DistributedFrameworkRules.from_dict(obj["distributedFramework"])
                     if obj.get("distributedFramework") is not None
+                    else None
+                ),
+                "maxReplicas": (
+                    IntegerRules.from_dict(obj["maxReplicas"])
+                    if obj.get("maxReplicas") is not None
+                    else None
+                ),
+                "minReplicas": (
+                    IntegerRules.from_dict(obj["minReplicas"])
+                    if obj.get("minReplicas") is not None
+                    else None
+                ),
+                "mpiLauncherCreationPolicy": (
+                    MpiLauncherCreationPolicyRules.from_dict(
+                        obj["mpiLauncherCreationPolicy"]
+                    )
+                    if obj.get("mpiLauncherCreationPolicy") is not None
+                    else None
+                ),
+                "numWorkers": (
+                    IntegerRules.from_dict(obj["numWorkers"])
+                    if obj.get("numWorkers") is not None
                     else None
                 ),
                 "slotsPerWorker": (
@@ -1081,28 +1198,6 @@ class DistributedPolicyRulesV2Worker(BaseModel):
                 "sshAuthMountPath": (
                     StringRules.from_dict(obj["sshAuthMountPath"])
                     if obj.get("sshAuthMountPath") is not None
-                    else None
-                ),
-                "mpiLauncherCreationPolicy": (
-                    DistributedMpiLauncherCreationPolicyRules.from_dict(
-                        obj["mpiLauncherCreationPolicy"]
-                    )
-                    if obj.get("mpiLauncherCreationPolicy") is not None
-                    else None
-                ),
-                "minReplicas": (
-                    IntegerRules.from_dict(obj["minReplicas"])
-                    if obj.get("minReplicas") is not None
-                    else None
-                ),
-                "maxReplicas": (
-                    IntegerRules.from_dict(obj["maxReplicas"])
-                    if obj.get("maxReplicas") is not None
-                    else None
-                ),
-                "cleanPodPolicy": (
-                    DistributedCleanPodPolicyRules.from_dict(obj["cleanPodPolicy"])
-                    if obj.get("cleanPodPolicy") is not None
                     else None
                 ),
             }

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -51,6 +51,28 @@ class EnvironmentVariableSecret(BaseModel):
         default=None, description="The key in the secret resource. (mandatory)"
     )
     __properties: ClassVar[List[str]] = ["name", "key"]
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?$", value):
+            raise ValueError(
+                r"must validate the regular expression /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/"
+            )
+        return value
+
+    @field_validator("key")
+    def key_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

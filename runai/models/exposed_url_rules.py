@@ -57,7 +57,7 @@ class ExposedUrlRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         custom_url=runai.models.boolean_rules.BooleanRules(
                     source_of_rule = {"scope":"project","projectId":3},

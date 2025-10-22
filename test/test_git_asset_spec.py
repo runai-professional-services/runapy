@@ -42,6 +42,7 @@ class TestGitAssetSpec(unittest.TestCase):
                 revision="0",
                 path="/container/my-repository",
                 password_asset_id="0",
+                credential_id="0",
             )
         else:
             return GitAssetSpec()

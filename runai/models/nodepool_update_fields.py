@@ -27,6 +27,7 @@ from runai.models.nodepool_create_response_fields_placement_strategy import (
 from runai.models.nodepool_gpu_network_acceleration_detection import (
     NodepoolGPUNetworkAccelerationDetection,
 )
+from runai.models.scheduling_configuration import SchedulingConfiguration
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -44,6 +45,8 @@ class NodepoolUpdateFields(BaseModel):
         gpu_network_acceleration_label_key: Optional[str]
         gpu_network_acceleration_detection: Optional[NodepoolGPUNetworkAccelerationDetection]
         gpu_resource_optimization: Optional[GPUResourceOptimization]
+        scheduling_configuration: Optional[SchedulingConfiguration]
+        network_topology_id: Optional[str]
         ```
         label_key: Label key for associated nodes to the Node Pool (with value as in labelValue)
         label_value: Label value for associated nodes to the Node Pool (with key as in labelKey)
@@ -52,6 +55,8 @@ class NodepoolUpdateFields(BaseModel):
         gpu_network_acceleration_label_key: Label key by which to determine GPUNetworkAccelerationDetection nodes
         gpu_network_acceleration_detection: See model NodepoolGPUNetworkAccelerationDetection for more information. - Default: NodepoolGPUNetworkAccelerationDetection.AUTO
         gpu_resource_optimization: See model GPUResourceOptimization for more information.
+        scheduling_configuration: See model SchedulingConfiguration for more information.
+        network_topology_id: The unique identifier for the network topology
     Example:
         ```python
         NodepoolUpdateFields(
@@ -67,7 +72,13 @@ class NodepoolUpdateFields(BaseModel):
                     swap_enabled = True,
                     cpu_swap_memory_size = '100G',
                     reserved_gpu_memory_for_swap_operations = '2G',
-                    node_level_scheduler_enabled = True, )
+                    node_level_scheduler_enabled = True, ),
+                        scheduling_configuration=runai.models.scheduling_configuration.SchedulingConfiguration(
+                    placement_strategy = runai.models.scheduling_configuration_placement_strategy.SchedulingConfiguration_placementStrategy(
+                        cpu = 'spread',
+                        gpu = 'spread', ),
+                    min_guaranteed_runtime = '5d8h40m', ),
+                        network_topology_id='123e4567-e89b-12d3-a456-426614174000'
         )
         ```
     """  # noqa: E501
@@ -102,6 +113,14 @@ class NodepoolUpdateFields(BaseModel):
     gpu_resource_optimization: Optional[GPUResourceOptimization] = Field(
         default=None, alias="gpuResourceOptimization"
     )
+    scheduling_configuration: Optional[SchedulingConfiguration] = Field(
+        default=None, alias="schedulingConfiguration"
+    )
+    network_topology_id: Optional[StrictStr] = Field(
+        default=None,
+        description="The unique identifier for the network topology",
+        alias="networkTopologyId",
+    )
     __properties: ClassVar[List[str]] = [
         "labelKey",
         "labelValue",
@@ -110,6 +129,8 @@ class NodepoolUpdateFields(BaseModel):
         "gpuNetworkAccelerationLabelKey",
         "gpuNetworkAccelerationDetection",
         "gpuResourceOptimization",
+        "schedulingConfiguration",
+        "networkTopologyId",
     ]
 
     model_config = ConfigDict(
@@ -155,6 +176,9 @@ class NodepoolUpdateFields(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of gpu_resource_optimization
         if self.gpu_resource_optimization:
             _dict["gpuResourceOptimization"] = self.gpu_resource_optimization.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of scheduling_configuration
+        if self.scheduling_configuration:
+            _dict["schedulingConfiguration"] = self.scheduling_configuration.to_dict()
         # set to None if label_key (nullable) is None
         # and model_fields_set contains the field
         if self.label_key is None and "label_key" in self.model_fields_set:
@@ -197,6 +221,22 @@ class NodepoolUpdateFields(BaseModel):
         ):
             _dict["gpuResourceOptimization"] = None
 
+        # set to None if scheduling_configuration (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.scheduling_configuration is None
+            and "scheduling_configuration" in self.model_fields_set
+        ):
+            _dict["schedulingConfiguration"] = None
+
+        # set to None if network_topology_id (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.network_topology_id is None
+            and "network_topology_id" in self.model_fields_set
+        ):
+            _dict["networkTopologyId"] = None
+
         return _dict
 
     @classmethod
@@ -237,6 +277,12 @@ class NodepoolUpdateFields(BaseModel):
                     if obj.get("gpuResourceOptimization") is not None
                     else None
                 ),
+                "schedulingConfiguration": (
+                    SchedulingConfiguration.from_dict(obj["schedulingConfiguration"])
+                    if obj.get("schedulingConfiguration") is not None
+                    else None
+                ),
+                "networkTopologyId": obj.get("networkTopologyId"),
             }
         )
         return _obj

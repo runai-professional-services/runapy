@@ -40,7 +40,7 @@ class TestRestartPolicyOptions(unittest.TestCase):
                 options=[
                     runai.models.restart_policy_options_options_inner.RestartPolicyOptions_options_inner(
                         value="Always",
-                        displayed="",
+                        displayed="jUR,rZ#UM/?R,Fp^l6$ARj",
                     )
                 ]
             )

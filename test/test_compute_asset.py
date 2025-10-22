@@ -53,7 +53,27 @@ class TestComputeAsset(unittest.TestCase):
                         "distFramework": "TF",
                     },
                 },
-                spec=None,
+                spec=runai.models.compute_asset_spec.ComputeAssetSpec(
+                    cpu_core_limit=2,
+                    cpu_core_request=0.5,
+                    cpu_memory_limit="30M",
+                    cpu_memory_request="20M",
+                    extended_resources=[
+                        runai.models.extended_resource.ExtendedResource(
+                            resource="hardware-vendor.example/foo",
+                            quantity="2",
+                            exclude=False,
+                        )
+                    ],
+                    gpu_devices_request=1,
+                    gpu_memory_limit="10M",
+                    gpu_memory_request="10M",
+                    gpu_portion_limit=0.5,
+                    gpu_portion_request=0.5,
+                    gpu_request_type="portion",
+                    large_shm_request=False,
+                    mig_profile=None,
+                ),
                 used_by=runai.models.asset_usage_info.AssetUsageInfo(
                     workspaces=[
                         runai.models.workload_ref_and_status.WorkloadRefAndStatus(
@@ -133,7 +153,27 @@ class TestComputeAsset(unittest.TestCase):
                         "distFramework": "TF",
                     },
                 },
-                spec=None,
+                spec=runai.models.compute_asset_spec.ComputeAssetSpec(
+                    cpu_core_limit=2,
+                    cpu_core_request=0.5,
+                    cpu_memory_limit="30M",
+                    cpu_memory_request="20M",
+                    extended_resources=[
+                        runai.models.extended_resource.ExtendedResource(
+                            resource="hardware-vendor.example/foo",
+                            quantity="2",
+                            exclude=False,
+                        )
+                    ],
+                    gpu_devices_request=1,
+                    gpu_memory_limit="10M",
+                    gpu_memory_request="10M",
+                    gpu_portion_limit=0.5,
+                    gpu_portion_request=0.5,
+                    gpu_request_type="portion",
+                    large_shm_request=False,
+                    mig_profile=None,
+                ),
             )
 
     def testComputeAsset(self):

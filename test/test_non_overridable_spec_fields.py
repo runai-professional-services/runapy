@@ -37,10 +37,13 @@ class TestNonOverridableSpecFields(unittest.TestCase):
         # model = NonOverridableSpecFields()
         if include_optional:
             return NonOverridableSpecFields(
+                allow_privilege_escalation=False,
+                capabilities=["CHOWN", "KILL"],
+                create_home_dir=True,
+                host_ipc=False,
+                host_network=False,
                 image="python:3.8",
                 image_pull_policy="Always",
-                working_dir="/home/myfolder",
-                create_home_dir=True,
                 probes=runai.models.probes.Probes(
                     readiness=runai.models.probe.Probe(
                         initial_delay_seconds=0,
@@ -58,16 +61,13 @@ class TestNonOverridableSpecFields(unittest.TestCase):
                         ),
                     ),
                 ),
-                uid_gid_source="fromTheImage",
-                capabilities=[CHOWN, KILL],
-                seccomp_profile_type="RuntimeDefault",
-                run_as_non_root=True,
                 read_only_root_filesystem=False,
-                tty=True,
+                run_as_non_root=True,
+                seccomp_profile_type="RuntimeDefault",
                 stdin=True,
-                allow_privilege_escalation=False,
-                host_ipc=False,
-                host_network=False,
+                tty=True,
+                uid_gid_source="fromTheImage",
+                working_dir="/home/myfolder",
                 connections=[
                     runai.models.connection.Connection(
                         name="0",

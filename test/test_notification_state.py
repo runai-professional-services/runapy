@@ -36,9 +36,20 @@ class TestNotificationState(unittest.TestCase):
 
         # model = NotificationState()
         if include_optional:
-            return NotificationState(enabled=True)
+            return NotificationState(
+                enabled=True,
+                email=runai.models.email_notifications_state.EmailNotificationsState(
+                    enabled=True,
+                ),
+                slack=runai.models.slack_notifications_state.SlackNotificationsState(
+                    enabled=True,
+                    workspace_name="",
+                ),
+            )
         else:
-            return NotificationState()
+            return NotificationState(
+                enabled=True,
+            )
 
     def testNotificationState(self):
         """Test NotificationState"""

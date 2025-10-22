@@ -46,6 +46,12 @@ class TestGitInstance(unittest.TestCase):
                 secret_key_of_user="User",
                 secret_key_of_password="Password",
                 exclude=False,
+                secret_ref=runai.models.git_secret_ref.GitSecretRef(
+                    name="my-password-secret",
+                    authentication_method="password",
+                    secret_key_of_user="User",
+                    secret_key_of_password="Password",
+                ),
             )
         else:
             return GitInstance()

@@ -37,7 +37,11 @@ class TestSecretInstance1(unittest.TestCase):
         # model = SecretInstance1()
         if include_optional:
             return SecretInstance1(
-                name="storage-instance-a", mount_path="0", secret="0", exclude=False
+                name="storage-instance-a",
+                mount_path="0",
+                default_mode="0644",
+                secret="0",
+                exclude=False,
             )
         else:
             return SecretInstance1()

@@ -43,7 +43,7 @@ class TestImagePullPolicyRules(unittest.TestCase):
                 options=[
                     runai.models.image_pull_policy_options_options_inner.ImagePullPolicyOptions_options_inner(
                         value="Always",
-                        displayed="",
+                        displayed="jUR,rZ#UM/?R,Fp^l6$ARj",
                     )
                 ],
             )

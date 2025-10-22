@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -58,6 +58,28 @@ class ExtendedResource(BaseModel):
         description="Use 'true' in case the extended resource is defined in defaults of the policy, and you wish to exclude it from the workload.",
     )
     __properties: ClassVar[List[str]] = ["resource", "quantity", "exclude"]
+
+    @field_validator("resource")
+    def resource_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("quantity")
+    def quantity_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+            raise ValueError(
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+            )
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

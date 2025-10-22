@@ -17,7 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictStr,
+    field_validator,
+)
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.distributed_spec_spec import DistributedSpecSpec
@@ -36,6 +43,7 @@ class DistributedCreationRequest(BaseModel):
         use_given_name_as_prefix: bool
         project_id: str
         cluster_id: str
+        template_id: Optional[str]
         spec: DistributedSpecSpec
         master_spec_same_as_worker: Optional[bool]
         master_spec: Optional[MasterSpec]
@@ -44,6 +52,7 @@ class DistributedCreationRequest(BaseModel):
         use_given_name_as_prefix: When true, the requested name will be treated as a prefix. The final name of the workload will be composed of the name followed by a random set of characters. - Default: False
         project_id: The id of the project.
         cluster_id: The id of the cluster.
+        template_id: The unique identifier of the template to use for submitting this workload. The combined values provided in the template and in the spec will be used to create the workload.
         spec: See model DistributedSpecSpec for more information.
         master_spec_same_as_worker: used for distributed workloads to indicate that the master spec should be the same as the worker spec. in this case, masterSpec should not be specified.
         master_spec: See model MasterSpec for more information.
@@ -54,9 +63,183 @@ class DistributedCreationRequest(BaseModel):
                         use_given_name_as_prefix=True,
                         project_id='1',
                         cluster_id='71f69d83-ba66-4822-adf5-55ce55efd210',
+                        template_id='550e8400-e29b-41d4-a716-446655440000',
                         spec="example",
                         master_spec_same_as_worker=True,
-                        master_spec=runai.models.master_spec.MasterSpec()
+                        master_spec=runai.models.master_spec.MasterSpec(
+                    annotations = [
+                        runai.models.annotation.Annotation(
+                            name = 'billing',
+                            value = 'my-billing-unit',
+                            exclude = False, )
+                        ],
+                    args = '-x my-script.py',
+                    auto_deletion_time_after_completion_seconds = 15,
+                    backoff_limit = 3,
+                    category = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                    command = 'python',
+                    compute = runai.models.superset_spec_all_of_compute.SupersetSpec_allOf_compute(
+                        cpu_core_limit = 2,
+                        cpu_core_request = 0.5,
+                        cpu_memory_limit = '30M',
+                        cpu_memory_request = '20M',
+                        extended_resources = [
+                            runai.models.extended_resource.ExtendedResource(
+                                resource = 'hardware-vendor.example/foo',
+                                quantity = '2',
+                                exclude = False, )
+                            ],
+                        gpu_devices_request = 1,
+                        gpu_memory_limit = '10M',
+                        gpu_memory_request = '10M',
+                        gpu_portion_limit = 0.5,
+                        gpu_portion_request = 0.5,
+                        gpu_request_type = 'portion',
+                        large_shm_request = False,
+                        mig_profile = null, ),
+                    create_home_dir = True,
+                    environment_variables = [
+                        runai.models.environment_variable.EnvironmentVariable(
+                            name = 'HOME',
+                            value = '/home/my-folder',
+                            secret = runai.models.environment_variable_secret.EnvironmentVariableSecret(
+                                name = 'postgress_secret',
+                                key = 'POSTGRES_PASSWORD', ),
+                            config_map = runai.models.environment_variable_config_map.EnvironmentVariableConfigMap(
+                                name = 'my-config-map',
+                                key = 'MY_POSTGRES_SCHEMA', ),
+                            pod_field_ref = runai.models.environment_variable_pod_field_reference.EnvironmentVariablePodFieldReference(
+                                path = 'metadata.name', ),
+                            exclude = False,
+                            description = 'Home directory of the user.', )
+                        ],
+                    exposed_urls = [
+                        runai.models.exposed_url.ExposedUrl(
+                            container = 8080,
+                            url = 'https://my-url.com',
+                            authorized_users = ["user-a","user-b"],
+                            authorized_groups = ["group-a","group-b"],
+                            tool_type = 'jupyter',
+                            tool_name = 'my-pytorch',
+                            name = 'url-instance-a',
+                            exclude = False, )
+                        ],
+                    image = 'python:3.8',
+                    image_pull_policy = 'Always',
+                    image_pull_secrets = [
+                        runai.models.image_pull_secret.ImagePullSecret(
+                            name = 'w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx',
+                            user_credential = True,
+                            exclude = False, )
+                        ],
+                    labels = [
+                        runai.models.label.Label(
+                            name = 'stage',
+                            value = 'initial-research',
+                            exclude = False, )
+                        ],
+                    node_affinity_required = runai.models.node_affinity_required.NodeAffinityRequired(
+                        node_selector_terms = [
+                            runai.models.node_selector_term.NodeSelectorTerm(
+                                match_expressions = [
+                                    runai.models.match_expression.MatchExpression(
+                                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                        operator = 'In',
+                                        values = [
+                                            'jUR,rZ#UM/?R,Fp^l6$ARj'
+                                            ], )
+                                    ], )
+                            ], ),
+                    node_pools = ["my-node-pool-a","my-node-pool-b"],
+                    node_type = 'my-node-type',
+                    pod_affinity = runai.models.pod_affinity.PodAffinity(
+                        type = 'Required',
+                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj', ),
+                    ports = [
+                        runai.models.port.Port(
+                            container = 8080,
+                            service_type = 'LoadBalancer',
+                            external = 30080,
+                            tool_type = 'pytorch',
+                            tool_name = 'my-pytorch',
+                            name = 'port-instance-a',
+                            exclude = False, )
+                        ],
+                    priority_class = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                    probes = runai.models.probes.Probes(
+                        readiness = runai.models.probe.Probe(
+                            initial_delay_seconds = 0,
+                            period_seconds = 1,
+                            timeout_seconds = 1,
+                            success_threshold = 1,
+                            failure_threshold = 1,
+                            handler = runai.models.probe_handler.ProbeHandler(
+                                http_get = runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                    path = '/',
+                                    port = 1,
+                                    host = 'example.com',
+                                    scheme = 'HTTP', ), ), ), ),
+                    related_urls = [
+                        runai.models.related_url.RelatedUrl(
+                            url = 'https://my-url.com',
+                            name = 'url-instance-a',
+                            exclude = False, )
+                        ],
+                    restart_policy = 'Always',
+                    security = runai.models.superset_spec_all_of_security.SupersetSpec_allOf_security(
+                        allow_privilege_escalation = False,
+                        capabilities = ["CHOWN","KILL"],
+                        host_ipc = False,
+                        host_network = False,
+                        read_only_root_filesystem = False,
+                        run_as_gid = 30,
+                        run_as_non_root = True,
+                        run_as_uid = 500,
+                        seccomp_profile_type = 'RuntimeDefault',
+                        supplemental_groups = '2,3,5,8',
+                        uid_gid_source = 'fromTheImage', ),
+                    stdin = True,
+                    storage = runai.models.superset_spec_all_of_storage.SupersetSpec_allOf_storage(
+                        config_map_volume = [
+                            runai.models.config_map_instance.ConfigMapInstance()
+                            ],
+                        data_volume = [
+                            runai.models.data_volume_instance.DataVolumeInstance()
+                            ],
+                        empty_dir_volume = [
+                            runai.models.empty_dir_instance.EmptyDirInstance()
+                            ],
+                        git = [
+                            runai.models.git_instance.GitInstance()
+                            ],
+                        host_path = [
+                            runai.models.host_path_instance.HostPathInstance()
+                            ],
+                        nfs = [
+                            runai.models.nfs_instance.NfsInstance()
+                            ],
+                        pvc = [
+                            runai.models.pvc_instance.PvcInstance()
+                            ],
+                        s3 = [
+                            runai.models.s3_instance.S3Instance()
+                            ],
+                        secret_volume = [
+                            runai.models.secret_instance2.SecretInstance2()
+                            ], ),
+                    terminate_after_preemption = False,
+                    termination_grace_period_seconds = 20,
+                    tolerations = [
+                        runai.models.toleration.Toleration(
+                            name = 'jUR,rZ#UM/?R,Fp^l6$ARj0',
+                            key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            value = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            effect = 'NoSchedule',
+                            seconds = 1,
+                            exclude = False, )
+                        ],
+                    tty = True,
+                    working_dir = '/home/myfolder', )
         )
         ```
     """  # noqa: E501
@@ -69,11 +252,16 @@ class DistributedCreationRequest(BaseModel):
         description="When true, the requested name will be treated as a prefix. The final name of the workload will be composed of the name followed by a random set of characters.",
         alias="useGivenNameAsPrefix",
     )
-    project_id: StrictStr = Field(
+    project_id: Annotated[str, Field(strict=True)] = Field(
         description="The id of the project.", alias="projectId"
     )
     cluster_id: StrictStr = Field(
         description="The id of the cluster.", alias="clusterId"
+    )
+    template_id: Optional[StrictStr] = Field(
+        default=None,
+        description="The unique identifier of the template to use for submitting this workload. The combined values provided in the template and in the spec will be used to create the workload.",
+        alias="templateId",
     )
     spec: Optional[DistributedSpecSpec] = None
     master_spec_same_as_worker: Optional[StrictBool] = Field(
@@ -87,10 +275,25 @@ class DistributedCreationRequest(BaseModel):
         "useGivenNameAsPrefix",
         "projectId",
         "clusterId",
+        "templateId",
         "spec",
         "masterSpecSameAsWorker",
         "masterSpec",
     ]
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("project_id")
+    def project_id_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -135,6 +338,11 @@ class DistributedCreationRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of master_spec
         if self.master_spec:
             _dict["masterSpec"] = self.master_spec.to_dict()
+        # set to None if template_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.template_id is None and "template_id" in self.model_fields_set:
+            _dict["templateId"] = None
+
         # set to None if master_spec_same_as_worker (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -169,6 +377,7 @@ class DistributedCreationRequest(BaseModel):
                 ),
                 "projectId": obj.get("projectId"),
                 "clusterId": obj.get("clusterId"),
+                "templateId": obj.get("templateId"),
                 "spec": (
                     DistributedSpecSpec.from_dict(obj["spec"])
                     if obj.get("spec") is not None

@@ -41,7 +41,7 @@ class ServingPortAuthorizationTypeOptions(BaseModel):
             options=[
                     runai.models.serving_port_authorization_type_options_options_inner.ServingPortAuthorizationTypeOptions_options_inner(
                         value = 'public',
-                        displayed = '', )
+                        displayed = 'jUR,rZ#UM/?R,Fp^l6$ARj', )
                     ]
         )
         ```

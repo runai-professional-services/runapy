@@ -36,6 +36,8 @@ class NodeFilterSortFields(str, Enum):
 
     NVLINKCLIQUEID = 'nvLinkCliqueId'
 
+    CLUSTERUUID = 'clusterUuid'
+
 
     Example:
         ```python
@@ -45,6 +47,7 @@ class NodeFilterSortFields(str, Enum):
         NodeFilterSortFields.GPUTYPE
         NodeFilterSortFields.NVLINKDOMAINUID
         NodeFilterSortFields.NVLINKCLIQUEID
+        NodeFilterSortFields.CLUSTERUUID
         ```
     """
 
@@ -54,6 +57,7 @@ class NodeFilterSortFields(str, Enum):
     GPUTYPE = "gpuType"
     NVLINKDOMAINUID = "nvLinkDomainUid"
     NVLINKCLIQUEID = "nvLinkCliqueId"
+    CLUSTERUUID = "clusterUuid"
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

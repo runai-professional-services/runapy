@@ -51,7 +51,7 @@ class SeccompProfileTypeRules(BaseModel):
                         options=[
                     runai.models.seccomp_profile_type_options_options_inner.SeccompProfileTypeOptions_options_inner(
                         value = 'RuntimeDefault',
-                        displayed = '', )
+                        displayed = 'jUR,rZ#UM/?R,Fp^l6$ARj', )
                     ]
         )
         ```

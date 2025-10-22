@@ -17,7 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictStr,
+    field_validator,
+)
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.training_spec_spec import TrainingSpecSpec
@@ -35,12 +42,14 @@ class TrainingCreationRequest(BaseModel):
         use_given_name_as_prefix: bool
         project_id: str
         cluster_id: str
+        template_id: Optional[str]
         spec: TrainingSpecSpec
         ```
         name: The name of the workload.
         use_given_name_as_prefix: When true, the requested name will be treated as a prefix. The final name of the workload will be composed of the name followed by a random set of characters. - Default: False
         project_id: The id of the project.
         cluster_id: The id of the cluster.
+        template_id: The unique identifier of the template to use for submitting this workload. The combined values provided in the template and in the spec will be used to create the workload.
         spec: See model TrainingSpecSpec for more information.
     Example:
         ```python
@@ -49,6 +58,7 @@ class TrainingCreationRequest(BaseModel):
                         use_given_name_as_prefix=True,
                         project_id='1',
                         cluster_id='71f69d83-ba66-4822-adf5-55ce55efd210',
+                        template_id='550e8400-e29b-41d4-a716-446655440000',
                         spec="example"
         )
         ```
@@ -62,11 +72,16 @@ class TrainingCreationRequest(BaseModel):
         description="When true, the requested name will be treated as a prefix. The final name of the workload will be composed of the name followed by a random set of characters.",
         alias="useGivenNameAsPrefix",
     )
-    project_id: StrictStr = Field(
+    project_id: Annotated[str, Field(strict=True)] = Field(
         description="The id of the project.", alias="projectId"
     )
     cluster_id: StrictStr = Field(
         description="The id of the cluster.", alias="clusterId"
+    )
+    template_id: Optional[StrictStr] = Field(
+        default=None,
+        description="The unique identifier of the template to use for submitting this workload. The combined values provided in the template and in the spec will be used to create the workload.",
+        alias="templateId",
     )
     spec: Optional[TrainingSpecSpec] = None
     __properties: ClassVar[List[str]] = [
@@ -74,8 +89,23 @@ class TrainingCreationRequest(BaseModel):
         "useGivenNameAsPrefix",
         "projectId",
         "clusterId",
+        "templateId",
         "spec",
     ]
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("project_id")
+    def project_id_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -117,6 +147,11 @@ class TrainingCreationRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of spec
         if self.spec:
             _dict["spec"] = self.spec.to_dict()
+        # set to None if template_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.template_id is None and "template_id" in self.model_fields_set:
+            _dict["templateId"] = None
+
         return _dict
 
     @classmethod
@@ -138,6 +173,7 @@ class TrainingCreationRequest(BaseModel):
                 ),
                 "projectId": obj.get("projectId"),
                 "clusterId": obj.get("clusterId"),
+                "templateId": obj.get("templateId"),
                 "spec": (
                     TrainingSpecSpec.from_dict(obj["spec"])
                     if obj.get("spec") is not None

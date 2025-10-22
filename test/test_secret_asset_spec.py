@@ -36,7 +36,9 @@ class TestSecretAssetSpec(unittest.TestCase):
 
         # model = SecretAssetSpec()
         if include_optional:
-            return SecretAssetSpec(credential_asset_id="0", mount_path="0")
+            return SecretAssetSpec(
+                credential_asset_id="0", mount_path="0", default_mode="0644"
+            )
         else:
             return SecretAssetSpec()
 

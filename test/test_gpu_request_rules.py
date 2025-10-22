@@ -43,7 +43,7 @@ class TestGpuRequestRules(unittest.TestCase):
                 options=[
                     runai.models.gpu_request_options_options_inner.GpuRequestOptions_options_inner(
                         value="portion",
-                        displayed="",
+                        displayed="jUR,rZ#UM/?R,Fp^l6$ARj",
                     )
                 ],
             )

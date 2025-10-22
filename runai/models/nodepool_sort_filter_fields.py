@@ -34,6 +34,8 @@ class NodepoolSortFilterFields(str, Enum):
 
     UPDATEDAT = 'updatedAt'
 
+    NETWORKTOPOLOGYNAME = 'networkTopologyName'
+
     GPUNETWORKACCELERATIONDETECTION = 'gpuNetworkAccelerationDetection'
 
     GPUNETWORKACCELERATIONDETECTED = 'gpuNetworkAccelerationDetected'
@@ -52,6 +54,7 @@ class NodepoolSortFilterFields(str, Enum):
         NodepoolSortFilterFields.CLUSTERID
         NodepoolSortFilterFields.CREATEDAT
         NodepoolSortFilterFields.UPDATEDAT
+        NodepoolSortFilterFields.NETWORKTOPOLOGYNAME
         NodepoolSortFilterFields.GPUNETWORKACCELERATIONDETECTION
         NodepoolSortFilterFields.GPUNETWORKACCELERATIONDETECTED
         NodepoolSortFilterFields.GPUNETWORKACCELERATIONLABELKEY
@@ -65,6 +68,7 @@ class NodepoolSortFilterFields(str, Enum):
     CLUSTERID = "clusterId"
     CREATEDAT = "createdAt"
     UPDATEDAT = "updatedAt"
+    NETWORKTOPOLOGYNAME = "networkTopologyName"
     GPUNETWORKACCELERATIONDETECTION = "gpuNetworkAccelerationDetection"
     GPUNETWORKACCELERATIONDETECTED = "gpuNetworkAccelerationDetected"
     GPUNETWORKACCELERATIONLABELKEY = "gpuNetworkAccelerationLabelKey"

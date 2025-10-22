@@ -48,23 +48,23 @@ class WorkspacePolicyV2(BaseModel):
         WorkspacePolicyV2(
             meta="example",
                         policy=runai.models.workspace_policy_defaults_and_rules_v2.WorkspacePolicyDefaultsAndRulesV2(
-                    defaults = runai.models.workspace_policy_defaults_and_rules_v2_defaults.WorkspacePolicyDefaultsAndRulesV2_defaults(),
+                    defaults = runai.models.defaults.defaults(),
                     rules = runai.models.rules.rules(),
                     imposed_assets = [
                         ''
                         ],
                     status = runai.models.policy_validation_status.PolicyValidationStatus(
                         validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                            error_message = '', ), ), ),
+                            error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), ), ),
                         effective=runai.models.workspace_policy_defaults_and_rules_v2.WorkspacePolicyDefaultsAndRulesV2(
-                    defaults = runai.models.workspace_policy_defaults_and_rules_v2_defaults.WorkspacePolicyDefaultsAndRulesV2_defaults(),
+                    defaults = runai.models.defaults.defaults(),
                     rules = runai.models.rules.rules(),
                     imposed_assets = [
                         ''
                         ],
                     status = runai.models.policy_validation_status.PolicyValidationStatus(
                         validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                            error_message = '', ), ), ),
+                            error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), ), ),
                         effective_updated_at=datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
         )
         ```

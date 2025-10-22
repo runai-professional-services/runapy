@@ -60,7 +60,7 @@ class DistributedInferencesApi(RunaiAPIService):
 
 
         ### Description
-        Delete a distributed inference. [Experimental]
+        Delete a distributed inference.
 
         ### Parameters:
         ```python
@@ -93,7 +93,7 @@ class DistributedInferencesApi(RunaiAPIService):
 
 
         ### Description
-        Get a distributed inference data. [Experimental]
+        Get a distributed inference data.
 
         ### Parameters:
         ```python
@@ -116,4 +116,45 @@ class DistributedInferencesApi(RunaiAPIService):
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
+        )
+
+    def update_distributed_inference_spec(
+        self,
+        workload_id: str,
+        update_request: Optional[models.UpdateRequest] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Update distributed inference spec.
+
+        ### Parameters:
+        ```python
+        workload_id: str
+        update_request: UpdateRequest
+        ```
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
+        update_request: See model UpdateRequest for more information.
+
+        ### Example:
+        ```python
+        DistributedInferencesApi(
+            workload_id='workload_id_example',
+                        update_request=runai.UpdateRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_request
+
+        resource_path = (
+            f"/api/v1/workloads/distributed_inferences/{workload_id}".replace("_", "-")
+        )
+        method = "PATCH"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )

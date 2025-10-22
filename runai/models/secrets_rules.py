@@ -41,7 +41,8 @@ class SecretsRules(BaseModel):
         SecretsRules(
             attributes=runai.models.secret_rules.SecretRules(
                     secret = runai.models.string_rules.StringRules(),
-                    mount_path = runai.models.string_rules.StringRules(), ),
+                    mount_path = runai.models.string_rules.StringRules(),
+                    default_mode = runai.models.string_rules.StringRules(), ),
                         instances=runai.models.item_rules.ItemRules(
                     source_of_rule = {"scope":"project","projectId":3},
                     can_add = True,

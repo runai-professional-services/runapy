@@ -37,6 +37,10 @@ class TestWorkloadTypeConfig(unittest.TestCase):
         # model = WorkloadTypeConfig()
         if include_optional:
             return WorkloadTypeConfig(
+                category_id="",
+                priority_id="",
+                name="Deployment",
+                group="apps",
                 id="",
                 category_name="Build",
                 priority_name="medium",
@@ -44,9 +48,37 @@ class TestWorkloadTypeConfig(unittest.TestCase):
                     "2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f"
                 ),
                 updated_by="",
+                created_at=datetime.datetime.strptime(
+                    "2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f"
+                ),
+                created_by="",
+                resource_interfaces=[
+                    runai.models.workload_type_resource_interfaces_with_version_inner.WorkloadTypeResourceInterfacesWithVersion_inner(
+                        version="v1",
+                        resource_interface={
+                            "spec": {
+                                "structureDefinition": {
+                                    "rootComponent": {
+                                        "kind": {
+                                            "group": "apps",
+                                            "version": "v1",
+                                            "kind": "Deployment",
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    )
+                ],
+                cluster_statuses=[null],
             )
         else:
-            return WorkloadTypeConfig()
+            return WorkloadTypeConfig(
+                category_id="",
+                priority_id="",
+                name="Deployment",
+                group="apps",
+            )
 
     def testWorkloadTypeConfig(self):
         """Test WorkloadTypeConfig"""

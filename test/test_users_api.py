@@ -40,99 +40,29 @@ class TestUsersApi(unittest.TestCase):
         """
         pass
 
-    def test_create_group(self) -> None:
-        """Test case for create_group
-
-        Create a new group.
-        """
-        pass
-
     def test_create_user(self) -> None:
         """Test case for create_user
 
-        Create a new user.
-        """
-        pass
-
-    def test_create_user_0(self) -> None:
-        """Test case for create_user_0
-
         Create a local user.
-        """
-        pass
-
-    def test_delete_group_by_name(self) -> None:
-        """Test case for delete_group_by_name
-
-        Delete a group.
         """
         pass
 
     def test_delete_user_by_id(self) -> None:
         """Test case for delete_user_by_id
 
-        Delete a user.
-        """
-        pass
-
-    def test_delete_user_by_id_0(self) -> None:
-        """Test case for delete_user_by_id_0
-
         Delete a user by id.
-        """
-        pass
-
-    def test_ge_group_by_name(self) -> None:
-        """Test case for ge_group_by_name
-
-        Get group details.
-        """
-        pass
-
-    def test_get_groups(self) -> None:
-        """Test case for get_groups
-
-        Get groups list.
-        """
-        pass
-
-    def test_get_roles(self) -> None:
-        """Test case for get_roles
-
-        Get all possible permissions.
         """
         pass
 
     def test_get_user_by_id(self) -> None:
         """Test case for get_user_by_id
 
-        Get user details.
-        """
-        pass
-
-    def test_get_user_by_id_0(self) -> None:
-        """Test case for get_user_by_id_0
-
         Get a user by id.
-        """
-        pass
-
-    def test_get_user_roles(self) -> None:
-        """Test case for get_user_roles
-
-        Get user permissions.
         """
         pass
 
     def test_get_users(self) -> None:
         """Test case for get_users
-
-        Get users list.
-        """
-        pass
-
-    def test_get_users_0(self) -> None:
-        """Test case for get_users_0
 
         Get users.
         """
@@ -149,20 +79,6 @@ class TestUsersApi(unittest.TestCase):
         """Test case for reset_user_password
 
         Reset a user's password.
-        """
-        pass
-
-    def test_update_group_by_name(self) -> None:
-        """Test case for update_group_by_name
-
-        Update group details.
-        """
-        pass
-
-    def test_update_user_by_id(self) -> None:
-        """Test case for update_user_by_id
-
-        Update user details.
         """
         pass
 

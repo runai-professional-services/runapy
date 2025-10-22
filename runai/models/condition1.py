@@ -40,7 +40,7 @@ class Condition1(BaseModel):
         status: The status of the condition, such as True, False or Unknown.
         message: An optional, human-readable message providing more details about the condition.
         reason: The reason for the Failed condition. Not applicable to other types of condition.
-        last_transition_time: A timestamp of when the condition was created or the last time time the condition transitioned from one status to another.
+        last_transition_time: A timestamp of when the condition was created or the last time the condition transitioned from one status to another.
     Example:
         ```python
         Condition1(
@@ -69,7 +69,7 @@ class Condition1(BaseModel):
     )
     last_transition_time: Optional[datetime] = Field(
         default=None,
-        description="A timestamp of when the condition was created or the last time time the condition transitioned from one status to another.",
+        description="A timestamp of when the condition was created or the last time the condition transitioned from one status to another.",
         alias="lastTransitionTime",
     )
     __properties: ClassVar[List[str]] = [

@@ -40,7 +40,9 @@ class TestDistributedFrameworkOptionsOptionsInner(unittest.TestCase):
 
         # model = DistributedFrameworkOptionsOptionsInner()
         if include_optional:
-            return DistributedFrameworkOptionsOptionsInner(value="MPI", displayed="")
+            return DistributedFrameworkOptionsOptionsInner(
+                value="MPI", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return DistributedFrameworkOptionsOptionsInner(
                 value="MPI",

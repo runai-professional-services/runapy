@@ -38,9 +38,10 @@ class TestConfigMapInstance(unittest.TestCase):
         if include_optional:
             return ConfigMapInstance(
                 name="storage-instance-a",
-                config_map="0",
-                mount_path="0",
-                sub_path="0",
+                config_map="w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx0",
+                mount_path="jUR,rZ#UM/?R,Fp^l6$ARj0",
+                sub_path="jUR,rZ#UM/?R,Fp^l6$ARj0",
+                default_mode="0644",
                 exclude=False,
             )
         else:

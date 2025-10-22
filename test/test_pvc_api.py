@@ -47,6 +47,13 @@ class TestPVCApi(unittest.TestCase):
         """
         pass
 
+    def test_get_pvc_history(self) -> None:
+        """Test case for get_pvc_history
+
+        Get the PVC history.
+        """
+        pass
+
     def test_list_pvc_assets(self) -> None:
         """Test case for list_pvc_assets
 

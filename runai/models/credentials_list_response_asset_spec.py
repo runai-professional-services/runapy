@@ -22,6 +22,7 @@ from typing import Any, ClassVar, Dict, List, Optional
 from runai.models.access_key_spec import AccessKeySpec
 from runai.models.docker_registry_spec import DockerRegistrySpec
 from runai.models.generic_secret_spec import GenericSecretSpec
+from runai.models.ngc_api_key_spec import NgcApiKeySpec
 from runai.models.password_spec import PasswordSpec
 from typing import Optional, Set
 from typing_extensions import Self
@@ -37,18 +38,21 @@ class CredentialsListResponseAssetSpec(BaseModel):
         password: Optional[PasswordSpec]
         docker_registry: Optional[DockerRegistrySpec]
         generic_secret: Optional[GenericSecretSpec]
+        ngc_api_key: Optional[NgcApiKeySpec]
         ```
         access_key: See model AccessKeySpec for more information.
         password: See model PasswordSpec for more information.
         docker_registry: See model DockerRegistrySpec for more information.
         generic_secret: See model GenericSecretSpec for more information.
+        ngc_api_key: See model NgcApiKeySpec for more information.
     Example:
         ```python
         CredentialsListResponseAssetSpec(
             access_key="example",
                         password="example",
                         docker_registry="example",
-                        generic_secret="example"
+                        generic_secret="example",
+                        ngc_api_key="example"
         )
         ```
     """  # noqa: E501
@@ -61,11 +65,13 @@ class CredentialsListResponseAssetSpec(BaseModel):
     generic_secret: Optional[GenericSecretSpec] = Field(
         default=None, alias="genericSecret"
     )
+    ngc_api_key: Optional[NgcApiKeySpec] = Field(default=None, alias="ngcApiKey")
     __properties: ClassVar[List[str]] = [
         "accessKey",
         "password",
         "dockerRegistry",
         "genericSecret",
+        "ngcApiKey",
     ]
 
     model_config = ConfigDict(
@@ -117,6 +123,9 @@ class CredentialsListResponseAssetSpec(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of generic_secret
         if self.generic_secret:
             _dict["genericSecret"] = self.generic_secret.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of ngc_api_key
+        if self.ngc_api_key:
+            _dict["ngcApiKey"] = self.ngc_api_key.to_dict()
         # set to None if access_key (nullable) is None
         # and model_fields_set contains the field
         if self.access_key is None and "access_key" in self.model_fields_set:
@@ -136,6 +145,11 @@ class CredentialsListResponseAssetSpec(BaseModel):
         # and model_fields_set contains the field
         if self.generic_secret is None and "generic_secret" in self.model_fields_set:
             _dict["genericSecret"] = None
+
+        # set to None if ngc_api_key (nullable) is None
+        # and model_fields_set contains the field
+        if self.ngc_api_key is None and "ngc_api_key" in self.model_fields_set:
+            _dict["ngcApiKey"] = None
 
         return _dict
 
@@ -168,6 +182,11 @@ class CredentialsListResponseAssetSpec(BaseModel):
                 "genericSecret": (
                     GenericSecretSpec.from_dict(obj["genericSecret"])
                     if obj.get("genericSecret") is not None
+                    else None
+                ),
+                "ngcApiKey": (
+                    NgcApiKeySpec.from_dict(obj["ngcApiKey"])
+                    if obj.get("ngcApiKey") is not None
                     else None
                 ),
             }

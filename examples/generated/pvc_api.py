@@ -30,7 +30,7 @@ def example_create_pvc_asset():
         # Create example data for PVCCreationRequest
         pvc_creation_request = models.PVCCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-            spec = {path=/container/my-claim, claimName=my-claim, dataSharing=false, claimInfo={storageClass=my-storage-class, addedAttrValues=[Ljava.lang.Object;@53d2d002, size=1G, accessModes={readOnlyMany=false, readWriteMany=false, readWriteOnce=true}, volumeMode=Filesystem}, ephemeral=false, readOnly=false, existingPvc=false}
+            spec = {path=/container/my-claim, claimName=my-claim, dataSharing=false, claimInfo={storageClass=my-storage-class, addedAttrValues=[Ljava.lang.Object;@74c9e11, size=1G, accessModes={readOnlyMany=false, readWriteMany=false, readWriteOnce=true}, volumeMode=Filesystem}, ephemeral=false, readOnly=false, existingPvc=false}
         )
 
         # Make the API call
@@ -140,6 +140,51 @@ def example_get_pvc_asset_by_id():
 
     except Exception as e:
         print(f"Exception when calling get_pvc_asset_by_id: {e}")
+
+def example_get_pvc_history():
+    """
+    Example of using get_pvc_history
+    
+    Get the PVC history.
+    Retrieve PVC history details, including events, using a PVC id.
+    """
+    try:
+        # Prepare the request parameters
+        asset_id = "example_asset_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        offset = 42
+        
+        
+        
+        
+        
+        
+        
+        limit = 42
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.get_pvc_history(
+            asset_id=asset_id,
+            offset=offset,
+            limit=limit,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_pvc_history: {e}")
 
 def example_list_pvc_assets():
     """

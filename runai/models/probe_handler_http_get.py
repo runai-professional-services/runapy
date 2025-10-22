@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.probe_handler_scheme import ProbeHandlerScheme
@@ -57,7 +57,7 @@ class ProbeHandlerHttpGet(BaseModel):
     port: Optional[Annotated[int, Field(le=65535, strict=True, ge=1)]] = Field(
         default=None, description="Number of the port to access on the container."
     )
-    host: Optional[StrictStr] = Field(
+    host: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None, description="Host name to connect to, defaults to the pod IP."
     )
     scheme: Optional[ProbeHandlerScheme] = None
@@ -73,6 +73,16 @@ class ProbeHandlerHttpGet(BaseModel):
             raise ValueError(
                 r"must validate the regular expression /^(\x2F[a-zA-Z0-9\-_.\x2F]*)?$/"
             )
+        return value
+
+    @field_validator("host")
+    def host_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
         return value
 
     model_config = ConfigDict(

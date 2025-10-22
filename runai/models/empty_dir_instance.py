@@ -46,7 +46,7 @@ class EmptyDirInstance(BaseModel):
         EmptyDirInstance(
             name='storage-instance-a',
                         path='/mnt/emptydir',
-                        medium='0',
+                        medium='jUR,rZ#UM/?R,Fp^l6$ARj0',
                         size_limit='1G',
                         exclude=False
         )
@@ -82,15 +82,35 @@ class EmptyDirInstance(BaseModel):
         "exclude",
     ]
 
+    @field_validator("path")
+    def path_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("medium")
+    def medium_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
     @field_validator("size_limit")
     def size_limit_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
             raise ValueError(
-                r"must validate the regular expression /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
             )
         return value
 

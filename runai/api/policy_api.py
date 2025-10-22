@@ -15,12 +15,67 @@ class PolicyApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def delete_distributed_inference_policy(
+        self,
+        scope: str,
+        department_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        cluster_id: Optional[str] = None,
+        approve_cluster_deletion: Optional[bool] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Delete a distributed inference policy.
+
+        ### Parameters:
+        ```python
+        scope: Optional[str]
+        department_id: Optional[str]
+        project_id: Optional[str]
+        cluster_id: Optional[str]
+        approve_cluster_deletion: Optional[bool]
+        ```
+        scope: The scope that the policy relates to.
+        department_id: Filter using the department id.
+        project_id: project id to filter by
+        cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            scope='scope_example',
+                        department_id='1',
+                        project_id='1',
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        approve_cluster_deletion=True
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("scope", scope),
+            ("departmentId", department_id),
+            ("projectId", project_id),
+            ("clusterId", cluster_id),
+            ("approveClusterDeletion", approve_cluster_deletion),
+        ]
+        resource_path = f"/api/v2/policy/distributed_inferences".replace("_", "-")
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def delete_distributed_policy(
         self,
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
         cluster_id: Optional[str] = None,
+        approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
 
@@ -34,11 +89,13 @@ class PolicyApi(RunaiAPIService):
         department_id: Optional[str]
         project_id: Optional[str]
         cluster_id: Optional[str]
+        approve_cluster_deletion: Optional[bool]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
         project_id: project id to filter by
         cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         ### Example:
         ```python
@@ -46,7 +103,8 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        approve_cluster_deletion=True
         )
         ```
         """
@@ -57,6 +115,7 @@ class PolicyApi(RunaiAPIService):
             ("departmentId", department_id),
             ("projectId", project_id),
             ("clusterId", cluster_id),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/distributed".replace("_", "-")
         method = "DELETE"
@@ -70,6 +129,7 @@ class PolicyApi(RunaiAPIService):
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
         cluster_id: Optional[str] = None,
+        approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
 
@@ -83,11 +143,13 @@ class PolicyApi(RunaiAPIService):
         department_id: Optional[str]
         project_id: Optional[str]
         cluster_id: Optional[str]
+        approve_cluster_deletion: Optional[bool]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
         project_id: project id to filter by
         cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         ### Example:
         ```python
@@ -95,7 +157,8 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        approve_cluster_deletion=True
         )
         ```
         """
@@ -106,6 +169,7 @@ class PolicyApi(RunaiAPIService):
             ("departmentId", department_id),
             ("projectId", project_id),
             ("clusterId", cluster_id),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/inferences".replace("_", "-")
         method = "DELETE"
@@ -119,6 +183,7 @@ class PolicyApi(RunaiAPIService):
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
         cluster_id: Optional[str] = None,
+        approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
 
@@ -132,11 +197,13 @@ class PolicyApi(RunaiAPIService):
         department_id: Optional[str]
         project_id: Optional[str]
         cluster_id: Optional[str]
+        approve_cluster_deletion: Optional[bool]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
         project_id: project id to filter by
         cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         ### Example:
         ```python
@@ -144,7 +211,8 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        approve_cluster_deletion=True
         )
         ```
         """
@@ -155,6 +223,7 @@ class PolicyApi(RunaiAPIService):
             ("departmentId", department_id),
             ("projectId", project_id),
             ("clusterId", cluster_id),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/trainings".replace("_", "-")
         method = "DELETE"
@@ -168,12 +237,66 @@ class PolicyApi(RunaiAPIService):
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
         cluster_id: Optional[str] = None,
+        approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
 
 
         ### Description
         Delete a workspace policy.
+
+        ### Parameters:
+        ```python
+        scope: Optional[str]
+        department_id: Optional[str]
+        project_id: Optional[str]
+        cluster_id: Optional[str]
+        approve_cluster_deletion: Optional[bool]
+        ```
+        scope: The scope that the policy relates to.
+        department_id: Filter using the department id.
+        project_id: project id to filter by
+        cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            scope='scope_example',
+                        department_id='1',
+                        project_id='1',
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        approve_cluster_deletion=True
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("scope", scope),
+            ("departmentId", department_id),
+            ("projectId", project_id),
+            ("clusterId", cluster_id),
+            ("approveClusterDeletion", approve_cluster_deletion),
+        ]
+        resource_path = f"/api/v2/policy/workspaces".replace("_", "-")
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_distributed_inference_policy_v2(
+        self,
+        scope: str,
+        department_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        cluster_id: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get a distributed inference policy.
 
         ### Parameters:
         ```python
@@ -205,8 +328,8 @@ class PolicyApi(RunaiAPIService):
             ("projectId", project_id),
             ("clusterId", cluster_id),
         ]
-        resource_path = f"/api/v2/policy/workspaces".replace("_", "-")
-        method = "DELETE"
+        resource_path = f"/api/v2/policy/distributed_inferences".replace("_", "-")
+        method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
         )
@@ -466,9 +589,61 @@ class PolicyApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    def overwrite_distributed_inference_policy_v2(
+        self,
+        validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
+        distributed_inference_policy_overwrite_request_v2: Optional[
+            models.DistributedInferencePolicyOverwriteRequestV2
+        ] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Overwrite a distributed inference policy.
+
+        ### Parameters:
+        ```python
+        validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
+        distributed_inference_policy_overwrite_request_v2: DistributedInferencePolicyOverwriteRequestV2
+        ```
+        validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
+        distributed_inference_policy_overwrite_request_v2: See model DistributedInferencePolicyOverwriteRequestV2 for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            validate_only=True,
+                        approve_cluster_deletion=True,
+                        distributed_inference_policy_overwrite_request_v2=runai.DistributedInferencePolicyOverwriteRequestV2()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = distributed_inference_policy_overwrite_request_v2
+
+        # Query params:
+        query_params = [
+            ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
+        ]
+        resource_path = f"/api/v2/policy/distributed_inferences".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+            query_params=query_params,
+        )
+
     def overwrite_distributed_policy_v2(
         self,
         validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
         distributed_policy_overwrite_request_v2: Optional[
             models.DistributedPolicyOverwriteRequestV2
         ] = None,
@@ -482,15 +657,18 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
         distributed_policy_overwrite_request_v2: DistributedPolicyOverwriteRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         distributed_policy_overwrite_request_v2: See model DistributedPolicyOverwriteRequestV2 for more information.
 
         ### Example:
         ```python
         PolicyApi(
             validate_only=True,
+                        approve_cluster_deletion=True,
                         distributed_policy_overwrite_request_v2=runai.DistributedPolicyOverwriteRequestV2()
         )
         ```
@@ -502,6 +680,7 @@ class PolicyApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/distributed".replace("_", "-")
         method = "PUT"
@@ -515,6 +694,7 @@ class PolicyApi(RunaiAPIService):
     def overwrite_inference_policy_v2(
         self,
         validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
         inference_policy_overwrite_request_v2: Optional[
             models.InferencePolicyOverwriteRequestV2
         ] = None,
@@ -528,15 +708,18 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
         inference_policy_overwrite_request_v2: InferencePolicyOverwriteRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         inference_policy_overwrite_request_v2: See model InferencePolicyOverwriteRequestV2 for more information.
 
         ### Example:
         ```python
         PolicyApi(
             validate_only=True,
+                        approve_cluster_deletion=True,
                         inference_policy_overwrite_request_v2=runai.InferencePolicyOverwriteRequestV2()
         )
         ```
@@ -548,6 +731,7 @@ class PolicyApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/inferences".replace("_", "-")
         method = "PUT"
@@ -561,6 +745,7 @@ class PolicyApi(RunaiAPIService):
     def overwrite_training_policy_v2(
         self,
         validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
         training_policy_overwrite_request_v2: Optional[
             models.TrainingPolicyOverwriteRequestV2
         ] = None,
@@ -574,15 +759,18 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
         training_policy_overwrite_request_v2: TrainingPolicyOverwriteRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         training_policy_overwrite_request_v2: See model TrainingPolicyOverwriteRequestV2 for more information.
 
         ### Example:
         ```python
         PolicyApi(
             validate_only=True,
+                        approve_cluster_deletion=True,
                         training_policy_overwrite_request_v2=runai.TrainingPolicyOverwriteRequestV2()
         )
         ```
@@ -594,6 +782,7 @@ class PolicyApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/trainings".replace("_", "-")
         method = "PUT"
@@ -607,6 +796,7 @@ class PolicyApi(RunaiAPIService):
     def overwrite_workspace_policy_v2(
         self,
         validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
         workspace_policy_overwrite_request_v2: Optional[
             models.WorkspacePolicyOverwriteRequestV2
         ] = None,
@@ -620,15 +810,18 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
         workspace_policy_overwrite_request_v2: WorkspacePolicyOverwriteRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         workspace_policy_overwrite_request_v2: See model WorkspacePolicyOverwriteRequestV2 for more information.
 
         ### Example:
         ```python
         PolicyApi(
             validate_only=True,
+                        approve_cluster_deletion=True,
                         workspace_policy_overwrite_request_v2=runai.WorkspacePolicyOverwriteRequestV2()
         )
         ```
@@ -640,6 +833,7 @@ class PolicyApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/workspaces".replace("_", "-")
         method = "PUT"
@@ -650,9 +844,61 @@ class PolicyApi(RunaiAPIService):
             query_params=query_params,
         )
 
+    def update_distributed_inference_policy_v2(
+        self,
+        validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
+        distributed_inference_policy_change_request_v2: Optional[
+            models.DistributedInferencePolicyChangeRequestV2
+        ] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Update a distributed inference policy.
+
+        ### Parameters:
+        ```python
+        validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
+        distributed_inference_policy_change_request_v2: DistributedInferencePolicyChangeRequestV2
+        ```
+        validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
+        distributed_inference_policy_change_request_v2: See model DistributedInferencePolicyChangeRequestV2 for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            validate_only=True,
+                        approve_cluster_deletion=True,
+                        distributed_inference_policy_change_request_v2=runai.DistributedInferencePolicyChangeRequestV2()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = distributed_inference_policy_change_request_v2
+
+        # Query params:
+        query_params = [
+            ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
+        ]
+        resource_path = f"/api/v2/policy/distributed_inferences".replace("_", "-")
+        method = "PATCH"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+            query_params=query_params,
+        )
+
     def update_distributed_policy_v2(
         self,
         validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
         distributed_policy_change_request_v2: Optional[
             models.DistributedPolicyChangeRequestV2
         ] = None,
@@ -666,15 +912,18 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
         distributed_policy_change_request_v2: DistributedPolicyChangeRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         distributed_policy_change_request_v2: See model DistributedPolicyChangeRequestV2 for more information.
 
         ### Example:
         ```python
         PolicyApi(
             validate_only=True,
+                        approve_cluster_deletion=True,
                         distributed_policy_change_request_v2=runai.DistributedPolicyChangeRequestV2()
         )
         ```
@@ -686,6 +935,7 @@ class PolicyApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/distributed".replace("_", "-")
         method = "PATCH"
@@ -699,6 +949,7 @@ class PolicyApi(RunaiAPIService):
     def update_inference_policy_v2(
         self,
         validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
         inference_policy_change_request_v2: Optional[
             models.InferencePolicyChangeRequestV2
         ] = None,
@@ -712,15 +963,18 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
         inference_policy_change_request_v2: InferencePolicyChangeRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         inference_policy_change_request_v2: See model InferencePolicyChangeRequestV2 for more information.
 
         ### Example:
         ```python
         PolicyApi(
             validate_only=True,
+                        approve_cluster_deletion=True,
                         inference_policy_change_request_v2=runai.InferencePolicyChangeRequestV2()
         )
         ```
@@ -732,6 +986,7 @@ class PolicyApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/inferences".replace("_", "-")
         method = "PATCH"
@@ -745,6 +1000,7 @@ class PolicyApi(RunaiAPIService):
     def update_training_policy_v2(
         self,
         validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
         training_policy_change_request_v2: Optional[
             models.TrainingPolicyChangeRequestV2
         ] = None,
@@ -758,15 +1014,18 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
         training_policy_change_request_v2: TrainingPolicyChangeRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         training_policy_change_request_v2: See model TrainingPolicyChangeRequestV2 for more information.
 
         ### Example:
         ```python
         PolicyApi(
             validate_only=True,
+                        approve_cluster_deletion=True,
                         training_policy_change_request_v2=runai.TrainingPolicyChangeRequestV2()
         )
         ```
@@ -778,6 +1037,7 @@ class PolicyApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/trainings".replace("_", "-")
         method = "PATCH"
@@ -791,6 +1051,7 @@ class PolicyApi(RunaiAPIService):
     def update_workspace_policy_v2(
         self,
         validate_only: Optional[bool] = None,
+        approve_cluster_deletion: Optional[bool] = None,
         workspace_policy_change_request_v2: Optional[
             models.WorkspacePolicyChangeRequestV2
         ] = None,
@@ -804,15 +1065,18 @@ class PolicyApi(RunaiAPIService):
         ### Parameters:
         ```python
         validate_only: Optional[bool]
+        approve_cluster_deletion: Optional[bool]
         workspace_policy_change_request_v2: WorkspacePolicyChangeRequestV2
         ```
         validate_only: Validate the given policy payload without applying it
+        approve_cluster_deletion: Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         workspace_policy_change_request_v2: See model WorkspacePolicyChangeRequestV2 for more information.
 
         ### Example:
         ```python
         PolicyApi(
             validate_only=True,
+                        approve_cluster_deletion=True,
                         workspace_policy_change_request_v2=runai.WorkspacePolicyChangeRequestV2()
         )
         ```
@@ -824,6 +1088,7 @@ class PolicyApi(RunaiAPIService):
         # Query params:
         query_params = [
             ("validateOnly", validate_only),
+            ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/workspaces".replace("_", "-")
         method = "PATCH"

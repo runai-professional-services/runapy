@@ -39,12 +39,12 @@ class TestTrainingPolicyDefaultsAndRulesV2(unittest.TestCase):
         # model = TrainingPolicyDefaultsAndRulesV2()
         if include_optional:
             return TrainingPolicyDefaultsAndRulesV2(
-                defaults=runai.models.training_policy_defaults_and_rules_v2_defaults.TrainingPolicyDefaultsAndRulesV2_defaults(),
+                defaults=None,
                 rules=None,
                 imposed_assets=[""],
                 status=runai.models.policy_validation_status.PolicyValidationStatus(
                     validation=runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                        error_message="",
+                        error_message="jUR,rZ#UM/?R,Fp^l6$ARj",
                     ),
                 ),
             )

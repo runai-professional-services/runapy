@@ -39,7 +39,7 @@ def example_upload_tenant_logo():
     Example of using upload_tenant_logo
 
     Upload logo for tenant. (base64)
-    Use to upload a base64 logo file. Max size 128kb.
+    Use to upload a base64 logo file (PNG or SVG). Max size 128kb.
     """
     try:
         # Prepare the request parameters

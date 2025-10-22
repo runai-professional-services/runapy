@@ -32,7 +32,7 @@ class GitPasswordAsset(BaseModel):
         ```python
         password_asset_id: Optional[str]
         ```
-        password_asset_id: ID of credentials asset of type password. Needed for non public repository which requires authentication.
+        password_asset_id: UUID of a credential asset of type userid / password. This credential is required for authenticating with private Git repositories using SSH. (deprecated - use credentialId instead).
     Example:
         ```python
         GitPasswordAsset(
@@ -44,7 +44,7 @@ class GitPasswordAsset(BaseModel):
     password_asset_id: Optional[Annotated[str, Field(min_length=1, strict=True)]] = (
         Field(
             default=None,
-            description="ID of credentials asset of type password. Needed for non public repository which requires authentication.",
+            description="UUID of a credential asset of type userid / password. This credential is required for authenticating with private Git repositories using SSH. (deprecated - use credentialId instead).",
             alias="passwordAssetId",
         )
     )

@@ -39,9 +39,9 @@ class TestNodeSelectorTerm(unittest.TestCase):
             return NodeSelectorTerm(
                 match_expressions=[
                     runai.models.match_expression.MatchExpression(
-                        key="",
+                        key="jUR,rZ#UM/?R,Fp^l6$ARj",
                         operator="In",
-                        values=[""],
+                        values=["jUR,rZ#UM/?R,Fp^l6$ARj"],
                     )
                 ]
             )

@@ -60,6 +60,7 @@ class TestCredentialsListResponse(unittest.TestCase):
                             password=runai.models.password.password(),
                             docker_registry=runai.models.docker_registry.dockerRegistry(),
                             generic_secret=runai.models.generic_secret.genericSecret(),
+                            ngc_api_key=runai.models.ngc_api_key.ngcApiKey(),
                         ),
                         used_by=runai.models.asset_usage_info.AssetUsageInfo(
                             workspaces=[
@@ -152,6 +153,7 @@ class TestCredentialsListResponse(unittest.TestCase):
                             password=runai.models.password.password(),
                             docker_registry=runai.models.docker_registry.dockerRegistry(),
                             generic_secret=runai.models.generic_secret.genericSecret(),
+                            ngc_api_key=runai.models.ngc_api_key.ngcApiKey(),
                         ),
                         used_by=runai.models.asset_usage_info.AssetUsageInfo(
                             workspaces=[

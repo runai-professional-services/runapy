@@ -38,7 +38,9 @@ class TestServingPortProtocolOptionsOptionsInner(unittest.TestCase):
 
         # model = ServingPortProtocolOptionsOptionsInner()
         if include_optional:
-            return ServingPortProtocolOptionsOptionsInner(value="http", displayed="")
+            return ServingPortProtocolOptionsOptionsInner(
+                value="http", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return ServingPortProtocolOptionsOptionsInner(
                 value="http",

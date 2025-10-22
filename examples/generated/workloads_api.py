@@ -46,27 +46,6 @@ def example_count_workloads():
         print(f"Exception when calling count_workloads: {e}")
 
 
-def example_get_category_by_id():
-    """
-    Example of using get_category_by_id
-
-    Get workload category by id.
-    Retrieves a specific workload category by its ID. Workload categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
-    """
-    try:
-        # Prepare the request parameters
-        category_id = "example_category_id"
-
-        # Make the API call
-        api_response = api_instance.get_category_by_id(
-            category_id=category_id,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling get_category_by_id: {e}")
-
-
 def example_get_workload():
     """
     Example of using get_workload
@@ -119,27 +98,6 @@ def example_get_workload_metrics():
 
     except Exception as e:
         print(f"Exception when calling get_workload_metrics: {e}")
-
-
-def example_get_workload_type():
-    """
-    Example of using get_workload_type
-
-    List workload type by id.
-    Retrieves a specific workload type by its ID.
-    """
-    try:
-        # Prepare the request parameters
-        workload_type_id = "example_workload_type_id"
-
-        # Make the API call
-        api_response = api_instance.get_workload_type(
-            workload_type_id=workload_type_id,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling get_workload_type: {e}")
 
 
 def example_get_workloads():
@@ -212,68 +170,3 @@ def example_get_workloads_telemetry():
 
     except Exception as e:
         print(f"Exception when calling get_workloads_telemetry: {e}")
-
-
-def example_list_categories():
-    """
-    Example of using list_categories
-
-    List workload categories.
-    Retrieves a list of workload categories. These categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
-    """
-    try:
-        # Make the API call with no parameters
-        api_response = api_instance.list_categories()
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling list_categories: {e}")
-
-
-def example_list_workload_types():
-    """
-    Example of using list_workload_types
-
-    List workload types.
-    Retrieves a list of workload types with their configurations - their corresponding workload categories and priorities.
-    """
-    try:
-        # Prepare the request parameters
-
-        external_types_only = True
-
-        # Make the API call
-        api_response = api_instance.list_workload_types(
-            external_types_only=external_types_only,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling list_workload_types: {e}")
-
-
-def example_update_workload_type():
-    """
-    Example of using update_workload_type
-
-    Update a workload type by id.
-    Update the default category or priority assigned to a workload type.
-    """
-    try:
-        # Prepare the request parameters
-        workload_type_id = "example_workload_type_id"
-
-        # Create example data for WorkloadTypeConfigUpdateFields
-        workload_type_config_update_fields = models.WorkloadTypeConfigUpdateFields(
-            category_id="", priority_id=""
-        )
-
-        # Make the API call
-        api_response = api_instance.update_workload_type(
-            workload_type_id=workload_type_id,
-            workload_type_config_update_fields=workload_type_config_update_fields,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling update_workload_type: {e}")

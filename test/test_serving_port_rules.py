@@ -45,7 +45,7 @@ class TestServingPortRules(unittest.TestCase):
                     max=56,
                     step=56,
                     default_from=runai.models.default_from_rule.DefaultFromRule(
-                        field="",
+                        field="jUR,rZ#UM/?R,Fp^l6$ARj",
                         factor=1.337,
                     ),
                 ),

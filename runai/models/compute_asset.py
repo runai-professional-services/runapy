@@ -49,7 +49,25 @@ class ComputeAsset(BaseModel):
         ```python
         ComputeAsset(
             meta={"name":"my-asset","scope":"tenant","id":"a418ed33-9399-48c0-a890-122cadd13bfd","kind":"s3","createdBy":"test@run.ai","createdAt":"2023-02-23T14:25:36.707685Z","updatedBy":"test@run.ai","updatedAt":"2023-02-23T14:25:36.707685Z","workloadSupportedTypes":{"workspace":false,"training":false,"distributed":true,"distFramework":"TF"}},
-                        spec="example",
+                        spec=runai.models.compute_asset_spec.ComputeAssetSpec(
+                    cpu_core_limit = 2,
+                    cpu_core_request = 0.5,
+                    cpu_memory_limit = '30M',
+                    cpu_memory_request = '20M',
+                    extended_resources = [
+                        runai.models.extended_resource.ExtendedResource(
+                            resource = 'hardware-vendor.example/foo',
+                            quantity = '2',
+                            exclude = False, )
+                        ],
+                    gpu_devices_request = 1,
+                    gpu_memory_limit = '10M',
+                    gpu_memory_request = '10M',
+                    gpu_portion_limit = 0.5,
+                    gpu_portion_request = 0.5,
+                    gpu_request_type = 'portion',
+                    large_shm_request = False,
+                    mig_profile = null, ),
                         used_by=runai.models.asset_usage_info.AssetUsageInfo(
                     workspaces = [
                         runai.models.workload_ref_and_status.WorkloadRefAndStatus(

@@ -57,10 +57,6 @@ class TestHistoryRecord(unittest.TestCase):
                             namespace="runai-test",
                         ),
                     ),
-                    phase_update=runai.models.phase_update.PhaseUpdate(
-                        phase="Creating",
-                        phase_message="Not enough resources in the requested nodepool",
-                    ),
                 ),
             )
         else:
@@ -84,10 +80,6 @@ class TestHistoryRecord(unittest.TestCase):
                             name="test-0-1",
                             namespace="runai-test",
                         ),
-                    ),
-                    phase_update=runai.models.phase_update.PhaseUpdate(
-                        phase="Creating",
-                        phase_message="Not enough resources in the requested nodepool",
                     ),
                 ),
             )

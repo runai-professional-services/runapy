@@ -21,7 +21,6 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from runai.models.auto_scaling_rules import AutoScalingRules
 from runai.models.serving_configuration_rules import ServingConfigurationRules
-from runai.models.serving_port_rules import ServingPortRules
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -32,42 +31,15 @@ class InferenceFieldsRules(BaseModel):
 
     Parameters:
         ```python
-        serving_port: Optional[ServingPortRules]
         autoscaling: Optional[AutoScalingRules]
         serving_configuration: Optional[ServingConfigurationRules]
         ```
-        serving_port: See model ServingPortRules for more information.
         autoscaling: See model AutoScalingRules for more information.
         serving_configuration: See model ServingConfigurationRules for more information.
     Example:
         ```python
         InferenceFieldsRules(
-            serving_port=runai.models.serving_port_rules.ServingPortRules(
-                    container = runai.models.integer_rules.IntegerRules(
-                        source_of_rule = {"scope":"project","projectId":3},
-                        required = True,
-                        can_edit = True,
-                        min = 56,
-                        max = 56,
-                        step = 56,
-                        default_from = runai.models.default_from_rule.DefaultFromRule(
-                            field = '',
-                            factor = 1.337, ), ),
-                    protocol = runai.models.serving_port_protocol_rules.ServingPortProtocolRules(),
-                    authorization_type = runai.models.serving_port_authorization_type_rules.ServingPortAuthorizationTypeRules(),
-                    authorized_users = runai.models.array_rules.ArrayRules(
-                        required = True,
-                        options = [
-                            {"value":"value","displayed":"A description of the value."}
-                            ],
-                        can_edit = True, ),
-                    authorized_groups = runai.models.array_rules.ArrayRules(
-                        required = True,
-                        can_edit = True, ),
-                    cluster_local_access_only = runai.models.boolean_rules.BooleanRules(
-                        required = True,
-                        can_edit = True, ), ),
-                        autoscaling=runai.models.auto_scaling_rules.AutoScalingRules(
+            autoscaling=runai.models.auto_scaling_rules.AutoScalingRules(
                     metric_threshold_percentage = runai.models.number_rules.NumberRules(
                         source_of_rule = {"scope":"project","projectId":3},
                         required = True,
@@ -76,7 +48,7 @@ class InferenceFieldsRules(BaseModel):
                         max = 1.337,
                         step = 1.337,
                         default_from = runai.models.default_from_rule.DefaultFromRule(
-                            field = '',
+                            field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                             factor = 1.337, ), ),
                     min_replicas = runai.models.integer_rules.IntegerRules(
                         required = True,
@@ -107,7 +79,7 @@ class InferenceFieldsRules(BaseModel):
                         max = 56,
                         step = 56,
                         default_from = runai.models.default_from_rule.DefaultFromRule(
-                            field = '',
+                            field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                             factor = 1.337, ), ),
                     request_timeout_seconds = runai.models.integer_rules.IntegerRules(
                         required = True,
@@ -119,16 +91,11 @@ class InferenceFieldsRules(BaseModel):
         ```
     """  # noqa: E501
 
-    serving_port: Optional[ServingPortRules] = Field(default=None, alias="servingPort")
     autoscaling: Optional[AutoScalingRules] = None
     serving_configuration: Optional[ServingConfigurationRules] = Field(
         default=None, alias="servingConfiguration"
     )
-    __properties: ClassVar[List[str]] = [
-        "servingPort",
-        "autoscaling",
-        "servingConfiguration",
-    ]
+    __properties: ClassVar[List[str]] = ["autoscaling", "servingConfiguration"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -167,20 +134,12 @@ class InferenceFieldsRules(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of serving_port
-        if self.serving_port:
-            _dict["servingPort"] = self.serving_port.to_dict()
         # override the default output from pydantic by calling `to_dict()` of autoscaling
         if self.autoscaling:
             _dict["autoscaling"] = self.autoscaling.to_dict()
         # override the default output from pydantic by calling `to_dict()` of serving_configuration
         if self.serving_configuration:
             _dict["servingConfiguration"] = self.serving_configuration.to_dict()
-        # set to None if serving_port (nullable) is None
-        # and model_fields_set contains the field
-        if self.serving_port is None and "serving_port" in self.model_fields_set:
-            _dict["servingPort"] = None
-
         # set to None if autoscaling (nullable) is None
         # and model_fields_set contains the field
         if self.autoscaling is None and "autoscaling" in self.model_fields_set:
@@ -207,11 +166,6 @@ class InferenceFieldsRules(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "servingPort": (
-                    ServingPortRules.from_dict(obj["servingPort"])
-                    if obj.get("servingPort") is not None
-                    else None
-                ),
                 "autoscaling": (
                     AutoScalingRules.from_dict(obj["autoscaling"])
                     if obj.get("autoscaling") is not None

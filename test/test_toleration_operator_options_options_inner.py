@@ -38,7 +38,9 @@ class TestTolerationOperatorOptionsOptionsInner(unittest.TestCase):
 
         # model = TolerationOperatorOptionsOptionsInner()
         if include_optional:
-            return TolerationOperatorOptionsOptionsInner(value="Equal", displayed="")
+            return TolerationOperatorOptionsOptionsInner(
+                value="Equal", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return TolerationOperatorOptionsOptionsInner(
                 value="Equal",

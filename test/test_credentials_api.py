@@ -47,6 +47,13 @@ class TestCredentialsApi(unittest.TestCase):
         """
         pass
 
+    def test_create_ngc_api_key(self) -> None:
+        """Test case for create_ngc_api_key
+
+        Create a ngc-api-key.
+        """
+        pass
+
     def test_create_password(self) -> None:
         """Test case for create_password
 
@@ -75,6 +82,13 @@ class TestCredentialsApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_ngc_api_key(self) -> None:
+        """Test case for delete_ngc_api_key
+
+        Delete a ngc-api-key.
+        """
+        pass
+
     def test_delete_password(self) -> None:
         """Test case for delete_password
 
@@ -100,6 +114,13 @@ class TestCredentialsApi(unittest.TestCase):
         """Test case for get_generic_secret_by_id
 
         Get a generic-secret.
+        """
+        pass
+
+    def test_get_ngc_api_key_by_id(self) -> None:
+        """Test case for get_ngc_api_key_by_id
+
+        Get a ngc-api-key.
         """
         pass
 
@@ -138,6 +159,13 @@ class TestCredentialsApi(unittest.TestCase):
         """
         pass
 
+    def test_list_ngc_api_key(self) -> None:
+        """Test case for list_ngc_api_key
+
+        List ngc-api-keys.
+        """
+        pass
+
     def test_list_passwords(self) -> None:
         """Test case for list_passwords
 
@@ -163,6 +191,13 @@ class TestCredentialsApi(unittest.TestCase):
         """Test case for update_generic_secret
 
         Update a generic-secret.
+        """
+        pass
+
+    def test_update_ngc_api_key(self) -> None:
+        """Test case for update_ngc_api_key
+
+        Update a ngc-api-key.
         """
         pass
 

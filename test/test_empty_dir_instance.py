@@ -39,7 +39,7 @@ class TestEmptyDirInstance(unittest.TestCase):
             return EmptyDirInstance(
                 name="storage-instance-a",
                 path="/mnt/emptydir",
-                medium="0",
+                medium="jUR,rZ#UM/?R,Fp^l6$ARj0",
                 size_limit="1G",
                 exclude=False,
             )

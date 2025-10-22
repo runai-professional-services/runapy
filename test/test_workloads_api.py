@@ -33,13 +33,6 @@ class TestWorkloadsApi(unittest.TestCase):
         """
         pass
 
-    def test_get_category_by_id(self) -> None:
-        """Test case for get_category_by_id
-
-        Get workload category by id.
-        """
-        pass
-
     def test_get_workload(self) -> None:
         """Test case for get_workload
 
@@ -54,13 +47,6 @@ class TestWorkloadsApi(unittest.TestCase):
         """
         pass
 
-    def test_get_workload_type(self) -> None:
-        """Test case for get_workload_type
-
-        List workload type by id.
-        """
-        pass
-
     def test_get_workloads(self) -> None:
         """Test case for get_workloads
 
@@ -72,27 +58,6 @@ class TestWorkloadsApi(unittest.TestCase):
         """Test case for get_workloads_telemetry
 
         Get the workloads telemetry.
-        """
-        pass
-
-    def test_list_categories(self) -> None:
-        """Test case for list_categories
-
-        List workload categories.
-        """
-        pass
-
-    def test_list_workload_types(self) -> None:
-        """Test case for list_workload_types
-
-        List workload types.
-        """
-        pass
-
-    def test_update_workload_type(self) -> None:
-        """Test case for update_workload_type
-
-        Update a workload type by id.
         """
         pass
 

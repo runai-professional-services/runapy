@@ -38,7 +38,9 @@ class TestUidGidSourceOptionsOptionsInner(unittest.TestCase):
 
         # model = UidGidSourceOptionsOptionsInner()
         if include_optional:
-            return UidGidSourceOptionsOptionsInner(value="fromTheImage", displayed="")
+            return UidGidSourceOptionsOptionsInner(
+                value="fromTheImage", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return UidGidSourceOptionsOptionsInner(
                 value="fromTheImage",

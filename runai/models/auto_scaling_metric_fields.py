@@ -26,7 +26,7 @@ from typing_extensions import Self
 
 class AutoScalingMetricFields(BaseModel):
     """
-    Pydantic class model representing Auto scaling metric fields.
+    Pydantic class model representing AutoScalingMetricFields.
 
     Parameters:
         ```python

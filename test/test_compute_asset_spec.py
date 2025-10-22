@@ -37,18 +37,10 @@ class TestComputeAssetSpec(unittest.TestCase):
         # model = ComputeAssetSpec()
         if include_optional:
             return ComputeAssetSpec(
-                gpu_devices_request=1,
-                gpu_request_type="portion",
-                gpu_portion_request=0.5,
-                gpu_portion_limit=0.5,
-                gpu_memory_request="10M",
-                gpu_memory_limit="10M",
-                mig_profile="1g.5gb",
-                cpu_core_request=0.5,
                 cpu_core_limit=2,
-                cpu_memory_request="20M",
+                cpu_core_request=0.5,
                 cpu_memory_limit="30M",
-                large_shm_request=False,
+                cpu_memory_request="20M",
                 extended_resources=[
                     runai.models.extended_resource.ExtendedResource(
                         resource="hardware-vendor.example/foo",
@@ -56,6 +48,14 @@ class TestComputeAssetSpec(unittest.TestCase):
                         exclude=False,
                     )
                 ],
+                gpu_devices_request=1,
+                gpu_memory_limit="10M",
+                gpu_memory_request="10M",
+                gpu_portion_limit=0.5,
+                gpu_portion_request=0.5,
+                gpu_request_type="portion",
+                large_shm_request=False,
+                mig_profile="1g.5gb",
             )
         else:
             return ComputeAssetSpec()

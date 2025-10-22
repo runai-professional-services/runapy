@@ -39,14 +39,14 @@ class TestDistributedInferenceCommonSpec(unittest.TestCase):
         # model = DistributedInferenceCommonSpec()
         if include_optional:
             return DistributedInferenceCommonSpec(
-                node_pools=[my - node - pool - a, my - node - pool - b],
-                category="",
-                priority_class="",
-                serving_port=None,
-                restart_policy="RecreateGroupOnPodRestart",
                 startup_policy="LeaderCreated",
                 workers=4,
                 replicas=2,
+                category="jUR,rZ#UM/?R,Fp^l6$ARj",
+                node_pools=["my-node-pool-a", "my-node-pool-b"],
+                priority_class="jUR,rZ#UM/?R,Fp^l6$ARj",
+                restart_policy="RecreateGroupOnPodRestart",
+                serving_port=runai.models.distributed_inference_serving_port.DistributedInferenceServingPort(),
             )
         else:
             return DistributedInferenceCommonSpec()

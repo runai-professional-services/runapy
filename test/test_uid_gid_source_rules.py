@@ -43,7 +43,7 @@ class TestUidGidSourceRules(unittest.TestCase):
                 options=[
                     runai.models.uid_gid_source_options_options_inner.UidGidSourceOptions_options_inner(
                         value="fromTheImage",
-                        displayed="",
+                        displayed="jUR,rZ#UM/?R,Fp^l6$ARj",
                     )
                 ],
             )

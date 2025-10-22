@@ -38,7 +38,9 @@ class TestImagePullPolicyOptionsOptionsInner(unittest.TestCase):
 
         # model = ImagePullPolicyOptionsOptionsInner()
         if include_optional:
-            return ImagePullPolicyOptionsOptionsInner(value="Always", displayed="")
+            return ImagePullPolicyOptionsOptionsInner(
+                value="Always", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return ImagePullPolicyOptionsOptionsInner(
                 value="Always",

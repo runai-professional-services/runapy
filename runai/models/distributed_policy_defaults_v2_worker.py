@@ -17,29 +17,34 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictInt,
+    field_validator,
+)
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.annotations_defaults import AnnotationsDefaults
-from runai.models.compute_fields_defaults import ComputeFieldsDefaults
-from runai.models.distributed_clean_pod_policy import DistributedCleanPodPolicy
+from runai.models.clean_pod_policy import CleanPodPolicy
 from runai.models.distributed_framework import DistributedFramework
-from runai.models.distributed_mpi_launcher_creation_policy import (
-    DistributedMpiLauncherCreationPolicy,
-)
 from runai.models.environment_variables_defaults import EnvironmentVariablesDefaults
 from runai.models.exposed_urls_defaults import ExposedUrlsDefaults
 from runai.models.image_pull_policy import ImagePullPolicy
 from runai.models.image_pull_secrets_defaults import ImagePullSecretsDefaults
 from runai.models.labels_defaults import LabelsDefaults
+from runai.models.mpi_launcher_creation_policy import MpiLauncherCreationPolicy
 from runai.models.node_affinity_required import NodeAffinityRequired
 from runai.models.pod_affinity import PodAffinity
 from runai.models.ports_defaults import PortsDefaults
 from runai.models.probes import Probes
 from runai.models.related_urls_defaults import RelatedUrlsDefaults
 from runai.models.restart_policy import RestartPolicy
-from runai.models.security_flat_fields import SecurityFlatFields
-from runai.models.storage_fields_defaults import StorageFieldsDefaults
+from runai.models.superset_defaults_all_of_compute import SupersetDefaultsAllOfCompute
+from runai.models.superset_defaults_all_of_storage import SupersetDefaultsAllOfStorage
+from runai.models.superset_spec_all_of_security import SupersetSpecAllOfSecurity
 from runai.models.tolerations_defaults import TolerationsDefaults
 from typing import Optional, Set
 from typing_extensions import Self
@@ -51,126 +56,125 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
 
     Parameters:
         ```python
-        command: Optional[str]
+        annotations: Optional[AnnotationsDefaults]
         args: Optional[str]
+        auto_deletion_time_after_completion_seconds: Optional[int]
+        backoff_limit: Optional[int]
+        category: Optional[str]
+        command: Optional[str]
+        compute: Optional[SupersetDefaultsAllOfCompute]
+        create_home_dir: Optional[bool]
+        environment_variables: Optional[EnvironmentVariablesDefaults]
+        exposed_urls: Optional[ExposedUrlsDefaults]
         image: Optional[str]
         image_pull_policy: Optional[ImagePullPolicy]
-        working_dir: Optional[str]
-        create_home_dir: Optional[bool]
-        probes: Optional[Probes]
-        node_type: Optional[str]
-        node_affinity_required: Optional[NodeAffinityRequired]
-        pod_affinity: Optional[PodAffinity]
-        category: Optional[str]
-        priority_class: Optional[str]
-        node_pools: Optional[List[str]]
-        environment_variables: Optional[EnvironmentVariablesDefaults]
-        annotations: Optional[AnnotationsDefaults]
-        labels: Optional[LabelsDefaults]
         image_pull_secrets: Optional[ImagePullSecretsDefaults]
-        tolerations: Optional[TolerationsDefaults]
-        terminate_after_preemption: Optional[bool]
-        auto_deletion_time_after_completion_seconds: Optional[int]
-        termination_grace_period_seconds: Optional[int]
-        backoff_limit: Optional[int]
-        restart_policy: Optional[RestartPolicy]
+        labels: Optional[LabelsDefaults]
+        node_affinity_required: Optional[NodeAffinityRequired]
+        node_pools: Optional[List[str]]
+        node_type: Optional[str]
+        pod_affinity: Optional[PodAffinity]
         ports: Optional[PortsDefaults]
-        exposed_urls: Optional[ExposedUrlsDefaults]
+        priority_class: Optional[str]
+        probes: Optional[Probes]
         related_urls: Optional[RelatedUrlsDefaults]
-        security: Optional[SecurityFlatFields]
-        compute: Optional[ComputeFieldsDefaults]
-        storage: Optional[StorageFieldsDefaults]
-        tty: Optional[bool]
+        restart_policy: Optional[RestartPolicy]
+        security: Optional[SupersetSpecAllOfSecurity]
         stdin: Optional[bool]
-        num_workers: Optional[int]
+        storage: Optional[SupersetDefaultsAllOfStorage]
+        terminate_after_preemption: Optional[bool]
+        termination_grace_period_seconds: Optional[int]
+        tolerations: Optional[TolerationsDefaults]
+        tty: Optional[bool]
+        working_dir: Optional[str]
+        clean_pod_policy: Optional[CleanPodPolicy]
         distributed_framework: Optional[DistributedFramework]
+        max_replicas: Optional[int]
+        min_replicas: Optional[int]
+        mpi_launcher_creation_policy: Optional[MpiLauncherCreationPolicy]
+        num_workers: Optional[int]
         slots_per_worker: Optional[int]
         ssh_auth_mount_path: Optional[str]
-        mpi_launcher_creation_policy: Optional[DistributedMpiLauncherCreationPolicy]
-        min_replicas: Optional[int]
-        max_replicas: Optional[int]
-        clean_pod_policy: Optional[DistributedCleanPodPolicy]
         ```
-        command: A command to the server as the entry point of the container running the workload.
+        annotations: See model AnnotationsDefaults for more information.
         args: Arguments to the command that the container running the workload executes.
+        auto_deletion_time_after_completion_seconds: Specifies the duration after which a finished workload (completed or failed) will be automatically deleted. The default is 30 days. Log retention is managed separately.
+        backoff_limit: Specifies the number of retries before marking a workload as failed (not applicable to Inference workloads). The default value is 6.
+        category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
+        command: A command to the server as the entry point of the container running the workload.
+        compute: See model SupersetDefaultsAllOfCompute for more information.
+        create_home_dir: When set to &#x60;true&#x60;, creates a home directory for the container.
+        environment_variables: See model EnvironmentVariablesDefaults for more information.
+        exposed_urls: See model ExposedUrlsDefaults for more information.
         image: Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.
         image_pull_policy: See model ImagePullPolicy for more information.
-        working_dir: Container&#39;s working directory. If not specified, the container runtime default will be used. This may be configured in the container image.
-        create_home_dir: When set to &#x60;true&#x60;, creates a home directory for the container.
-        probes: See model Probes for more information.
-        node_type: Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).
-        node_affinity_required: See model NodeAffinityRequired for more information.
-        pod_affinity: See model PodAffinity for more information.
-        category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
-        priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
-        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
-        environment_variables: See model EnvironmentVariablesDefaults for more information.
-        annotations: See model AnnotationsDefaults for more information.
-        labels: See model LabelsDefaults for more information.
         image_pull_secrets: See model ImagePullSecretsDefaults for more information.
-        tolerations: See model TolerationsDefaults for more information.
-        terminate_after_preemption: Indicates if the job should be terminated by the system after it has been preempted.
-        auto_deletion_time_after_completion_seconds: Specifies the duration after which a finished workload (completed or failed) will be automatically deleted. The default is 30 days.
-        termination_grace_period_seconds: Duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down).
-        backoff_limit: Specifies the number of retries before marking a workload as failed (not applicable to Inference workloads). The default value is 6.
-        restart_policy: See model RestartPolicy for more information.
+        labels: See model LabelsDefaults for more information.
+        node_affinity_required: See model NodeAffinityRequired for more information.
+        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
+        node_type: Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).
+        pod_affinity: See model PodAffinity for more information.
         ports: See model PortsDefaults for more information.
-        exposed_urls: See model ExposedUrlsDefaults for more information.
+        priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
+        probes: See model Probes for more information.
         related_urls: See model RelatedUrlsDefaults for more information.
-        security: See model SecurityFlatFields for more information.
-        compute: See model ComputeFieldsDefaults for more information.
-        storage: See model StorageFieldsDefaults for more information.
-        tty: Whether this container should allocate a TTY for itself, also requires &#39;stdin&#39; to be true.
+        restart_policy: See model RestartPolicy for more information.
+        security: See model SupersetSpecAllOfSecurity for more information.
         stdin: Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF
-        num_workers: the number of workers that will be allocated for running the workload.
+        storage: See model SupersetDefaultsAllOfStorage for more information.
+        terminate_after_preemption: Indicates if the job should be terminated by the system after it has been preempted.
+        termination_grace_period_seconds: Duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down).
+        tolerations: See model TolerationsDefaults for more information.
+        tty: Whether this container should allocate a TTY for itself, also requires &#39;stdin&#39; to be true.
+        working_dir: Container&#39;s working directory. If not specified, the container runtime default will be used. This may be configured in the container image.
+        clean_pod_policy: See model CleanPodPolicy for more information.
         distributed_framework: See model DistributedFramework for more information.
+        max_replicas: the upper limit for the number of worker pods that can be set by the autoscaler. Cannot be smaller than MinReplicas. (applicable only for PyTorch)
+        min_replicas: the lower limit for the number of worker pods to which the training job can scale down. (applicable only for PyTorch)
+        mpi_launcher_creation_policy: See model MpiLauncherCreationPolicy for more information.
+        num_workers: the number of workers that will be allocated for running the workload.
         slots_per_worker: Specifies the number of slots per worker used in hostfile. Defaults to 1. (applicable only for MPI) - Default: 1
         ssh_auth_mount_path: Specifies the directory where SSH keys are mounted. (applicable only for MPI) - Default: &#39;/root/.ssh&#39;
-        mpi_launcher_creation_policy: See model DistributedMpiLauncherCreationPolicy for more information.
-        min_replicas: the lower limit for the number of worker pods to which the training job can scale down. (applicable only for PyTorch)
-        max_replicas: the upper limit for the number of worker pods that can be set by the autoscaler. Cannot be smaller than MinReplicas. (applicable only for PyTorch)
-        clean_pod_policy: See model DistributedCleanPodPolicy for more information.
     Example:
         ```python
         DistributedPolicyDefaultsV2Worker(
-            command='python',
-                        args='-x my-script.py',
-                        image='python:3.8',
-                        image_pull_policy='Always',
-                        working_dir='/home/myfolder',
-                        create_home_dir=True,
-                        probes=runai.models.probes.Probes(
-                    readiness = runai.models.probe.Probe(
-                        initial_delay_seconds = 0,
-                        period_seconds = 1,
-                        timeout_seconds = 1,
-                        success_threshold = 1,
-                        failure_threshold = 1,
-                        handler = runai.models.probe_handler.ProbeHandler(
-                            http_get = runai.models.probe_handler_http_get.ProbeHandler_httpGet(
-                                path = '/',
-                                port = 1,
-                                host = 'example.com',
-                                scheme = 'HTTP', ), ), ), ),
-                        node_type='my-node-type',
-                        node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
-                    node_selector_terms = [
-                        runai.models.node_selector_term.NodeSelectorTerm(
-                            match_expressions = [
-                                runai.models.match_expression.MatchExpression(
-                                    key = '',
-                                    operator = 'In',
-                                    values = [
-                                        ''
-                                        ], )
-                                ], )
+            annotations=runai.models.annotations_defaults.AnnotationsDefaults(
+                    instances = [
+                        runai.models.annotation.Annotation(
+                            name = 'billing',
+                            value = 'my-billing-unit',
+                            exclude = False, )
                         ], ),
-                        pod_affinity=runai.models.pod_affinity.PodAffinity(
-                    type = 'Required',
-                    key = '', ),
-                        category='',
-                        priority_class='',
-                        node_pools=[my-node-pool-a, my-node-pool-b],
+                        args='-x my-script.py',
+                        auto_deletion_time_after_completion_seconds=15,
+                        backoff_limit=3,
+                        category='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        command='python',
+                        compute=runai.models.superset_defaults_all_of_compute.SupersetDefaults_allOf_compute(
+                    cpu_core_limit = 2,
+                    cpu_core_request = 0.5,
+                    cpu_memory_limit = '30M',
+                    cpu_memory_request = '20M',
+                    extended_resources = runai.models.extended_resources_defaults.ExtendedResourcesDefaults(
+                        attributes = runai.models.extended_resource.ExtendedResource(
+                            resource = 'hardware-vendor.example/foo',
+                            quantity = '2',
+                            exclude = False, ),
+                        instances = [
+                            runai.models.extended_resource.ExtendedResource(
+                                resource = 'hardware-vendor.example/foo',
+                                quantity = '2',
+                                exclude = False, )
+                            ], ),
+                    gpu_devices_request = 1,
+                    gpu_memory_limit = '10M',
+                    gpu_memory_request = '10M',
+                    gpu_portion_limit = 0.5,
+                    gpu_portion_request = 0.5,
+                    gpu_request_type = 'portion',
+                    large_shm_request = False,
+                    mig_profile = null, ),
+                        create_home_dir=True,
                         environment_variables=runai.models.environment_variables_defaults.EnvironmentVariablesDefaults(
                     instances = [
                         runai.models.environment_variable.EnvironmentVariable(
@@ -186,67 +190,6 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
                                 path = 'metadata.name', ),
                             exclude = False,
                             description = 'Home directory of the user.', )
-                        ], ),
-                        annotations=runai.models.annotations_defaults.AnnotationsDefaults(
-                    instances = [
-                        runai.models.annotation.Annotation(
-                            name = 'billing',
-                            value = 'my-billing-unit',
-                            exclude = False, )
-                        ], ),
-                        labels=runai.models.labels_defaults.LabelsDefaults(
-                    instances = [
-                        runai.models.label.Label(
-                            name = 'stage',
-                            value = 'initial-research',
-                            exclude = False, )
-                        ], ),
-                        image_pull_secrets=runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(
-                    instances = [
-                        runai.models.image_pull_secret.ImagePullSecret(
-                            name = '',
-                            user_credential = True,
-                            exclude = False, )
-                        ], ),
-                        tolerations=runai.models.tolerations_defaults.TolerationsDefaults(
-                    attributes = runai.models.toleration.Toleration(
-                        name = '0',
-                        operator = 'Equal',
-                        key = '',
-                        value = '',
-                        effect = 'NoSchedule',
-                        seconds = 1,
-                        exclude = False, ),
-                    instances = [
-                        runai.models.toleration.Toleration(
-                            name = '0',
-                            key = '',
-                            value = '',
-                            seconds = 1,
-                            exclude = False, )
-                        ], ),
-                        terminate_after_preemption=False,
-                        auto_deletion_time_after_completion_seconds=15,
-                        termination_grace_period_seconds=20,
-                        backoff_limit=3,
-                        restart_policy='Always',
-                        ports=runai.models.ports_defaults.PortsDefaults(
-                    attributes = runai.models.port.Port(
-                        container = 8080,
-                        service_type = 'LoadBalancer',
-                        external = 30080,
-                        tool_type = 'pytorch',
-                        tool_name = 'my-pytorch',
-                        name = 'port-instance-a',
-                        exclude = False, ),
-                    instances = [
-                        runai.models.port.Port(
-                            container = 8080,
-                            external = 30080,
-                            tool_type = 'pytorch',
-                            tool_name = 'my-pytorch',
-                            name = 'port-instance-a',
-                            exclude = False, )
                         ], ),
                         exposed_urls=runai.models.exposed_urls_defaults.ExposedUrlsDefaults(
                     attributes = runai.models.exposed_url.ExposedUrl(
@@ -269,6 +212,71 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
                             name = 'url-instance-a',
                             exclude = False, )
                         ], ),
+                        image='python:3.8',
+                        image_pull_policy='Always',
+                        image_pull_secrets=runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(
+                    instances = [
+                        runai.models.image_pull_secret.ImagePullSecret(
+                            name = 'w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx',
+                            user_credential = True,
+                            exclude = False, )
+                        ], ),
+                        labels=runai.models.labels_defaults.LabelsDefaults(
+                    instances = [
+                        runai.models.label.Label(
+                            name = 'stage',
+                            value = 'initial-research',
+                            exclude = False, )
+                        ], ),
+                        node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
+                    node_selector_terms = [
+                        runai.models.node_selector_term.NodeSelectorTerm(
+                            match_expressions = [
+                                runai.models.match_expression.MatchExpression(
+                                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                    operator = 'In',
+                                    values = [
+                                        'jUR,rZ#UM/?R,Fp^l6$ARj'
+                                        ], )
+                                ], )
+                        ], ),
+                        node_pools=[my-node-pool-a, my-node-pool-b],
+                        node_type='my-node-type',
+                        pod_affinity=runai.models.pod_affinity.PodAffinity(
+                    type = 'Required',
+                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj', ),
+                        ports=runai.models.ports_defaults.PortsDefaults(
+                    attributes = runai.models.port.Port(
+                        container = 8080,
+                        service_type = 'LoadBalancer',
+                        external = 30080,
+                        tool_type = 'pytorch',
+                        tool_name = 'my-pytorch',
+                        name = 'port-instance-a',
+                        exclude = False, ),
+                    instances = [
+                        runai.models.port.Port(
+                            container = 8080,
+                            external = 30080,
+                            tool_type = 'pytorch',
+                            tool_name = 'my-pytorch',
+                            name = 'port-instance-a',
+                            exclude = False, )
+                        ], ),
+                        priority_class='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        probes=runai.models.probes.Probes(
+                    readiness = runai.models.probe.Probe(
+                        initial_delay_seconds = 0,
+                        period_seconds = 1,
+                        timeout_seconds = 1,
+                        success_threshold = 1,
+                        failure_threshold = 1,
+                        handler = runai.models.probe_handler.ProbeHandler(
+                            http_get = runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                path = '/',
+                                port = 1,
+                                host = 'example.com',
+                                scheme = 'HTTP', ), ), ), ),
                         related_urls=runai.models.related_urls_defaults.RelatedUrlsDefaults(
                     attributes = runai.models.related_url.RelatedUrl(
                         url = 'https://my-url.com',
@@ -282,30 +290,125 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
                             name = 'url-instance-a',
                             exclude = False, )
                         ], ),
-                        security=runai.models.security_flat_fields.SecurityFlatFields(),
-                        compute=runai.models.compute_fields_defaults.ComputeFieldsDefaults(),
-                        storage=runai.models.storage_fields_defaults.StorageFieldsDefaults(),
-                        tty=True,
+                        restart_policy='Always',
+                        security=runai.models.superset_spec_all_of_security.SupersetSpec_allOf_security(
+                    allow_privilege_escalation = False,
+                    capabilities = ["CHOWN","KILL"],
+                    host_ipc = False,
+                    host_network = False,
+                    read_only_root_filesystem = False,
+                    run_as_gid = 30,
+                    run_as_non_root = True,
+                    run_as_uid = 500,
+                    seccomp_profile_type = 'RuntimeDefault',
+                    supplemental_groups = '2,3,5,8',
+                    uid_gid_source = 'fromTheImage', ),
                         stdin=True,
-                        num_workers=1,
+                        storage=runai.models.superset_defaults_all_of_storage.SupersetDefaults_allOf_storage(
+                    config_map_volume = runai.models.config_maps_defaults.ConfigMapsDefaults(
+                        attributes = runai.models.config_map_instance.ConfigMapInstance(),
+                        instances = [
+                            runai.models.config_map_instance.ConfigMapInstance()
+                            ], ),
+                    data_volume = runai.models.data_volumes_defaults.DataVolumesDefaults(
+                        instances = [
+                            runai.models.data_volume_instance.DataVolumeInstance()
+                            ], ),
+                    empty_dir_volume = runai.models.empty_dirs_defaults.EmptyDirsDefaults(
+                        instances = [
+                            runai.models.empty_dir_instance.EmptyDirInstance()
+                            ], ),
+                    git = runai.models.gits_defaults.GitsDefaults(
+                        instances = [
+                            runai.models.git_instance.GitInstance()
+                            ], ),
+                    host_path = runai.models.host_paths_defaults.HostPathsDefaults(
+                        instances = [
+                            runai.models.host_path_instance.HostPathInstance()
+                            ], ),
+                    nfs = runai.models.nfss_defaults.NfssDefaults(
+                        instances = [
+                            runai.models.nfs_instance.NfsInstance()
+                            ], ),
+                    pvc = runai.models.pvcs_defaults.PvcsDefaults(
+                        instances = [
+                            runai.models.pvc_instance.PvcInstance()
+                            ], ),
+                    s3 = runai.models.s3s_defaults.S3sDefaults(
+                        instances = [
+                            runai.models.s3_instance.S3Instance()
+                            ], ),
+                    secret_volume = runai.models.secrets_defaults.SecretsDefaults(
+                        instances = [
+                            runai.models.secret_instance2.SecretInstance2()
+                            ], ), ),
+                        terminate_after_preemption=False,
+                        termination_grace_period_seconds=20,
+                        tolerations=runai.models.tolerations_defaults.TolerationsDefaults(
+                    attributes = runai.models.toleration.Toleration(
+                        name = 'jUR,rZ#UM/?R,Fp^l6$ARj0',
+                        operator = 'Equal',
+                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                        value = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                        effect = 'NoSchedule',
+                        seconds = 1,
+                        exclude = False, ),
+                    instances = [
+                        runai.models.toleration.Toleration(
+                            name = 'jUR,rZ#UM/?R,Fp^l6$ARj0',
+                            key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            value = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            seconds = 1,
+                            exclude = False, )
+                        ], ),
+                        tty=True,
+                        working_dir='/home/myfolder',
+                        clean_pod_policy='None',
                         distributed_framework='MPI',
-                        slots_per_worker=1,
-                        ssh_auth_mount_path='/root/.ssh',
-                        mpi_launcher_creation_policy='AtStartup',
-                        min_replicas=56,
                         max_replicas=56,
-                        clean_pod_policy='None'
+                        min_replicas=56,
+                        mpi_launcher_creation_policy='AtStartup',
+                        num_workers=1,
+                        slots_per_worker=1,
+                        ssh_auth_mount_path='/root/.ssh'
         )
         ```
     """  # noqa: E501
 
+    annotations: Optional[AnnotationsDefaults] = None
+    args: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="Arguments to the command that the container running the workload executes.",
+    )
+    auto_deletion_time_after_completion_seconds: Optional[StrictInt] = Field(
+        default=None,
+        description="Specifies the duration after which a finished workload (completed or failed) will be automatically deleted. The default is 30 days. Log retention is managed separately.",
+        alias="autoDeletionTimeAfterCompletionSeconds",
+    )
+    backoff_limit: Optional[StrictInt] = Field(
+        default=None,
+        description="Specifies the number of retries before marking a workload as failed (not applicable to Inference workloads). The default value is 6.",
+        alias="backoffLimit",
+    )
+    category: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
+    )
     command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
         description="A command to the server as the entry point of the container running the workload.",
     )
-    args: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+    compute: Optional[SupersetDefaultsAllOfCompute] = None
+    create_home_dir: Optional[StrictBool] = Field(
         default=None,
-        description="Arguments to the command that the container running the workload executes.",
+        description="When set to `true`, creates a home directory for the container.",
+        alias="createHomeDir",
+    )
+    environment_variables: Optional[EnvironmentVariablesDefaults] = Field(
+        default=None, alias="environmentVariables"
+    )
+    exposed_urls: Optional[ExposedUrlsDefaults] = Field(
+        default=None, alias="exposedUrls"
     )
     image: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
@@ -314,58 +417,45 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
     image_pull_policy: Optional[ImagePullPolicy] = Field(
         default=None, alias="imagePullPolicy"
     )
-    working_dir: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
-        default=None,
-        description="Container's working directory. If not specified, the container runtime default will be used. This may be configured in the container image.",
-        alias="workingDir",
+    image_pull_secrets: Optional[ImagePullSecretsDefaults] = Field(
+        default=None, alias="imagePullSecrets"
     )
-    create_home_dir: Optional[StrictBool] = Field(
-        default=None,
-        description="When set to `true`, creates a home directory for the container.",
-        alias="createHomeDir",
+    labels: Optional[LabelsDefaults] = None
+    node_affinity_required: Optional[NodeAffinityRequired] = Field(
+        default=None, alias="nodeAffinityRequired"
     )
-    probes: Optional[Probes] = None
+    node_pools: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
+        default=None,
+        description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
+        alias="nodePools",
+    )
     node_type: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
         description="Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).",
         alias="nodeType",
     )
-    node_affinity_required: Optional[NodeAffinityRequired] = Field(
-        default=None, alias="nodeAffinityRequired"
-    )
     pod_affinity: Optional[PodAffinity] = Field(default=None, alias="podAffinity")
-    category: Optional[StrictStr] = Field(
-        default=None,
-        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
-    )
-    priority_class: Optional[StrictStr] = Field(
+    ports: Optional[PortsDefaults] = None
+    priority_class: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload's scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.",
         alias="priorityClass",
     )
-    node_pools: Optional[List[StrictStr]] = Field(
+    probes: Optional[Probes] = None
+    related_urls: Optional[RelatedUrlsDefaults] = Field(
+        default=None, alias="relatedUrls"
+    )
+    restart_policy: Optional[RestartPolicy] = Field(default=None, alias="restartPolicy")
+    security: Optional[SupersetSpecAllOfSecurity] = None
+    stdin: Optional[StrictBool] = Field(
         default=None,
-        description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
-        alias="nodePools",
+        description="Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF",
     )
-    environment_variables: Optional[EnvironmentVariablesDefaults] = Field(
-        default=None, alias="environmentVariables"
-    )
-    annotations: Optional[AnnotationsDefaults] = None
-    labels: Optional[LabelsDefaults] = None
-    image_pull_secrets: Optional[ImagePullSecretsDefaults] = Field(
-        default=None, alias="imagePullSecrets"
-    )
-    tolerations: Optional[TolerationsDefaults] = None
+    storage: Optional[SupersetDefaultsAllOfStorage] = None
     terminate_after_preemption: Optional[StrictBool] = Field(
         default=None,
         description="Indicates if the job should be terminated by the system after it has been preempted.",
         alias="terminateAfterPreemption",
-    )
-    auto_deletion_time_after_completion_seconds: Optional[StrictInt] = Field(
-        default=None,
-        description="Specifies the duration after which a finished workload (completed or failed) will be automatically deleted. The default is 30 days.",
-        alias="autoDeletionTimeAfterCompletionSeconds",
     )
     termination_grace_period_seconds: Optional[
         Annotated[int, Field(strict=True, ge=0)]
@@ -374,105 +464,171 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
         description="Duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down).",
         alias="terminationGracePeriodSeconds",
     )
-    backoff_limit: Optional[StrictInt] = Field(
-        default=None,
-        description="Specifies the number of retries before marking a workload as failed (not applicable to Inference workloads). The default value is 6.",
-        alias="backoffLimit",
-    )
-    restart_policy: Optional[RestartPolicy] = Field(default=None, alias="restartPolicy")
-    ports: Optional[PortsDefaults] = None
-    exposed_urls: Optional[ExposedUrlsDefaults] = Field(
-        default=None, alias="exposedUrls"
-    )
-    related_urls: Optional[RelatedUrlsDefaults] = Field(
-        default=None, alias="relatedUrls"
-    )
-    security: Optional[SecurityFlatFields] = None
-    compute: Optional[ComputeFieldsDefaults] = None
-    storage: Optional[StorageFieldsDefaults] = None
+    tolerations: Optional[TolerationsDefaults] = None
     tty: Optional[StrictBool] = Field(
         default=None,
         description="Whether this container should allocate a TTY for itself, also requires 'stdin' to be true.",
     )
-    stdin: Optional[StrictBool] = Field(
+    working_dir: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
-        description="Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF",
+        description="Container's working directory. If not specified, the container runtime default will be used. This may be configured in the container image.",
+        alias="workingDir",
     )
-    num_workers: Optional[Annotated[int, Field(strict=True, ge=1)]] = Field(
-        default=None,
-        description="the number of workers that will be allocated for running the workload.",
-        alias="numWorkers",
+    clean_pod_policy: Optional[CleanPodPolicy] = Field(
+        default=None, alias="cleanPodPolicy"
     )
     distributed_framework: Optional[DistributedFramework] = Field(
         default=None, alias="distributedFramework"
-    )
-    slots_per_worker: Optional[Annotated[int, Field(strict=True, ge=1)]] = Field(
-        default=1,
-        description="Specifies the number of slots per worker used in hostfile. Defaults to 1. (applicable only for MPI)",
-        alias="slotsPerWorker",
-    )
-    ssh_auth_mount_path: Optional[StrictStr] = Field(
-        default="/root/.ssh",
-        description="Specifies the directory where SSH keys are mounted. (applicable only for MPI)",
-        alias="sshAuthMountPath",
-    )
-    mpi_launcher_creation_policy: Optional[DistributedMpiLauncherCreationPolicy] = (
-        Field(default=None, alias="mpiLauncherCreationPolicy")
-    )
-    min_replicas: Optional[StrictInt] = Field(
-        default=None,
-        description="the lower limit for the number of worker pods to which the training job can scale down. (applicable only for PyTorch)",
-        alias="minReplicas",
     )
     max_replicas: Optional[StrictInt] = Field(
         default=None,
         description="the upper limit for the number of worker pods that can be set by the autoscaler. Cannot be smaller than MinReplicas. (applicable only for PyTorch)",
         alias="maxReplicas",
     )
-    clean_pod_policy: Optional[DistributedCleanPodPolicy] = Field(
-        default=None, alias="cleanPodPolicy"
+    min_replicas: Optional[StrictInt] = Field(
+        default=None,
+        description="the lower limit for the number of worker pods to which the training job can scale down. (applicable only for PyTorch)",
+        alias="minReplicas",
+    )
+    mpi_launcher_creation_policy: Optional[MpiLauncherCreationPolicy] = Field(
+        default=None, alias="mpiLauncherCreationPolicy"
+    )
+    num_workers: Optional[Annotated[int, Field(strict=True, ge=1)]] = Field(
+        default=None,
+        description="the number of workers that will be allocated for running the workload.",
+        alias="numWorkers",
+    )
+    slots_per_worker: Optional[Annotated[int, Field(strict=True, ge=1)]] = Field(
+        default=1,
+        description="Specifies the number of slots per worker used in hostfile. Defaults to 1. (applicable only for MPI)",
+        alias="slotsPerWorker",
+    )
+    ssh_auth_mount_path: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default="/root/.ssh",
+        description="Specifies the directory where SSH keys are mounted. (applicable only for MPI)",
+        alias="sshAuthMountPath",
     )
     __properties: ClassVar[List[str]] = [
-        "command",
+        "annotations",
         "args",
+        "autoDeletionTimeAfterCompletionSeconds",
+        "backoffLimit",
+        "category",
+        "command",
+        "compute",
+        "createHomeDir",
+        "environmentVariables",
+        "exposedUrls",
         "image",
         "imagePullPolicy",
-        "workingDir",
-        "createHomeDir",
-        "probes",
-        "nodeType",
-        "nodeAffinityRequired",
-        "podAffinity",
-        "category",
-        "priorityClass",
-        "nodePools",
-        "environmentVariables",
-        "annotations",
-        "labels",
         "imagePullSecrets",
-        "tolerations",
-        "terminateAfterPreemption",
-        "autoDeletionTimeAfterCompletionSeconds",
-        "terminationGracePeriodSeconds",
-        "backoffLimit",
-        "restartPolicy",
+        "labels",
+        "nodeAffinityRequired",
+        "nodePools",
+        "nodeType",
+        "podAffinity",
         "ports",
-        "exposedUrls",
+        "priorityClass",
+        "probes",
         "relatedUrls",
+        "restartPolicy",
         "security",
-        "compute",
-        "storage",
-        "tty",
         "stdin",
-        "numWorkers",
+        "storage",
+        "terminateAfterPreemption",
+        "terminationGracePeriodSeconds",
+        "tolerations",
+        "tty",
+        "workingDir",
+        "cleanPodPolicy",
         "distributedFramework",
+        "maxReplicas",
+        "minReplicas",
+        "mpiLauncherCreationPolicy",
+        "numWorkers",
         "slotsPerWorker",
         "sshAuthMountPath",
-        "mpiLauncherCreationPolicy",
-        "minReplicas",
-        "maxReplicas",
-        "cleanPodPolicy",
     ]
+
+    @field_validator("args")
+    def args_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("category")
+    def category_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("command")
+    def command_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("image")
+    def image_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("node_type")
+    def node_type_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("priority_class")
+    def priority_class_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("working_dir")
+    def working_dir_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("ssh_auth_mount_path")
+    def ssh_auth_mount_path_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -511,57 +667,103 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of probes
-        if self.probes:
-            _dict["probes"] = self.probes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of annotations
+        if self.annotations:
+            _dict["annotations"] = self.annotations.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of compute
+        if self.compute:
+            _dict["compute"] = self.compute.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of environment_variables
+        if self.environment_variables:
+            _dict["environmentVariables"] = self.environment_variables.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of exposed_urls
+        if self.exposed_urls:
+            _dict["exposedUrls"] = self.exposed_urls.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of image_pull_secrets
+        if self.image_pull_secrets:
+            _dict["imagePullSecrets"] = self.image_pull_secrets.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of labels
+        if self.labels:
+            _dict["labels"] = self.labels.to_dict()
         # override the default output from pydantic by calling `to_dict()` of node_affinity_required
         if self.node_affinity_required:
             _dict["nodeAffinityRequired"] = self.node_affinity_required.to_dict()
         # override the default output from pydantic by calling `to_dict()` of pod_affinity
         if self.pod_affinity:
             _dict["podAffinity"] = self.pod_affinity.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of environment_variables
-        if self.environment_variables:
-            _dict["environmentVariables"] = self.environment_variables.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of annotations
-        if self.annotations:
-            _dict["annotations"] = self.annotations.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of labels
-        if self.labels:
-            _dict["labels"] = self.labels.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of image_pull_secrets
-        if self.image_pull_secrets:
-            _dict["imagePullSecrets"] = self.image_pull_secrets.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of tolerations
-        if self.tolerations:
-            _dict["tolerations"] = self.tolerations.to_dict()
         # override the default output from pydantic by calling `to_dict()` of ports
         if self.ports:
             _dict["ports"] = self.ports.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of exposed_urls
-        if self.exposed_urls:
-            _dict["exposedUrls"] = self.exposed_urls.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of probes
+        if self.probes:
+            _dict["probes"] = self.probes.to_dict()
         # override the default output from pydantic by calling `to_dict()` of related_urls
         if self.related_urls:
             _dict["relatedUrls"] = self.related_urls.to_dict()
         # override the default output from pydantic by calling `to_dict()` of security
         if self.security:
             _dict["security"] = self.security.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of compute
-        if self.compute:
-            _dict["compute"] = self.compute.to_dict()
         # override the default output from pydantic by calling `to_dict()` of storage
         if self.storage:
             _dict["storage"] = self.storage.to_dict()
-        # set to None if command (nullable) is None
+        # override the default output from pydantic by calling `to_dict()` of tolerations
+        if self.tolerations:
+            _dict["tolerations"] = self.tolerations.to_dict()
+        # set to None if annotations (nullable) is None
         # and model_fields_set contains the field
-        if self.command is None and "command" in self.model_fields_set:
-            _dict["command"] = None
+        if self.annotations is None and "annotations" in self.model_fields_set:
+            _dict["annotations"] = None
 
         # set to None if args (nullable) is None
         # and model_fields_set contains the field
         if self.args is None and "args" in self.model_fields_set:
             _dict["args"] = None
+
+        # set to None if auto_deletion_time_after_completion_seconds (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.auto_deletion_time_after_completion_seconds is None
+            and "auto_deletion_time_after_completion_seconds" in self.model_fields_set
+        ):
+            _dict["autoDeletionTimeAfterCompletionSeconds"] = None
+
+        # set to None if backoff_limit (nullable) is None
+        # and model_fields_set contains the field
+        if self.backoff_limit is None and "backoff_limit" in self.model_fields_set:
+            _dict["backoffLimit"] = None
+
+        # set to None if category (nullable) is None
+        # and model_fields_set contains the field
+        if self.category is None and "category" in self.model_fields_set:
+            _dict["category"] = None
+
+        # set to None if command (nullable) is None
+        # and model_fields_set contains the field
+        if self.command is None and "command" in self.model_fields_set:
+            _dict["command"] = None
+
+        # set to None if compute (nullable) is None
+        # and model_fields_set contains the field
+        if self.compute is None and "compute" in self.model_fields_set:
+            _dict["compute"] = None
+
+        # set to None if create_home_dir (nullable) is None
+        # and model_fields_set contains the field
+        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
+            _dict["createHomeDir"] = None
+
+        # set to None if environment_variables (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.environment_variables is None
+            and "environment_variables" in self.model_fields_set
+        ):
+            _dict["environmentVariables"] = None
+
+        # set to None if exposed_urls (nullable) is None
+        # and model_fields_set contains the field
+        if self.exposed_urls is None and "exposed_urls" in self.model_fields_set:
+            _dict["exposedUrls"] = None
 
         # set to None if image (nullable) is None
         # and model_fields_set contains the field
@@ -576,25 +778,18 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
         ):
             _dict["imagePullPolicy"] = None
 
-        # set to None if working_dir (nullable) is None
+        # set to None if image_pull_secrets (nullable) is None
         # and model_fields_set contains the field
-        if self.working_dir is None and "working_dir" in self.model_fields_set:
-            _dict["workingDir"] = None
+        if (
+            self.image_pull_secrets is None
+            and "image_pull_secrets" in self.model_fields_set
+        ):
+            _dict["imagePullSecrets"] = None
 
-        # set to None if create_home_dir (nullable) is None
+        # set to None if labels (nullable) is None
         # and model_fields_set contains the field
-        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
-            _dict["createHomeDir"] = None
-
-        # set to None if probes (nullable) is None
-        # and model_fields_set contains the field
-        if self.probes is None and "probes" in self.model_fields_set:
-            _dict["probes"] = None
-
-        # set to None if node_type (nullable) is None
-        # and model_fields_set contains the field
-        if self.node_type is None and "node_type" in self.model_fields_set:
-            _dict["nodeType"] = None
+        if self.labels is None and "labels" in self.model_fields_set:
+            _dict["labels"] = None
 
         # set to None if node_affinity_required (nullable) is None
         # and model_fields_set contains the field
@@ -604,56 +799,60 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
         ):
             _dict["nodeAffinityRequired"] = None
 
+        # set to None if node_pools (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_pools is None and "node_pools" in self.model_fields_set:
+            _dict["nodePools"] = None
+
+        # set to None if node_type (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_type is None and "node_type" in self.model_fields_set:
+            _dict["nodeType"] = None
+
         # set to None if pod_affinity (nullable) is None
         # and model_fields_set contains the field
         if self.pod_affinity is None and "pod_affinity" in self.model_fields_set:
             _dict["podAffinity"] = None
 
-        # set to None if category (nullable) is None
+        # set to None if ports (nullable) is None
         # and model_fields_set contains the field
-        if self.category is None and "category" in self.model_fields_set:
-            _dict["category"] = None
+        if self.ports is None and "ports" in self.model_fields_set:
+            _dict["ports"] = None
 
         # set to None if priority_class (nullable) is None
         # and model_fields_set contains the field
         if self.priority_class is None and "priority_class" in self.model_fields_set:
             _dict["priorityClass"] = None
 
-        # set to None if node_pools (nullable) is None
+        # set to None if probes (nullable) is None
         # and model_fields_set contains the field
-        if self.node_pools is None and "node_pools" in self.model_fields_set:
-            _dict["nodePools"] = None
+        if self.probes is None and "probes" in self.model_fields_set:
+            _dict["probes"] = None
 
-        # set to None if environment_variables (nullable) is None
+        # set to None if related_urls (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.environment_variables is None
-            and "environment_variables" in self.model_fields_set
-        ):
-            _dict["environmentVariables"] = None
+        if self.related_urls is None and "related_urls" in self.model_fields_set:
+            _dict["relatedUrls"] = None
 
-        # set to None if annotations (nullable) is None
+        # set to None if restart_policy (nullable) is None
         # and model_fields_set contains the field
-        if self.annotations is None and "annotations" in self.model_fields_set:
-            _dict["annotations"] = None
+        if self.restart_policy is None and "restart_policy" in self.model_fields_set:
+            _dict["restartPolicy"] = None
 
-        # set to None if labels (nullable) is None
+        # set to None if security (nullable) is None
         # and model_fields_set contains the field
-        if self.labels is None and "labels" in self.model_fields_set:
-            _dict["labels"] = None
+        if self.security is None and "security" in self.model_fields_set:
+            _dict["security"] = None
 
-        # set to None if image_pull_secrets (nullable) is None
+        # set to None if stdin (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.image_pull_secrets is None
-            and "image_pull_secrets" in self.model_fields_set
-        ):
-            _dict["imagePullSecrets"] = None
+        if self.stdin is None and "stdin" in self.model_fields_set:
+            _dict["stdin"] = None
 
-        # set to None if tolerations (nullable) is None
+        # set to None if storage (nullable) is None
         # and model_fields_set contains the field
-        if self.tolerations is None and "tolerations" in self.model_fields_set:
-            _dict["tolerations"] = None
+        if self.storage is None and "storage" in self.model_fields_set:
+            _dict["storage"] = None
 
         # set to None if terminate_after_preemption (nullable) is None
         # and model_fields_set contains the field
@@ -663,14 +862,6 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
         ):
             _dict["terminateAfterPreemption"] = None
 
-        # set to None if auto_deletion_time_after_completion_seconds (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.auto_deletion_time_after_completion_seconds is None
-            and "auto_deletion_time_after_completion_seconds" in self.model_fields_set
-        ):
-            _dict["autoDeletionTimeAfterCompletionSeconds"] = None
-
         # set to None if termination_grace_period_seconds (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -679,60 +870,28 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
         ):
             _dict["terminationGracePeriodSeconds"] = None
 
-        # set to None if backoff_limit (nullable) is None
+        # set to None if tolerations (nullable) is None
         # and model_fields_set contains the field
-        if self.backoff_limit is None and "backoff_limit" in self.model_fields_set:
-            _dict["backoffLimit"] = None
-
-        # set to None if restart_policy (nullable) is None
-        # and model_fields_set contains the field
-        if self.restart_policy is None and "restart_policy" in self.model_fields_set:
-            _dict["restartPolicy"] = None
-
-        # set to None if ports (nullable) is None
-        # and model_fields_set contains the field
-        if self.ports is None and "ports" in self.model_fields_set:
-            _dict["ports"] = None
-
-        # set to None if exposed_urls (nullable) is None
-        # and model_fields_set contains the field
-        if self.exposed_urls is None and "exposed_urls" in self.model_fields_set:
-            _dict["exposedUrls"] = None
-
-        # set to None if related_urls (nullable) is None
-        # and model_fields_set contains the field
-        if self.related_urls is None and "related_urls" in self.model_fields_set:
-            _dict["relatedUrls"] = None
-
-        # set to None if security (nullable) is None
-        # and model_fields_set contains the field
-        if self.security is None and "security" in self.model_fields_set:
-            _dict["security"] = None
-
-        # set to None if compute (nullable) is None
-        # and model_fields_set contains the field
-        if self.compute is None and "compute" in self.model_fields_set:
-            _dict["compute"] = None
-
-        # set to None if storage (nullable) is None
-        # and model_fields_set contains the field
-        if self.storage is None and "storage" in self.model_fields_set:
-            _dict["storage"] = None
+        if self.tolerations is None and "tolerations" in self.model_fields_set:
+            _dict["tolerations"] = None
 
         # set to None if tty (nullable) is None
         # and model_fields_set contains the field
         if self.tty is None and "tty" in self.model_fields_set:
             _dict["tty"] = None
 
-        # set to None if stdin (nullable) is None
+        # set to None if working_dir (nullable) is None
         # and model_fields_set contains the field
-        if self.stdin is None and "stdin" in self.model_fields_set:
-            _dict["stdin"] = None
+        if self.working_dir is None and "working_dir" in self.model_fields_set:
+            _dict["workingDir"] = None
 
-        # set to None if num_workers (nullable) is None
+        # set to None if clean_pod_policy (nullable) is None
         # and model_fields_set contains the field
-        if self.num_workers is None and "num_workers" in self.model_fields_set:
-            _dict["numWorkers"] = None
+        if (
+            self.clean_pod_policy is None
+            and "clean_pod_policy" in self.model_fields_set
+        ):
+            _dict["cleanPodPolicy"] = None
 
         # set to None if distributed_framework (nullable) is None
         # and model_fields_set contains the field
@@ -741,6 +900,29 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
             and "distributed_framework" in self.model_fields_set
         ):
             _dict["distributedFramework"] = None
+
+        # set to None if max_replicas (nullable) is None
+        # and model_fields_set contains the field
+        if self.max_replicas is None and "max_replicas" in self.model_fields_set:
+            _dict["maxReplicas"] = None
+
+        # set to None if min_replicas (nullable) is None
+        # and model_fields_set contains the field
+        if self.min_replicas is None and "min_replicas" in self.model_fields_set:
+            _dict["minReplicas"] = None
+
+        # set to None if mpi_launcher_creation_policy (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.mpi_launcher_creation_policy is None
+            and "mpi_launcher_creation_policy" in self.model_fields_set
+        ):
+            _dict["mpiLauncherCreationPolicy"] = None
+
+        # set to None if num_workers (nullable) is None
+        # and model_fields_set contains the field
+        if self.num_workers is None and "num_workers" in self.model_fields_set:
+            _dict["numWorkers"] = None
 
         # set to None if slots_per_worker (nullable) is None
         # and model_fields_set contains the field
@@ -758,32 +940,6 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
         ):
             _dict["sshAuthMountPath"] = None
 
-        # set to None if mpi_launcher_creation_policy (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.mpi_launcher_creation_policy is None
-            and "mpi_launcher_creation_policy" in self.model_fields_set
-        ):
-            _dict["mpiLauncherCreationPolicy"] = None
-
-        # set to None if min_replicas (nullable) is None
-        # and model_fields_set contains the field
-        if self.min_replicas is None and "min_replicas" in self.model_fields_set:
-            _dict["minReplicas"] = None
-
-        # set to None if max_replicas (nullable) is None
-        # and model_fields_set contains the field
-        if self.max_replicas is None and "max_replicas" in self.model_fields_set:
-            _dict["maxReplicas"] = None
-
-        # set to None if clean_pod_policy (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.clean_pod_policy is None
-            and "clean_pod_policy" in self.model_fields_set
-        ):
-            _dict["cleanPodPolicy"] = None
-
         return _dict
 
     @classmethod
@@ -797,68 +953,27 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "command": obj.get("command"),
-                "args": obj.get("args"),
-                "image": obj.get("image"),
-                "imagePullPolicy": obj.get("imagePullPolicy"),
-                "workingDir": obj.get("workingDir"),
-                "createHomeDir": obj.get("createHomeDir"),
-                "probes": (
-                    Probes.from_dict(obj["probes"])
-                    if obj.get("probes") is not None
-                    else None
-                ),
-                "nodeType": obj.get("nodeType"),
-                "nodeAffinityRequired": (
-                    NodeAffinityRequired.from_dict(obj["nodeAffinityRequired"])
-                    if obj.get("nodeAffinityRequired") is not None
-                    else None
-                ),
-                "podAffinity": (
-                    PodAffinity.from_dict(obj["podAffinity"])
-                    if obj.get("podAffinity") is not None
-                    else None
-                ),
-                "category": obj.get("category"),
-                "priorityClass": obj.get("priorityClass"),
-                "nodePools": obj.get("nodePools"),
-                "environmentVariables": (
-                    EnvironmentVariablesDefaults.from_dict(obj["environmentVariables"])
-                    if obj.get("environmentVariables") is not None
-                    else None
-                ),
                 "annotations": (
                     AnnotationsDefaults.from_dict(obj["annotations"])
                     if obj.get("annotations") is not None
                     else None
                 ),
-                "labels": (
-                    LabelsDefaults.from_dict(obj["labels"])
-                    if obj.get("labels") is not None
-                    else None
-                ),
-                "imagePullSecrets": (
-                    ImagePullSecretsDefaults.from_dict(obj["imagePullSecrets"])
-                    if obj.get("imagePullSecrets") is not None
-                    else None
-                ),
-                "tolerations": (
-                    TolerationsDefaults.from_dict(obj["tolerations"])
-                    if obj.get("tolerations") is not None
-                    else None
-                ),
-                "terminateAfterPreemption": obj.get("terminateAfterPreemption"),
+                "args": obj.get("args"),
                 "autoDeletionTimeAfterCompletionSeconds": obj.get(
                     "autoDeletionTimeAfterCompletionSeconds"
                 ),
-                "terminationGracePeriodSeconds": obj.get(
-                    "terminationGracePeriodSeconds"
-                ),
                 "backoffLimit": obj.get("backoffLimit"),
-                "restartPolicy": obj.get("restartPolicy"),
-                "ports": (
-                    PortsDefaults.from_dict(obj["ports"])
-                    if obj.get("ports") is not None
+                "category": obj.get("category"),
+                "command": obj.get("command"),
+                "compute": (
+                    SupersetDefaultsAllOfCompute.from_dict(obj["compute"])
+                    if obj.get("compute") is not None
+                    else None
+                ),
+                "createHomeDir": obj.get("createHomeDir"),
+                "environmentVariables": (
+                    EnvironmentVariablesDefaults.from_dict(obj["environmentVariables"])
+                    if obj.get("environmentVariables") is not None
                     else None
                 ),
                 "exposedUrls": (
@@ -866,30 +981,75 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
                     if obj.get("exposedUrls") is not None
                     else None
                 ),
+                "image": obj.get("image"),
+                "imagePullPolicy": obj.get("imagePullPolicy"),
+                "imagePullSecrets": (
+                    ImagePullSecretsDefaults.from_dict(obj["imagePullSecrets"])
+                    if obj.get("imagePullSecrets") is not None
+                    else None
+                ),
+                "labels": (
+                    LabelsDefaults.from_dict(obj["labels"])
+                    if obj.get("labels") is not None
+                    else None
+                ),
+                "nodeAffinityRequired": (
+                    NodeAffinityRequired.from_dict(obj["nodeAffinityRequired"])
+                    if obj.get("nodeAffinityRequired") is not None
+                    else None
+                ),
+                "nodePools": obj.get("nodePools"),
+                "nodeType": obj.get("nodeType"),
+                "podAffinity": (
+                    PodAffinity.from_dict(obj["podAffinity"])
+                    if obj.get("podAffinity") is not None
+                    else None
+                ),
+                "ports": (
+                    PortsDefaults.from_dict(obj["ports"])
+                    if obj.get("ports") is not None
+                    else None
+                ),
+                "priorityClass": obj.get("priorityClass"),
+                "probes": (
+                    Probes.from_dict(obj["probes"])
+                    if obj.get("probes") is not None
+                    else None
+                ),
                 "relatedUrls": (
                     RelatedUrlsDefaults.from_dict(obj["relatedUrls"])
                     if obj.get("relatedUrls") is not None
                     else None
                 ),
+                "restartPolicy": obj.get("restartPolicy"),
                 "security": (
-                    SecurityFlatFields.from_dict(obj["security"])
+                    SupersetSpecAllOfSecurity.from_dict(obj["security"])
                     if obj.get("security") is not None
                     else None
                 ),
-                "compute": (
-                    ComputeFieldsDefaults.from_dict(obj["compute"])
-                    if obj.get("compute") is not None
-                    else None
-                ),
+                "stdin": obj.get("stdin"),
                 "storage": (
-                    StorageFieldsDefaults.from_dict(obj["storage"])
+                    SupersetDefaultsAllOfStorage.from_dict(obj["storage"])
                     if obj.get("storage") is not None
                     else None
                 ),
+                "terminateAfterPreemption": obj.get("terminateAfterPreemption"),
+                "terminationGracePeriodSeconds": obj.get(
+                    "terminationGracePeriodSeconds"
+                ),
+                "tolerations": (
+                    TolerationsDefaults.from_dict(obj["tolerations"])
+                    if obj.get("tolerations") is not None
+                    else None
+                ),
                 "tty": obj.get("tty"),
-                "stdin": obj.get("stdin"),
-                "numWorkers": obj.get("numWorkers"),
+                "workingDir": obj.get("workingDir"),
+                "cleanPodPolicy": obj.get("cleanPodPolicy"),
                 "distributedFramework": obj.get("distributedFramework"),
+                "maxReplicas": obj.get("maxReplicas"),
+                "minReplicas": obj.get("minReplicas"),
+                "mpiLauncherCreationPolicy": obj.get("mpiLauncherCreationPolicy"),
+                "numWorkers": obj.get("numWorkers"),
                 "slotsPerWorker": (
                     obj.get("slotsPerWorker")
                     if obj.get("slotsPerWorker") is not None
@@ -900,10 +1060,6 @@ class DistributedPolicyDefaultsV2Worker(BaseModel):
                     if obj.get("sshAuthMountPath") is not None
                     else "/root/.ssh"
                 ),
-                "mpiLauncherCreationPolicy": obj.get("mpiLauncherCreationPolicy"),
-                "minReplicas": obj.get("minReplicas"),
-                "maxReplicas": obj.get("maxReplicas"),
-                "cleanPodPolicy": obj.get("cleanPodPolicy"),
             }
         )
         return _obj

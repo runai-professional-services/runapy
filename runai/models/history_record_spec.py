@@ -17,10 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from runai.models.event1 import Event1
-from runai.models.phase_update import PhaseUpdate
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -32,10 +31,8 @@ class HistoryRecordSpec(BaseModel):
     Parameters:
         ```python
         event: Optional[Event1]
-        phase_update: Optional[PhaseUpdate]
         ```
         event: See model Event1 for more information.
-        phase_update: See model PhaseUpdate for more information.
     Example:
         ```python
         HistoryRecordSpec(
@@ -51,17 +48,13 @@ class HistoryRecordSpec(BaseModel):
                         uid = '',
                         kind = 'Pod',
                         name = 'test-0-1',
-                        namespace = 'runai-test', ), ),
-                        phase_update=runai.models.phase_update.PhaseUpdate(
-                    phase = 'Creating',
-                    phase_message = 'Not enough resources in the requested nodepool', )
+                        namespace = 'runai-test', ), )
         )
         ```
     """  # noqa: E501
 
     event: Optional[Event1] = None
-    phase_update: Optional[PhaseUpdate] = Field(default=None, alias="phaseUpdate")
-    __properties: ClassVar[List[str]] = ["event", "phaseUpdate"]
+    __properties: ClassVar[List[str]] = ["event"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -103,18 +96,10 @@ class HistoryRecordSpec(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of event
         if self.event:
             _dict["event"] = self.event.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of phase_update
-        if self.phase_update:
-            _dict["phaseUpdate"] = self.phase_update.to_dict()
         # set to None if event (nullable) is None
         # and model_fields_set contains the field
         if self.event is None and "event" in self.model_fields_set:
             _dict["event"] = None
-
-        # set to None if phase_update (nullable) is None
-        # and model_fields_set contains the field
-        if self.phase_update is None and "phase_update" in self.model_fields_set:
-            _dict["phaseUpdate"] = None
 
         return _dict
 
@@ -133,12 +118,7 @@ class HistoryRecordSpec(BaseModel):
                     Event1.from_dict(obj["event"])
                     if obj.get("event") is not None
                     else None
-                ),
-                "phaseUpdate": (
-                    PhaseUpdate.from_dict(obj["phaseUpdate"])
-                    if obj.get("phaseUpdate") is not None
-                    else None
-                ),
+                )
             }
         )
         return _obj

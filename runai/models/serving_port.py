@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.serving_port_access_authorization_type_enum import (
@@ -68,12 +68,12 @@ class ServingPort(BaseModel):
     authorization_type: Optional[ServingPortAccessAuthorizationTypeEnum] = Field(
         default=None, alias="authorizationType"
     )
-    authorized_users: Optional[List[StrictStr]] = Field(
+    authorized_users: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
         default=None,
         description="List of users that are allowed to access the URL. Note that authorizedUsers and authorizedGroups are mutually exclusive.",
         alias="authorizedUsers",
     )
-    authorized_groups: Optional[List[StrictStr]] = Field(
+    authorized_groups: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
         default=None,
         description="List of groups that are allowed to access the URL. Note that authorizedUsers and authorizedGroups are mutually exclusive.",
         alias="authorizedGroups",

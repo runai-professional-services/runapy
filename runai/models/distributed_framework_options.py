@@ -41,7 +41,7 @@ class DistributedFrameworkOptions(BaseModel):
             options=[
                     runai.models.distributed_framework_options_options_inner.DistributedFrameworkOptions_options_inner(
                         value = 'MPI',
-                        displayed = '', )
+                        displayed = 'jUR,rZ#UM/?R,Fp^l6$ARj', )
                     ]
         )
         ```

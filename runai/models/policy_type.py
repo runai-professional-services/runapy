@@ -32,6 +32,8 @@ class PolicyType(str, Enum):
 
     INFERENCE = 'inference'
 
+    DISTRIBUTEDINFERENCE = 'distributedInference'
+
     FALLBACK = 'fallback'
 
 
@@ -41,6 +43,7 @@ class PolicyType(str, Enum):
         PolicyType.TRAINING
         PolicyType.DISTRIBUTED
         PolicyType.INFERENCE
+        PolicyType.DISTRIBUTEDINFERENCE
         PolicyType.FALLBACK
         ```
     """
@@ -49,6 +52,7 @@ class PolicyType(str, Enum):
     TRAINING = "training"
     DISTRIBUTED = "distributed"
     INFERENCE = "inference"
+    DISTRIBUTEDINFERENCE = "distributedInference"
     FALLBACK = "fallback"
 
     @classmethod

@@ -28,16 +28,20 @@ class ReplicaType(str, Enum):
 
     WORKER = 'Worker'
 
+    LEADER = 'Leader'
+
 
     Example:
         ```python
         ReplicaType.MASTER
         ReplicaType.WORKER
+        ReplicaType.LEADER
         ```
     """
 
     MASTER = "Master"
     WORKER = "Worker"
+    LEADER = "Leader"
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

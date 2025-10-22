@@ -52,6 +52,22 @@ class TestNodepoolSyncFieldsStatus(unittest.TestCase):
                     reserved_gpu_memory_for_swap_operations="2G",
                     node_level_scheduler_enabled=True,
                 ),
+                scheduling_configuration=runai.models.scheduling_configuration.SchedulingConfiguration(
+                    placement_strategy=runai.models.scheduling_configuration_placement_strategy.SchedulingConfiguration_placementStrategy(
+                        cpu="spread",
+                        gpu="spread",
+                    ),
+                    min_guaranteed_runtime="5d8h40m",
+                ),
+                conditions=[
+                    runai.models.nodepool_condition_details.NodepoolConditionDetails(
+                        type="",
+                        reason="TopologyMismatch",
+                        message="Network Topology labels mismatch",
+                        status="True",
+                        nodes=["node1", "node2"],
+                    )
+                ],
                 gpu_network_acceleration_detected=True,
                 nodes=["node1"],
             )

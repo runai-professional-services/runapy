@@ -30,7 +30,7 @@ def example_create_git_asset():
         # Create example data for GitCreationRequest
         git_creation_request = models.GitCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-            spec = {path=/container/my-repository, repository=https://github.com/my-git/my-repo, branch=main, passwordAssetId=046b6c7f-0b8a-43b9-b35d-6489e6daee91, revision=revision}
+            spec = {path=/container/my-repository, credentialId=046b6c7f-0b8a-43b9-b35d-6489e6daee91, repository=https://github.com/my-git/my-repo, branch=main, passwordAssetId=046b6c7f-0b8a-43b9-b35d-6489e6daee91, revision=revision}
         )
 
         # Make the API call
@@ -279,7 +279,7 @@ def example_update_git_asset_by_id():
         # Create example data for GitUpdateRequest
         git_update_request = models.GitUpdateRequest(
             meta = {"name":"my-asset"},
-            spec = {path=/container/my-repository, repository=https://github.com/my-git/my-repo, branch=main, passwordAssetId=046b6c7f-0b8a-43b9-b35d-6489e6daee91, revision=revision}
+            spec = {path=/container/my-repository, credentialId=046b6c7f-0b8a-43b9-b35d-6489e6daee91, repository=https://github.com/my-git/my-repo, branch=main, passwordAssetId=046b6c7f-0b8a-43b9-b35d-6489e6daee91, revision=revision}
         )
 
         # Make the API call

@@ -45,6 +45,31 @@ def example_count_nodes():
         print(f"Exception when calling count_nodes: {e}")
 
 
+def example_count_tenant_nodes():
+    """
+    Example of using count_tenant_nodes
+
+    Count tenant nodes
+    Count nodes from all the Kubernetes clusters of the tenant.
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        search = "example_search"
+
+        # Make the API call
+        api_response = api_instance.count_tenant_nodes(
+            filter_by=filter_by,
+            search=search,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_tenant_nodes: {e}")
+
+
 def example_get_node_metrics():
     """
     Example of using get_node_metrics
@@ -112,7 +137,7 @@ def example_get_nodes():
     Example of using get_nodes
 
     Get a list of nodes.
-    Retrieve a list of nodes from the Kubernetes cluster.
+    Retrieve a list of nodes from the Kubernetes cluster. Deprecated - use &#x60;/api/v1/nodes&#x60; instead.
     """
     try:
         # Prepare the request parameters
@@ -145,3 +170,38 @@ def example_get_nodes():
 
     except Exception as e:
         print(f"Exception when calling get_nodes: {e}")
+
+
+def example_get_tenant_nodes():
+    """
+    Example of using get_tenant_nodes
+
+    Get a list of nodes.
+    Retrieve a list of nodes from all the Kubernetes clusters of the tenant.
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        sort_order = "example_sort_order"
+
+        offset = 42
+
+        limit = 42
+
+        search = "example_search"
+
+        # Make the API call
+        api_response = api_instance.get_tenant_nodes(
+            filter_by=filter_by,
+            sort_by=sort_by,
+            sort_order=sort_order,
+            offset=offset,
+            limit=limit,
+            search=search,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_tenant_nodes: {e}")

@@ -29,26 +29,12 @@ class TestApplicationsApi(unittest.TestCase):
     def test_create_application(self) -> None:
         """Test case for create_application
 
-        Create a new app.
-        """
-        pass
-
-    def test_create_application_0(self) -> None:
-        """Test case for create_application_0
-
         Create an application.
         """
         pass
 
     def test_delete_application_by_id(self) -> None:
         """Test case for delete_application_by_id
-
-        Delete a App.
-        """
-        pass
-
-    def test_delete_application_by_id_0(self) -> None:
-        """Test case for delete_application_by_id_0
 
         Delete an application by id.
         """
@@ -57,13 +43,6 @@ class TestApplicationsApi(unittest.TestCase):
     def test_get_application_by_id(self) -> None:
         """Test case for get_application_by_id
 
-        Get app details.
-        """
-        pass
-
-    def test_get_application_by_id_0(self) -> None:
-        """Test case for get_application_by_id_0
-
         Get application by id.
         """
         pass
@@ -71,21 +50,7 @@ class TestApplicationsApi(unittest.TestCase):
     def test_get_applications(self) -> None:
         """Test case for get_applications
 
-        Get Apps list.
-        """
-        pass
-
-    def test_get_applications_0(self) -> None:
-        """Test case for get_applications_0
-
         Get a list of applications.
-        """
-        pass
-
-    def test_get_installer_app(self) -> None:
-        """Test case for get_installer_app
-
-        Get a list of installer applications.
         """
         pass
 
@@ -96,22 +61,8 @@ class TestApplicationsApi(unittest.TestCase):
         """
         pass
 
-    def test_reset_app_secret(self) -> None:
-        """Test case for reset_app_secret
-
-        Re-generate secret of application.
-        """
-        pass
-
     def test_update_application_by_id(self) -> None:
         """Test case for update_application_by_id
-
-        Update app details.
-        """
-        pass
-
-    def test_update_application_by_id_0(self) -> None:
-        """Test case for update_application_by_id_0
 
         Update application details by id.
         """

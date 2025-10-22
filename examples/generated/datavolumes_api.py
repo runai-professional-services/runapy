@@ -82,7 +82,7 @@ def example_datavolume_name_availability():
     Example of using datavolume_name_availability
 
     Data volumes name availability.
-    Check if a given data volume name creates naming conflicts under the given scope. Returns conflict (409) in case the name is not available, or 204 (no content) if it is ok.
+    Checks if a specified data volume name is available under the given scope (e.g., project or department). Returns a 204 No Content response if the name is available, or 409 Conflict if the name is already in use.
     """
     try:
         # Prepare the request parameters

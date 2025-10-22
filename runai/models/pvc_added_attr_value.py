@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -45,7 +45,7 @@ class PvcAddedAttrValue(BaseModel):
     """  # noqa: E501
 
     key: Annotated[str, Field(min_length=1, strict=True, max_length=63)]
-    value: Optional[StrictStr] = None
+    value: Optional[Annotated[str, Field(strict=True)]] = None
     __properties: ClassVar[List[str]] = ["key", "value"]
 
     @field_validator("key")
@@ -55,6 +55,16 @@ class PvcAddedAttrValue(BaseModel):
             raise ValueError(
                 r"must validate the regular expression /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/"
             )
+        return value
+
+    @field_validator("value")
+    def value_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
         return value
 
     model_config = ConfigDict(

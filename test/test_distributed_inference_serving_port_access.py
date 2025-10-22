@@ -43,7 +43,7 @@ class TestDistributedInferenceServingPortAccess(unittest.TestCase):
                 authorized_users=["user.a@example.com", "user.b@example.com"],
                 authorized_groups=["group-a", "group-b"],
                 expose_externally=True,
-                exposed_url="",
+                exposed_url="jUR,rZ#UM/?R,Fp^l6$ARj",
             )
         else:
             return DistributedInferenceServingPortAccess()

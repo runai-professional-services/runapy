@@ -39,6 +39,7 @@ class TestUserCreationRequest1(unittest.TestCase):
             return UserCreationRequest1(
                 email="A@9LCSLv1C1ylmgd0.Y2TA5TkIRHRRA401iz1CiIy.dNTRddzXYdswQltRTtwKQzBuNJxBelKTmfIQcBkWgeAShmXXoTaDzlkczbtHjkljEhQVqeWYqqMQZlEQb",
                 reset_password=True,
+                notify=True,
             )
         else:
             return UserCreationRequest1(

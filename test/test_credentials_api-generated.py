@@ -195,6 +195,59 @@ class TestCredentialsApi:
             )
         assert exc_info.value.status == 400
 
+    def test_create_ngc_api_key(self):
+        """Test case for create_ngc_api_key
+
+        Create a ngc-api-key. Use to create a ngc-api-key asset.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        ngc_api_key_creation_request = (
+            runai.NgcApiKeyCreationRequest()
+        )  # NgcApiKeyCreationRequest |
+
+        # Make request
+        response = self.api.create_ngc_api_key(
+            ngc_api_key_creation_request=ngc_api_key_creation_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/asset/credentials/ngc-api-key" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, NgcApiKey)
+
+    def test_create_ngc_api_key_error(self):
+        """Test error handling for create_ngc_api_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        ngc_api_key_creation_request = runai.NgcApiKeyCreationRequest()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.create_ngc_api_key(
+                ngc_api_key_creation_request=ngc_api_key_creation_request,
+            )
+        assert exc_info.value.status == 400
+
     def test_create_password(self):
         """Test case for create_password
 
@@ -385,6 +438,51 @@ class TestCredentialsApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.delete_generic_secret(
+                asset_id=asset_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_delete_ngc_api_key(self):
+        """Test case for delete_ngc_api_key
+
+        Delete a ngc-api-key. Use to delete a ngc-api-key asset, by id.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+
+        # Make request
+        self.api.delete_ngc_api_key(
+            asset_id=asset_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "DELETE"
+        assert "/api/v1/asset/credentials/ngc-api-key/{AssetId}" in kwargs["url"]
+
+    def test_delete_ngc_api_key_error(self):
+        """Test error handling for delete_ngc_api_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        asset_id = "asset_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.delete_ngc_api_key(
                 asset_id=asset_id,
             )
         assert exc_info.value.status == 400
@@ -598,6 +696,61 @@ class TestCredentialsApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_generic_secret_by_id(
+                asset_id=asset_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_ngc_api_key_by_id(self):
+        """Test case for get_ngc_api_key_by_id
+
+        Get a ngc-api-key. Returns the details of a ngc-api-key asset, by id.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
+        status_info = True  # bool | Whether the query should include asset status information as part of the response.
+
+        # Make request
+        response = self.api.get_ngc_api_key_by_id(
+            asset_id=asset_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/asset/credentials/ngc-api-key/{AssetId}" in kwargs["url"]
+
+        # Verify query parameters
+        assert "usageInfo=" in kwargs["url"]
+        # Verify query parameters
+        assert "statusInfo=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, NgcApiKey)
+
+    def test_get_ngc_api_key_by_id_error(self):
+        """Test error handling for get_ngc_api_key_by_id"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        asset_id = "asset_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_ngc_api_key_by_id(
                 asset_id=asset_id,
             )
         assert exc_info.value.status == 400
@@ -913,6 +1066,70 @@ class TestCredentialsApi:
             self.api.list_generic_secret()
         assert exc_info.value.status == 400
 
+    def test_list_ngc_api_key(self):
+        """Test case for list_ngc_api_key
+
+        List ngc-api-keys. Retrieve a list of ngcApiKey assets.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        name = "name_example"  # str | Filter results by name.
+        scope = "scope_example"  # str | Filter results by scope.
+        project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
+        department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
+        status_info = True  # bool | Whether the query should include asset status information as part of the response.
+
+        # Make request
+        response = self.api.list_ngc_api_key()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/asset/credentials/ngc-api-key" in kwargs["url"]
+
+        # Verify query parameters
+        assert "name=" in kwargs["url"]
+        # Verify query parameters
+        assert "scope=" in kwargs["url"]
+        # Verify query parameters
+        assert "projectId=" in kwargs["url"]
+        # Verify query parameters
+        assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "usageInfo=" in kwargs["url"]
+        # Verify query parameters
+        assert "statusInfo=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, NgcApiKeyListResponse)
+
+    def test_list_ngc_api_key_error(self):
+        """Test error handling for list_ngc_api_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.list_ngc_api_key()
+        assert exc_info.value.status == 400
+
     def test_list_passwords(self):
         """Test case for list_passwords
 
@@ -1145,6 +1362,63 @@ class TestCredentialsApi:
             self.api.update_generic_secret(
                 asset_id=asset_id,
                 generic_secret_update_request=generic_secret_update_request,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_ngc_api_key(self):
+        """Test case for update_ngc_api_key
+
+        Update a ngc-api-key. Updates the details of a ngc-api-key asset, by id.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        ngc_api_key_update_request = (
+            runai.NgcApiKeyUpdateRequest()
+        )  # NgcApiKeyUpdateRequest |
+
+        # Make request
+        response = self.api.update_ngc_api_key(
+            asset_id=asset_id,
+            ngc_api_key_update_request=ngc_api_key_update_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/asset/credentials/ngc-api-key/{AssetId}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, NgcApiKey)
+
+    def test_update_ngc_api_key_error(self):
+        """Test error handling for update_ngc_api_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        asset_id = "asset_id_example"
+        ngc_api_key_update_request = runai.NgcApiKeyUpdateRequest()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_ngc_api_key(
+                asset_id=asset_id,
+                ngc_api_key_update_request=ngc_api_key_update_request,
             )
         assert exc_info.value.status == 400
 

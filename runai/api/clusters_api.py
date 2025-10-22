@@ -178,6 +178,8 @@ class ClustersApi(RunaiAPIService):
         end: datetime,
         metric_type: List[models.MetricsType],
         number_of_samples: Optional[int] = None,
+        group_by: Optional[str] = None,
+        nodepool_name: Optional[str] = None,
     ):
         r"""
 
@@ -192,12 +194,16 @@ class ClustersApi(RunaiAPIService):
         end: Optional[datetime]
         metric_type: Optional[models.List[MetricsType]]
         number_of_samples: Optional[int]
+        group_by: Optional[str]
+        nodepool_name: Optional[str]
         ```
         cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
         start: Start date of time range to fetch data in ISO 8601 timestamp format.
         end: End date of time range to fetch data in ISO 8601 timestamp format.
         metric_type: specifies what data to request
         number_of_samples: The number of samples to take in the specified time range. - Default: 20
+        group_by: Labels to group the returned metrics data by. Grouping availability depends on the selected metric type. Supported values: \&quot;category\&quot; (workload category) or \&quot;node pool\&quot;.
+        nodepool_name: Filter using the nodepool.
 
         ### Example:
         ```python
@@ -206,7 +212,9 @@ class ClustersApi(RunaiAPIService):
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
                         metric_type=[runai.MetricsType()],
-                        number_of_samples=20
+                        number_of_samples=20,
+                        group_by='Category',
+                        nodepool_name='default'
         )
         ```
         """
@@ -217,6 +225,8 @@ class ClustersApi(RunaiAPIService):
             ("end", end),
             ("numberOfSamples", number_of_samples),
             ("metricType", metric_type),
+            ("groupBy", group_by),
+            ("nodepoolName", nodepool_name),
         ]
         resource_path = f"/api/v1/clusters/{cluster_uuid}/metrics".replace("_", "-")
         method = "GET"

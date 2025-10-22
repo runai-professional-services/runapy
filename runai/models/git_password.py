@@ -34,9 +34,9 @@ class GitPassword(BaseModel):
         secret_key_of_user: Optional[str]
         secret_key_of_password: Optional[str]
         ```
-        password_secret: Secret containing the credentials of the repository (needed for non public repository which requires authentication).
-        secret_key_of_user: The key to use for loading the user name from the secret. The default is &#x60;User&#x60;.
-        secret_key_of_password: The key to use for loading the password from the secret. The default is &#x60;Password&#x60;.
+        password_secret: Secret containing the credentials of the repository (needed for non public repository which requires authentication). (deprecated)
+        secret_key_of_user: The key to use for loading the user name from the secret. The default is &#x60;User&#x60;. (deprecated)
+        secret_key_of_password: The key to use for loading the password from the secret. The default is &#x60;Password&#x60;. (deprecated)
     Example:
         ```python
         GitPassword(
@@ -49,13 +49,13 @@ class GitPassword(BaseModel):
 
     password_secret: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
-        description="Secret containing the credentials of the repository (needed for non public repository which requires authentication).",
+        description="Secret containing the credentials of the repository (needed for non public repository which requires authentication). (deprecated)",
         alias="passwordSecret",
     )
     secret_key_of_user: Optional[Annotated[str, Field(min_length=1, strict=True)]] = (
         Field(
             default=None,
-            description="The key to use for loading the user name from the secret. The default is `User`.",
+            description="The key to use for loading the user name from the secret. The default is `User`. (deprecated)",
             alias="secretKeyOfUser",
         )
     )
@@ -63,7 +63,7 @@ class GitPassword(BaseModel):
         Annotated[str, Field(min_length=1, strict=True)]
     ] = Field(
         default=None,
-        description="The key to use for loading the password from the secret. The default is `Password`.",
+        description="The key to use for loading the password from the secret. The default is `Password`. (deprecated)",
         alias="secretKeyOfPassword",
     )
     __properties: ClassVar[List[str]] = [

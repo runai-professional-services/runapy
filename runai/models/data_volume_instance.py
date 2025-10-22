@@ -17,8 +17,16 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictStr,
+    field_validator,
+)
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -50,7 +58,7 @@ class DataVolumeInstance(BaseModel):
         default=None,
         description="The unique identifier of the data volume. (mandatory)",
     )
-    mount_path: Optional[StrictStr] = Field(
+    mount_path: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="The path where the data volume will be mounted. (mandatory)",
         alias="mountPath",
@@ -60,6 +68,16 @@ class DataVolumeInstance(BaseModel):
         description="Use 'true' in case the item is defined in defaults of the policy, and you wish to exclude it from the workload.",
     )
     __properties: ClassVar[List[str]] = ["id", "mountPath", "exclude"]
+
+    @field_validator("mount_path")
+    def mount_path_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

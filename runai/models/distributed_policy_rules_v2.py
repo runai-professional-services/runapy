@@ -33,23 +33,159 @@ class DistributedPolicyRulesV2(BaseModel):
 
     Parameters:
         ```python
-        worker: Optional[DistributedPolicyRulesV2Worker]
         master: Optional[ReplicaRulesV2]
+        worker: Optional[DistributedPolicyRulesV2Worker]
         ```
-        worker: See model DistributedPolicyRulesV2Worker for more information.
         master: See model ReplicaRulesV2 for more information.
+        worker: See model DistributedPolicyRulesV2Worker for more information.
     Example:
         ```python
         DistributedPolicyRulesV2(
-            worker=runai.models.distributed_policy_rules_v2_worker.DistributedPolicyRulesV2_worker(),
-                        master=runai.models.replica_rules_v2.ReplicaRulesV2()
+            master=runai.models.replica_rules_v2.ReplicaRulesV2(
+                    annotations = runai.models.instances_rules.InstancesRules(
+                        instances = runai.models.item_rules.ItemRules(
+                            source_of_rule = {"scope":"project","projectId":3},
+                            can_add = True,
+                            locked = ["HOME","USER"], ), ),
+                    args = runai.models.string_rules.StringRules(),
+                    auto_deletion_time_after_completion_seconds = runai.models.integer_rules.IntegerRules(
+                        required = True,
+                        can_edit = True,
+                        min = 56,
+                        max = 56,
+                        step = 56,
+                        default_from = runai.models.default_from_rule.DefaultFromRule(
+                            field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            factor = 1.337, ), ),
+                    backoff_limit = runai.models.integer_rules.IntegerRules(
+                        required = True,
+                        can_edit = True,
+                        min = 56,
+                        max = 56,
+                        step = 56, ),
+                    category = runai.models.string_rules.StringRules(),
+                    command = runai.models.string_rules.StringRules(),
+                    compute = runai.models.superset_rules_all_of_compute.SupersetRules_allOf_compute(
+                        cpu_core_limit = runai.models.number_rules.NumberRules(
+                            required = True,
+                            can_edit = True,
+                            min = 1.337,
+                            max = 1.337,
+                            step = 1.337, ),
+                        cpu_core_request = runai.models.number_rules.NumberRules(
+                            required = True,
+                            can_edit = True,
+                            min = 1.337,
+                            max = 1.337,
+                            step = 1.337, ),
+                        cpu_memory_limit = runai.models.quantity_rules.QuantityRules(
+                            required = True,
+                            can_edit = True,
+                            min = '+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598',
+                            max = '+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598', ),
+                        cpu_memory_request = runai.models.quantity_rules.QuantityRules(
+                            required = True,
+                            can_edit = True,
+                            min = '+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598',
+                            max = '+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598', ),
+                        extended_resources = runai.models.extended_resources_rules.ExtendedResourcesRules(
+                            attributes = runai.models.extended_resource_rules.ExtendedResourceRules(
+                                quantity = runai.models.string_rules.StringRules(), ), ),
+                        gpu_devices_request = ,
+                        gpu_memory_limit = ,
+                        gpu_memory_request = ,
+                        gpu_portion_limit = ,
+                        gpu_portion_request = ,
+                        gpu_request_type = runai.models.gpu_request_rules.GpuRequestRules(),
+                        large_shm_request = runai.models.boolean_rules.BooleanRules(
+                            required = True,
+                            can_edit = True, ),
+                        mig_profile = null, ),
+                    create_home_dir = runai.models.boolean_rules.BooleanRules(
+                        required = True,
+                        can_edit = True, ),
+                    environment_variables = runai.models.instances_rules.InstancesRules(),
+                    exposed_urls = runai.models.exposed_urls_rules.ExposedUrlsRules(),
+                    image = runai.models.string_rules.StringRules(),
+                    image_pull_policy = runai.models.image_pull_policy_rules.ImagePullPolicyRules(),
+                    image_pull_secrets = runai.models.image_pull_secrets_rules.ImagePullSecretsRules(),
+                    labels = ,
+                    node_affinity_required = runai.models.arbitrary_rules.ArbitraryRules(
+                        required = True,
+                        can_edit = True, ),
+                    node_pools = runai.models.array_rules.ArrayRules(
+                        required = True,
+                        options = [
+                            {"value":"value","displayed":"A description of the value."}
+                            ],
+                        can_edit = True, ),
+                    node_type = runai.models.string_rules.StringRules(),
+                    pod_affinity = runai.models.pod_affinity_rules.PodAffinityRules(
+                        type = runai.models.pod_affinity_type_rules.PodAffinityTypeRules(),
+                        key = runai.models.string_rules.StringRules(), ),
+                    ports = runai.models.ports_rules.PortsRules(),
+                    priority_class = runai.models.string_rules.StringRules(),
+                    probes = runai.models.probes_rules.ProbesRules(
+                        readiness = runai.models.probe_rules.ProbeRules(
+                            initial_delay_seconds = ,
+                            period_seconds = ,
+                            timeout_seconds = ,
+                            success_threshold = ,
+                            failure_threshold = ,
+                            handler = runai.models.probe_handler_rules.ProbeHandlerRules(
+                                http_get = runai.models.probe_handler_rules_http_get.ProbeHandlerRules_httpGet(
+                                    path = runai.models.string_rules.StringRules(),
+                                    port = ,
+                                    host = runai.models.string_rules.StringRules(),
+                                    scheme = runai.models.string_rules.StringRules(), ), ), ), ),
+                    related_urls = runai.models.related_urls_rules.RelatedUrlsRules(),
+                    restart_policy = runai.models.restart_policy_rule.RestartPolicyRule(),
+                    security = runai.models.superset_rules_all_of_security.SupersetRules_allOf_security(
+                        allow_privilege_escalation = ,
+                        capabilities = runai.models.array_rules.ArrayRules(
+                            required = True,
+                            can_edit = True, ),
+                        host_ipc = ,
+                        host_network = ,
+                        read_only_root_filesystem = ,
+                        run_as_gid = runai.models.integer_rules_optional.IntegerRulesOptional(
+                            can_edit = True,
+                            min = 56,
+                            max = 56,
+                            step = 56, ),
+                        run_as_non_root = ,
+                        run_as_uid = runai.models.integer_rules_optional.IntegerRulesOptional(
+                            can_edit = True,
+                            min = 56,
+                            max = 56,
+                            step = 56, ),
+                        seccomp_profile_type = runai.models.seccomp_profile_type_rules.SeccompProfileTypeRules(),
+                        supplemental_groups = runai.models.string_rules.StringRules(),
+                        uid_gid_source = runai.models.uid_gid_source_rules.UidGidSourceRules(), ),
+                    stdin = ,
+                    storage = runai.models.superset_rules_all_of_storage.SupersetRules_allOf_storage(
+                        config_map_volume = runai.models.config_maps_rules.ConfigMapsRules(),
+                        data_volume = runai.models.data_volumes_rules.DataVolumesRules(),
+                        empty_dir_volume = runai.models.empty_dirs_rules.EmptyDirsRules(),
+                        git = runai.models.gits_rules.GitsRules(),
+                        host_path = runai.models.host_paths_rules.HostPathsRules(),
+                        nfs = runai.models.nfss_rules.NfssRules(),
+                        pvc = runai.models.pvcs_rules.PvcsRules(),
+                        s3 = runai.models.s3s_rules.S3sRules(),
+                        secret_volume = runai.models.secrets_rules.SecretsRules(), ),
+                    terminate_after_preemption = ,
+                    termination_grace_period_seconds = ,
+                    tolerations = runai.models.tolerations_rules.TolerationsRules(),
+                    tty = ,
+                    working_dir = runai.models.string_rules.StringRules(), ),
+                        worker=runai.models.distributed_policy_rules_v2_worker.DistributedPolicyRulesV2_worker()
         )
         ```
     """  # noqa: E501
 
-    worker: Optional[DistributedPolicyRulesV2Worker] = None
     master: Optional[ReplicaRulesV2] = None
-    __properties: ClassVar[List[str]] = ["worker", "master"]
+    worker: Optional[DistributedPolicyRulesV2Worker] = None
+    __properties: ClassVar[List[str]] = ["master", "worker"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,21 +224,21 @@ class DistributedPolicyRulesV2(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of worker
-        if self.worker:
-            _dict["worker"] = self.worker.to_dict()
         # override the default output from pydantic by calling `to_dict()` of master
         if self.master:
             _dict["master"] = self.master.to_dict()
-        # set to None if worker (nullable) is None
-        # and model_fields_set contains the field
-        if self.worker is None and "worker" in self.model_fields_set:
-            _dict["worker"] = None
-
+        # override the default output from pydantic by calling `to_dict()` of worker
+        if self.worker:
+            _dict["worker"] = self.worker.to_dict()
         # set to None if master (nullable) is None
         # and model_fields_set contains the field
         if self.master is None and "master" in self.model_fields_set:
             _dict["master"] = None
+
+        # set to None if worker (nullable) is None
+        # and model_fields_set contains the field
+        if self.worker is None and "worker" in self.model_fields_set:
+            _dict["worker"] = None
 
         return _dict
 
@@ -117,14 +253,14 @@ class DistributedPolicyRulesV2(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "worker": (
-                    DistributedPolicyRulesV2Worker.from_dict(obj["worker"])
-                    if obj.get("worker") is not None
-                    else None
-                ),
                 "master": (
                     ReplicaRulesV2.from_dict(obj["master"])
                     if obj.get("master") is not None
+                    else None
+                ),
+                "worker": (
+                    DistributedPolicyRulesV2Worker.from_dict(obj["worker"])
+                    if obj.get("worker") is not None
                     else None
                 ),
             }

@@ -36,7 +36,7 @@ class TestDefaultFromRule(unittest.TestCase):
 
         # model = DefaultFromRule()
         if include_optional:
-            return DefaultFromRule(var_field="", factor=1.337)
+            return DefaultFromRule(var_field="jUR,rZ#UM/?R,Fp^l6$ARj", factor=1.337)
         else:
             return DefaultFromRule()
 

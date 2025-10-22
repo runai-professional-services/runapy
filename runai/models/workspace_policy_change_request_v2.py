@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from runai.models.policy_creation_fields import PolicyCreationFields
 from runai.models.workspace_policy_defaults_and_rules_v2 import (
     WorkspacePolicyDefaultsAndRulesV2,
@@ -50,14 +51,14 @@ class WorkspacePolicyChangeRequestV2(BaseModel):
                     cluster_id = '71f69d83-ba66-4822-adf5-55ce55efd210',
                     name = 'my-policy', ),
                         policy=runai.models.workspace_policy_defaults_and_rules_v2.WorkspacePolicyDefaultsAndRulesV2(
-                    defaults = runai.models.workspace_policy_defaults_and_rules_v2_defaults.WorkspacePolicyDefaultsAndRulesV2_defaults(),
+                    defaults = runai.models.defaults.defaults(),
                     rules = runai.models.rules.rules(),
                     imposed_assets = [
                         ''
                         ],
                     status = runai.models.policy_validation_status.PolicyValidationStatus(
                         validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                            error_message = '', ), ), ),
+                            error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), ), ),
                         reset=["master.security.runAsGpu","worker.compute.gpu"]
         )
         ```
@@ -65,7 +66,7 @@ class WorkspacePolicyChangeRequestV2(BaseModel):
 
     meta: Optional[PolicyCreationFields] = None
     policy: Optional[WorkspacePolicyDefaultsAndRulesV2] = None
-    reset: Optional[List[StrictStr]] = Field(
+    reset: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
         default=None,
         description="set of fields in jsonpath format that is requested to clear their policy (default and rules)",
     )

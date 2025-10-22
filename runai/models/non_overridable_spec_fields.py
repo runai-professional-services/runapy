@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.capability import Capability
@@ -36,48 +36,51 @@ class NonOverridableSpecFields(BaseModel):
 
     Parameters:
         ```python
-        image: Optional[str]
-        image_pull_policy: Optional[ImagePullPolicy]
-        working_dir: Optional[str]
-        create_home_dir: Optional[bool]
-        probes: Optional[Probes]
-        uid_gid_source: Optional[UidGidSource]
-        capabilities: Optional[List[Capability]]
-        seccomp_profile_type: Optional[SeccompProfileType]
-        run_as_non_root: Optional[bool]
-        read_only_root_filesystem: Optional[bool]
-        tty: Optional[bool]
-        stdin: Optional[bool]
         allow_privilege_escalation: Optional[bool]
+        capabilities: Optional[List[Capability]]
+        create_home_dir: Optional[bool]
         host_ipc: Optional[bool]
         host_network: Optional[bool]
+        image: Optional[str]
+        image_pull_policy: Optional[ImagePullPolicy]
+        probes: Optional[Probes]
+        read_only_root_filesystem: Optional[bool]
+        run_as_non_root: Optional[bool]
+        seccomp_profile_type: Optional[SeccompProfileType]
+        stdin: Optional[bool]
+        tty: Optional[bool]
+        uid_gid_source: Optional[UidGidSource]
+        working_dir: Optional[str]
         connections: List[Connection]
         override_uid_gid_in_workspace: bool
         ```
-        image: Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.
-        image_pull_policy: See model ImagePullPolicy for more information.
-        working_dir: Container&#39;s working directory. If not specified, the container runtime default will be used. This may be configured in the container image.
-        create_home_dir: When set to &#x60;true&#x60;, creates a home directory for the container.
-        probes: See model Probes for more information.
-        uid_gid_source: See model UidGidSource for more information.
-        capabilities: Add POSIX capabilities to running containers. Defaults to the default set of capabilities granted by the container runtime.
-        seccomp_profile_type: See model SeccompProfileType for more information.
-        run_as_non_root: Force the container to run as a non-root user.
-        read_only_root_filesystem: If true, mounts the container&#39;s root filesystem as read-only.
-        tty: Whether this container should allocate a TTY for itself, also requires &#39;stdin&#39; to be true.
-        stdin: Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF
         allow_privilege_escalation: Allow the container running the workload and all launched processes to gain additional privileges after the workload starts. For more information consult the User Identity in Container guide at https://docs.run.ai/admin/runai-setup/config/non-root-containers/
+        capabilities: Add POSIX capabilities to running containers. Defaults to the default set of capabilities granted by the container runtime.
+        create_home_dir: When set to &#x60;true&#x60;, creates a home directory for the container.
         host_ipc: Whether to enable host IPC. Defaults to false.
         host_network: Whether to enable host networking. Default to false.
+        image: Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.
+        image_pull_policy: See model ImagePullPolicy for more information.
+        probes: See model Probes for more information.
+        read_only_root_filesystem: If true, mounts the container&#39;s root filesystem as read-only.
+        run_as_non_root: Force the container to run as a non-root user.
+        seccomp_profile_type: See model SeccompProfileType for more information.
+        stdin: Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF
+        tty: Whether this container should allocate a TTY for itself, also requires &#39;stdin&#39; to be true.
+        uid_gid_source: See model UidGidSource for more information.
+        working_dir: Container&#39;s working directory. If not specified, the container runtime default will be used. This may be configured in the container image.
         connections: List of connections that either expose ports from the container (each port is associated with a tool that the container runs), or URL&#39;s to be used for connecting to an external tool that is related to the action of the container (such as Weights &amp; Biases).
         override_uid_gid_in_workspace: Allow specifying uid/gid as part of create workspace. This is relevant only for custom uigGidSource. - Default: False
     Example:
         ```python
         NonOverridableSpecFields(
-            image='python:3.8',
-                        image_pull_policy='Always',
-                        working_dir='/home/myfolder',
+            allow_privilege_escalation=False,
+                        capabilities=["CHOWN","KILL"],
                         create_home_dir=True,
+                        host_ipc=False,
+                        host_network=False,
+                        image='python:3.8',
+                        image_pull_policy='Always',
                         probes=runai.models.probes.Probes(
                     readiness = runai.models.probe.Probe(
                         initial_delay_seconds = 0,
@@ -91,16 +94,13 @@ class NonOverridableSpecFields(BaseModel):
                                 port = 1,
                                 host = 'example.com',
                                 scheme = 'HTTP', ), ), ), ),
-                        uid_gid_source='fromTheImage',
-                        capabilities=[CHOWN, KILL],
-                        seccomp_profile_type='RuntimeDefault',
-                        run_as_non_root=True,
                         read_only_root_filesystem=False,
-                        tty=True,
+                        run_as_non_root=True,
+                        seccomp_profile_type='RuntimeDefault',
                         stdin=True,
-                        allow_privilege_escalation=False,
-                        host_ipc=False,
-                        host_network=False,
+                        tty=True,
+                        uid_gid_source='fromTheImage',
+                        working_dir='/home/myfolder',
                         connections=[
                     runai.models.connection.Connection(
                         name = '0',
@@ -125,54 +125,19 @@ class NonOverridableSpecFields(BaseModel):
         ```
     """  # noqa: E501
 
-    image: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+    allow_privilege_escalation: Optional[StrictBool] = Field(
         default=None,
-        description="Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.",
+        description="Allow the container running the workload and all launched processes to gain additional privileges after the workload starts. For more information consult the User Identity in Container guide at https://docs.run.ai/admin/runai-setup/config/non-root-containers/",
+        alias="allowPrivilegeEscalation",
     )
-    image_pull_policy: Optional[ImagePullPolicy] = Field(
-        default=None, alias="imagePullPolicy"
-    )
-    working_dir: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+    capabilities: Optional[List[Capability]] = Field(
         default=None,
-        description="Container's working directory. If not specified, the container runtime default will be used. This may be configured in the container image.",
-        alias="workingDir",
+        description="Add POSIX capabilities to running containers. Defaults to the default set of capabilities granted by the container runtime.",
     )
     create_home_dir: Optional[StrictBool] = Field(
         default=None,
         description="When set to `true`, creates a home directory for the container.",
         alias="createHomeDir",
-    )
-    probes: Optional[Probes] = None
-    uid_gid_source: Optional[UidGidSource] = Field(default=None, alias="uidGidSource")
-    capabilities: Optional[List[Capability]] = Field(
-        default=None,
-        description="Add POSIX capabilities to running containers. Defaults to the default set of capabilities granted by the container runtime.",
-    )
-    seccomp_profile_type: Optional[SeccompProfileType] = Field(
-        default=None, alias="seccompProfileType"
-    )
-    run_as_non_root: Optional[StrictBool] = Field(
-        default=None,
-        description="Force the container to run as a non-root user.",
-        alias="runAsNonRoot",
-    )
-    read_only_root_filesystem: Optional[StrictBool] = Field(
-        default=None,
-        description="If true, mounts the container's root filesystem as read-only.",
-        alias="readOnlyRootFilesystem",
-    )
-    tty: Optional[StrictBool] = Field(
-        default=None,
-        description="Whether this container should allocate a TTY for itself, also requires 'stdin' to be true.",
-    )
-    stdin: Optional[StrictBool] = Field(
-        default=None,
-        description="Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF",
-    )
-    allow_privilege_escalation: Optional[StrictBool] = Field(
-        default=None,
-        description="Allow the container running the workload and all launched processes to gain additional privileges after the workload starts. For more information consult the User Identity in Container guide at https://docs.run.ai/admin/runai-setup/config/non-root-containers/",
-        alias="allowPrivilegeEscalation",
     )
     host_ipc: Optional[StrictBool] = Field(
         default=None,
@@ -184,6 +149,41 @@ class NonOverridableSpecFields(BaseModel):
         description="Whether to enable host networking. Default to false.",
         alias="hostNetwork",
     )
+    image: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.",
+    )
+    image_pull_policy: Optional[ImagePullPolicy] = Field(
+        default=None, alias="imagePullPolicy"
+    )
+    probes: Optional[Probes] = None
+    read_only_root_filesystem: Optional[StrictBool] = Field(
+        default=None,
+        description="If true, mounts the container's root filesystem as read-only.",
+        alias="readOnlyRootFilesystem",
+    )
+    run_as_non_root: Optional[StrictBool] = Field(
+        default=None,
+        description="Force the container to run as a non-root user.",
+        alias="runAsNonRoot",
+    )
+    seccomp_profile_type: Optional[SeccompProfileType] = Field(
+        default=None, alias="seccompProfileType"
+    )
+    stdin: Optional[StrictBool] = Field(
+        default=None,
+        description="Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF",
+    )
+    tty: Optional[StrictBool] = Field(
+        default=None,
+        description="Whether this container should allocate a TTY for itself, also requires 'stdin' to be true.",
+    )
+    uid_gid_source: Optional[UidGidSource] = Field(default=None, alias="uidGidSource")
+    working_dir: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="Container's working directory. If not specified, the container runtime default will be used. This may be configured in the container image.",
+        alias="workingDir",
+    )
     connections: Optional[List[Connection]] = Field(
         default=None,
         description="List of connections that either expose ports from the container (each port is associated with a tool that the container runs), or URL's to be used for connecting to an external tool that is related to the action of the container (such as Weights & Biases).",
@@ -194,24 +194,44 @@ class NonOverridableSpecFields(BaseModel):
         alias="overrideUidGidInWorkspace",
     )
     __properties: ClassVar[List[str]] = [
-        "image",
-        "imagePullPolicy",
-        "workingDir",
-        "createHomeDir",
-        "probes",
-        "uidGidSource",
-        "capabilities",
-        "seccompProfileType",
-        "runAsNonRoot",
-        "readOnlyRootFilesystem",
-        "tty",
-        "stdin",
         "allowPrivilegeEscalation",
+        "capabilities",
+        "createHomeDir",
         "hostIpc",
         "hostNetwork",
+        "image",
+        "imagePullPolicy",
+        "probes",
+        "readOnlyRootFilesystem",
+        "runAsNonRoot",
+        "seccompProfileType",
+        "stdin",
+        "tty",
+        "uidGidSource",
+        "workingDir",
         "connections",
         "overrideUidGidInWorkspace",
     ]
+
+    @field_validator("image")
+    def image_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("working_dir")
+    def working_dir_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -260,6 +280,34 @@ class NonOverridableSpecFields(BaseModel):
                 if _item_connections:
                     _items.append(_item_connections.to_dict())
             _dict["connections"] = _items
+        # set to None if allow_privilege_escalation (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.allow_privilege_escalation is None
+            and "allow_privilege_escalation" in self.model_fields_set
+        ):
+            _dict["allowPrivilegeEscalation"] = None
+
+        # set to None if capabilities (nullable) is None
+        # and model_fields_set contains the field
+        if self.capabilities is None and "capabilities" in self.model_fields_set:
+            _dict["capabilities"] = None
+
+        # set to None if create_home_dir (nullable) is None
+        # and model_fields_set contains the field
+        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
+            _dict["createHomeDir"] = None
+
+        # set to None if host_ipc (nullable) is None
+        # and model_fields_set contains the field
+        if self.host_ipc is None and "host_ipc" in self.model_fields_set:
+            _dict["hostIpc"] = None
+
+        # set to None if host_network (nullable) is None
+        # and model_fields_set contains the field
+        if self.host_network is None and "host_network" in self.model_fields_set:
+            _dict["hostNetwork"] = None
+
         # set to None if image (nullable) is None
         # and model_fields_set contains the field
         if self.image is None and "image" in self.model_fields_set:
@@ -273,43 +321,10 @@ class NonOverridableSpecFields(BaseModel):
         ):
             _dict["imagePullPolicy"] = None
 
-        # set to None if working_dir (nullable) is None
-        # and model_fields_set contains the field
-        if self.working_dir is None and "working_dir" in self.model_fields_set:
-            _dict["workingDir"] = None
-
-        # set to None if create_home_dir (nullable) is None
-        # and model_fields_set contains the field
-        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
-            _dict["createHomeDir"] = None
-
         # set to None if probes (nullable) is None
         # and model_fields_set contains the field
         if self.probes is None and "probes" in self.model_fields_set:
             _dict["probes"] = None
-
-        # set to None if uid_gid_source (nullable) is None
-        # and model_fields_set contains the field
-        if self.uid_gid_source is None and "uid_gid_source" in self.model_fields_set:
-            _dict["uidGidSource"] = None
-
-        # set to None if capabilities (nullable) is None
-        # and model_fields_set contains the field
-        if self.capabilities is None and "capabilities" in self.model_fields_set:
-            _dict["capabilities"] = None
-
-        # set to None if seccomp_profile_type (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.seccomp_profile_type is None
-            and "seccomp_profile_type" in self.model_fields_set
-        ):
-            _dict["seccompProfileType"] = None
-
-        # set to None if run_as_non_root (nullable) is None
-        # and model_fields_set contains the field
-        if self.run_as_non_root is None and "run_as_non_root" in self.model_fields_set:
-            _dict["runAsNonRoot"] = None
 
         # set to None if read_only_root_filesystem (nullable) is None
         # and model_fields_set contains the field
@@ -319,33 +334,38 @@ class NonOverridableSpecFields(BaseModel):
         ):
             _dict["readOnlyRootFilesystem"] = None
 
-        # set to None if tty (nullable) is None
+        # set to None if run_as_non_root (nullable) is None
         # and model_fields_set contains the field
-        if self.tty is None and "tty" in self.model_fields_set:
-            _dict["tty"] = None
+        if self.run_as_non_root is None and "run_as_non_root" in self.model_fields_set:
+            _dict["runAsNonRoot"] = None
+
+        # set to None if seccomp_profile_type (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.seccomp_profile_type is None
+            and "seccomp_profile_type" in self.model_fields_set
+        ):
+            _dict["seccompProfileType"] = None
 
         # set to None if stdin (nullable) is None
         # and model_fields_set contains the field
         if self.stdin is None and "stdin" in self.model_fields_set:
             _dict["stdin"] = None
 
-        # set to None if allow_privilege_escalation (nullable) is None
+        # set to None if tty (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.allow_privilege_escalation is None
-            and "allow_privilege_escalation" in self.model_fields_set
-        ):
-            _dict["allowPrivilegeEscalation"] = None
+        if self.tty is None and "tty" in self.model_fields_set:
+            _dict["tty"] = None
 
-        # set to None if host_ipc (nullable) is None
+        # set to None if uid_gid_source (nullable) is None
         # and model_fields_set contains the field
-        if self.host_ipc is None and "host_ipc" in self.model_fields_set:
-            _dict["hostIpc"] = None
+        if self.uid_gid_source is None and "uid_gid_source" in self.model_fields_set:
+            _dict["uidGidSource"] = None
 
-        # set to None if host_network (nullable) is None
+        # set to None if working_dir (nullable) is None
         # and model_fields_set contains the field
-        if self.host_network is None and "host_network" in self.model_fields_set:
-            _dict["hostNetwork"] = None
+        if self.working_dir is None and "working_dir" in self.model_fields_set:
+            _dict["workingDir"] = None
 
         return _dict
 
@@ -360,25 +380,25 @@ class NonOverridableSpecFields(BaseModel):
 
         _obj = cls.model_validate(
             {
+                "allowPrivilegeEscalation": obj.get("allowPrivilegeEscalation"),
+                "capabilities": obj.get("capabilities"),
+                "createHomeDir": obj.get("createHomeDir"),
+                "hostIpc": obj.get("hostIpc"),
+                "hostNetwork": obj.get("hostNetwork"),
                 "image": obj.get("image"),
                 "imagePullPolicy": obj.get("imagePullPolicy"),
-                "workingDir": obj.get("workingDir"),
-                "createHomeDir": obj.get("createHomeDir"),
                 "probes": (
                     Probes.from_dict(obj["probes"])
                     if obj.get("probes") is not None
                     else None
                 ),
-                "uidGidSource": obj.get("uidGidSource"),
-                "capabilities": obj.get("capabilities"),
-                "seccompProfileType": obj.get("seccompProfileType"),
-                "runAsNonRoot": obj.get("runAsNonRoot"),
                 "readOnlyRootFilesystem": obj.get("readOnlyRootFilesystem"),
-                "tty": obj.get("tty"),
+                "runAsNonRoot": obj.get("runAsNonRoot"),
+                "seccompProfileType": obj.get("seccompProfileType"),
                 "stdin": obj.get("stdin"),
-                "allowPrivilegeEscalation": obj.get("allowPrivilegeEscalation"),
-                "hostIpc": obj.get("hostIpc"),
-                "hostNetwork": obj.get("hostNetwork"),
+                "tty": obj.get("tty"),
+                "uidGidSource": obj.get("uidGidSource"),
+                "workingDir": obj.get("workingDir"),
                 "connections": (
                     [Connection.from_dict(_item) for _item in obj["connections"]]
                     if obj.get("connections") is not None

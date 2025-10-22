@@ -30,7 +30,7 @@ def example_create_config_map_asset():
         # Create example data for ConfigMapCreationRequest
         config_map_creation_request = models.ConfigMapCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-            spec = {mountPath=mountPath, configMap=configMap, subPath=subPath}
+            spec = {mountPath=mountPath, defaultMode=0644, configMap=configMap, subPath=subPath}
         )
 
         # Make the API call

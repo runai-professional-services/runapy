@@ -37,10 +37,10 @@ class TestToleration(unittest.TestCase):
         # model = Toleration()
         if include_optional:
             return Toleration(
-                name="0",
+                name="jUR,rZ#UM/?R,Fp^l6$ARj0",
                 operator="Equal",
-                key="",
-                value="",
+                key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                value="jUR,rZ#UM/?R,Fp^l6$ARj",
                 effect="NoSchedule",
                 seconds=1,
                 exclude=False,

@@ -93,6 +93,57 @@ class TestNodesApi:
             )
         assert exc_info.value.status == 400
 
+    def test_count_tenant_nodes(self):
+        """Test case for count_tenant_nodes
+
+        Count tenant nodes Count nodes from all the Kubernetes clusters of the tenant.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["name!=some-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
+
+        # Make request
+        response = self.api.count_tenant_nodes()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/nodes/count" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, CountNodes200Response)
+
+    def test_count_tenant_nodes_error(self):
+        """Test error handling for count_tenant_nodes"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.count_tenant_nodes()
+        assert exc_info.value.status == 400
+
     def test_get_node_metrics(self):
         """Test case for get_node_metrics
 
@@ -234,7 +285,7 @@ class TestNodesApi:
     def test_get_nodes(self):
         """Test case for get_nodes
 
-        Get a list of nodes. Retrieve a list of nodes from the Kubernetes cluster.
+        Get a list of nodes. Retrieve a list of nodes from the Kubernetes cluster. Deprecated - use &#x60;/api/v1/nodes&#x60; instead.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -303,4 +354,69 @@ class TestNodesApi:
             self.api.get_nodes(
                 cluster_uuid=cluster_uuid,
             )
+        assert exc_info.value.status == 400
+
+    def test_get_tenant_nodes(self):
+        """Test case for get_tenant_nodes
+
+        Get a list of nodes. Retrieve a list of nodes from all the Kubernetes clusters of the tenant.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["name!=some-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        sort_by = (
+            runai.NodeFilterSortFields()
+        )  # NodeFilterSortFields | Sort results by a parameters.
+        sort_order = asc  # str | Sort results in descending or ascending order.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
+        search = "test project"  # str | Filter results by a free text search.
+
+        # Make request
+        response = self.api.get_tenant_nodes()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/nodes" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, Nodes)
+
+    def test_get_tenant_nodes_error(self):
+        """Test error handling for get_tenant_nodes"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_tenant_nodes()
         assert exc_info.value.status == 400

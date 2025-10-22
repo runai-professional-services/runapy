@@ -58,11 +58,7 @@ from runai.models.access_rules_sort_filter_fields import AccessRulesSortFilterFi
 from runai.models.action import Action
 from runai.models.action1 import Action1
 from runai.models.actions_support import ActionsSupport
-from runai.models.advanced_flat_fields import AdvancedFlatFields
-from runai.models.advanced_flat_fields_rules import AdvancedFlatFieldsRules
-from runai.models.advanced_itemized_defaults import AdvancedItemizedDefaults
-from runai.models.advanced_itemized_fields import AdvancedItemizedFields
-from runai.models.advanced_itemized_rules import AdvancedItemizedRules
+from runai.models.activation_replicas_field import ActivationReplicasField
 from runai.models.aggregated_resources import AggregatedResources
 from runai.models.aggregated_resources_memory import AggregatedResourcesMemory
 from runai.models.aggregated_resources_node_pool import AggregatedResourcesNodePool
@@ -70,16 +66,18 @@ from runai.models.allocated_resources import AllocatedResources
 from runai.models.allow_over_quota import AllowOverQuota
 from runai.models.annotation import Annotation
 from runai.models.annotations_defaults import AnnotationsDefaults
-from runai.models.annotations_field import AnnotationsField
-from runai.models.annotations_field_defaults import AnnotationsFieldDefaults
-from runai.models.annotations_field_rules import AnnotationsFieldRules
 from runai.models.app import App
 from runai.models.app_token_request import AppTokenRequest
 from runai.models.app_token_response import AppTokenResponse
 from runai.models.application import Application
+from runai.models.application1 import Application1
+from runai.models.application_allocated_resources import ApplicationAllocatedResources
 from runai.models.application_creation_request import ApplicationCreationRequest
 from runai.models.application_patch_request import ApplicationPatchRequest
 from runai.models.application_post_response import ApplicationPostResponse
+from runai.models.application_request_resources import ApplicationRequestResources
+from runai.models.application_resource import ApplicationResource
+from runai.models.application_verbosity import ApplicationVerbosity
 from runai.models.arbitrary_rules import ArbitraryRules
 from runai.models.are_reports_available200_response import (
     AreReportsAvailable200Response,
@@ -116,6 +114,8 @@ from runai.models.auth_entity_type import AuthEntityType
 from runai.models.auto_redirect_sso_setting import AutoRedirectSsoSetting
 from runai.models.auto_scaling import AutoScaling
 from runai.models.auto_scaling_common_fields import AutoScalingCommonFields
+from runai.models.auto_scaling_field import AutoScalingField
+from runai.models.auto_scaling_metric_field import AutoScalingMetricField
 from runai.models.auto_scaling_metric_fields import AutoScalingMetricFields
 from runai.models.auto_scaling_metric_options import AutoScalingMetricOptions
 from runai.models.auto_scaling_metric_options_options_inner import (
@@ -135,6 +135,12 @@ from runai.models.checksum_response import ChecksumResponse
 from runai.models.claim_info import ClaimInfo
 from runai.models.claim_info_rules import ClaimInfoRules
 from runai.models.claim_size_customization import ClaimSizeCustomization
+from runai.models.clean_pod_policy import CleanPodPolicy
+from runai.models.clean_pod_policy_options import CleanPodPolicyOptions
+from runai.models.clean_pod_policy_options_options_inner import (
+    CleanPodPolicyOptionsOptionsInner,
+)
+from runai.models.clean_pod_policy_rules import CleanPodPolicyRules
 from runai.models.cluster import Cluster
 from runai.models.cluster_creation_request import ClusterCreationRequest
 from runai.models.cluster_current import ClusterCurrent
@@ -163,54 +169,19 @@ from runai.models.cluster_reported_status_platform import ClusterReportedStatusP
 from runai.models.cluster_resource_info import ClusterResourceInfo
 from runai.models.cluster_update_request import ClusterUpdateRequest
 from runai.models.cluster_user_config import ClusterUserConfig
-from runai.models.command import Command
-from runai.models.common_flat_fields import CommonFlatFields
-from runai.models.common_flat_fields_per_pod import CommonFlatFieldsPerPod
-from runai.models.common_flat_fields_rules import CommonFlatFieldsRules
-from runai.models.common_itemized_defaults import CommonItemizedDefaults
-from runai.models.common_itemized_fields import CommonItemizedFields
-from runai.models.common_itemized_fields_rules import CommonItemizedFieldsRules
-from runai.models.common_security import CommonSecurity
-from runai.models.common_security_flat_fields import CommonSecurityFlatFields
-from runai.models.common_security_flat_fields_rules import CommonSecurityFlatFieldsRules
-from runai.models.common_security_non_overridable import CommonSecurityNonOverridable
-from runai.models.common_security_non_overridable_rules import (
-    CommonSecurityNonOverridableRules,
-)
-from runai.models.common_security_overridable import CommonSecurityOverridable
-from runai.models.common_security_overridable_rules import (
-    CommonSecurityOverridableRules,
-)
-from runai.models.common_storage import CommonStorage
-from runai.models.common_storage_defaults import CommonStorageDefaults
-from runai.models.common_storage_fields import CommonStorageFields
-from runai.models.common_storage_fields_defaults import CommonStorageFieldsDefaults
-from runai.models.common_storage_fields_rules import CommonStorageFieldsRules
-from runai.models.common_storage_rules import CommonStorageRules
-from runai.models.completions_field import CompletionsField
-from runai.models.completions_field_rules import CompletionsFieldRules
+from runai.models.command1 import Command1
 from runai.models.compliance_info import ComplianceInfo
 from runai.models.compliance_info_reason import ComplianceInfoReason
 from runai.models.compliance_issues import ComplianceIssues
 from runai.models.compliance_issues_compliance_issues_inner import (
     ComplianceIssuesComplianceIssuesInner,
 )
-from runai.models.compute import Compute
 from runai.models.compute_asset import ComputeAsset
 from runai.models.compute_asset_spec import ComputeAssetSpec
 from runai.models.compute_creation_request import ComputeCreationRequest
-from runai.models.compute_defaults import ComputeDefaults
-from runai.models.compute_fields import ComputeFields
-from runai.models.compute_fields_defaults import ComputeFieldsDefaults
-from runai.models.compute_fields_rules import ComputeFieldsRules
-from runai.models.compute_flat_fields import ComputeFlatFields
-from runai.models.compute_flat_fields_rules import ComputeFlatFieldsRules
-from runai.models.compute_itemized_fields import ComputeItemizedFields
-from runai.models.compute_itemized_fields_defaults import ComputeItemizedFieldsDefaults
-from runai.models.compute_itemized_fields_rules import ComputeItemizedFieldsRules
 from runai.models.compute_list_response import ComputeListResponse
-from runai.models.compute_rules import ComputeRules
 from runai.models.compute_update_request import ComputeUpdateRequest
+from runai.models.concurrency_hard_limit_field import ConcurrencyHardLimitField
 from runai.models.condition1 import Condition1
 from runai.models.condition2 import Condition2
 from runai.models.config import Config
@@ -226,20 +197,7 @@ from runai.models.config_maps_defaults import ConfigMapsDefaults
 from runai.models.config_maps_rules import ConfigMapsRules
 from runai.models.connection import Connection
 from runai.models.connection1 import Connection1
-from runai.models.connectivity_defaults import ConnectivityDefaults
-from runai.models.connectivity_fields import ConnectivityFields
-from runai.models.connectivity_rules import ConnectivityRules
 from runai.models.container1 import Container1
-from runai.models.container_non_inference_non_overridable import (
-    ContainerNonInferenceNonOverridable,
-)
-from runai.models.container_non_inference_non_overridable_rules import (
-    ContainerNonInferenceNonOverridableRules,
-)
-from runai.models.container_non_overridable import ContainerNonOverridable
-from runai.models.container_non_overridable_rules import ContainerNonOverridableRules
-from runai.models.container_overridable import ContainerOverridable
-from runai.models.container_overridable_rules import ContainerOverridableRules
 from runai.models.count_access_rules200_response import CountAccessRules200Response
 from runai.models.count_nodes200_response import CountNodes200Response
 from runai.models.count_response import CountResponse
@@ -311,22 +269,11 @@ from runai.models.department_v1_creation_request import DepartmentV1CreationRequ
 from runai.models.departments import Departments
 from runai.models.departments_data_inner import DepartmentsDataInner
 from runai.models.deserved_resource import DeservedResource
+from runai.models.desired_phase import DesiredPhase
 from runai.models.displayed_cluster import DisplayedCluster
 from runai.models.dist_master import DistMaster
 from runai.models.distributed import Distributed
-from runai.models.distributed_clean_pod_policy import DistributedCleanPodPolicy
-from runai.models.distributed_clean_pod_policy_options import (
-    DistributedCleanPodPolicyOptions,
-)
-from runai.models.distributed_clean_pod_policy_options_options_inner import (
-    DistributedCleanPodPolicyOptionsOptionsInner,
-)
-from runai.models.distributed_clean_pod_policy_rules import (
-    DistributedCleanPodPolicyRules,
-)
 from runai.models.distributed_creation_request import DistributedCreationRequest
-from runai.models.distributed_fields import DistributedFields
-from runai.models.distributed_fields_rules import DistributedFieldsRules
 from runai.models.distributed_framework import DistributedFramework
 from runai.models.distributed_framework_options import DistributedFrameworkOptions
 from runai.models.distributed_framework_options_options_inner import (
@@ -335,20 +282,82 @@ from runai.models.distributed_framework_options_options_inner import (
 from runai.models.distributed_framework_rules import DistributedFrameworkRules
 from runai.models.distributed_imposed_assets import DistributedImposedAssets
 from runai.models.distributed_inference import DistributedInference
+from runai.models.distributed_inference_common_defaults_v2 import (
+    DistributedInferenceCommonDefaultsV2,
+)
+from runai.models.distributed_inference_common_rules_v2 import (
+    DistributedInferenceCommonRulesV2,
+)
 from runai.models.distributed_inference_common_spec import (
     DistributedInferenceCommonSpec,
 )
 from runai.models.distributed_inference_creation_request import (
     DistributedInferenceCreationRequest,
 )
+from runai.models.distributed_inference_defaults_v2 import (
+    DistributedInferenceDefaultsV2,
+)
+from runai.models.distributed_inference_imposed_assets import (
+    DistributedInferenceImposedAssets,
+)
+from runai.models.distributed_inference_leader_defaults import (
+    DistributedInferenceLeaderDefaults,
+)
+from runai.models.distributed_inference_leader_rules import (
+    DistributedInferenceLeaderRules,
+)
 from runai.models.distributed_inference_leader_spec_fields import (
     DistributedInferenceLeaderSpecFields,
 )
-from runai.models.distributed_inference_leader_worker_spec import (
-    DistributedInferenceLeaderWorkerSpec,
+from runai.models.distributed_inference_leader_worker_defaults_v2 import (
+    DistributedInferenceLeaderWorkerDefaultsV2,
+)
+from runai.models.distributed_inference_leader_worker_defaults_v2_storage import (
+    DistributedInferenceLeaderWorkerDefaultsV2Storage,
+)
+from runai.models.distributed_inference_leader_worker_rules_v2 import (
+    DistributedInferenceLeaderWorkerRulesV2,
+)
+from runai.models.distributed_inference_leader_worker_rules_v2_storage import (
+    DistributedInferenceLeaderWorkerRulesV2Storage,
+)
+from runai.models.distributed_inference_leader_worker_spec1 import (
+    DistributedInferenceLeaderWorkerSpec1,
+)
+from runai.models.distributed_inference_leader_worker_spec1_storage import (
+    DistributedInferenceLeaderWorkerSpec1Storage,
+)
+from runai.models.distributed_inference_policy_change_request_v2 import (
+    DistributedInferencePolicyChangeRequestV2,
+)
+from runai.models.distributed_inference_policy_defaults_and_rules_v2 import (
+    DistributedInferencePolicyDefaultsAndRulesV2,
+)
+from runai.models.distributed_inference_policy_overwrite_request_v2 import (
+    DistributedInferencePolicyOverwriteRequestV2,
+)
+from runai.models.distributed_inference_policy_v2 import DistributedInferencePolicyV2
+from runai.models.distributed_inference_replicas_field import (
+    DistributedInferenceReplicasField,
+)
+from runai.models.distributed_inference_replicas_field_rules import (
+    DistributedInferenceReplicasFieldRules,
 )
 from runai.models.distributed_inference_restart_policy import (
     DistributedInferenceRestartPolicy,
+)
+from runai.models.distributed_inference_restart_policy_options import (
+    DistributedInferenceRestartPolicyOptions,
+)
+from runai.models.distributed_inference_restart_policy_options_options_inner import (
+    DistributedInferenceRestartPolicyOptionsOptionsInner,
+)
+from runai.models.distributed_inference_restart_policy_rules import (
+    DistributedInferenceRestartPolicyRules,
+)
+from runai.models.distributed_inference_rules_v2 import DistributedInferenceRulesV2
+from runai.models.distributed_inference_serving_port import (
+    DistributedInferenceServingPort,
 )
 from runai.models.distributed_inference_serving_port_access import (
     DistributedInferenceServingPortAccess,
@@ -356,35 +365,58 @@ from runai.models.distributed_inference_serving_port_access import (
 from runai.models.distributed_inference_serving_port_access_authorization_type_enum import (
     DistributedInferenceServingPortAccessAuthorizationTypeEnum,
 )
+from runai.models.distributed_inference_serving_port_authorization_type_options import (
+    DistributedInferenceServingPortAuthorizationTypeOptions,
+)
+from runai.models.distributed_inference_serving_port_authorization_type_options_options_inner import (
+    DistributedInferenceServingPortAuthorizationTypeOptionsOptionsInner,
+)
+from runai.models.distributed_inference_serving_port_authorization_type_rules import (
+    DistributedInferenceServingPortAuthorizationTypeRules,
+)
 from runai.models.distributed_inference_serving_port_container_and_protocol import (
     DistributedInferenceServingPortContainerAndProtocol,
 )
 from runai.models.distributed_inference_serving_port_protocol import (
     DistributedInferenceServingPortProtocol,
 )
+from runai.models.distributed_inference_serving_port_rules import (
+    DistributedInferenceServingPortRules,
+)
+from runai.models.distributed_inference_serving_port_rules2 import (
+    DistributedInferenceServingPortRules2,
+)
 from runai.models.distributed_inference_spec import DistributedInferenceSpec
 from runai.models.distributed_inference_spec_spec import DistributedInferenceSpecSpec
 from runai.models.distributed_inference_startup_policy import (
     DistributedInferenceStartupPolicy,
 )
-from runai.models.distributed_inference_storage import DistributedInferenceStorage
-from runai.models.distributed_inference_storage_fields import (
-    DistributedInferenceStorageFields,
+from runai.models.distributed_inference_startup_policy_field import (
+    DistributedInferenceStartupPolicyField,
+)
+from runai.models.distributed_inference_startup_policy_field_rules import (
+    DistributedInferenceStartupPolicyFieldRules,
+)
+from runai.models.distributed_inference_startup_policy_field_rules_startup_policy import (
+    DistributedInferenceStartupPolicyFieldRulesStartupPolicy,
+)
+from runai.models.distributed_inference_startup_policy_options import (
+    DistributedInferenceStartupPolicyOptions,
+)
+from runai.models.distributed_inference_worker_defaults import (
+    DistributedInferenceWorkerDefaults,
+)
+from runai.models.distributed_inference_worker_rules import (
+    DistributedInferenceWorkerRules,
 )
 from runai.models.distributed_inference_worker_spec_fields import (
     DistributedInferenceWorkerSpecFields,
 )
-from runai.models.distributed_mpi_launcher_creation_policy import (
-    DistributedMpiLauncherCreationPolicy,
+from runai.models.distributed_inference_workers_field import (
+    DistributedInferenceWorkersField,
 )
-from runai.models.distributed_mpi_launcher_creation_policy_options import (
-    DistributedMpiLauncherCreationPolicyOptions,
-)
-from runai.models.distributed_mpi_launcher_creation_policy_options_options_inner import (
-    DistributedMpiLauncherCreationPolicyOptionsOptionsInner,
-)
-from runai.models.distributed_mpi_launcher_creation_policy_rules import (
-    DistributedMpiLauncherCreationPolicyRules,
+from runai.models.distributed_inference_workers_field_rules import (
+    DistributedInferenceWorkersFieldRules,
 )
 from runai.models.distributed_policy_change_request_v2 import (
     DistributedPolicyChangeRequestV2,
@@ -416,6 +448,9 @@ from runai.models.distributed_template_patch_request import (
 from runai.models.distributed_template_update_request import (
     DistributedTemplateUpdateRequest,
 )
+from runai.models.distributed_templates_list_response import (
+    DistributedTemplatesListResponse,
+)
 from runai.models.distributed_workload import DistributedWorkload
 from runai.models.docker_registry import DockerRegistry
 from runai.models.docker_registry_creation_request import DockerRegistryCreationRequest
@@ -427,6 +462,7 @@ from runai.models.email_auth_type import EmailAuthType
 from runai.models.email_notification_channel_config import (
     EmailNotificationChannelConfig,
 )
+from runai.models.email_notifications_state import EmailNotificationsState
 from runai.models.empty_dir import EmptyDir
 from runai.models.empty_dir_instance import EmptyDirInstance
 from runai.models.empty_dir_rules import EmptyDirRules
@@ -450,22 +486,12 @@ from runai.models.environment_variable_pod_field_reference import (
     EnvironmentVariablePodFieldReference,
 )
 from runai.models.environment_variable_secret import EnvironmentVariableSecret
-from runai.models.environment_variables_asset_field import (
-    EnvironmentVariablesAssetField,
-)
 from runai.models.environment_variables_defaults import EnvironmentVariablesDefaults
-from runai.models.environment_variables_field import EnvironmentVariablesField
-from runai.models.environment_variables_field_defaults import (
-    EnvironmentVariablesFieldDefaults,
-)
-from runai.models.environment_variables_field_rules import (
-    EnvironmentVariablesFieldRules,
-)
 from runai.models.error import Error
 from runai.models.error1 import Error1
 from runai.models.event1 import Event1
+from runai.models.event2 import Event2
 from runai.models.exclude_field import ExcludeField
-from runai.models.exclude_groups_from_token_setting import ExcludeGroupsFromTokenSetting
 from runai.models.exposed_url import ExposedUrl
 from runai.models.exposed_url_rules import ExposedUrlRules
 from runai.models.exposed_urls_defaults import ExposedUrlsDefaults
@@ -479,6 +505,7 @@ from runai.models.external_tool_type import ExternalToolType
 from runai.models.external_url_info import ExternalUrlInfo
 from runai.models.fields_to_clear import FieldsToClear
 from runai.models.gpu_resource_optimization import GPUResourceOptimization
+from runai.models.gvk import GVK
 from runai.models.generic_secret import GenericSecret
 from runai.models.generic_secret_creation_request import GenericSecretCreationRequest
 from runai.models.generic_secret_creation_spec import GenericSecretCreationSpec
@@ -491,6 +518,9 @@ from runai.models.get_datavolumes200_response import GetDatavolumes200Response
 from runai.models.get_departments200_response import GetDepartments200Response
 from runai.models.get_inference_workload_revisions200_response import (
     GetInferenceWorkloadRevisions200Response,
+)
+from runai.models.get_network_topologies200_response import (
+    GetNetworkTopologies200Response,
 )
 from runai.models.get_nodepools200_response import GetNodepools200Response
 from runai.models.get_permitted_scopes_request import GetPermittedScopesRequest
@@ -506,13 +536,16 @@ from runai.models.get_workload_priorities200_response import (
 from runai.models.get_workloads200_response import GetWorkloads200Response
 from runai.models.git_asset import GitAsset
 from runai.models.git_asset_spec import GitAssetSpec
+from runai.models.git_authentication_method import GitAuthenticationMethod
 from runai.models.git_common import GitCommon
 from runai.models.git_creation_request import GitCreationRequest
+from runai.models.git_credential_id import GitCredentialId
 from runai.models.git_instance import GitInstance
 from runai.models.git_list_response import GitListResponse
 from runai.models.git_password import GitPassword
 from runai.models.git_password_asset import GitPasswordAsset
 from runai.models.git_rules import GitRules
+from runai.models.git_secret_ref import GitSecretRef
 from runai.models.git_update_request import GitUpdateRequest
 from runai.models.gits_defaults import GitsDefaults
 from runai.models.gits_rules import GitsRules
@@ -521,11 +554,19 @@ from runai.models.gpu_request_options import GpuRequestOptions
 from runai.models.gpu_request_options_options_inner import GpuRequestOptionsOptionsInner
 from runai.models.gpu_request_rules import GpuRequestRules
 from runai.models.gpu_request_type import GpuRequestType
-from runai.models.group import Group
 from runai.models.group_creation_request import GroupCreationRequest
 from runai.models.group_creation_response import GroupCreationResponse
-from runai.models.group_with_name import GroupWithName
+from runai.models.grouped_measurement_group import GroupedMeasurementGroup
+from runai.models.grouped_measurement_response import GroupedMeasurementResponse
+from runai.models.grouped_measurement_response_values_inner import (
+    GroupedMeasurementResponseValuesInner,
+)
+from runai.models.grouped_metrics_response import GroupedMetricsResponse
+from runai.models.histogram_series import HistogramSeries
+from runai.models.histogram_value import HistogramValue
 from runai.models.history_record import HistoryRecord
+from runai.models.history_record1 import HistoryRecord1
+from runai.models.history_record1_spec import HistoryRecord1Spec
 from runai.models.history_record_meta import HistoryRecordMeta
 from runai.models.history_record_spec import HistoryRecordSpec
 from runai.models.history_record_type import HistoryRecordType
@@ -561,9 +602,6 @@ from runai.models.image_pull_policy_options_options_inner import (
 from runai.models.image_pull_policy_rules import ImagePullPolicyRules
 from runai.models.image_pull_secret import ImagePullSecret
 from runai.models.image_pull_secrets_defaults import ImagePullSecretsDefaults
-from runai.models.image_pull_secrets_field import ImagePullSecretsField
-from runai.models.image_pull_secrets_field_defaults import ImagePullSecretsFieldDefaults
-from runai.models.image_pull_secrets_field_rules import ImagePullSecretsFieldRules
 from runai.models.image_pull_secrets_rules import ImagePullSecretsRules
 from runai.models.image_pull_secrets_rules_attributes import (
     ImagePullSecretsRulesAttributes,
@@ -572,8 +610,6 @@ from runai.models.inference1 import Inference1
 from runai.models.inference_creation_request import InferenceCreationRequest
 from runai.models.inference_fields import InferenceFields
 from runai.models.inference_fields_rules import InferenceFieldsRules
-from runai.models.inference_flat_fields import InferenceFlatFields
-from runai.models.inference_flat_fields_rules import InferenceFlatFieldsRules
 from runai.models.inference_pod_metric_type import InferencePodMetricType
 from runai.models.inference_policy_change_request_v2 import (
     InferencePolicyChangeRequestV2,
@@ -581,17 +617,29 @@ from runai.models.inference_policy_change_request_v2 import (
 from runai.models.inference_policy_defaults_and_rules_v2 import (
     InferencePolicyDefaultsAndRulesV2,
 )
-from runai.models.inference_policy_defaults_and_rules_v2_defaults import (
-    InferencePolicyDefaultsAndRulesV2Defaults,
+from runai.models.inference_policy_defaults_v2 import InferencePolicyDefaultsV2
+from runai.models.inference_policy_defaults_v2_all_of_security import (
+    InferencePolicyDefaultsV2AllOfSecurity,
+)
+from runai.models.inference_policy_defaults_v2_all_of_storage import (
+    InferencePolicyDefaultsV2AllOfStorage,
 )
 from runai.models.inference_policy_overwrite_request_v2 import (
     InferencePolicyOverwriteRequestV2,
 )
 from runai.models.inference_policy_rules_v2 import InferencePolicyRulesV2
+from runai.models.inference_policy_rules_v2_all_of_security import (
+    InferencePolicyRulesV2AllOfSecurity,
+)
+from runai.models.inference_policy_rules_v2_all_of_storage import (
+    InferencePolicyRulesV2AllOfStorage,
+)
 from runai.models.inference_policy_v2 import InferencePolicyV2
-from runai.models.inference_security_rules import InferenceSecurityRules
 from runai.models.inference_spec import InferenceSpec
 from runai.models.inference_spec_spec import InferenceSpecSpec
+from runai.models.inference_spec_spec_all_of_storage import (
+    InferenceSpecSpecAllOfStorage,
+)
 from runai.models.inference_specific_run_params import InferenceSpecificRunParams
 from runai.models.inference_template import InferenceTemplate
 from runai.models.inference_template_creation_request import (
@@ -611,8 +659,12 @@ from runai.models.inference_update_spec_serving_configuration import (
 )
 from runai.models.inference_update_spec_spec import InferenceUpdateSpecSpec
 from runai.models.inference_workload_metric_type import InferenceWorkloadMetricType
+from runai.models.inferences_max_replicas_field import InferencesMaxReplicasField
+from runai.models.inferences_min_replicas_field import InferencesMinReplicasField
 from runai.models.info_dist_master import InfoDistMaster
 from runai.models.info_distributed import InfoDistributed
+from runai.models.initial_replicas_field import InitialReplicasField
+from runai.models.initialization_timeout_field import InitializationTimeoutField
 from runai.models.instances_rules import InstancesRules
 from runai.models.integer_rules import IntegerRules
 from runai.models.integer_rules_optional import IntegerRulesOptional
@@ -636,9 +688,7 @@ from runai.models.kubernetes_permissions import KubernetesPermissions
 from runai.models.label import Label
 from runai.models.label1 import Label1
 from runai.models.labels_defaults import LabelsDefaults
-from runai.models.labels_field import LabelsField
-from runai.models.labels_field_defaults import LabelsFieldDefaults
-from runai.models.labels_field_rules import LabelsFieldRules
+from runai.models.list_applications200_response import ListApplications200Response
 from runai.models.list_categories200_response import ListCategories200Response
 from runai.models.list_pods200_response import ListPods200Response
 from runai.models.list_reports200_response import ListReports200Response
@@ -656,11 +706,20 @@ from runai.models.me_access_rules_response_access_rules import (
     MeAccessRulesResponseAccessRules,
 )
 from runai.models.measurement_response import MeasurementResponse
-from runai.models.measurement_response_values_inner import (
-    MeasurementResponseValuesInner,
-)
 from runai.models.metadata import Metadata
 from runai.models.metric_information_for_report import MetricInformationForReport
+from runai.models.metric_store2 import MetricStore2
+from runai.models.metric_store_details import MetricStoreDetails
+from runai.models.metric_store_endpoint2 import MetricStoreEndpoint2
+from runai.models.metric_store_endpoint2_auth import MetricStoreEndpoint2Auth
+from runai.models.metric_store_endpoint_auth_basic import MetricStoreEndpointAuthBasic
+from runai.models.metric_store_endpoint_auth_type import MetricStoreEndpointAuthType
+from runai.models.metric_store_type import MetricStoreType
+from runai.models.metric_threshold_field import MetricThresholdField
+from runai.models.metric_threshold_percentage_field import (
+    MetricThresholdPercentageField,
+)
+from runai.models.metrics_composite_response import MetricsCompositeResponse
 from runai.models.metrics_resource_data_v1 import MetricsResourceDataV1
 from runai.models.metrics_resources_data_v1 import MetricsResourcesDataV1
 from runai.models.metrics_response import MetricsResponse
@@ -669,16 +728,43 @@ from runai.models.mig_profile import MigProfile
 from runai.models.mig_profile_options import MigProfileOptions
 from runai.models.mig_profile_options_options_inner import MigProfileOptionsOptionsInner
 from runai.models.mig_profile_rules import MigProfileRules
+from runai.models.mpi_launcher_creation_policy import MpiLauncherCreationPolicy
+from runai.models.mpi_launcher_creation_policy_options import (
+    MpiLauncherCreationPolicyOptions,
+)
+from runai.models.mpi_launcher_creation_policy_options_options_inner import (
+    MpiLauncherCreationPolicyOptionsOptionsInner,
+)
+from runai.models.mpi_launcher_creation_policy_rules import (
+    MpiLauncherCreationPolicyRules,
+)
 from runai.models.nfs_asset import NFSAsset
 from runai.models.nfs_asset_spec import NFSAssetSpec
 from runai.models.nfs_creation_request import NFSCreationRequest
 from runai.models.nfs_list_response import NFSListResponse
 from runai.models.nfs_update_request import NFSUpdateRequest
+from runai.models.network_topology import NetworkTopology
+from runai.models.network_topology_create_request import NetworkTopologyCreateRequest
+from runai.models.network_topology_update_fields import NetworkTopologyUpdateFields
 from runai.models.nfs import Nfs
 from runai.models.nfs_instance import NfsInstance
 from runai.models.nfs_rules import NfsRules
 from runai.models.nfss_defaults import NfssDefaults
 from runai.models.nfss_rules import NfssRules
+from runai.models.ngc_api_key import NgcApiKey
+from runai.models.ngc_api_key_creation_request import NgcApiKeyCreationRequest
+from runai.models.ngc_api_key_creation_spec import NgcApiKeyCreationSpec
+from runai.models.ngc_api_key_list_response import NgcApiKeyListResponse
+from runai.models.ngc_api_key_spec import NgcApiKeySpec
+from runai.models.ngc_api_key_update_request import NgcApiKeyUpdateRequest
+from runai.models.nim_cache import NimCache
+from runai.models.nim_service import NimService
+from runai.models.nim_service_pvc_fields import NimServicePvcFields
+from runai.models.nim_service_serving_port import NimServiceServingPort
+from runai.models.nim_service_spec import NimServiceSpec
+from runai.models.nim_service_spec_all_of_compute import NimServiceSpecAllOfCompute
+from runai.models.nim_service_spec_all_of_security import NimServiceSpecAllOfSecurity
+from runai.models.nim_service_spec_all_of_storage import NimServiceSpecAllOfStorage
 from runai.models.node import Node
 from runai.models.node_additional_fields import NodeAdditionalFields
 from runai.models.node_additional_read_fields import NodeAdditionalReadFields
@@ -705,8 +791,6 @@ from runai.models.node_pool_labels_request import NodePoolLabelsRequest
 from runai.models.node_pool_quota_status import NodePoolQuotaStatus
 from runai.models.node_pool_resources import NodePoolResources
 from runai.models.node_port_info import NodePortInfo
-from runai.models.node_related_flat_fields import NodeRelatedFlatFields
-from runai.models.node_related_flat_fields_rules import NodeRelatedFlatFieldsRules
 from runai.models.node_selector_term import NodeSelectorTerm
 from runai.models.node_status_condition_details import NodeStatusConditionDetails
 from runai.models.node_taint import NodeTaint
@@ -715,6 +799,7 @@ from runai.models.node_type_for_project import NodeTypeForProject
 from runai.models.node_types_per_workload import NodeTypesPerWorkload
 from runai.models.nodepool import Nodepool
 from runai.models.nodepool_calculated_fields import NodepoolCalculatedFields
+from runai.models.nodepool_condition_details import NodepoolConditionDetails
 from runai.models.nodepool_create_fields import NodepoolCreateFields
 from runai.models.nodepool_create_response_fields import NodepoolCreateResponseFields
 from runai.models.nodepool_create_response_fields_placement_strategy import (
@@ -730,27 +815,6 @@ from runai.models.nodepool_sync_fields_status import NodepoolSyncFieldsStatus
 from runai.models.nodepool_sync_update_fields import NodepoolSyncUpdateFields
 from runai.models.nodepool_update_fields import NodepoolUpdateFields
 from runai.models.nodes import Nodes
-from runai.models.non_inference_flat_fields import NonInferenceFlatFields
-from runai.models.non_inference_flat_fields_rules import NonInferenceFlatFieldsRules
-from runai.models.non_inference_security_flat_fields import (
-    NonInferenceSecurityFlatFields,
-)
-from runai.models.non_inference_security_flat_fields_rules import (
-    NonInferenceSecurityFlatFieldsRules,
-)
-from runai.models.non_inference_security_non_overridable import (
-    NonInferenceSecurityNonOverridable,
-)
-from runai.models.non_inference_security_non_overridable_rules import (
-    NonInferenceSecurityNonOverridableRules,
-)
-from runai.models.non_inference_storage_fields import NonInferenceStorageFields
-from runai.models.non_inference_storage_fields_defaults import (
-    NonInferenceStorageFieldsDefaults,
-)
-from runai.models.non_inference_storage_fields_rules import (
-    NonInferenceStorageFieldsRules,
-)
 from runai.models.non_null_resource import NonNullResource
 from runai.models.non_null_resource_v1 import NonNullResourceV1
 from runai.models.non_overridable_spec_fields import NonOverridableSpecFields
@@ -779,10 +843,10 @@ from runai.models.overtime_range_data import OvertimeRangeData
 from runai.models.pvc_asset import PVCAsset
 from runai.models.pvc_asset_spec import PVCAssetSpec
 from runai.models.pvc_creation_request import PVCCreationRequest
+from runai.models.pvc_history_response import PVCHistoryResponse
 from runai.models.pvc_list_response import PVCListResponse
 from runai.models.pvc_update_request import PVCUpdateRequest
-from runai.models.parallelism_field import ParallelismField
-from runai.models.parallelism_field_rules import ParallelismFieldRules
+from runai.models.pagination_info import PaginationInfo
 from runai.models.password import Password
 from runai.models.password_creation_request import PasswordCreationRequest
 from runai.models.password_creation_spec import PasswordCreationSpec
@@ -962,14 +1026,6 @@ from runai.models.resources import Resources
 from runai.models.resources_data import ResourcesData
 from runai.models.resources_data_overtime import ResourcesDataOvertime
 from runai.models.resources_data_overtime_v1 import ResourcesDataOvertimeV1
-from runai.models.resources_flat_fields_per_pg import ResourcesFlatFieldsPerPG
-from runai.models.resources_flat_fields_per_pg_rules import (
-    ResourcesFlatFieldsPerPGRules,
-)
-from runai.models.resources_flat_fields_per_pod import ResourcesFlatFieldsPerPod
-from runai.models.resources_flat_fields_per_pod_rules import (
-    ResourcesFlatFieldsPerPodRules,
-)
 from runai.models.resources_memory import ResourcesMemory
 from runai.models.resources_node_pool import ResourcesNodePool
 from runai.models.resources_nullable import ResourcesNullable
@@ -1002,6 +1058,12 @@ from runai.models.saml_creation_data_metadata_xml_type_enum import (
     SamlCreationDataMetadataXmlTypeEnum,
 )
 from runai.models.saml_data import SamlData
+from runai.models.scale_down_delay_field import ScaleDownDelayField
+from runai.models.scale_to_zero_retention_field import ScaleToZeroRetentionField
+from runai.models.scheduling_configuration import SchedulingConfiguration
+from runai.models.scheduling_configuration_placement_strategy import (
+    SchedulingConfigurationPlacementStrategy,
+)
 from runai.models.scheduling_rules import SchedulingRules
 from runai.models.scope import Scope
 from runai.models.scope_type import ScopeType
@@ -1028,11 +1090,8 @@ from runai.models.secret_instance2 import SecretInstance2
 from runai.models.secret_rules import SecretRules
 from runai.models.secrets_defaults import SecretsDefaults
 from runai.models.secrets_rules import SecretsRules
-from runai.models.security import Security
-from runai.models.security_flat_fields import SecurityFlatFields
-from runai.models.security_flat_fields_rules import SecurityFlatFieldsRules
-from runai.models.security_rules import SecurityRules
 from runai.models.serving_configuration import ServingConfiguration
+from runai.models.serving_configuration_field import ServingConfigurationField
 from runai.models.serving_configuration_rules import ServingConfigurationRules
 from runai.models.serving_port import ServingPort
 from runai.models.serving_port_access import ServingPortAccess
@@ -1059,6 +1118,7 @@ from runai.models.serving_port_protocol_options_options_inner import (
 )
 from runai.models.serving_port_protocol_rules import ServingPortProtocolRules
 from runai.models.serving_port_rules import ServingPortRules
+from runai.models.serving_port_service_type import ServingPortServiceType
 from runai.models.setting import Setting
 from runai.models.settings_get_response import SettingsGetResponse
 from runai.models.settings_key_enum import SettingsKeyEnum
@@ -1068,7 +1128,9 @@ from runai.models.shared_scopes_patch_request import SharedScopesPatchRequest
 from runai.models.slack_notification_channel_config import (
     SlackNotificationChannelConfig,
 )
+from runai.models.slack_notifications_state import SlackNotificationsState
 from runai.models.source import Source
+from runai.models.source_api import SourceApi
 from runai.models.source_of_rule import SourceOfRule
 from runai.models.specific_run_auto_scaling import SpecificRunAutoScaling
 from runai.models.specific_run_auto_scaling_auto_scaling import (
@@ -1080,11 +1142,8 @@ from runai.models.specific_run_creation_fields import SpecificRunCreationFields
 from runai.models.specific_run_info_fields import SpecificRunInfoFields
 from runai.models.specific_run_metric_fields import SpecificRunMetricFields
 from runai.models.specific_run_params import SpecificRunParams
-from runai.models.specific_run_params_common import SpecificRunParamsCommon
-from runai.models.specific_run_params_common_rules import SpecificRunParamsCommonRules
 from runai.models.specific_run_params_rules import SpecificRunParamsRules
 from runai.models.specific_run_serving_port_access import SpecificRunServingPortAccess
-from runai.models.storage import Storage
 from runai.models.storage_class1 import StorageClass1
 from runai.models.storage_class1_spec import StorageClass1Spec
 from runai.models.storage_class_customization import StorageClassCustomization
@@ -1093,26 +1152,31 @@ from runai.models.storage_class_spec import StorageClassSpec
 from runai.models.storage_class_v2 import StorageClassV2
 from runai.models.storage_classes1 import StorageClasses1
 from runai.models.storage_classes_v2 import StorageClassesV2
-from runai.models.storage_defaults import StorageDefaults
-from runai.models.storage_fields import StorageFields
-from runai.models.storage_fields_defaults import StorageFieldsDefaults
-from runai.models.storage_fields_rules import StorageFieldsRules
 from runai.models.storage_instance_name import StorageInstanceName
-from runai.models.storage_rules import StorageRules
 from runai.models.string_option import StringOption
 from runai.models.string_rules import StringRules
 from runai.models.string_rules_common import StringRulesCommon
 from runai.models.string_rules_options import StringRulesOptions
 from runai.models.subject_type import SubjectType
 from runai.models.submission_error import SubmissionError
+from runai.models.submit_with_template_id import SubmitWithTemplateId
 from runai.models.subscription import Subscription
 from runai.models.subscription_event import SubscriptionEvent
 from runai.models.subscription_for_put import SubscriptionForPut
-from runai.models.super_set import SuperSet
-from runai.models.super_set_serving_port import SuperSetServingPort
 from runai.models.superset_defaults import SupersetDefaults
+from runai.models.superset_defaults1 import SupersetDefaults1
+from runai.models.superset_defaults_all_of_compute import SupersetDefaultsAllOfCompute
+from runai.models.superset_defaults_all_of_storage import SupersetDefaultsAllOfStorage
 from runai.models.superset_rules import SupersetRules
+from runai.models.superset_rules_all_of_compute import SupersetRulesAllOfCompute
+from runai.models.superset_rules_all_of_security import SupersetRulesAllOfSecurity
+from runai.models.superset_rules_all_of_storage import SupersetRulesAllOfStorage
+from runai.models.superset_serving_port import SupersetServingPort
+from runai.models.superset_serving_port_rules import SupersetServingPortRules
 from runai.models.superset_spec import SupersetSpec
+from runai.models.superset_spec_all_of_compute import SupersetSpecAllOfCompute
+from runai.models.superset_spec_all_of_security import SupersetSpecAllOfSecurity
+from runai.models.superset_spec_all_of_storage import SupersetSpecAllOfStorage
 from runai.models.superset_template import SupersetTemplate
 from runai.models.superset_workload import SupersetWorkload
 from runai.models.sync_priority import SyncPriority
@@ -1130,6 +1194,7 @@ from runai.models.template_patch_meta import TemplatePatchMeta
 from runai.models.template_patch_meta_fields import TemplatePatchMetaFields
 from runai.models.template_update_meta import TemplateUpdateMeta
 from runai.models.template_update_meta_fields import TemplateUpdateMetaFields
+from runai.models.templates_list_response import TemplatesListResponse
 from runai.models.tenant_setting_creation_request import TenantSettingCreationRequest
 from runai.models.tenant_setting_creation_response import TenantSettingCreationResponse
 from runai.models.time_range import TimeRange
@@ -1151,23 +1216,16 @@ from runai.models.toleration_operator_options_options_inner import (
 from runai.models.toleration_operator_rules import TolerationOperatorRules
 from runai.models.toleration_rules import TolerationRules
 from runai.models.tolerations_defaults import TolerationsDefaults
-from runai.models.tolerations_field import TolerationsField
-from runai.models.tolerations_field_defaults import TolerationsFieldDefaults
-from runai.models.tolerations_field_rules import TolerationsFieldRules
 from runai.models.tolerations_rules import TolerationsRules
 from runai.models.tool_type import ToolType
 from runai.models.total_resources import TotalResources
 from runai.models.training1 import Training1
 from runai.models.training_creation_request import TrainingCreationRequest
-from runai.models.training_fields import TrainingFields
-from runai.models.training_fields_rules import TrainingFieldsRules
 from runai.models.training_policy_change_request_v2 import TrainingPolicyChangeRequestV2
 from runai.models.training_policy_defaults_and_rules_v2 import (
     TrainingPolicyDefaultsAndRulesV2,
 )
-from runai.models.training_policy_defaults_and_rules_v2_defaults import (
-    TrainingPolicyDefaultsAndRulesV2Defaults,
-)
+from runai.models.training_policy_defaults_v2 import TrainingPolicyDefaultsV2
 from runai.models.training_policy_overwrite_request_v2 import (
     TrainingPolicyOverwriteRequestV2,
 )
@@ -1182,6 +1240,7 @@ from runai.models.training_template_creation_request import (
 )
 from runai.models.training_template_patch_request import TrainingTemplatePatchRequest
 from runai.models.training_template_update_request import TrainingTemplateUpdateRequest
+from runai.models.training_templates_list_response import TrainingTemplatesListResponse
 from runai.models.uid_gid_source import UidGidSource
 from runai.models.uid_gid_source_options import UidGidSourceOptions
 from runai.models.uid_gid_source_options_options_inner import (
@@ -1190,9 +1249,12 @@ from runai.models.uid_gid_source_options_options_inner import (
 from runai.models.uid_gid_source_rules import UidGidSourceRules
 from runai.models.units import Units
 from runai.models.update_node_pool_request import UpdateNodePoolRequest
+from runai.models.update_request import UpdateRequest
 from runai.models.update_security_setting_by_key_request import (
     UpdateSecuritySettingByKeyRequest,
 )
+from runai.models.update_spec import UpdateSpec
+from runai.models.update_spec_spec import UpdateSpecSpec
 from runai.models.usage_times_info import UsageTimesInfo
 from runai.models.user1 import User1
 from runai.models.user2 import User2
@@ -1205,7 +1267,6 @@ from runai.models.user_creation_request import UserCreationRequest
 from runai.models.user_creation_request1 import UserCreationRequest1
 from runai.models.user_creation_response import UserCreationResponse
 from runai.models.user_post_response import UserPostResponse
-from runai.models.user_type import UserType
 from runai.models.users_filter_sort_fields import UsersFilterSortFields
 from runai.models.v1_error import V1Error
 from runai.models.v1_get_storage_classes200_response import (
@@ -1222,7 +1283,7 @@ from runai.models.workload_allocated_resources import WorkloadAllocatedResources
 from runai.models.workload_batch import WorkloadBatch
 from runai.models.workload_category import WorkloadCategory
 from runai.models.workload_children_ids_inner import WorkloadChildrenIdsInner
-from runai.models.workload_creation_meta1 import WorkloadCreationMeta1
+from runai.models.workload_creation_meta import WorkloadCreationMeta
 from runai.models.workload_desired_phase import WorkloadDesiredPhase
 from runai.models.workload_detailed import WorkloadDetailed
 from runai.models.workload_meta1 import WorkloadMeta1
@@ -1239,10 +1300,30 @@ from runai.models.workload_template_creation_request import (
 from runai.models.workload_template_list_response import WorkloadTemplateListResponse
 from runai.models.workload_template_update_request import WorkloadTemplateUpdateRequest
 from runai.models.workload_type import WorkloadType
-from runai.models.workload_type_config import WorkloadTypeConfig
-from runai.models.workload_type_config_update_fields import (
-    WorkloadTypeConfigUpdateFields,
+from runai.models.workload_type_additional_create_fields import (
+    WorkloadTypeAdditionalCreateFields,
 )
+from runai.models.workload_type_config import WorkloadTypeConfig
+from runai.models.workload_type_create_fields import WorkloadTypeCreateFields
+from runai.models.workload_type_create_update_inner_fields import (
+    WorkloadTypeCreateUpdateInnerFields,
+)
+from runai.models.workload_type_resource_interfaces_with_version_inner import (
+    WorkloadTypeResourceInterfacesWithVersionInner,
+)
+from runai.models.workload_type_status import WorkloadTypeStatus
+from runai.models.workload_type_status_fields import WorkloadTypeStatusFields
+from runai.models.workload_type_update_fields import WorkloadTypeUpdateFields
+from runai.models.workload_v2 import WorkloadV2
+from runai.models.workload_v2_create_request import WorkloadV2CreateRequest
+from runai.models.workload_v2_get_response import WorkloadV2GetResponse
+from runai.models.workload_v2_metadata import WorkloadV2Metadata
+from runai.models.workload_v2_metadata_auto_fill import WorkloadV2MetadataAutoFill
+from runai.models.workload_v2_metadata_create_params import (
+    WorkloadV2MetadataCreateParams,
+)
+from runai.models.workload_v2_sync_info import WorkloadV2SyncInfo
+from runai.models.workload_v2_sync_status import WorkloadV2SyncStatus
 from runai.models.workloads_extended_resource import WorkloadsExtendedResource
 from runai.models.workspace1 import Workspace1
 from runai.models.workspace_creation_request import WorkspaceCreationRequest
@@ -1252,9 +1333,7 @@ from runai.models.workspace_policy_change_request_v2 import (
 from runai.models.workspace_policy_defaults_and_rules_v2 import (
     WorkspacePolicyDefaultsAndRulesV2,
 )
-from runai.models.workspace_policy_defaults_and_rules_v2_defaults import (
-    WorkspacePolicyDefaultsAndRulesV2Defaults,
-)
+from runai.models.workspace_policy_defaults_v2 import WorkspacePolicyDefaultsV2
 from runai.models.workspace_policy_overwrite_request_v2 import (
     WorkspacePolicyOverwriteRequestV2,
 )
@@ -1270,4 +1349,7 @@ from runai.models.workspace_template_creation_request import (
 from runai.models.workspace_template_patch_request import WorkspaceTemplatePatchRequest
 from runai.models.workspace_template_update_request import (
     WorkspaceTemplateUpdateRequest,
+)
+from runai.models.workspace_templates_list_response import (
+    WorkspaceTemplatesListResponse,
 )

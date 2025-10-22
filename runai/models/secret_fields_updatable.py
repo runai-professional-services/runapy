@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -31,12 +31,15 @@ class SecretFieldsUpdatable(BaseModel):
     Parameters:
         ```python
         mount_path: Optional[str]
+        default_mode: Optional[str]
         ```
         mount_path: Local path within the workload to which the Secret will be mapped to. (mandatory)
+        default_mode: File permission mode in octal string format. This value must be a 4-digit octal number, representing the default file mode when mounting a Secret or ConfigMap as a volume.
     Example:
         ```python
         SecretFieldsUpdatable(
-            mount_path='0'
+            mount_path='0',
+                        default_mode='0644'
         )
         ```
     """  # noqa: E501
@@ -46,7 +49,24 @@ class SecretFieldsUpdatable(BaseModel):
         description="Local path within the workload to which the Secret will be mapped to. (mandatory)",
         alias="mountPath",
     )
-    __properties: ClassVar[List[str]] = ["mountPath"]
+    default_mode: Optional[
+        Annotated[str, Field(min_length=4, strict=True, max_length=4)]
+    ] = Field(
+        default=None,
+        description="File permission mode in octal string format. This value must be a 4-digit octal number, representing the default file mode when mounting a Secret or ConfigMap as a volume. ",
+        alias="defaultMode",
+    )
+    __properties: ClassVar[List[str]] = ["mountPath", "defaultMode"]
+
+    @field_validator("default_mode")
+    def default_mode_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"0[0-7]{3}", value):
+            raise ValueError(r"must validate the regular expression /0[0-7]{3}/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +110,11 @@ class SecretFieldsUpdatable(BaseModel):
         if self.mount_path is None and "mount_path" in self.model_fields_set:
             _dict["mountPath"] = None
 
+        # set to None if default_mode (nullable) is None
+        # and model_fields_set contains the field
+        if self.default_mode is None and "default_mode" in self.model_fields_set:
+            _dict["defaultMode"] = None
+
         return _dict
 
     @classmethod
@@ -101,5 +126,7 @@ class SecretFieldsUpdatable(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate({"mountPath": obj.get("mountPath")})
+        _obj = cls.model_validate(
+            {"mountPath": obj.get("mountPath"), "defaultMode": obj.get("defaultMode")}
+        )
         return _obj

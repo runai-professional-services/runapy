@@ -40,6 +40,7 @@ class TestConfigMapRules(unittest.TestCase):
                 config_map=runai.models.string_rules.StringRules(),
                 mount_path=runai.models.string_rules.StringRules(),
                 sub_path=runai.models.string_rules.StringRules(),
+                default_mode=runai.models.string_rules.StringRules(),
             )
         else:
             return ConfigMapRules()

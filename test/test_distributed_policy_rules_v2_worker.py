@@ -39,77 +39,6 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
         # model = DistributedPolicyRulesV2Worker()
         if include_optional:
             return DistributedPolicyRulesV2Worker(
-                command=runai.models.string_rules.StringRules(),
-                args=runai.models.string_rules.StringRules(),
-                image=runai.models.string_rules.StringRules(),
-                image_pull_policy=runai.models.image_pull_policy_rules.ImagePullPolicyRules(),
-                working_dir=runai.models.string_rules.StringRules(),
-                create_home_dir=runai.models.boolean_rules.BooleanRules(
-                    source_of_rule={"scope": "project", "projectId": 3},
-                    required=True,
-                    can_edit=True,
-                ),
-                probes=runai.models.probes_rules.ProbesRules(
-                    readiness=runai.models.probe_rules.ProbeRules(
-                        initial_delay_seconds=runai.models.integer_rules.IntegerRules(
-                            source_of_rule={"scope": "project", "projectId": 3},
-                            required=True,
-                            can_edit=True,
-                            min=56,
-                            max=56,
-                            step=56,
-                            default_from=runai.models.default_from_rule.DefaultFromRule(
-                                field="",
-                                factor=1.337,
-                            ),
-                        ),
-                        period_seconds=runai.models.integer_rules.IntegerRules(
-                            required=True,
-                            can_edit=True,
-                            min=56,
-                            max=56,
-                            step=56,
-                        ),
-                        timeout_seconds=None,
-                        success_threshold=None,
-                        failure_threshold=None,
-                        handler=runai.models.probe_handler_rules.ProbeHandlerRules(
-                            http_get=runai.models.probe_handler_rules_http_get.ProbeHandlerRules_httpGet(
-                                path=runai.models.string_rules.StringRules(),
-                                port=None,
-                                host=runai.models.string_rules.StringRules(),
-                                scheme=runai.models.string_rules.StringRules(),
-                            ),
-                        ),
-                    ),
-                ),
-                node_type=runai.models.string_rules.StringRules(),
-                node_affinity_required=runai.models.arbitrary_rules.ArbitraryRules(
-                    source_of_rule={"scope": "project", "projectId": 3},
-                    required=True,
-                    can_edit=True,
-                ),
-                pod_affinity=runai.models.pod_affinity_rules.PodAffinityRules(
-                    type=runai.models.pod_affinity_type_rules.PodAffinityTypeRules(),
-                    key=runai.models.string_rules.StringRules(),
-                ),
-                category=runai.models.string_rules.StringRules(),
-                priority_class=runai.models.string_rules.StringRules(),
-                node_pools=runai.models.array_rules.ArrayRules(
-                    source_of_rule={"scope": "project", "projectId": 3},
-                    required=True,
-                    options=[
-                        {"value": "value", "displayed": "A description of the value."}
-                    ],
-                    can_edit=True,
-                ),
-                environment_variables=runai.models.instances_rules.InstancesRules(
-                    instances=runai.models.item_rules.ItemRules(
-                        source_of_rule={"scope": "project", "projectId": 3},
-                        can_add=True,
-                        locked=["HOME", "USER"],
-                    ),
-                ),
                 annotations=runai.models.instances_rules.InstancesRules(
                     instances=runai.models.item_rules.ItemRules(
                         source_of_rule={"scope": "project", "projectId": 3},
@@ -117,60 +46,7 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
                         locked=["HOME", "USER"],
                     ),
                 ),
-                labels=runai.models.instances_rules.InstancesRules(
-                    instances=runai.models.item_rules.ItemRules(
-                        source_of_rule={"scope": "project", "projectId": 3},
-                        can_add=True,
-                        locked=["HOME", "USER"],
-                    ),
-                ),
-                image_pull_secrets=runai.models.image_pull_secrets_rules.ImagePullSecretsRules(
-                    attributes=runai.models.image_pull_secrets_rules_attributes.ImagePullSecretsRulesAttributes(
-                        name=runai.models.string_rules.StringRules(),
-                        user_credentials=runai.models.boolean_rules.BooleanRules(
-                            source_of_rule={"scope": "project", "projectId": 3},
-                            required=True,
-                            can_edit=True,
-                        ),
-                    ),
-                    instances=runai.models.item_rules.ItemRules(
-                        can_add=True,
-                        locked=["HOME", "USER"],
-                    ),
-                ),
-                tolerations=runai.models.tolerations_rules.TolerationsRules(
-                    attributes=runai.models.toleration_rules.TolerationRules(
-                        operator=runai.models.toleration_operator_rules.TolerationOperatorRules(),
-                        key=runai.models.string_rules.StringRules(),
-                        value=runai.models.string_rules.StringRules(),
-                        effect=runai.models.toleration_effect_rules.TolerationEffectRules(),
-                        seconds=runai.models.integer_rules.IntegerRules(
-                            source_of_rule={"scope": "project", "projectId": 3},
-                            required=True,
-                            can_edit=True,
-                            min=56,
-                            max=56,
-                            step=56,
-                            default_from=runai.models.default_from_rule.DefaultFromRule(
-                                field="",
-                                factor=1.337,
-                            ),
-                        ),
-                        exclude=runai.models.boolean_rules.BooleanRules(
-                            required=True,
-                            can_edit=True,
-                        ),
-                    ),
-                    instances=runai.models.item_rules.ItemRules(
-                        can_add=True,
-                        locked=["HOME", "USER"],
-                    ),
-                ),
-                terminate_after_preemption=runai.models.boolean_rules.BooleanRules(
-                    source_of_rule={"scope": "project", "projectId": 3},
-                    required=True,
-                    can_edit=True,
-                ),
+                args=runai.models.string_rules.StringRules(),
                 auto_deletion_time_after_completion_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule={"scope": "project", "projectId": 3},
                     required=True,
@@ -179,19 +55,7 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
                     max=56,
                     step=56,
                     default_from=runai.models.default_from_rule.DefaultFromRule(
-                        field="",
-                        factor=1.337,
-                    ),
-                ),
-                termination_grace_period_seconds=runai.models.integer_rules.IntegerRules(
-                    source_of_rule={"scope": "project", "projectId": 3},
-                    required=True,
-                    can_edit=True,
-                    min=56,
-                    max=56,
-                    step=56,
-                    default_from=runai.models.default_from_rule.DefaultFromRule(
-                        field="",
+                        field="jUR,rZ#UM/?R,Fp^l6$ARj",
                         factor=1.337,
                     ),
                 ),
@@ -203,41 +67,79 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
                     max=56,
                     step=56,
                     default_from=runai.models.default_from_rule.DefaultFromRule(
-                        field="",
+                        field="jUR,rZ#UM/?R,Fp^l6$ARj",
                         factor=1.337,
                     ),
                 ),
-                restart_policy=runai.models.restart_policy_rule.RestartPolicyRule(),
-                ports=runai.models.ports_rules.PortsRules(
-                    attributes=runai.models.port_rules.PortRules(
-                        container=runai.models.integer_rules.IntegerRules(
-                            source_of_rule={"scope": "project", "projectId": 3},
-                            required=True,
-                            can_edit=True,
-                            min=56,
-                            max=56,
-                            step=56,
-                            default_from=runai.models.default_from_rule.DefaultFromRule(
-                                field="",
-                                factor=1.337,
-                            ),
+                category=runai.models.string_rules.StringRules(),
+                command=runai.models.string_rules.StringRules(),
+                compute=runai.models.superset_rules_all_of_compute.SupersetRules_allOf_compute(
+                    cpu_core_limit=runai.models.number_rules.NumberRules(
+                        source_of_rule={"scope": "project", "projectId": 3},
+                        required=True,
+                        can_edit=True,
+                        min=1.337,
+                        max=1.337,
+                        step=1.337,
+                        default_from=runai.models.default_from_rule.DefaultFromRule(
+                            field="jUR,rZ#UM/?R,Fp^l6$ARj",
+                            factor=1.337,
                         ),
-                        service_type=runai.models.port_service_type_rules.PortServiceTypeRules(),
-                        custom_external_port=runai.models.boolean_rules.BooleanRules(
-                            required=True,
-                            can_edit=True,
-                        ),
-                        external=runai.models.integer_rules.IntegerRules(
-                            required=True,
-                            can_edit=True,
-                            min=56,
-                            max=56,
-                            step=56,
-                        ),
-                        tool_type=runai.models.string_rules.StringRules(),
-                        tool_name=runai.models.string_rules.StringRules(),
                     ),
+                    cpu_core_request=runai.models.number_rules.NumberRules(
+                        required=True,
+                        can_edit=True,
+                        min=1.337,
+                        max=1.337,
+                        step=1.337,
+                    ),
+                    cpu_memory_limit=runai.models.quantity_rules.QuantityRules(
+                        required=True,
+                        can_edit=True,
+                        min="+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598",
+                        max="+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598",
+                    ),
+                    cpu_memory_request=runai.models.quantity_rules.QuantityRules(
+                        required=True,
+                        can_edit=True,
+                        min="+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598",
+                        max="+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598",
+                    ),
+                    extended_resources=runai.models.extended_resources_rules.ExtendedResourcesRules(
+                        attributes=runai.models.extended_resource_rules.ExtendedResourceRules(
+                            quantity=runai.models.string_rules.StringRules(),
+                        ),
+                        instances=runai.models.item_rules.ItemRules(
+                            can_add=True,
+                            locked=["HOME", "USER"],
+                        ),
+                    ),
+                    gpu_devices_request=runai.models.integer_rules.IntegerRules(
+                        required=True,
+                        can_edit=True,
+                        min=56,
+                        max=56,
+                        step=56,
+                    ),
+                    gpu_memory_limit=None,
+                    gpu_memory_request=None,
+                    gpu_portion_limit=None,
+                    gpu_portion_request=None,
+                    gpu_request_type=runai.models.gpu_request_rules.GpuRequestRules(),
+                    large_shm_request=runai.models.boolean_rules.BooleanRules(
+                        required=True,
+                        can_edit=True,
+                    ),
+                    mig_profile=None,
+                ),
+                create_home_dir=runai.models.boolean_rules.BooleanRules(
+                    source_of_rule={"scope": "project", "projectId": 3},
+                    required=True,
+                    can_edit=True,
+                ),
+                environment_variables=runai.models.instances_rules.InstancesRules(
                     instances=runai.models.item_rules.ItemRules(
+                        source_of_rule={"scope": "project", "projectId": 3},
                         can_add=True,
                         locked=["HOME", "USER"],
                     ),
@@ -252,7 +154,7 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
                             max=56,
                             step=56,
                             default_from=runai.models.default_from_rule.DefaultFromRule(
-                                field="",
+                                field="jUR,rZ#UM/?R,Fp^l6$ARj",
                                 factor=1.337,
                             ),
                         ),
@@ -279,6 +181,116 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
                         locked=["HOME", "USER"],
                     ),
                 ),
+                image=runai.models.string_rules.StringRules(),
+                image_pull_policy=runai.models.image_pull_policy_rules.ImagePullPolicyRules(),
+                image_pull_secrets=runai.models.image_pull_secrets_rules.ImagePullSecretsRules(
+                    attributes=runai.models.image_pull_secrets_rules_attributes.ImagePullSecretsRulesAttributes(
+                        name=runai.models.string_rules.StringRules(),
+                        user_credentials=runai.models.boolean_rules.BooleanRules(
+                            source_of_rule={"scope": "project", "projectId": 3},
+                            required=True,
+                            can_edit=True,
+                        ),
+                    ),
+                    instances=runai.models.item_rules.ItemRules(
+                        can_add=True,
+                        locked=["HOME", "USER"],
+                    ),
+                ),
+                labels=runai.models.instances_rules.InstancesRules(
+                    instances=runai.models.item_rules.ItemRules(
+                        source_of_rule={"scope": "project", "projectId": 3},
+                        can_add=True,
+                        locked=["HOME", "USER"],
+                    ),
+                ),
+                node_affinity_required=runai.models.arbitrary_rules.ArbitraryRules(
+                    source_of_rule={"scope": "project", "projectId": 3},
+                    required=True,
+                    can_edit=True,
+                ),
+                node_pools=runai.models.array_rules.ArrayRules(
+                    source_of_rule={"scope": "project", "projectId": 3},
+                    required=True,
+                    options=[
+                        {"value": "value", "displayed": "A description of the value."}
+                    ],
+                    can_edit=True,
+                ),
+                node_type=runai.models.string_rules.StringRules(),
+                pod_affinity=runai.models.pod_affinity_rules.PodAffinityRules(
+                    type=runai.models.pod_affinity_type_rules.PodAffinityTypeRules(),
+                    key=runai.models.string_rules.StringRules(),
+                ),
+                ports=runai.models.ports_rules.PortsRules(
+                    attributes=runai.models.port_rules.PortRules(
+                        container=runai.models.integer_rules.IntegerRules(
+                            source_of_rule={"scope": "project", "projectId": 3},
+                            required=True,
+                            can_edit=True,
+                            min=56,
+                            max=56,
+                            step=56,
+                            default_from=runai.models.default_from_rule.DefaultFromRule(
+                                field="jUR,rZ#UM/?R,Fp^l6$ARj",
+                                factor=1.337,
+                            ),
+                        ),
+                        service_type=runai.models.port_service_type_rules.PortServiceTypeRules(),
+                        custom_external_port=runai.models.boolean_rules.BooleanRules(
+                            required=True,
+                            can_edit=True,
+                        ),
+                        external=runai.models.integer_rules.IntegerRules(
+                            required=True,
+                            can_edit=True,
+                            min=56,
+                            max=56,
+                            step=56,
+                        ),
+                        tool_type=runai.models.string_rules.StringRules(),
+                        tool_name=runai.models.string_rules.StringRules(),
+                    ),
+                    instances=runai.models.item_rules.ItemRules(
+                        can_add=True,
+                        locked=["HOME", "USER"],
+                    ),
+                ),
+                priority_class=runai.models.string_rules.StringRules(),
+                probes=runai.models.probes_rules.ProbesRules(
+                    readiness=runai.models.probe_rules.ProbeRules(
+                        initial_delay_seconds=runai.models.integer_rules.IntegerRules(
+                            source_of_rule={"scope": "project", "projectId": 3},
+                            required=True,
+                            can_edit=True,
+                            min=56,
+                            max=56,
+                            step=56,
+                            default_from=runai.models.default_from_rule.DefaultFromRule(
+                                field="jUR,rZ#UM/?R,Fp^l6$ARj",
+                                factor=1.337,
+                            ),
+                        ),
+                        period_seconds=runai.models.integer_rules.IntegerRules(
+                            required=True,
+                            can_edit=True,
+                            min=56,
+                            max=56,
+                            step=56,
+                        ),
+                        timeout_seconds=None,
+                        success_threshold=None,
+                        failure_threshold=None,
+                        handler=runai.models.probe_handler_rules.ProbeHandlerRules(
+                            http_get=runai.models.probe_handler_rules_http_get.ProbeHandlerRules_httpGet(
+                                path=runai.models.string_rules.StringRules(),
+                                port=None,
+                                host=runai.models.string_rules.StringRules(),
+                                scheme=runai.models.string_rules.StringRules(),
+                            ),
+                        ),
+                    ),
+                ),
                 related_urls=runai.models.related_urls_rules.RelatedUrlsRules(
                     attributes=runai.models.related_url_rules.RelatedUrlRules(
                         url=runai.models.string_rules.StringRules(),
@@ -291,20 +303,84 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
                         locked=["HOME", "USER"],
                     ),
                 ),
-                security=runai.models.security_flat_fields_rules.SecurityFlatFieldsRules(),
-                compute=runai.models.compute_fields_rules.ComputeFieldsRules(),
-                storage=runai.models.storage_fields_rules.StorageFieldsRules(),
-                tty=runai.models.boolean_rules.BooleanRules(
-                    source_of_rule={"scope": "project", "projectId": 3},
-                    required=True,
-                    can_edit=True,
+                restart_policy=runai.models.restart_policy_rule.RestartPolicyRule(),
+                security=runai.models.superset_rules_all_of_security.SupersetRules_allOf_security(
+                    allow_privilege_escalation=runai.models.boolean_rules.BooleanRules(
+                        source_of_rule={"scope": "project", "projectId": 3},
+                        required=True,
+                        can_edit=True,
+                    ),
+                    capabilities=runai.models.array_rules.ArrayRules(
+                        required=True,
+                        options=[
+                            {
+                                "value": "value",
+                                "displayed": "A description of the value.",
+                            }
+                        ],
+                        can_edit=True,
+                    ),
+                    host_ipc=runai.models.boolean_rules.BooleanRules(
+                        required=True,
+                        can_edit=True,
+                    ),
+                    host_network=None,
+                    read_only_root_filesystem=None,
+                    run_as_gid=runai.models.integer_rules_optional.IntegerRulesOptional(
+                        can_edit=True,
+                        min=56,
+                        max=56,
+                        step=56,
+                        default_from=runai.models.default_from_rule.DefaultFromRule(
+                            field="jUR,rZ#UM/?R,Fp^l6$ARj",
+                            factor=1.337,
+                        ),
+                    ),
+                    run_as_non_root=None,
+                    run_as_uid=runai.models.integer_rules_optional.IntegerRulesOptional(
+                        can_edit=True,
+                        min=56,
+                        max=56,
+                        step=56,
+                    ),
+                    seccomp_profile_type=runai.models.seccomp_profile_type_rules.SeccompProfileTypeRules(),
+                    supplemental_groups=runai.models.string_rules.StringRules(),
+                    uid_gid_source=runai.models.uid_gid_source_rules.UidGidSourceRules(),
                 ),
                 stdin=runai.models.boolean_rules.BooleanRules(
                     source_of_rule={"scope": "project", "projectId": 3},
                     required=True,
                     can_edit=True,
                 ),
-                num_workers=runai.models.integer_rules.IntegerRules(
+                storage=runai.models.superset_rules_all_of_storage.SupersetRules_allOf_storage(
+                    config_map_volume=runai.models.config_maps_rules.ConfigMapsRules(
+                        attributes=runai.models.config_map_rules.ConfigMapRules(
+                            config_map=runai.models.string_rules.StringRules(),
+                            mount_path=runai.models.string_rules.StringRules(),
+                            sub_path=runai.models.string_rules.StringRules(),
+                            default_mode=runai.models.string_rules.StringRules(),
+                        ),
+                        instances=runai.models.item_rules.ItemRules(
+                            source_of_rule={"scope": "project", "projectId": 3},
+                            can_add=True,
+                            locked=["HOME", "USER"],
+                        ),
+                    ),
+                    data_volume=runai.models.data_volumes_rules.DataVolumesRules(),
+                    empty_dir_volume=runai.models.empty_dirs_rules.EmptyDirsRules(),
+                    git=runai.models.gits_rules.GitsRules(),
+                    host_path=runai.models.host_paths_rules.HostPathsRules(),
+                    nfs=runai.models.nfss_rules.NfssRules(),
+                    pvc=runai.models.pvcs_rules.PvcsRules(),
+                    s3=runai.models.s3s_rules.S3sRules(),
+                    secret_volume=runai.models.secrets_rules.SecretsRules(),
+                ),
+                terminate_after_preemption=runai.models.boolean_rules.BooleanRules(
+                    source_of_rule={"scope": "project", "projectId": 3},
+                    required=True,
+                    can_edit=True,
+                ),
+                termination_grace_period_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule={"scope": "project", "projectId": 3},
                     required=True,
                     can_edit=True,
@@ -312,37 +388,46 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
                     max=56,
                     step=56,
                     default_from=runai.models.default_from_rule.DefaultFromRule(
-                        field="",
+                        field="jUR,rZ#UM/?R,Fp^l6$ARj",
                         factor=1.337,
                     ),
                 ),
+                tolerations=runai.models.tolerations_rules.TolerationsRules(
+                    attributes=runai.models.toleration_rules.TolerationRules(
+                        operator=runai.models.toleration_operator_rules.TolerationOperatorRules(),
+                        key=runai.models.string_rules.StringRules(),
+                        value=runai.models.string_rules.StringRules(),
+                        effect=runai.models.toleration_effect_rules.TolerationEffectRules(),
+                        seconds=runai.models.integer_rules.IntegerRules(
+                            source_of_rule={"scope": "project", "projectId": 3},
+                            required=True,
+                            can_edit=True,
+                            min=56,
+                            max=56,
+                            step=56,
+                            default_from=runai.models.default_from_rule.DefaultFromRule(
+                                field="jUR,rZ#UM/?R,Fp^l6$ARj",
+                                factor=1.337,
+                            ),
+                        ),
+                        exclude=runai.models.boolean_rules.BooleanRules(
+                            required=True,
+                            can_edit=True,
+                        ),
+                    ),
+                    instances=runai.models.item_rules.ItemRules(
+                        can_add=True,
+                        locked=["HOME", "USER"],
+                    ),
+                ),
+                tty=runai.models.boolean_rules.BooleanRules(
+                    source_of_rule={"scope": "project", "projectId": 3},
+                    required=True,
+                    can_edit=True,
+                ),
+                working_dir=runai.models.string_rules.StringRules(),
+                clean_pod_policy=runai.models.clean_pod_policy_rules.CleanPodPolicyRules(),
                 distributed_framework=runai.models.distributed_framework_rules.DistributedFrameworkRules(),
-                slots_per_worker=runai.models.integer_rules.IntegerRules(
-                    source_of_rule={"scope": "project", "projectId": 3},
-                    required=True,
-                    can_edit=True,
-                    min=56,
-                    max=56,
-                    step=56,
-                    default_from=runai.models.default_from_rule.DefaultFromRule(
-                        field="",
-                        factor=1.337,
-                    ),
-                ),
-                ssh_auth_mount_path=runai.models.string_rules.StringRules(),
-                mpi_launcher_creation_policy=runai.models.distributed_mpi_launcher_creation_policy_rules.DistributedMpiLauncherCreationPolicyRules(),
-                min_replicas=runai.models.integer_rules.IntegerRules(
-                    source_of_rule={"scope": "project", "projectId": 3},
-                    required=True,
-                    can_edit=True,
-                    min=56,
-                    max=56,
-                    step=56,
-                    default_from=runai.models.default_from_rule.DefaultFromRule(
-                        field="",
-                        factor=1.337,
-                    ),
-                ),
                 max_replicas=runai.models.integer_rules.IntegerRules(
                     source_of_rule={"scope": "project", "projectId": 3},
                     required=True,
@@ -351,11 +436,48 @@ class TestDistributedPolicyRulesV2Worker(unittest.TestCase):
                     max=56,
                     step=56,
                     default_from=runai.models.default_from_rule.DefaultFromRule(
-                        field="",
+                        field="jUR,rZ#UM/?R,Fp^l6$ARj",
                         factor=1.337,
                     ),
                 ),
-                clean_pod_policy=runai.models.distributed_clean_pod_policy_rules.DistributedCleanPodPolicyRules(),
+                min_replicas=runai.models.integer_rules.IntegerRules(
+                    source_of_rule={"scope": "project", "projectId": 3},
+                    required=True,
+                    can_edit=True,
+                    min=56,
+                    max=56,
+                    step=56,
+                    default_from=runai.models.default_from_rule.DefaultFromRule(
+                        field="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        factor=1.337,
+                    ),
+                ),
+                mpi_launcher_creation_policy=runai.models.mpi_launcher_creation_policy_rules.MpiLauncherCreationPolicyRules(),
+                num_workers=runai.models.integer_rules.IntegerRules(
+                    source_of_rule={"scope": "project", "projectId": 3},
+                    required=True,
+                    can_edit=True,
+                    min=56,
+                    max=56,
+                    step=56,
+                    default_from=runai.models.default_from_rule.DefaultFromRule(
+                        field="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        factor=1.337,
+                    ),
+                ),
+                slots_per_worker=runai.models.integer_rules.IntegerRules(
+                    source_of_rule={"scope": "project", "projectId": 3},
+                    required=True,
+                    can_edit=True,
+                    min=56,
+                    max=56,
+                    step=56,
+                    default_from=runai.models.default_from_rule.DefaultFromRule(
+                        field="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        factor=1.337,
+                    ),
+                ),
+                ssh_auth_mount_path=runai.models.string_rules.StringRules(),
             )
         else:
             return DistributedPolicyRulesV2Worker()

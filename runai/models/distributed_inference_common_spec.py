@@ -17,11 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.distributed_inference_restart_policy import (
     DistributedInferenceRestartPolicy,
+)
+from runai.models.distributed_inference_serving_port import (
+    DistributedInferenceServingPort,
 )
 from runai.models.distributed_inference_startup_policy import (
     DistributedInferenceStartupPolicy,
@@ -36,61 +39,38 @@ class DistributedInferenceCommonSpec(BaseModel):
 
     Parameters:
         ```python
-        node_pools: Optional[List[str]]
-        category: Optional[str]
-        priority_class: Optional[str]
-        serving_port: Optional[object]
-        restart_policy: Optional[DistributedInferenceRestartPolicy]
         startup_policy: Optional[DistributedInferenceStartupPolicy]
         workers: Optional[int]
         replicas: Optional[int]
+        category: Optional[str]
+        node_pools: Optional[List[str]]
+        priority_class: Optional[str]
+        restart_policy: Optional[DistributedInferenceRestartPolicy]
+        serving_port: Optional[DistributedInferenceServingPort]
         ```
-        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
-        category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
-        priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
-        serving_port: Defines the configuration for the inference serving endpoint. This determines how applications or services can send inference requests to the workload.
-        restart_policy: See model DistributedInferenceRestartPolicy for more information. - Default: DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART
         startup_policy: See model DistributedInferenceStartupPolicy for more information. - Default: DistributedInferenceStartupPolicy.LEADERCREATED
         workers: Specifies the number of worker nodes to run. If set to 0, only the leader node will run, and no worker pods will be created. In this case, worker spec is not required. - Default: 0
         replicas: Specifies the number of leader-worker sets to deploy. Each replica represents a group consisting of one leader pod and multiple worker pods.  For example, setting replicas: 3 will create 3 independent groups, each with its own leader and corresponding set of workers.  - Default: 1
+        category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
+        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
+        priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
+        restart_policy: See model DistributedInferenceRestartPolicy for more information. - Default: DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART
+        serving_port: See model DistributedInferenceServingPort for more information.
     Example:
         ```python
         DistributedInferenceCommonSpec(
-            node_pools=[my-node-pool-a, my-node-pool-b],
-                        category='',
-                        priority_class='',
-                        serving_port=None,
-                        restart_policy='RecreateGroupOnPodRestart',
-                        startup_policy='LeaderCreated',
+            startup_policy='LeaderCreated',
                         workers=4,
-                        replicas=2
+                        replicas=2,
+                        category='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        node_pools=["my-node-pool-a","my-node-pool-b"],
+                        priority_class='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        restart_policy='RecreateGroupOnPodRestart',
+                        serving_port=runai.models.distributed_inference_serving_port.DistributedInferenceServingPort()
         )
         ```
     """  # noqa: E501
 
-    node_pools: Optional[List[StrictStr]] = Field(
-        default=None,
-        description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
-        alias="nodePools",
-    )
-    category: Optional[StrictStr] = Field(
-        default=None,
-        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
-    )
-    priority_class: Optional[StrictStr] = Field(
-        default=None,
-        description="Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload's scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.",
-        alias="priorityClass",
-    )
-    serving_port: Optional[Dict[str, Any]] = Field(
-        default=None,
-        description="Defines the configuration for the inference serving endpoint. This determines how applications or services can send inference requests to the workload.",
-        alias="servingPort",
-    )
-    restart_policy: Optional[DistributedInferenceRestartPolicy] = Field(
-        default=DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART,
-        alias="restartPolicy",
-    )
     startup_policy: Optional[DistributedInferenceStartupPolicy] = Field(
         default=DistributedInferenceStartupPolicy.LEADERCREATED, alias="startupPolicy"
     )
@@ -102,16 +82,57 @@ class DistributedInferenceCommonSpec(BaseModel):
         default=1,
         description="Specifies the number of leader-worker sets to deploy. Each replica represents a group consisting of one leader pod and multiple worker pods.  For example, setting replicas: 3 will create 3 independent groups, each with its own leader and corresponding set of workers. ",
     )
+    category: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
+    )
+    node_pools: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
+        default=None,
+        description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
+        alias="nodePools",
+    )
+    priority_class: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload's scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.",
+        alias="priorityClass",
+    )
+    restart_policy: Optional[DistributedInferenceRestartPolicy] = Field(
+        default=DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART,
+        alias="restartPolicy",
+    )
+    serving_port: Optional[DistributedInferenceServingPort] = Field(
+        default=None, alias="servingPort"
+    )
     __properties: ClassVar[List[str]] = [
-        "nodePools",
-        "category",
-        "priorityClass",
-        "servingPort",
-        "restartPolicy",
         "startupPolicy",
         "workers",
         "replicas",
+        "category",
+        "nodePools",
+        "priorityClass",
+        "restartPolicy",
+        "servingPort",
     ]
+
+    @field_validator("category")
+    def category_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("priority_class")
+    def priority_class_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -150,31 +171,9 @@ class DistributedInferenceCommonSpec(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if node_pools (nullable) is None
-        # and model_fields_set contains the field
-        if self.node_pools is None and "node_pools" in self.model_fields_set:
-            _dict["nodePools"] = None
-
-        # set to None if category (nullable) is None
-        # and model_fields_set contains the field
-        if self.category is None and "category" in self.model_fields_set:
-            _dict["category"] = None
-
-        # set to None if priority_class (nullable) is None
-        # and model_fields_set contains the field
-        if self.priority_class is None and "priority_class" in self.model_fields_set:
-            _dict["priorityClass"] = None
-
-        # set to None if serving_port (nullable) is None
-        # and model_fields_set contains the field
-        if self.serving_port is None and "serving_port" in self.model_fields_set:
-            _dict["servingPort"] = None
-
-        # set to None if restart_policy (nullable) is None
-        # and model_fields_set contains the field
-        if self.restart_policy is None and "restart_policy" in self.model_fields_set:
-            _dict["restartPolicy"] = None
-
+        # override the default output from pydantic by calling `to_dict()` of serving_port
+        if self.serving_port:
+            _dict["servingPort"] = self.serving_port.to_dict()
         # set to None if startup_policy (nullable) is None
         # and model_fields_set contains the field
         if self.startup_policy is None and "startup_policy" in self.model_fields_set:
@@ -190,6 +189,31 @@ class DistributedInferenceCommonSpec(BaseModel):
         if self.replicas is None and "replicas" in self.model_fields_set:
             _dict["replicas"] = None
 
+        # set to None if category (nullable) is None
+        # and model_fields_set contains the field
+        if self.category is None and "category" in self.model_fields_set:
+            _dict["category"] = None
+
+        # set to None if node_pools (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_pools is None and "node_pools" in self.model_fields_set:
+            _dict["nodePools"] = None
+
+        # set to None if priority_class (nullable) is None
+        # and model_fields_set contains the field
+        if self.priority_class is None and "priority_class" in self.model_fields_set:
+            _dict["priorityClass"] = None
+
+        # set to None if restart_policy (nullable) is None
+        # and model_fields_set contains the field
+        if self.restart_policy is None and "restart_policy" in self.model_fields_set:
+            _dict["restartPolicy"] = None
+
+        # set to None if serving_port (nullable) is None
+        # and model_fields_set contains the field
+        if self.serving_port is None and "serving_port" in self.model_fields_set:
+            _dict["servingPort"] = None
+
         return _dict
 
     @classmethod
@@ -203,15 +227,6 @@ class DistributedInferenceCommonSpec(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "nodePools": obj.get("nodePools"),
-                "category": obj.get("category"),
-                "priorityClass": obj.get("priorityClass"),
-                "servingPort": obj.get("servingPort"),
-                "restartPolicy": (
-                    obj.get("restartPolicy")
-                    if obj.get("restartPolicy") is not None
-                    else DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART
-                ),
                 "startupPolicy": (
                     obj.get("startupPolicy")
                     if obj.get("startupPolicy") is not None
@@ -220,6 +235,19 @@ class DistributedInferenceCommonSpec(BaseModel):
                 "workers": obj.get("workers") if obj.get("workers") is not None else 0,
                 "replicas": (
                     obj.get("replicas") if obj.get("replicas") is not None else 1
+                ),
+                "category": obj.get("category"),
+                "nodePools": obj.get("nodePools"),
+                "priorityClass": obj.get("priorityClass"),
+                "restartPolicy": (
+                    obj.get("restartPolicy")
+                    if obj.get("restartPolicy") is not None
+                    else DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART
+                ),
+                "servingPort": (
+                    DistributedInferenceServingPort.from_dict(obj["servingPort"])
+                    if obj.get("servingPort") is not None
+                    else None
                 ),
             }
         )

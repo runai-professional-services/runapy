@@ -21,7 +21,6 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from runai.models.auto_redirect_sso_setting import AutoRedirectSsoSetting
 from runai.models.browser_session_timeout_setting import BrowserSessionTimeoutSetting
-from runai.models.exclude_groups_from_token_setting import ExcludeGroupsFromTokenSetting
 from runai.models.logout_redirect_uri_setting import LogoutRedirectUriSetting
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,19 +33,16 @@ class SettingsGetResponse(BaseModel):
     Parameters:
         ```python
         auto_redirect_sso: AutoRedirectSsoSetting
-        exclude_groups_from_tokens: ExcludeGroupsFromTokenSetting
         browser_session_timeout: BrowserSessionTimeoutSetting
         logout_redirect_uri: LogoutRedirectUriSetting
         ```
         auto_redirect_sso: See model AutoRedirectSsoSetting for more information.
-        exclude_groups_from_tokens: See model ExcludeGroupsFromTokenSetting for more information.
         browser_session_timeout: See model BrowserSessionTimeoutSetting for more information.
         logout_redirect_uri: See model LogoutRedirectUriSetting for more information.
     Example:
         ```python
         SettingsGetResponse(
             auto_redirect_sso={"enabled":false,"idpAlias":"oidc"},
-                        exclude_groups_from_tokens={"enabled":false},
                         browser_session_timeout=runai.models.browser_session_timeout_setting.BrowserSessionTimeoutSetting(
                     idle_timeout = 1, ),
                         logout_redirect_uri=runai.models.logout_redirect_uri_setting.LogoutRedirectUriSetting(
@@ -58,9 +54,6 @@ class SettingsGetResponse(BaseModel):
     auto_redirect_sso: Optional[AutoRedirectSsoSetting] = Field(
         default=None, alias="autoRedirectSSO"
     )
-    exclude_groups_from_tokens: Optional[ExcludeGroupsFromTokenSetting] = Field(
-        default=None, alias="excludeGroupsFromTokens"
-    )
     browser_session_timeout: Optional[BrowserSessionTimeoutSetting] = Field(
         default=None, alias="browserSessionTimeout"
     )
@@ -69,7 +62,6 @@ class SettingsGetResponse(BaseModel):
     )
     __properties: ClassVar[List[str]] = [
         "autoRedirectSSO",
-        "excludeGroupsFromTokens",
         "browserSessionTimeout",
         "logoutRedirectUri",
     ]
@@ -114,9 +106,6 @@ class SettingsGetResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of auto_redirect_sso
         if self.auto_redirect_sso:
             _dict["autoRedirectSSO"] = self.auto_redirect_sso.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of exclude_groups_from_tokens
-        if self.exclude_groups_from_tokens:
-            _dict["excludeGroupsFromTokens"] = self.exclude_groups_from_tokens.to_dict()
         # override the default output from pydantic by calling `to_dict()` of browser_session_timeout
         if self.browser_session_timeout:
             _dict["browserSessionTimeout"] = self.browser_session_timeout.to_dict()
@@ -139,13 +128,6 @@ class SettingsGetResponse(BaseModel):
                 "autoRedirectSSO": (
                     AutoRedirectSsoSetting.from_dict(obj["autoRedirectSSO"])
                     if obj.get("autoRedirectSSO") is not None
-                    else None
-                ),
-                "excludeGroupsFromTokens": (
-                    ExcludeGroupsFromTokenSetting.from_dict(
-                        obj["excludeGroupsFromTokens"]
-                    )
-                    if obj.get("excludeGroupsFromTokens") is not None
                     else None
                 ),
                 "browserSessionTimeout": (

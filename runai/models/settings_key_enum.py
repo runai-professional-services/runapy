@@ -26,8 +26,6 @@ class SettingsKeyEnum(str, Enum):
 
     AUTOREDIRECTSSO = 'autoRedirectSSO'
 
-    EXCLUDEGROUPSFROMTOKEN = 'excludeGroupsFromToken'
-
     BROWSERSESSIONTIMEOUT = 'browserSessionTimeout'
 
     LOGOUTREDIRECTURI = 'logoutRedirectUri'
@@ -36,14 +34,12 @@ class SettingsKeyEnum(str, Enum):
     Example:
         ```python
         SettingsKeyEnum.AUTOREDIRECTSSO
-        SettingsKeyEnum.EXCLUDEGROUPSFROMTOKEN
         SettingsKeyEnum.BROWSERSESSIONTIMEOUT
         SettingsKeyEnum.LOGOUTREDIRECTURI
         ```
     """
 
     AUTOREDIRECTSSO = "autoRedirectSSO"
-    EXCLUDEGROUPSFROMTOKEN = "excludeGroupsFromToken"
     BROWSERSESSIONTIMEOUT = "browserSessionTimeout"
     LOGOUTREDIRECTURI = "logoutRedirectUri"
 

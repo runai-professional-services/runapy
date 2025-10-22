@@ -94,24 +94,24 @@ class AuditLog(BaseModel):
         ```
     """  # noqa: E501
 
-    id: StrictStr
-    timestamp: datetime
+    id: Optional[StrictStr] = None
+    timestamp: Optional[datetime] = None
     tenant_id: StrictStr = Field(description="the ID of the tenant")
     subject: StrictStr = Field(description="the user/app which triggered this API")
     subject_type: StrictStr
-    source_ip: StrictStr
+    source_ip: Optional[StrictStr] = None
     action: StrictStr
-    http_method: StrictStr
-    url: StrictStr
-    entity_type: StrictStr
-    entity_name: StrictStr
-    entity_id: StrictStr
+    http_method: Optional[StrictStr] = None
+    url: Optional[StrictStr] = None
+    entity_type: Optional[StrictStr] = None
+    entity_name: Optional[StrictStr] = None
+    entity_id: Optional[StrictStr] = None
     result: StrictStr
-    http_status_code: StrictInt
+    http_status_code: Optional[StrictInt] = None
     cluster_name: Optional[StrictStr] = None
     cluster_id: Optional[StrictStr] = None
     request_id: Optional[StrictStr] = None
-    metadata: Dict[str, StrictStr]
+    metadata: Optional[Dict[str, StrictStr]] = None
     __properties: ClassVar[List[str]] = [
         "id",
         "timestamp",
@@ -154,6 +154,9 @@ class AuditLog(BaseModel):
     @field_validator("http_method")
     def http_method_validate_enum(cls, value):
         """Validates the enum"""
+        if value is None:
+            return value
+
         if value not in set(["GET", "POST", "PUT", "PATCH", "DELETE", "CREATE"]):
             raise ValueError(
                 "must be one of enum values ('GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'CREATE')"

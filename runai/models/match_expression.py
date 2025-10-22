@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from runai.models.match_expression_operator import MatchExpressionOperator
 from typing import Optional, Set
 from typing_extensions import Self
@@ -40,24 +41,31 @@ class MatchExpression(BaseModel):
     Example:
         ```python
         MatchExpression(
-            key='',
+            key='jUR,rZ#UM/?R,Fp^l6$ARj',
                         operator='In',
                         values=[
-                    ''
+                    'jUR,rZ#UM/?R,Fp^l6$ARj'
                     ]
         )
         ```
     """  # noqa: E501
 
-    key: StrictStr = Field(
+    key: Annotated[str, Field(strict=True)] = Field(
         description="The label key that the selector applies to (mandatory)."
     )
     operator: MatchExpressionOperator
-    values: Optional[List[StrictStr]] = Field(
+    values: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
         default=None,
         description="An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer.",
     )
     __properties: ClassVar[List[str]] = ["key", "operator", "values"]
+
+    @field_validator("key")
+    def key_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

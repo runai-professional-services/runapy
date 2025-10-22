@@ -33,6 +33,13 @@ class TestNodesApi(unittest.TestCase):
         """
         pass
 
+    def test_count_tenant_nodes(self) -> None:
+        """Test case for count_tenant_nodes
+
+        Count tenant nodes
+        """
+        pass
+
     def test_get_node_metrics(self) -> None:
         """Test case for get_node_metrics
 
@@ -49,6 +56,13 @@ class TestNodesApi(unittest.TestCase):
 
     def test_get_nodes(self) -> None:
         """Test case for get_nodes
+
+        Get a list of nodes.
+        """
+        pass
+
+    def test_get_tenant_nodes(self) -> None:
+        """Test case for get_tenant_nodes
 
         Get a list of nodes.
         """

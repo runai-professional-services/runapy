@@ -39,7 +39,7 @@ class TestPortServiceTypeOptionsOptionsInner(unittest.TestCase):
         # model = PortServiceTypeOptionsOptionsInner()
         if include_optional:
             return PortServiceTypeOptionsOptionsInner(
-                value="LoadBalancer", displayed=""
+                value="LoadBalancer", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
             )
         else:
             return PortServiceTypeOptionsOptionsInner(

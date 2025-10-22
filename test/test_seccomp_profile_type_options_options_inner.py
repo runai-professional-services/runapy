@@ -39,7 +39,7 @@ class TestSeccompProfileTypeOptionsOptionsInner(unittest.TestCase):
         # model = SeccompProfileTypeOptionsOptionsInner()
         if include_optional:
             return SeccompProfileTypeOptionsOptionsInner(
-                value="RuntimeDefault", displayed=""
+                value="RuntimeDefault", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
             )
         else:
             return SeccompProfileTypeOptionsOptionsInner(

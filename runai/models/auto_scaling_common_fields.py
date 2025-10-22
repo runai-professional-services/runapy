@@ -26,7 +26,7 @@ from typing_extensions import Self
 
 class AutoScalingCommonFields(BaseModel):
     """
-    Pydantic class model representing Auto scaling common fields.
+    Pydantic class model representing AutoScalingCommonFields.
 
     Parameters:
         ```python

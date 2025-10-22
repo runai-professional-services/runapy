@@ -45,7 +45,16 @@ def example_update_notification_state():
         # Prepare the request parameters
 
         # Create example data for NotificationState
-        notification_state = models.NotificationState(enabled=True)
+        notification_state = models.NotificationState(
+            enabled=True,
+            email=runai.models.email_notifications_state.EmailNotificationsState(
+                enabled=True,
+            ),
+            slack=runai.models.slack_notifications_state.SlackNotificationsState(
+                enabled=True,
+                workspace_name="",
+            ),
+        )
 
         # Make the API call
         api_response = api_instance.update_notification_state(

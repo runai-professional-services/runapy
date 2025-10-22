@@ -37,11 +37,34 @@ class TestInferenceSpecificRunParams(unittest.TestCase):
         # model = InferenceSpecificRunParams()
         if include_optional:
             return InferenceSpecificRunParams(
-                command="python",
+                connections=[
+                    runai.models.specific_run_connection_info.SpecificRunConnectionInfo(
+                        name="0",
+                        node_port=0,
+                        external_url="0",
+                        authorized_users=[""],
+                        authorized_groups=[""],
+                    )
+                ],
+                auto_scaling=runai.models.specific_run_auto_scaling_auto_scaling.SpecificRunAutoScaling_autoScaling(),
+                serving_port_access=runai.models.serving_port_access.ServingPortAccess(
+                    authorization_type="public",
+                    authorized_users=["user.a@example.com", "user.b@example.com"],
+                    authorized_groups=["group-a", "group-b"],
+                    cluster_local_access_only=True,
+                ),
+                annotations=[
+                    runai.models.annotation.Annotation(
+                        name="billing",
+                        value="my-billing-unit",
+                        exclude=False,
+                    )
+                ],
                 args="-x my-script.py",
-                run_as_uid=500,
-                run_as_gid=30,
-                supplemental_groups="2,3,5,8",
+                auto_deletion_time_after_completion_seconds=15,
+                backoff_limit=3,
+                category="jUR,rZ#UM/?R,Fp^l6$ARj",
+                command="python",
                 environment_variables=[
                     runai.models.environment_variable_of_asset.EnvironmentVariableOfAsset(
                         name="HOME",
@@ -61,36 +84,10 @@ class TestInferenceSpecificRunParams(unittest.TestCase):
                         description="Home directory of the user.",
                     )
                 ],
-                node_type="my-node-type",
-                node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
-                    node_selector_terms=[
-                        runai.models.node_selector_term.NodeSelectorTerm(
-                            match_expressions=[
-                                runai.models.match_expression.MatchExpression(
-                                    key="",
-                                    operator="In",
-                                    values=[""],
-                                )
-                            ],
-                        )
-                    ],
-                ),
-                pod_affinity=runai.models.pod_affinity.PodAffinity(
-                    type="Required",
-                    key="",
-                ),
-                category="",
-                priority_class="",
-                node_pools=[my - node - pool - a, my - node - pool - b],
-                terminate_after_preemption=False,
-                auto_deletion_time_after_completion_seconds=15,
-                termination_grace_period_seconds=20,
-                backoff_limit=3,
-                restart_policy="Always",
-                annotations=[
-                    runai.models.annotation.Annotation(
-                        name="billing",
-                        value="my-billing-unit",
+                image_pull_secrets=[
+                    runai.models.image_pull_secret.ImagePullSecret(
+                        name="w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx",
+                        user_credential=True,
                         exclude=False,
                     )
                 ],
@@ -101,42 +98,43 @@ class TestInferenceSpecificRunParams(unittest.TestCase):
                         exclude=False,
                     )
                 ],
-                image_pull_secrets=[
-                    runai.models.image_pull_secret.ImagePullSecret(
-                        name="",
-                        user_credential=True,
-                        exclude=False,
-                    )
-                ],
+                node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
+                    node_selector_terms=[
+                        runai.models.node_selector_term.NodeSelectorTerm(
+                            match_expressions=[
+                                runai.models.match_expression.MatchExpression(
+                                    key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                                    operator="In",
+                                    values=["jUR,rZ#UM/?R,Fp^l6$ARj"],
+                                )
+                            ],
+                        )
+                    ],
+                ),
+                node_pools=["my-node-pool-a", "my-node-pool-b"],
+                node_type="my-node-type",
+                pod_affinity=runai.models.pod_affinity.PodAffinity(
+                    type="Required",
+                    key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                ),
+                priority_class="jUR,rZ#UM/?R,Fp^l6$ARj",
+                restart_policy="Always",
+                run_as_gid=30,
+                run_as_uid=500,
+                supplemental_groups="2,3,5,8",
+                terminate_after_preemption=False,
+                termination_grace_period_seconds=20,
                 tolerations=[
                     runai.models.toleration.Toleration(
-                        name="0",
+                        name="jUR,rZ#UM/?R,Fp^l6$ARj0",
                         operator="Equal",
-                        key="",
-                        value="",
+                        key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        value="jUR,rZ#UM/?R,Fp^l6$ARj",
                         effect="NoSchedule",
                         seconds=1,
                         exclude=False,
                     )
                 ],
-                connections=[
-                    runai.models.specific_run_connection_info.SpecificRunConnectionInfo(
-                        name="0",
-                        node_port=0,
-                        external_url="0",
-                        authorized_users=[""],
-                        authorized_groups=[""],
-                    )
-                ],
-                completions=1,
-                parallelism=1,
-                auto_scaling=runai.models.specific_run_auto_scaling_auto_scaling.SpecificRunAutoScaling_autoScaling(),
-                serving_port_access=runai.models.serving_port_access.ServingPortAccess(
-                    authorization_type="public",
-                    authorized_users=["user.a@example.com", "user.b@example.com"],
-                    authorized_groups=["group-a", "group-b"],
-                    cluster_local_access_only=True,
-                ),
             )
         else:
             return InferenceSpecificRunParams()

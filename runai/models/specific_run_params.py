@@ -17,7 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictBool,
+    StrictInt,
+    field_validator,
+)
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.annotation import Annotation
@@ -43,69 +50,95 @@ class SpecificRunParams(BaseModel):
 
     Parameters:
         ```python
-        command: Optional[str]
-        args: Optional[str]
-        run_as_uid: Optional[int]
-        run_as_gid: Optional[int]
-        supplemental_groups: Optional[str]
-        environment_variables: Optional[List[EnvironmentVariableOfAsset]]
-        node_type: Optional[str]
-        node_affinity_required: Optional[NodeAffinityRequired]
-        pod_affinity: Optional[PodAffinity]
-        category: Optional[str]
-        priority_class: Optional[str]
-        node_pools: Optional[List[str]]
-        terminate_after_preemption: Optional[bool]
-        auto_deletion_time_after_completion_seconds: Optional[int]
-        termination_grace_period_seconds: Optional[int]
-        backoff_limit: Optional[int]
-        restart_policy: Optional[RestartPolicy]
-        annotations: Optional[List[Annotation]]
-        labels: Optional[List[Label]]
-        image_pull_secrets: Optional[List[ImagePullSecret]]
-        tolerations: Optional[List[Toleration]]
         connections: Optional[List[SpecificRunConnectionInfo]]
-        completions: Optional[int]
-        parallelism: Optional[int]
         allow_over_quota: Optional[bool]
         auto_scaling: Optional[SpecificRunAutoScalingAutoScaling]
         serving_port_access: Optional[ServingPortAccess]
+        annotations: Optional[List[Annotation]]
+        args: Optional[str]
+        auto_deletion_time_after_completion_seconds: Optional[int]
+        backoff_limit: Optional[int]
+        category: Optional[str]
+        command: Optional[str]
+        completions: Optional[int]
+        environment_variables: Optional[List[EnvironmentVariableOfAsset]]
+        image_pull_secrets: Optional[List[ImagePullSecret]]
+        labels: Optional[List[Label]]
+        node_affinity_required: Optional[NodeAffinityRequired]
+        node_pools: Optional[List[str]]
+        node_type: Optional[str]
+        parallelism: Optional[int]
+        pod_affinity: Optional[PodAffinity]
+        priority_class: Optional[str]
+        restart_policy: Optional[RestartPolicy]
+        run_as_gid: Optional[int]
+        run_as_uid: Optional[int]
+        supplemental_groups: Optional[str]
+        terminate_after_preemption: Optional[bool]
+        termination_grace_period_seconds: Optional[int]
+        tolerations: Optional[List[Toleration]]
         ```
-        command: A command to the server as the entry point of the container running the workload.
-        args: Arguments to the command that the container running the workload executes.
-        run_as_uid: The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsUid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
-        run_as_gid: The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsGid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
-        supplemental_groups: Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled. Using an empty string implies reverting the supplementary groups of the image.
-        environment_variables: Set of environment variables to populate into the container running the workspace.
-        node_type: Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).
-        node_affinity_required: See model NodeAffinityRequired for more information.
-        pod_affinity: See model PodAffinity for more information.
-        category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
-        priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
-        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
-        terminate_after_preemption: Indicates if the job should be terminated by the system after it has been preempted.
-        auto_deletion_time_after_completion_seconds: Specifies the duration after which a finished workload (completed or failed) will be automatically deleted. The default is 30 days.
-        termination_grace_period_seconds: Duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down).
-        backoff_limit: Specifies the number of retries before marking a workload as failed (not applicable to Inference workloads). The default value is 6.
-        restart_policy: See model RestartPolicy for more information.
-        annotations: Set of annotations to populate into the container running the workload.
-        labels: Set of labels to populate into the container running the workload.
-        image_pull_secrets: A list of references to Kubernetes secrets in the same namespace used for pulling container images.
-        tolerations: Set of tolerations to apply to the workload.
         connections: See model List[SpecificRunConnectionInfo] for more information.
-        completions: Used with Hyperparameter Optimization. Specifies the number of successful pods the job should reach to be completed. The Job will be marked as successful once the specified amount of pods has been reached (applicable to standard training only).
-        parallelism: Used with Hyperparameter Optimization. Specifies the maximum number of pods the workload should run at any given time (applicable to standard training only).
         allow_over_quota: Whether to allow the workload to exceed the quota of the project.
         auto_scaling: See model SpecificRunAutoScalingAutoScaling for more information.
         serving_port_access: See model ServingPortAccess for more information.
+        annotations: Set of annotations to populate into the container running the workload.
+        args: Arguments to the command that the container running the workload executes.
+        auto_deletion_time_after_completion_seconds: Specifies the duration after which a finished workload (completed or failed) will be automatically deleted. The default is 30 days. Log retention is managed separately.
+        backoff_limit: Specifies the number of retries before marking a workload as failed (not applicable to Inference workloads). The default value is 6.
+        category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
+        command: A command to the server as the entry point of the container running the workload.
+        completions: Used with Hyperparameter Optimization. Specifies the number of successful pods the job should reach to be completed. The Job will be marked as successful once the specified amount of pods has been reached (applicable to standard training only).
+        environment_variables: Set of environment variables to populate into the container running the workspace.
+        image_pull_secrets: A list of references to Kubernetes secrets in the same namespace used for pulling container images.
+        labels: Set of labels to populate into the container running the workload.
+        node_affinity_required: See model NodeAffinityRequired for more information.
+        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
+        node_type: Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).
+        parallelism: Used with Hyperparameter Optimization. Specifies the maximum number of pods the workload should run at any given time (applicable to standard training only).
+        pod_affinity: See model PodAffinity for more information.
+        priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
+        restart_policy: See model RestartPolicy for more information.
+        run_as_gid: The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsGid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
+        run_as_uid: The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsUid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
+        supplemental_groups: Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled. Using an empty string implies reverting the supplementary groups of the image.
+        terminate_after_preemption: Indicates if the job should be terminated by the system after it has been preempted.
+        termination_grace_period_seconds: Duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down).
+        tolerations: Set of tolerations to apply to the workload.
     Example:
         ```python
         SpecificRunParams(
-            command='python',
+            connections=[
+                    runai.models.specific_run_connection_info.SpecificRunConnectionInfo(
+                        name = '0',
+                        node_port = 0,
+                        external_url = '0',
+                        authorized_users = [
+                            ''
+                            ],
+                        authorized_groups = [
+                            ''
+                            ], )
+                    ],
+                        allow_over_quota=True,
+                        auto_scaling=runai.models.specific_run_auto_scaling_auto_scaling.SpecificRunAutoScaling_autoScaling(),
+                        serving_port_access=runai.models.serving_port_access.ServingPortAccess(
+                    authorization_type = 'public',
+                    authorized_users = ["user.a@example.com","user.b@example.com"],
+                    authorized_groups = ["group-a","group-b"],
+                    cluster_local_access_only = True, ),
+                        annotations=[
+                    runai.models.annotation.Annotation(
+                        name = 'billing',
+                        value = 'my-billing-unit',
+                        exclude = False, )
+                    ],
                         args='-x my-script.py',
-                        run_as_uid=500,
-                        run_as_gid=30,
-                        supplemental_groups='2,3,5,8',
+                        auto_deletion_time_after_completion_seconds=15,
+                        backoff_limit=3,
+                        category='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        command='python',
+                        completions=1,
                         environment_variables=[
                     runai.models.environment_variable_of_asset.EnvironmentVariableOfAsset(
                         name = 'HOME',
@@ -121,34 +154,10 @@ class SpecificRunParams(BaseModel):
                         exclude = False,
                         description = 'Home directory of the user.', )
                     ],
-                        node_type='my-node-type',
-                        node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
-                    node_selector_terms = [
-                        runai.models.node_selector_term.NodeSelectorTerm(
-                            match_expressions = [
-                                runai.models.match_expression.MatchExpression(
-                                    key = '',
-                                    operator = 'In',
-                                    values = [
-                                        ''
-                                        ], )
-                                ], )
-                        ], ),
-                        pod_affinity=runai.models.pod_affinity.PodAffinity(
-                    type = 'Required',
-                    key = '', ),
-                        category='',
-                        priority_class='',
-                        node_pools=[my-node-pool-a, my-node-pool-b],
-                        terminate_after_preemption=False,
-                        auto_deletion_time_after_completion_seconds=15,
-                        termination_grace_period_seconds=20,
-                        backoff_limit=3,
-                        restart_policy='Always',
-                        annotations=[
-                    runai.models.annotation.Annotation(
-                        name = 'billing',
-                        value = 'my-billing-unit',
+                        image_pull_secrets=[
+                    runai.models.image_pull_secret.ImagePullSecret(
+                        name = 'w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx',
+                        user_credential = True,
                         exclude = False, )
                     ],
                         labels=[
@@ -157,146 +166,46 @@ class SpecificRunParams(BaseModel):
                         value = 'initial-research',
                         exclude = False, )
                     ],
-                        image_pull_secrets=[
-                    runai.models.image_pull_secret.ImagePullSecret(
-                        name = '',
-                        user_credential = True,
-                        exclude = False, )
-                    ],
+                        node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
+                    node_selector_terms = [
+                        runai.models.node_selector_term.NodeSelectorTerm(
+                            match_expressions = [
+                                runai.models.match_expression.MatchExpression(
+                                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                    operator = 'In',
+                                    values = [
+                                        'jUR,rZ#UM/?R,Fp^l6$ARj'
+                                        ], )
+                                ], )
+                        ], ),
+                        node_pools=["my-node-pool-a","my-node-pool-b"],
+                        node_type='my-node-type',
+                        parallelism=1,
+                        pod_affinity=runai.models.pod_affinity.PodAffinity(
+                    type = 'Required',
+                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj', ),
+                        priority_class='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        restart_policy='Always',
+                        run_as_gid=30,
+                        run_as_uid=500,
+                        supplemental_groups='2,3,5,8',
+                        terminate_after_preemption=False,
+                        termination_grace_period_seconds=20,
                         tolerations=[
                     runai.models.toleration.Toleration(
-                        name = '0',
+                        name = 'jUR,rZ#UM/?R,Fp^l6$ARj0',
                         operator = 'Equal',
-                        key = '',
-                        value = '',
+                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                        value = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         effect = 'NoSchedule',
                         seconds = 1,
                         exclude = False, )
-                    ],
-                        connections=[
-                    runai.models.specific_run_connection_info.SpecificRunConnectionInfo(
-                        name = '0',
-                        node_port = 0,
-                        external_url = '0',
-                        authorized_users = [
-                            ''
-                            ],
-                        authorized_groups = [
-                            ''
-                            ], )
-                    ],
-                        completions=1,
-                        parallelism=1,
-                        allow_over_quota=True,
-                        auto_scaling=runai.models.specific_run_auto_scaling_auto_scaling.SpecificRunAutoScaling_autoScaling(),
-                        serving_port_access=runai.models.serving_port_access.ServingPortAccess(
-                    authorization_type = 'public',
-                    authorized_users = ["user.a@example.com","user.b@example.com"],
-                    authorized_groups = ["group-a","group-b"],
-                    cluster_local_access_only = True, )
+                    ]
         )
         ```
     """  # noqa: E501
 
-    command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
-        default=None,
-        description="A command to the server as the entry point of the container running the workload.",
-    )
-    args: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
-        default=None,
-        description="Arguments to the command that the container running the workload executes.",
-    )
-    run_as_uid: Optional[StrictInt] = Field(
-        default=None,
-        description="The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsUid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
-        alias="runAsUid",
-    )
-    run_as_gid: Optional[StrictInt] = Field(
-        default=None,
-        description="The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsGid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
-        alias="runAsGid",
-    )
-    supplemental_groups: Optional[StrictStr] = Field(
-        default=None,
-        description="Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled. Using an empty string implies reverting the supplementary groups of the image.",
-        alias="supplementalGroups",
-    )
-    environment_variables: Optional[List[Optional[EnvironmentVariableOfAsset]]] = Field(
-        default=None,
-        description="Set of environment variables to populate into the container running the workspace.",
-        alias="environmentVariables",
-    )
-    node_type: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
-        default=None,
-        description="Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).",
-        alias="nodeType",
-    )
-    node_affinity_required: Optional[NodeAffinityRequired] = Field(
-        default=None, alias="nodeAffinityRequired"
-    )
-    pod_affinity: Optional[PodAffinity] = Field(default=None, alias="podAffinity")
-    category: Optional[StrictStr] = Field(
-        default=None,
-        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
-    )
-    priority_class: Optional[StrictStr] = Field(
-        default=None,
-        description="Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload's scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.",
-        alias="priorityClass",
-    )
-    node_pools: Optional[List[StrictStr]] = Field(
-        default=None,
-        description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
-        alias="nodePools",
-    )
-    terminate_after_preemption: Optional[StrictBool] = Field(
-        default=None,
-        description="Indicates if the job should be terminated by the system after it has been preempted.",
-        alias="terminateAfterPreemption",
-    )
-    auto_deletion_time_after_completion_seconds: Optional[StrictInt] = Field(
-        default=None,
-        description="Specifies the duration after which a finished workload (completed or failed) will be automatically deleted. The default is 30 days.",
-        alias="autoDeletionTimeAfterCompletionSeconds",
-    )
-    termination_grace_period_seconds: Optional[
-        Annotated[int, Field(strict=True, ge=0)]
-    ] = Field(
-        default=None,
-        description="Duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down).",
-        alias="terminationGracePeriodSeconds",
-    )
-    backoff_limit: Optional[StrictInt] = Field(
-        default=None,
-        description="Specifies the number of retries before marking a workload as failed (not applicable to Inference workloads). The default value is 6.",
-        alias="backoffLimit",
-    )
-    restart_policy: Optional[RestartPolicy] = Field(default=None, alias="restartPolicy")
-    annotations: Optional[List[Optional[Annotation]]] = Field(
-        default=None,
-        description="Set of annotations to populate into the container running the workload.",
-    )
-    labels: Optional[List[Optional[Label]]] = Field(
-        default=None,
-        description="Set of labels to populate into the container running the workload.",
-    )
-    image_pull_secrets: Optional[List[Optional[ImagePullSecret]]] = Field(
-        default=None,
-        description="A list of references to Kubernetes secrets in the same namespace used for pulling container images.",
-        alias="imagePullSecrets",
-    )
-    tolerations: Optional[List[Optional[Toleration]]] = Field(
-        default=None, description="Set of tolerations to apply to the workload."
-    )
     connections: Optional[List[SpecificRunConnectionInfo]] = None
-    completions: Optional[StrictInt] = Field(
-        default=None,
-        description="Used with Hyperparameter Optimization. Specifies the number of successful pods the job should reach to be completed. The Job will be marked as successful once the specified amount of pods has been reached (applicable to standard training only).",
-    )
-    parallelism: Optional[StrictInt] = Field(
-        default=None,
-        description="Used with Hyperparameter Optimization. Specifies the maximum number of pods the workload should run at any given time (applicable to standard training only).",
-    )
     allow_over_quota: Optional[StrictBool] = Field(
         default=None,
         description="Whether to allow the workload to exceed the quota of the project.",
@@ -308,35 +217,193 @@ class SpecificRunParams(BaseModel):
     serving_port_access: Optional[ServingPortAccess] = Field(
         default=None, alias="servingPortAccess"
     )
+    annotations: Optional[List[Optional[Annotation]]] = Field(
+        default=None,
+        description="Set of annotations to populate into the container running the workload.",
+    )
+    args: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="Arguments to the command that the container running the workload executes.",
+    )
+    auto_deletion_time_after_completion_seconds: Optional[StrictInt] = Field(
+        default=None,
+        description="Specifies the duration after which a finished workload (completed or failed) will be automatically deleted. The default is 30 days. Log retention is managed separately.",
+        alias="autoDeletionTimeAfterCompletionSeconds",
+    )
+    backoff_limit: Optional[StrictInt] = Field(
+        default=None,
+        description="Specifies the number of retries before marking a workload as failed (not applicable to Inference workloads). The default value is 6.",
+        alias="backoffLimit",
+    )
+    category: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
+    )
+    command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="A command to the server as the entry point of the container running the workload.",
+    )
+    completions: Optional[StrictInt] = Field(
+        default=None,
+        description="Used with Hyperparameter Optimization. Specifies the number of successful pods the job should reach to be completed. The Job will be marked as successful once the specified amount of pods has been reached (applicable to standard training only).",
+    )
+    environment_variables: Optional[List[Optional[EnvironmentVariableOfAsset]]] = Field(
+        default=None,
+        description="Set of environment variables to populate into the container running the workspace.",
+        alias="environmentVariables",
+    )
+    image_pull_secrets: Optional[List[Optional[ImagePullSecret]]] = Field(
+        default=None,
+        description="A list of references to Kubernetes secrets in the same namespace used for pulling container images.",
+        alias="imagePullSecrets",
+    )
+    labels: Optional[List[Optional[Label]]] = Field(
+        default=None,
+        description="Set of labels to populate into the container running the workload.",
+    )
+    node_affinity_required: Optional[NodeAffinityRequired] = Field(
+        default=None, alias="nodeAffinityRequired"
+    )
+    node_pools: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
+        default=None,
+        description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
+        alias="nodePools",
+    )
+    node_type: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).",
+        alias="nodeType",
+    )
+    parallelism: Optional[StrictInt] = Field(
+        default=None,
+        description="Used with Hyperparameter Optimization. Specifies the maximum number of pods the workload should run at any given time (applicable to standard training only).",
+    )
+    pod_affinity: Optional[PodAffinity] = Field(default=None, alias="podAffinity")
+    priority_class: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload's scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.",
+        alias="priorityClass",
+    )
+    restart_policy: Optional[RestartPolicy] = Field(default=None, alias="restartPolicy")
+    run_as_gid: Optional[StrictInt] = Field(
+        default=None,
+        description="The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsGid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
+        alias="runAsGid",
+    )
+    run_as_uid: Optional[StrictInt] = Field(
+        default=None,
+        description="The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsUid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
+        alias="runAsUid",
+    )
+    supplemental_groups: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled. Using an empty string implies reverting the supplementary groups of the image.",
+        alias="supplementalGroups",
+    )
+    terminate_after_preemption: Optional[StrictBool] = Field(
+        default=None,
+        description="Indicates if the job should be terminated by the system after it has been preempted.",
+        alias="terminateAfterPreemption",
+    )
+    termination_grace_period_seconds: Optional[
+        Annotated[int, Field(strict=True, ge=0)]
+    ] = Field(
+        default=None,
+        description="Duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down).",
+        alias="terminationGracePeriodSeconds",
+    )
+    tolerations: Optional[List[Optional[Toleration]]] = Field(
+        default=None, description="Set of tolerations to apply to the workload."
+    )
     __properties: ClassVar[List[str]] = [
-        "command",
-        "args",
-        "runAsUid",
-        "runAsGid",
-        "supplementalGroups",
-        "environmentVariables",
-        "nodeType",
-        "nodeAffinityRequired",
-        "podAffinity",
-        "category",
-        "priorityClass",
-        "nodePools",
-        "terminateAfterPreemption",
-        "autoDeletionTimeAfterCompletionSeconds",
-        "terminationGracePeriodSeconds",
-        "backoffLimit",
-        "restartPolicy",
-        "annotations",
-        "labels",
-        "imagePullSecrets",
-        "tolerations",
         "connections",
-        "completions",
-        "parallelism",
         "allowOverQuota",
         "autoScaling",
         "servingPortAccess",
+        "annotations",
+        "args",
+        "autoDeletionTimeAfterCompletionSeconds",
+        "backoffLimit",
+        "category",
+        "command",
+        "completions",
+        "environmentVariables",
+        "imagePullSecrets",
+        "labels",
+        "nodeAffinityRequired",
+        "nodePools",
+        "nodeType",
+        "parallelism",
+        "podAffinity",
+        "priorityClass",
+        "restartPolicy",
+        "runAsGid",
+        "runAsUid",
+        "supplementalGroups",
+        "terminateAfterPreemption",
+        "terminationGracePeriodSeconds",
+        "tolerations",
     ]
+
+    @field_validator("args")
+    def args_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("category")
+    def category_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("command")
+    def command_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("node_type")
+    def node_type_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("priority_class")
+    def priority_class_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("supplemental_groups")
+    def supplemental_groups_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -375,47 +442,6 @@ class SpecificRunParams(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in environment_variables (list)
-        _items = []
-        if self.environment_variables:
-            for _item_environment_variables in self.environment_variables:
-                if _item_environment_variables:
-                    _items.append(_item_environment_variables.to_dict())
-            _dict["environmentVariables"] = _items
-        # override the default output from pydantic by calling `to_dict()` of node_affinity_required
-        if self.node_affinity_required:
-            _dict["nodeAffinityRequired"] = self.node_affinity_required.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of pod_affinity
-        if self.pod_affinity:
-            _dict["podAffinity"] = self.pod_affinity.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in annotations (list)
-        _items = []
-        if self.annotations:
-            for _item_annotations in self.annotations:
-                if _item_annotations:
-                    _items.append(_item_annotations.to_dict())
-            _dict["annotations"] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in labels (list)
-        _items = []
-        if self.labels:
-            for _item_labels in self.labels:
-                if _item_labels:
-                    _items.append(_item_labels.to_dict())
-            _dict["labels"] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in image_pull_secrets (list)
-        _items = []
-        if self.image_pull_secrets:
-            for _item_image_pull_secrets in self.image_pull_secrets:
-                if _item_image_pull_secrets:
-                    _items.append(_item_image_pull_secrets.to_dict())
-            _dict["imagePullSecrets"] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in tolerations (list)
-        _items = []
-        if self.tolerations:
-            for _item_tolerations in self.tolerations:
-                if _item_tolerations:
-                    _items.append(_item_tolerations.to_dict())
-            _dict["tolerations"] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in connections (list)
         _items = []
         if self.connections:
@@ -429,146 +455,51 @@ class SpecificRunParams(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of serving_port_access
         if self.serving_port_access:
             _dict["servingPortAccess"] = self.serving_port_access.to_dict()
-        # set to None if command (nullable) is None
-        # and model_fields_set contains the field
-        if self.command is None and "command" in self.model_fields_set:
-            _dict["command"] = None
-
-        # set to None if args (nullable) is None
-        # and model_fields_set contains the field
-        if self.args is None and "args" in self.model_fields_set:
-            _dict["args"] = None
-
-        # set to None if run_as_uid (nullable) is None
-        # and model_fields_set contains the field
-        if self.run_as_uid is None and "run_as_uid" in self.model_fields_set:
-            _dict["runAsUid"] = None
-
-        # set to None if run_as_gid (nullable) is None
-        # and model_fields_set contains the field
-        if self.run_as_gid is None and "run_as_gid" in self.model_fields_set:
-            _dict["runAsGid"] = None
-
-        # set to None if supplemental_groups (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.supplemental_groups is None
-            and "supplemental_groups" in self.model_fields_set
-        ):
-            _dict["supplementalGroups"] = None
-
-        # set to None if environment_variables (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.environment_variables is None
-            and "environment_variables" in self.model_fields_set
-        ):
-            _dict["environmentVariables"] = None
-
-        # set to None if node_type (nullable) is None
-        # and model_fields_set contains the field
-        if self.node_type is None and "node_type" in self.model_fields_set:
-            _dict["nodeType"] = None
-
-        # set to None if node_affinity_required (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.node_affinity_required is None
-            and "node_affinity_required" in self.model_fields_set
-        ):
-            _dict["nodeAffinityRequired"] = None
-
-        # set to None if pod_affinity (nullable) is None
-        # and model_fields_set contains the field
-        if self.pod_affinity is None and "pod_affinity" in self.model_fields_set:
-            _dict["podAffinity"] = None
-
-        # set to None if category (nullable) is None
-        # and model_fields_set contains the field
-        if self.category is None and "category" in self.model_fields_set:
-            _dict["category"] = None
-
-        # set to None if priority_class (nullable) is None
-        # and model_fields_set contains the field
-        if self.priority_class is None and "priority_class" in self.model_fields_set:
-            _dict["priorityClass"] = None
-
-        # set to None if node_pools (nullable) is None
-        # and model_fields_set contains the field
-        if self.node_pools is None and "node_pools" in self.model_fields_set:
-            _dict["nodePools"] = None
-
-        # set to None if terminate_after_preemption (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.terminate_after_preemption is None
-            and "terminate_after_preemption" in self.model_fields_set
-        ):
-            _dict["terminateAfterPreemption"] = None
-
-        # set to None if auto_deletion_time_after_completion_seconds (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.auto_deletion_time_after_completion_seconds is None
-            and "auto_deletion_time_after_completion_seconds" in self.model_fields_set
-        ):
-            _dict["autoDeletionTimeAfterCompletionSeconds"] = None
-
-        # set to None if termination_grace_period_seconds (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.termination_grace_period_seconds is None
-            and "termination_grace_period_seconds" in self.model_fields_set
-        ):
-            _dict["terminationGracePeriodSeconds"] = None
-
-        # set to None if backoff_limit (nullable) is None
-        # and model_fields_set contains the field
-        if self.backoff_limit is None and "backoff_limit" in self.model_fields_set:
-            _dict["backoffLimit"] = None
-
-        # set to None if restart_policy (nullable) is None
-        # and model_fields_set contains the field
-        if self.restart_policy is None and "restart_policy" in self.model_fields_set:
-            _dict["restartPolicy"] = None
-
-        # set to None if annotations (nullable) is None
-        # and model_fields_set contains the field
-        if self.annotations is None and "annotations" in self.model_fields_set:
-            _dict["annotations"] = None
-
-        # set to None if labels (nullable) is None
-        # and model_fields_set contains the field
-        if self.labels is None and "labels" in self.model_fields_set:
-            _dict["labels"] = None
-
-        # set to None if image_pull_secrets (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.image_pull_secrets is None
-            and "image_pull_secrets" in self.model_fields_set
-        ):
-            _dict["imagePullSecrets"] = None
-
-        # set to None if tolerations (nullable) is None
-        # and model_fields_set contains the field
-        if self.tolerations is None and "tolerations" in self.model_fields_set:
-            _dict["tolerations"] = None
-
+        # override the default output from pydantic by calling `to_dict()` of each item in annotations (list)
+        _items = []
+        if self.annotations:
+            for _item_annotations in self.annotations:
+                if _item_annotations:
+                    _items.append(_item_annotations.to_dict())
+            _dict["annotations"] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in environment_variables (list)
+        _items = []
+        if self.environment_variables:
+            for _item_environment_variables in self.environment_variables:
+                if _item_environment_variables:
+                    _items.append(_item_environment_variables.to_dict())
+            _dict["environmentVariables"] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in image_pull_secrets (list)
+        _items = []
+        if self.image_pull_secrets:
+            for _item_image_pull_secrets in self.image_pull_secrets:
+                if _item_image_pull_secrets:
+                    _items.append(_item_image_pull_secrets.to_dict())
+            _dict["imagePullSecrets"] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in labels (list)
+        _items = []
+        if self.labels:
+            for _item_labels in self.labels:
+                if _item_labels:
+                    _items.append(_item_labels.to_dict())
+            _dict["labels"] = _items
+        # override the default output from pydantic by calling `to_dict()` of node_affinity_required
+        if self.node_affinity_required:
+            _dict["nodeAffinityRequired"] = self.node_affinity_required.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of pod_affinity
+        if self.pod_affinity:
+            _dict["podAffinity"] = self.pod_affinity.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in tolerations (list)
+        _items = []
+        if self.tolerations:
+            for _item_tolerations in self.tolerations:
+                if _item_tolerations:
+                    _items.append(_item_tolerations.to_dict())
+            _dict["tolerations"] = _items
         # set to None if connections (nullable) is None
         # and model_fields_set contains the field
         if self.connections is None and "connections" in self.model_fields_set:
             _dict["connections"] = None
-
-        # set to None if completions (nullable) is None
-        # and model_fields_set contains the field
-        if self.completions is None and "completions" in self.model_fields_set:
-            _dict["completions"] = None
-
-        # set to None if parallelism (nullable) is None
-        # and model_fields_set contains the field
-        if self.parallelism is None and "parallelism" in self.model_fields_set:
-            _dict["parallelism"] = None
 
         # set to None if allow_over_quota (nullable) is None
         # and model_fields_set contains the field
@@ -591,6 +522,142 @@ class SpecificRunParams(BaseModel):
         ):
             _dict["servingPortAccess"] = None
 
+        # set to None if annotations (nullable) is None
+        # and model_fields_set contains the field
+        if self.annotations is None and "annotations" in self.model_fields_set:
+            _dict["annotations"] = None
+
+        # set to None if args (nullable) is None
+        # and model_fields_set contains the field
+        if self.args is None and "args" in self.model_fields_set:
+            _dict["args"] = None
+
+        # set to None if auto_deletion_time_after_completion_seconds (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.auto_deletion_time_after_completion_seconds is None
+            and "auto_deletion_time_after_completion_seconds" in self.model_fields_set
+        ):
+            _dict["autoDeletionTimeAfterCompletionSeconds"] = None
+
+        # set to None if backoff_limit (nullable) is None
+        # and model_fields_set contains the field
+        if self.backoff_limit is None and "backoff_limit" in self.model_fields_set:
+            _dict["backoffLimit"] = None
+
+        # set to None if category (nullable) is None
+        # and model_fields_set contains the field
+        if self.category is None and "category" in self.model_fields_set:
+            _dict["category"] = None
+
+        # set to None if command (nullable) is None
+        # and model_fields_set contains the field
+        if self.command is None and "command" in self.model_fields_set:
+            _dict["command"] = None
+
+        # set to None if completions (nullable) is None
+        # and model_fields_set contains the field
+        if self.completions is None and "completions" in self.model_fields_set:
+            _dict["completions"] = None
+
+        # set to None if environment_variables (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.environment_variables is None
+            and "environment_variables" in self.model_fields_set
+        ):
+            _dict["environmentVariables"] = None
+
+        # set to None if image_pull_secrets (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.image_pull_secrets is None
+            and "image_pull_secrets" in self.model_fields_set
+        ):
+            _dict["imagePullSecrets"] = None
+
+        # set to None if labels (nullable) is None
+        # and model_fields_set contains the field
+        if self.labels is None and "labels" in self.model_fields_set:
+            _dict["labels"] = None
+
+        # set to None if node_affinity_required (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.node_affinity_required is None
+            and "node_affinity_required" in self.model_fields_set
+        ):
+            _dict["nodeAffinityRequired"] = None
+
+        # set to None if node_pools (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_pools is None and "node_pools" in self.model_fields_set:
+            _dict["nodePools"] = None
+
+        # set to None if node_type (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_type is None and "node_type" in self.model_fields_set:
+            _dict["nodeType"] = None
+
+        # set to None if parallelism (nullable) is None
+        # and model_fields_set contains the field
+        if self.parallelism is None and "parallelism" in self.model_fields_set:
+            _dict["parallelism"] = None
+
+        # set to None if pod_affinity (nullable) is None
+        # and model_fields_set contains the field
+        if self.pod_affinity is None and "pod_affinity" in self.model_fields_set:
+            _dict["podAffinity"] = None
+
+        # set to None if priority_class (nullable) is None
+        # and model_fields_set contains the field
+        if self.priority_class is None and "priority_class" in self.model_fields_set:
+            _dict["priorityClass"] = None
+
+        # set to None if restart_policy (nullable) is None
+        # and model_fields_set contains the field
+        if self.restart_policy is None and "restart_policy" in self.model_fields_set:
+            _dict["restartPolicy"] = None
+
+        # set to None if run_as_gid (nullable) is None
+        # and model_fields_set contains the field
+        if self.run_as_gid is None and "run_as_gid" in self.model_fields_set:
+            _dict["runAsGid"] = None
+
+        # set to None if run_as_uid (nullable) is None
+        # and model_fields_set contains the field
+        if self.run_as_uid is None and "run_as_uid" in self.model_fields_set:
+            _dict["runAsUid"] = None
+
+        # set to None if supplemental_groups (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.supplemental_groups is None
+            and "supplemental_groups" in self.model_fields_set
+        ):
+            _dict["supplementalGroups"] = None
+
+        # set to None if terminate_after_preemption (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.terminate_after_preemption is None
+            and "terminate_after_preemption" in self.model_fields_set
+        ):
+            _dict["terminateAfterPreemption"] = None
+
+        # set to None if termination_grace_period_seconds (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.termination_grace_period_seconds is None
+            and "termination_grace_period_seconds" in self.model_fields_set
+        ):
+            _dict["terminationGracePeriodSeconds"] = None
+
+        # set to None if tolerations (nullable) is None
+        # and model_fields_set contains the field
+        if self.tolerations is None and "tolerations" in self.model_fields_set:
+            _dict["tolerations"] = None
+
         return _dict
 
     @classmethod
@@ -604,50 +671,44 @@ class SpecificRunParams(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "command": obj.get("command"),
+                "connections": (
+                    [
+                        SpecificRunConnectionInfo.from_dict(_item)
+                        for _item in obj["connections"]
+                    ]
+                    if obj.get("connections") is not None
+                    else None
+                ),
+                "allowOverQuota": obj.get("allowOverQuota"),
+                "autoScaling": (
+                    SpecificRunAutoScalingAutoScaling.from_dict(obj["autoScaling"])
+                    if obj.get("autoScaling") is not None
+                    else None
+                ),
+                "servingPortAccess": (
+                    ServingPortAccess.from_dict(obj["servingPortAccess"])
+                    if obj.get("servingPortAccess") is not None
+                    else None
+                ),
+                "annotations": (
+                    [Annotation.from_dict(_item) for _item in obj["annotations"]]
+                    if obj.get("annotations") is not None
+                    else None
+                ),
                 "args": obj.get("args"),
-                "runAsUid": obj.get("runAsUid"),
-                "runAsGid": obj.get("runAsGid"),
-                "supplementalGroups": obj.get("supplementalGroups"),
+                "autoDeletionTimeAfterCompletionSeconds": obj.get(
+                    "autoDeletionTimeAfterCompletionSeconds"
+                ),
+                "backoffLimit": obj.get("backoffLimit"),
+                "category": obj.get("category"),
+                "command": obj.get("command"),
+                "completions": obj.get("completions"),
                 "environmentVariables": (
                     [
                         EnvironmentVariableOfAsset.from_dict(_item)
                         for _item in obj["environmentVariables"]
                     ]
                     if obj.get("environmentVariables") is not None
-                    else None
-                ),
-                "nodeType": obj.get("nodeType"),
-                "nodeAffinityRequired": (
-                    NodeAffinityRequired.from_dict(obj["nodeAffinityRequired"])
-                    if obj.get("nodeAffinityRequired") is not None
-                    else None
-                ),
-                "podAffinity": (
-                    PodAffinity.from_dict(obj["podAffinity"])
-                    if obj.get("podAffinity") is not None
-                    else None
-                ),
-                "category": obj.get("category"),
-                "priorityClass": obj.get("priorityClass"),
-                "nodePools": obj.get("nodePools"),
-                "terminateAfterPreemption": obj.get("terminateAfterPreemption"),
-                "autoDeletionTimeAfterCompletionSeconds": obj.get(
-                    "autoDeletionTimeAfterCompletionSeconds"
-                ),
-                "terminationGracePeriodSeconds": obj.get(
-                    "terminationGracePeriodSeconds"
-                ),
-                "backoffLimit": obj.get("backoffLimit"),
-                "restartPolicy": obj.get("restartPolicy"),
-                "annotations": (
-                    [Annotation.from_dict(_item) for _item in obj["annotations"]]
-                    if obj.get("annotations") is not None
-                    else None
-                ),
-                "labels": (
-                    [Label.from_dict(_item) for _item in obj["labels"]]
-                    if obj.get("labels") is not None
                     else None
                 ),
                 "imagePullSecrets": (
@@ -658,30 +719,36 @@ class SpecificRunParams(BaseModel):
                     if obj.get("imagePullSecrets") is not None
                     else None
                 ),
+                "labels": (
+                    [Label.from_dict(_item) for _item in obj["labels"]]
+                    if obj.get("labels") is not None
+                    else None
+                ),
+                "nodeAffinityRequired": (
+                    NodeAffinityRequired.from_dict(obj["nodeAffinityRequired"])
+                    if obj.get("nodeAffinityRequired") is not None
+                    else None
+                ),
+                "nodePools": obj.get("nodePools"),
+                "nodeType": obj.get("nodeType"),
+                "parallelism": obj.get("parallelism"),
+                "podAffinity": (
+                    PodAffinity.from_dict(obj["podAffinity"])
+                    if obj.get("podAffinity") is not None
+                    else None
+                ),
+                "priorityClass": obj.get("priorityClass"),
+                "restartPolicy": obj.get("restartPolicy"),
+                "runAsGid": obj.get("runAsGid"),
+                "runAsUid": obj.get("runAsUid"),
+                "supplementalGroups": obj.get("supplementalGroups"),
+                "terminateAfterPreemption": obj.get("terminateAfterPreemption"),
+                "terminationGracePeriodSeconds": obj.get(
+                    "terminationGracePeriodSeconds"
+                ),
                 "tolerations": (
                     [Toleration.from_dict(_item) for _item in obj["tolerations"]]
                     if obj.get("tolerations") is not None
-                    else None
-                ),
-                "connections": (
-                    [
-                        SpecificRunConnectionInfo.from_dict(_item)
-                        for _item in obj["connections"]
-                    ]
-                    if obj.get("connections") is not None
-                    else None
-                ),
-                "completions": obj.get("completions"),
-                "parallelism": obj.get("parallelism"),
-                "allowOverQuota": obj.get("allowOverQuota"),
-                "autoScaling": (
-                    SpecificRunAutoScalingAutoScaling.from_dict(obj["autoScaling"])
-                    if obj.get("autoScaling") is not None
-                    else None
-                ),
-                "servingPortAccess": (
-                    ServingPortAccess.from_dict(obj["servingPortAccess"])
-                    if obj.get("servingPortAccess") is not None
                     else None
                 ),
             }

@@ -43,6 +43,7 @@ class TestCredentialsListResponseAssetSpec(unittest.TestCase):
                 password=None,
                 docker_registry=None,
                 generic_secret=None,
+                ngc_api_key=None,
             )
         else:
             return CredentialsListResponseAssetSpec()

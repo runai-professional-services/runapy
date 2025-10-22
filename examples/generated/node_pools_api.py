@@ -100,7 +100,9 @@ def example_create_nodepool():
             placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
             gpu_network_acceleration_detection = 'Auto',
-            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true}
+            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true},
+            scheduling_configuration = {placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m},
+            network_topology_id = '123e4567-e89b-12d3-a456-426614174000'
         )
 
         # Make the API call
@@ -389,7 +391,9 @@ def example_patch_nodepool():
             placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
             gpu_network_acceleration_detection = 'Auto',
-            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true}
+            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true},
+            scheduling_configuration = {placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m},
+            network_topology_id = '123e4567-e89b-12d3-a456-426614174000'
         )
 
         # Make the API call
@@ -514,7 +518,9 @@ def example_update_nodepool():
             placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
             gpu_network_acceleration_detection = 'Auto',
-            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true}
+            gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true},
+            scheduling_configuration = {placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m},
+            network_topology_id = '123e4567-e89b-12d3-a456-426614174000'
         )
 
         # Make the API call

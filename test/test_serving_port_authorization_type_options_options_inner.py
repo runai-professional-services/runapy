@@ -41,7 +41,7 @@ class TestServingPortAuthorizationTypeOptionsOptionsInner(unittest.TestCase):
         # model = ServingPortAuthorizationTypeOptionsOptionsInner()
         if include_optional:
             return ServingPortAuthorizationTypeOptionsOptionsInner(
-                value="public", displayed=""
+                value="public", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
             )
         else:
             return ServingPortAuthorizationTypeOptionsOptionsInner(

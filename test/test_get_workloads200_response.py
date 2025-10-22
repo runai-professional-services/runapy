@@ -176,7 +176,13 @@ class TestGetWorkloads200Response(unittest.TestCase):
                         phase_reason="",
                         idle_gpus=3,
                         idle_allocated_gpus=1,
+                        total_pending_time_seconds=60,
+                        total_running_time_seconds=60,
                         category="Train",
+                        guaranteed_runtime_ends_at="2025-08-01T03:49:52.531Z",
+                        ai_application_id="",
+                        ai_application_name="",
+                        source_api="WorkloadsV2",
                     )
                 ],
             )
@@ -320,7 +326,13 @@ class TestGetWorkloads200Response(unittest.TestCase):
                         phase_reason="",
                         idle_gpus=3,
                         idle_allocated_gpus=1,
+                        total_pending_time_seconds=60,
+                        total_running_time_seconds=60,
                         category="Train",
+                        guaranteed_runtime_ends_at="2025-08-01T03:49:52.531Z",
+                        ai_application_id="",
+                        ai_application_name="",
+                        source_api="WorkloadsV2",
                     )
                 ],
             )

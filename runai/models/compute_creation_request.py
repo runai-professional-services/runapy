@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from runai.models.asset_creation_request import AssetCreationRequest
 from runai.models.compute_asset_spec import ComputeAssetSpec
 from typing import Optional, Set
@@ -32,7 +32,7 @@ class ComputeCreationRequest(BaseModel):
     Parameters:
         ```python
         meta: AssetCreationRequest
-        spec: ComputeAssetSpec
+        spec: Optional[ComputeAssetSpec]
         ```
         meta: See model AssetCreationRequest for more information.
         spec: See model ComputeAssetSpec for more information.
@@ -40,13 +40,31 @@ class ComputeCreationRequest(BaseModel):
         ```python
         ComputeCreationRequest(
             meta={"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-                        spec="example"
+                        spec=runai.models.compute_asset_spec.ComputeAssetSpec(
+                    cpu_core_limit = 2,
+                    cpu_core_request = 0.5,
+                    cpu_memory_limit = '30M',
+                    cpu_memory_request = '20M',
+                    extended_resources = [
+                        runai.models.extended_resource.ExtendedResource(
+                            resource = 'hardware-vendor.example/foo',
+                            quantity = '2',
+                            exclude = False, )
+                        ],
+                    gpu_devices_request = 1,
+                    gpu_memory_limit = '10M',
+                    gpu_memory_request = '10M',
+                    gpu_portion_limit = 0.5,
+                    gpu_portion_request = 0.5,
+                    gpu_request_type = 'portion',
+                    large_shm_request = False,
+                    mig_profile = null, )
         )
         ```
     """  # noqa: E501
 
     meta: AssetCreationRequest
-    spec: ComputeAssetSpec
+    spec: Optional[ComputeAssetSpec]
     __properties: ClassVar[List[str]] = ["meta", "spec"]
 
     model_config = ConfigDict(
@@ -92,6 +110,11 @@ class ComputeCreationRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of spec
         if self.spec:
             _dict["spec"] = self.spec.to_dict()
+        # set to None if spec (nullable) is None
+        # and model_fields_set contains the field
+        if self.spec is None and "spec" in self.model_fields_set:
+            _dict["spec"] = None
+
         return _dict
 
     @classmethod

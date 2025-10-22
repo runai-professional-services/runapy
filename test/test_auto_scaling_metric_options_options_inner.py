@@ -39,7 +39,7 @@ class TestAutoScalingMetricOptionsOptionsInner(unittest.TestCase):
         # model = AutoScalingMetricOptionsOptionsInner()
         if include_optional:
             return AutoScalingMetricOptionsOptionsInner(
-                value="http_requests_total", displayed=""
+                value="http_requests_total", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
             )
         else:
             return AutoScalingMetricOptionsOptionsInner(

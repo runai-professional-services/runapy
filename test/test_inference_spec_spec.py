@@ -37,50 +37,43 @@ class TestInferenceSpecSpec(unittest.TestCase):
         # model = InferenceSpecSpec()
         if include_optional:
             return InferenceSpecSpec(
-                command="python",
-                args="-x my-script.py",
-                image="python:3.8",
-                image_pull_policy="Always",
-                working_dir="/home/myfolder",
-                create_home_dir=True,
-                probes=runai.models.probes.Probes(
-                    readiness=runai.models.probe.Probe(
-                        initial_delay_seconds=0,
-                        period_seconds=1,
-                        timeout_seconds=1,
-                        success_threshold=1,
-                        failure_threshold=1,
-                        handler=runai.models.probe_handler.ProbeHandler(
-                            http_get=runai.models.probe_handler_http_get.ProbeHandler_httpGet(
-                                path="/",
-                                port=1,
-                                host="example.com",
-                                scheme="HTTP",
-                            ),
-                        ),
-                    ),
+                autoscaling=runai.models.auto_scaling.AutoScaling(),
+                serving_configuration=runai.models.serving_configuration.ServingConfiguration(
+                    initialization_timeout_seconds=1,
+                    request_timeout_seconds=1,
                 ),
-                node_type="my-node-type",
-                node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
-                    node_selector_terms=[
-                        runai.models.node_selector_term.NodeSelectorTerm(
-                            match_expressions=[
-                                runai.models.match_expression.MatchExpression(
-                                    key="",
-                                    operator="In",
-                                    values=[""],
-                                )
-                            ],
+                annotations=[
+                    runai.models.annotation.Annotation(
+                        name="billing",
+                        value="my-billing-unit",
+                        exclude=False,
+                    )
+                ],
+                args="-x my-script.py",
+                category="jUR,rZ#UM/?R,Fp^l6$ARj",
+                command="python",
+                compute=runai.models.superset_spec_all_of_compute.SupersetSpec_allOf_compute(
+                    cpu_core_limit=2,
+                    cpu_core_request=0.5,
+                    cpu_memory_limit="30M",
+                    cpu_memory_request="20M",
+                    extended_resources=[
+                        runai.models.extended_resource.ExtendedResource(
+                            resource="hardware-vendor.example/foo",
+                            quantity="2",
+                            exclude=False,
                         )
                     ],
+                    gpu_devices_request=1,
+                    gpu_memory_limit="10M",
+                    gpu_memory_request="10M",
+                    gpu_portion_limit=0.5,
+                    gpu_portion_request=0.5,
+                    gpu_request_type="portion",
+                    large_shm_request=False,
+                    mig_profile=None,
                 ),
-                pod_affinity=runai.models.pod_affinity.PodAffinity(
-                    type="Required",
-                    key="",
-                ),
-                category="",
-                priority_class="",
-                node_pools=[my - node - pool - a, my - node - pool - b],
+                create_home_dir=True,
                 environment_variables=[
                     runai.models.environment_variable.EnvironmentVariable(
                         name="HOME",
@@ -100,49 +93,6 @@ class TestInferenceSpecSpec(unittest.TestCase):
                         description="Home directory of the user.",
                     )
                 ],
-                annotations=[
-                    runai.models.annotation.Annotation(
-                        name="billing",
-                        value="my-billing-unit",
-                        exclude=False,
-                    )
-                ],
-                labels=[
-                    runai.models.label.Label(
-                        name="stage",
-                        value="initial-research",
-                        exclude=False,
-                    )
-                ],
-                image_pull_secrets=[
-                    runai.models.image_pull_secret.ImagePullSecret(
-                        name="",
-                        user_credential=True,
-                        exclude=False,
-                    )
-                ],
-                tolerations=[
-                    runai.models.toleration.Toleration(
-                        name="0",
-                        operator="Equal",
-                        key="",
-                        value="",
-                        effect="NoSchedule",
-                        seconds=1,
-                        exclude=False,
-                    )
-                ],
-                ports=[
-                    runai.models.port.Port(
-                        container=8080,
-                        service_type="LoadBalancer",
-                        external=30080,
-                        tool_type="pytorch",
-                        tool_name="my-pytorch",
-                        name="port-instance-a",
-                        exclude=False,
-                    )
-                ],
                 exposed_urls=[
                     runai.models.exposed_url.ExposedUrl(
                         container=8080,
@@ -155,6 +105,70 @@ class TestInferenceSpecSpec(unittest.TestCase):
                         exclude=False,
                     )
                 ],
+                image="python:3.8",
+                image_pull_policy="Always",
+                image_pull_secrets=[
+                    runai.models.image_pull_secret.ImagePullSecret(
+                        name="w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx",
+                        user_credential=True,
+                        exclude=False,
+                    )
+                ],
+                labels=[
+                    runai.models.label.Label(
+                        name="stage",
+                        value="initial-research",
+                        exclude=False,
+                    )
+                ],
+                node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
+                    node_selector_terms=[
+                        runai.models.node_selector_term.NodeSelectorTerm(
+                            match_expressions=[
+                                runai.models.match_expression.MatchExpression(
+                                    key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                                    operator="In",
+                                    values=["jUR,rZ#UM/?R,Fp^l6$ARj"],
+                                )
+                            ],
+                        )
+                    ],
+                ),
+                node_pools=["my-node-pool-a", "my-node-pool-b"],
+                node_type="my-node-type",
+                pod_affinity=runai.models.pod_affinity.PodAffinity(
+                    type="Required",
+                    key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                ),
+                ports=[
+                    runai.models.port.Port(
+                        container=8080,
+                        service_type="LoadBalancer",
+                        external=30080,
+                        tool_type="pytorch",
+                        tool_name="my-pytorch",
+                        name="port-instance-a",
+                        exclude=False,
+                    )
+                ],
+                priority_class="jUR,rZ#UM/?R,Fp^l6$ARj",
+                probes=runai.models.probes.Probes(
+                    readiness=runai.models.probe.Probe(
+                        initial_delay_seconds=0,
+                        period_seconds=1,
+                        timeout_seconds=1,
+                        success_threshold=1,
+                        failure_threshold=1,
+                        handler=runai.models.probe_handler.ProbeHandler(
+                            http_get=runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                path="/",
+                                port=1,
+                                host="example.com",
+                                scheme="HTTP",
+                            ),
+                        ),
+                    ),
+                ),
                 related_urls=[
                     runai.models.related_url.RelatedUrl(
                         url="https://my-url.com",
@@ -163,30 +177,45 @@ class TestInferenceSpecSpec(unittest.TestCase):
                         exclude=False,
                     )
                 ],
-                compute=runai.models.compute_fields.ComputeFields(),
-                storage=runai.models.common_storage_fields.CommonStorageFields(
-                    data_volume=[
-                        runai.models.data_volume_instance.DataVolumeInstance()
-                    ],
-                    pvc=[runai.models.pvc_instance.PvcInstance()],
-                    host_path=[runai.models.host_path_instance.HostPathInstance()],
-                    nfs=[runai.models.nfs_instance.NfsInstance()],
-                    git=[runai.models.git_instance.GitInstance()],
+                security=runai.models.inference_policy_defaults_v2_all_of_security.InferencePolicyDefaultsV2_allOf_security(
+                    capabilities=["CHOWN", "KILL"],
+                    read_only_root_filesystem=False,
+                    run_as_gid=30,
+                    run_as_non_root=True,
+                    run_as_uid=500,
+                    seccomp_profile_type="RuntimeDefault",
+                    supplemental_groups="2,3,5,8",
+                    uid_gid_source="fromTheImage",
+                ),
+                serving_port=runai.models.serving_port.ServingPort(),
+                storage=runai.models.inference_spec_spec_all_of_storage.InferenceSpecSpec_allOf_storage(
                     config_map_volume=[
                         runai.models.config_map_instance.ConfigMapInstance()
                     ],
-                    secret_volume=[runai.models.secret_instance2.SecretInstance2()],
+                    data_volume=[
+                        runai.models.data_volume_instance.DataVolumeInstance()
+                    ],
                     empty_dir_volume=[
                         runai.models.empty_dir_instance.EmptyDirInstance()
                     ],
+                    git=[runai.models.git_instance.GitInstance()],
+                    host_path=[runai.models.host_path_instance.HostPathInstance()],
+                    nfs=[runai.models.nfs_instance.NfsInstance()],
+                    pvc=[runai.models.pvc_instance.PvcInstance()],
+                    secret_volume=[runai.models.secret_instance2.SecretInstance2()],
                 ),
-                security=runai.models.common_security_flat_fields.CommonSecurityFlatFields(),
-                serving_port=runai.models.serving_port.ServingPort(),
-                autoscaling=runai.models.auto_scaling.AutoScaling(),
-                serving_configuration=runai.models.serving_configuration.ServingConfiguration(
-                    initialization_timeout_seconds=1,
-                    request_timeout_seconds=1,
-                ),
+                tolerations=[
+                    runai.models.toleration.Toleration(
+                        name="jUR,rZ#UM/?R,Fp^l6$ARj0",
+                        operator="Equal",
+                        key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        value="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        effect="NoSchedule",
+                        seconds=1,
+                        exclude=False,
+                    )
+                ],
+                working_dir="/home/myfolder",
             )
         else:
             return InferenceSpecSpec()

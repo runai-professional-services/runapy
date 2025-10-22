@@ -38,7 +38,6 @@ class TestSettingsGetResponse(unittest.TestCase):
         if include_optional:
             return SettingsGetResponse(
                 auto_redirect_sso={"enabled": False, "idpAlias": "oidc"},
-                exclude_groups_from_tokens={"enabled": False},
                 browser_session_timeout=runai.models.browser_session_timeout_setting.BrowserSessionTimeoutSetting(
                     idle_timeout=1,
                 ),

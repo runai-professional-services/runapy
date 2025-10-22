@@ -39,12 +39,12 @@ class TestInferencePolicyDefaultsAndRulesV2(unittest.TestCase):
         # model = InferencePolicyDefaultsAndRulesV2()
         if include_optional:
             return InferencePolicyDefaultsAndRulesV2(
-                defaults=runai.models.inference_policy_defaults_and_rules_v2_defaults.InferencePolicyDefaultsAndRulesV2_defaults(),
+                defaults=None,
                 rules=None,
                 imposed_assets=[""],
                 status=runai.models.policy_validation_status.PolicyValidationStatus(
                     validation=runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                        error_message="",
+                        error_message="jUR,rZ#UM/?R,Fp^l6$ARj",
                     ),
                 ),
             )

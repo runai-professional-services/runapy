@@ -43,7 +43,7 @@ class TestPortServiceTypeRules(unittest.TestCase):
                 options=[
                     runai.models.port_service_type_options_options_inner.PortServiceTypeOptions_options_inner(
                         value="LoadBalancer",
-                        displayed="",
+                        displayed="jUR,rZ#UM/?R,Fp^l6$ARj",
                     )
                 ],
             )

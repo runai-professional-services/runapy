@@ -139,6 +139,51 @@ class PVCApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    def get_pvc_history(
+        self,
+        asset_id: str,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get the PVC history.
+
+        ### Parameters:
+        ```python
+        asset_id: str
+        offset: Optional[int]
+        limit: Optional[int]
+        ```
+        asset_id: Unique identifier of the asset.
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+
+        ### Example:
+        ```python
+        PVCApi(
+            asset_id='asset_id_example',
+                        offset=100,
+                        limit=50
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("offset", offset),
+            ("limit", limit),
+        ]
+        resource_path = f"/api/v1/asset/datasource/pvc/{asset_id}/history".replace(
+            "_", "-"
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def list_pvc_assets(
         self,
         name: Optional[str] = None,

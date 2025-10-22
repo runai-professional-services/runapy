@@ -21,7 +21,6 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from runai.models.auto_scaling import AutoScaling
 from runai.models.serving_configuration import ServingConfiguration
-from runai.models.serving_port import ServingPort
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -32,18 +31,15 @@ class InferenceFields(BaseModel):
 
     Parameters:
         ```python
-        serving_port: Optional[ServingPort]
         autoscaling: Optional[AutoScaling]
         serving_configuration: Optional[ServingConfiguration]
         ```
-        serving_port: See model ServingPort for more information.
         autoscaling: See model AutoScaling for more information.
         serving_configuration: See model ServingConfiguration for more information.
     Example:
         ```python
         InferenceFields(
-            serving_port=runai.models.serving_port.ServingPort(),
-                        autoscaling=runai.models.auto_scaling.AutoScaling(),
+            autoscaling=runai.models.auto_scaling.AutoScaling(),
                         serving_configuration=runai.models.serving_configuration.ServingConfiguration(
                     initialization_timeout_seconds = 1,
                     request_timeout_seconds = 1, )
@@ -51,16 +47,11 @@ class InferenceFields(BaseModel):
         ```
     """  # noqa: E501
 
-    serving_port: Optional[ServingPort] = Field(default=None, alias="servingPort")
     autoscaling: Optional[AutoScaling] = None
     serving_configuration: Optional[ServingConfiguration] = Field(
         default=None, alias="servingConfiguration"
     )
-    __properties: ClassVar[List[str]] = [
-        "servingPort",
-        "autoscaling",
-        "servingConfiguration",
-    ]
+    __properties: ClassVar[List[str]] = ["autoscaling", "servingConfiguration"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,20 +90,12 @@ class InferenceFields(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of serving_port
-        if self.serving_port:
-            _dict["servingPort"] = self.serving_port.to_dict()
         # override the default output from pydantic by calling `to_dict()` of autoscaling
         if self.autoscaling:
             _dict["autoscaling"] = self.autoscaling.to_dict()
         # override the default output from pydantic by calling `to_dict()` of serving_configuration
         if self.serving_configuration:
             _dict["servingConfiguration"] = self.serving_configuration.to_dict()
-        # set to None if serving_port (nullable) is None
-        # and model_fields_set contains the field
-        if self.serving_port is None and "serving_port" in self.model_fields_set:
-            _dict["servingPort"] = None
-
         # set to None if autoscaling (nullable) is None
         # and model_fields_set contains the field
         if self.autoscaling is None and "autoscaling" in self.model_fields_set:
@@ -139,11 +122,6 @@ class InferenceFields(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "servingPort": (
-                    ServingPort.from_dict(obj["servingPort"])
-                    if obj.get("servingPort") is not None
-                    else None
-                ),
                 "autoscaling": (
                     AutoScaling.from_dict(obj["autoscaling"])
                     if obj.get("autoscaling") is not None

@@ -211,7 +211,7 @@ class TestPodsApi:
 
 
         # Verify response
-        assert isinstance(response, MetricsResponse)
+        assert isinstance(response, MetricsCompositeResponse)
 
     def test_get_workload_pod_metrics_error(self):
         """Test error handling for get_workload_pod_metrics"""

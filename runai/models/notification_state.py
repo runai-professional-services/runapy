@@ -19,6 +19,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
+from runai.models.email_notifications_state import EmailNotificationsState
+from runai.models.slack_notifications_state import SlackNotificationsState
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,18 +32,29 @@ class NotificationState(BaseModel):
     Parameters:
         ```python
         enabled: bool
+        email: EmailNotificationsState
+        slack: SlackNotificationsState
         ```
         enabled: See model bool for more information. - Default: False
+        email: See model EmailNotificationsState for more information.
+        slack: See model SlackNotificationsState for more information.
     Example:
         ```python
         NotificationState(
-            enabled=True
+            enabled=True,
+                        email=runai.models.email_notifications_state.EmailNotificationsState(
+                    enabled = True, ),
+                        slack=runai.models.slack_notifications_state.SlackNotificationsState(
+                    enabled = True,
+                    workspace_name = '', )
         )
         ```
     """  # noqa: E501
 
-    enabled: Optional[StrictBool] = False
-    __properties: ClassVar[List[str]] = ["enabled"]
+    enabled: StrictBool
+    email: Optional[EmailNotificationsState] = None
+    slack: Optional[SlackNotificationsState] = None
+    __properties: ClassVar[List[str]] = ["enabled", "email", "slack"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -72,14 +85,25 @@ class NotificationState(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * OpenAPI `readOnly` fields are excluded.
         """
-        excluded_fields: Set[str] = set([])
+        excluded_fields: Set[str] = set(
+            [
+                "enabled",
+            ]
+        )
 
         _dict = self.model_dump(
             by_alias=True,
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of email
+        if self.email:
+            _dict["email"] = self.email.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of slack
+        if self.slack:
+            _dict["slack"] = self.slack.to_dict()
         return _dict
 
     @classmethod
@@ -92,6 +116,20 @@ class NotificationState(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate(
-            {"enabled": obj.get("enabled") if obj.get("enabled") is not None else False}
+            {
+                "enabled": (
+                    obj.get("enabled") if obj.get("enabled") is not None else False
+                ),
+                "email": (
+                    EmailNotificationsState.from_dict(obj["email"])
+                    if obj.get("email") is not None
+                    else None
+                ),
+                "slack": (
+                    SlackNotificationsState.from_dict(obj["slack"])
+                    if obj.get("slack") is not None
+                    else None
+                ),
+            }
         )
         return _obj

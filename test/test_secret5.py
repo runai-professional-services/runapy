@@ -36,7 +36,7 @@ class TestSecret5(unittest.TestCase):
 
         # model = Secret5()
         if include_optional:
-            return Secret5(mount_path="0", secret="0")
+            return Secret5(mount_path="0", default_mode="0644", secret="0")
         else:
             return Secret5()
 

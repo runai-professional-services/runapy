@@ -38,7 +38,9 @@ class TestPolicyValidationStatusValidation(unittest.TestCase):
 
         # model = PolicyValidationStatusValidation()
         if include_optional:
-            return PolicyValidationStatusValidation(error_message="")
+            return PolicyValidationStatusValidation(
+                error_message="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return PolicyValidationStatusValidation()
 

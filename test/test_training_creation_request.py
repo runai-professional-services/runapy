@@ -41,6 +41,7 @@ class TestTrainingCreationRequest(unittest.TestCase):
                 use_given_name_as_prefix=True,
                 project_id="1",
                 cluster_id="71f69d83-ba66-4822-adf5-55ce55efd210",
+                template_id="550e8400-e29b-41d4-a716-446655440000",
                 spec=None,
             )
         else:

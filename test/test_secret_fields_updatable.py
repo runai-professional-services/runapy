@@ -36,7 +36,7 @@ class TestSecretFieldsUpdatable(unittest.TestCase):
 
         # model = SecretFieldsUpdatable()
         if include_optional:
-            return SecretFieldsUpdatable(mount_path="0")
+            return SecretFieldsUpdatable(mount_path="0", default_mode="0644")
         else:
             return SecretFieldsUpdatable()
 

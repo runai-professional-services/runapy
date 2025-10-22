@@ -36,7 +36,11 @@ class TestImagePullSecret(unittest.TestCase):
 
         # model = ImagePullSecret()
         if include_optional:
-            return ImagePullSecret(name="", user_credential=True, exclude=False)
+            return ImagePullSecret(
+                name="w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx",
+                user_credential=True,
+                exclude=False,
+            )
         else:
             return ImagePullSecret()
 

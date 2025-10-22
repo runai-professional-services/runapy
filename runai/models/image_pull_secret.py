@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -39,14 +40,14 @@ class ImagePullSecret(BaseModel):
     Example:
         ```python
         ImagePullSecret(
-            name='',
+            name='w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx',
                         user_credential=True,
                         exclude=False
         )
         ```
     """  # noqa: E501
 
-    name: Optional[StrictStr] = Field(
+    name: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="The name of the Kubernetes secret containing the image pull credentials.",
     )
@@ -60,6 +61,18 @@ class ImagePullSecret(BaseModel):
         description="Use 'true' in case the secret is defined in defaults of the policy, and you wish to exclude it from the workload.",
     )
     __properties: ClassVar[List[str]] = ["name", "userCredential", "exclude"]
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?$", value):
+            raise ValueError(
+                r"must validate the regular expression /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/"
+            )
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

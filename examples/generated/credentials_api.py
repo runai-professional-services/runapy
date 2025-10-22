@@ -103,6 +103,32 @@ def example_create_generic_secret():
     except Exception as e:
         print(f"Exception when calling create_generic_secret: {e}")
 
+def example_create_ngc_api_key():
+    """
+    Example of using create_ngc_api_key
+    
+    Create a ngc-api-key.
+    Use to create a ngc-api-key asset.
+    """
+    try:
+        # Prepare the request parameters
+        
+        # Create example data for NgcApiKeyCreationRequest
+        ngc_api_key_creation_request = models.NgcApiKeyCreationRequest(
+            meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
+            spec = runai.models.ngc_api_key_creation_spec.NgcApiKeyCreationSpec(
+                    ngc_api_key = 'C0', )
+        )
+
+        # Make the API call
+        api_response = api_instance.create_ngc_api_key(
+            ngc_api_key_creation_request=ngc_api_key_creation_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling create_ngc_api_key: {e}")
+
 def example_create_password():
     """
     Example of using create_password
@@ -210,6 +236,32 @@ def example_delete_generic_secret():
 
     except Exception as e:
         print(f"Exception when calling delete_generic_secret: {e}")
+
+def example_delete_ngc_api_key():
+    """
+    Example of using delete_ngc_api_key
+    
+    Delete a ngc-api-key.
+    Use to delete a ngc-api-key asset, by id.
+    """
+    try:
+        # Prepare the request parameters
+        asset_id = "example_asset_id"
+        
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_instance.delete_ngc_api_key(
+            asset_id=asset_id,
+        )
+
+    except Exception as e:
+        print(f"Exception when calling delete_ngc_api_key: {e}")
 
 def example_delete_password():
     """
@@ -372,6 +424,51 @@ def example_get_generic_secret_by_id():
 
     except Exception as e:
         print(f"Exception when calling get_generic_secret_by_id: {e}")
+
+def example_get_ngc_api_key_by_id():
+    """
+    Example of using get_ngc_api_key_by_id
+    
+    Get a ngc-api-key.
+    Returns the details of a ngc-api-key asset, by id.
+    """
+    try:
+        # Prepare the request parameters
+        asset_id = "example_asset_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        usage_info = True
+        
+        
+        
+        
+        
+        
+        
+        status_info = True
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.get_ngc_api_key_by_id(
+            asset_id=asset_id,
+            usage_info=usage_info,
+            status_info=status_info,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_ngc_api_key_by_id: {e}")
 
 def example_get_password_by_id():
     """
@@ -742,6 +839,87 @@ def example_list_generic_secret():
     except Exception as e:
         print(f"Exception when calling list_generic_secret: {e}")
 
+def example_list_ngc_api_key():
+    """
+    Example of using list_ngc_api_key
+    
+    List ngc-api-keys.
+    Retrieve a list of ngcApiKey assets.
+    """
+    try:
+        # Prepare the request parameters
+        name = "example_name"
+        
+        
+        
+        
+        
+        
+        
+        scope = "example_scope"
+        
+        
+        
+        
+        
+        
+        
+        
+        project_id = 42
+        
+        
+        
+        
+        
+        
+        department_id = "example_department_id"
+        
+        
+        
+        
+        
+        
+        
+        cluster_id = "example_cluster_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        usage_info = True
+        
+        
+        
+        
+        
+        
+        
+        status_info = True
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.list_ngc_api_key(
+            name=name,
+            scope=scope,
+            project_id=project_id,
+            department_id=department_id,
+            cluster_id=cluster_id,
+            usage_info=usage_info,
+            status_info=status_info,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling list_ngc_api_key: {e}")
+
 def example_list_passwords():
     """
     Example of using list_passwords
@@ -921,6 +1099,39 @@ def example_update_generic_secret():
 
     except Exception as e:
         print(f"Exception when calling update_generic_secret: {e}")
+
+def example_update_ngc_api_key():
+    """
+    Example of using update_ngc_api_key
+    
+    Update a ngc-api-key.
+    Updates the details of a ngc-api-key asset, by id.
+    """
+    try:
+        # Prepare the request parameters
+        asset_id = "example_asset_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        # Create example data for NgcApiKeyUpdateRequest
+        ngc_api_key_update_request = models.NgcApiKeyUpdateRequest(
+            meta = {"description":"my-credentials"}
+        )
+
+        # Make the API call
+        api_response = api_instance.update_ngc_api_key(
+            asset_id=asset_id,
+            ngc_api_key_update_request=ngc_api_key_update_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling update_ngc_api_key: {e}")
 
 def example_update_password():
     """

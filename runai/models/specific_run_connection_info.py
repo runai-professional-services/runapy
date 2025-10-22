@@ -39,7 +39,7 @@ class SpecificRunConnectionInfo(BaseModel):
         name: Unique identifier of the connection. Will be used to correlate between the information given here and the information provided for the connection in the environment asset.
         node_port: Port number of the host that will be connected with the container port. Required if and only if isCustomPort is set to true in the environment asset.
         external_url: URL to associated with the container port. Required if and only if isCustomExternalUrl is set to true in the environment asset.
-        authorized_users: Specifies the emails of those users that are allowed to access the connection. Note that authorizedUsers and authorizedGroups are mutually exclusive.
+        authorized_users: List of users or applications that are allowed to access the URL. Note that authorizedUsers and authorizedGroups are mutually exclusive.
         authorized_groups: Specifies the names of those groups that are allowed to access the connection. Note that authorizedUsers and authorizedGroups are mutually exclusive.
     Example:
         ```python
@@ -73,7 +73,7 @@ class SpecificRunConnectionInfo(BaseModel):
     )
     authorized_users: Optional[List[StrictStr]] = Field(
         default=None,
-        description="Specifies the emails of those users that are allowed to access the connection. Note that authorizedUsers and authorizedGroups are mutually exclusive.",
+        description="List of users or applications that are allowed to access the URL. Note that authorizedUsers and authorizedGroups are mutually exclusive.",
         alias="authorizedUsers",
     )
     authorized_groups: Optional[List[StrictStr]] = Field(

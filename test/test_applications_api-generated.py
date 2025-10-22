@@ -39,57 +39,6 @@ class TestApplicationsApi:
     def test_create_application(self):
         """Test case for create_application
 
-        Create a new app. Create a new app and assign it with a client secret. This endpoint requires ADMIN role. Deprecated in favor of the new endpoint api/v1/apps.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        app = runai.App()  # App |
-
-        # Make request
-        response = self.api.create_application(
-            app=app,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "POST"
-        assert "/v1/k8s/apps" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, App)
-
-    def test_create_application_error(self):
-        """Test error handling for create_application"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        app = runai.App()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.create_application(
-                app=app,
-            )
-        assert exc_info.value.status == 400
-
-    def test_create_application_0(self):
-        """Test case for create_application_0
-
         Create an application. Used to create an application.
         """
         # Mock response
@@ -104,7 +53,7 @@ class TestApplicationsApi:
         )  # ApplicationCreationRequest | Application object to create
 
         # Make request
-        response = self.api.create_application_0(
+        response = self.api.create_application(
             application_creation_request=application_creation_request,
         )
 
@@ -122,8 +71,8 @@ class TestApplicationsApi:
         # Verify response
         assert isinstance(response, ApplicationPostResponse)
 
-    def test_create_application_0_error(self):
-        """Test error handling for create_application_0"""
+    def test_create_application_error(self):
+        """Test error handling for create_application"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -135,58 +84,13 @@ class TestApplicationsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.create_application_0(
+            self.api.create_application(
                 application_creation_request=application_creation_request,
             )
         assert exc_info.value.status == 400
 
     def test_delete_application_by_id(self):
         """Test case for delete_application_by_id
-
-        Delete a App. Delete the given app from the tenant. This endpoint requires ADMIN role. Deprecated in favor of the new endpoint api/v1/apps/{clientId}.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        client_id = "client_id_example"  # str |
-
-        # Make request
-        self.api.delete_application_by_id(
-            client_id=client_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "DELETE"
-        assert "/v1/k8s/apps/{clientId}" in kwargs["url"]
-
-    def test_delete_application_by_id_error(self):
-        """Test error handling for delete_application_by_id"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        client_id = "client_id_example"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.delete_application_by_id(
-                client_id=client_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_delete_application_by_id_0(self):
-        """Test case for delete_application_by_id_0
 
         Delete an application by id. Use to delete an application by id.
         """
@@ -200,7 +104,7 @@ class TestApplicationsApi:
         app_id = "app_id_example"  # str | The application id to retrieve
 
         # Make request
-        self.api.delete_application_by_id_0(
+        self.api.delete_application_by_id(
             app_id=app_id,
         )
 
@@ -212,8 +116,8 @@ class TestApplicationsApi:
         assert kwargs["method"] == "DELETE"
         assert "/api/v1/apps/{appId}" in kwargs["url"]
 
-    def test_delete_application_by_id_0_error(self):
-        """Test error handling for delete_application_by_id_0"""
+    def test_delete_application_by_id_error(self):
+        """Test error handling for delete_application_by_id"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -225,61 +129,13 @@ class TestApplicationsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.delete_application_by_id_0(
+            self.api.delete_application_by_id(
                 app_id=app_id,
             )
         assert exc_info.value.status == 400
 
     def test_get_application_by_id(self):
         """Test case for get_application_by_id
-
-        Get app details. Get the details of a given app. This endpoint requires ADMIN, EDITOR or VIEWER role. Deprecated in favor of the new endpoint api/v1/apps/{clientId}.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        client_id = "client_id_example"  # str |
-
-        # Make request
-        response = self.api.get_application_by_id(
-            client_id=client_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/apps/{clientId}" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, App)
-
-    def test_get_application_by_id_error(self):
-        """Test error handling for get_application_by_id"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        client_id = "client_id_example"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_application_by_id(
-                client_id=client_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_get_application_by_id_0(self):
-        """Test case for get_application_by_id_0
 
         Get application by id. Retrieve the details of an application by id.
         """
@@ -293,7 +149,7 @@ class TestApplicationsApi:
         app_id = "app_id_example"  # str | The application id to retrieve
 
         # Make request
-        response = self.api.get_application_by_id_0(
+        response = self.api.get_application_by_id(
             app_id=app_id,
         )
 
@@ -308,8 +164,8 @@ class TestApplicationsApi:
         # Verify response
         assert isinstance(response, Application)
 
-    def test_get_application_by_id_0_error(self):
-        """Test error handling for get_application_by_id_0"""
+    def test_get_application_by_id_error(self):
+        """Test error handling for get_application_by_id"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -321,7 +177,7 @@ class TestApplicationsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_application_by_id_0(
+            self.api.get_application_by_id(
                 app_id=app_id,
             )
         assert exc_info.value.status == 400
@@ -329,7 +185,7 @@ class TestApplicationsApi:
     def test_get_applications(self):
         """Test case for get_applications
 
-        Get Apps list. Return the list of apps of the tenant. Deprecated in favor of the new endpoint api/v1/apps.
+        Get a list of applications. Retrieve a list of applications.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -338,10 +194,6 @@ class TestApplicationsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        roles = [
-            runai.Role()
-        ]  # List[Role] | Filter the returned entities to only those with the required role
-        only_created_by_me = True  # bool | Filter the returned entities to only those that created by the requesting subject
 
         # Make request
         response = self.api.get_applications()
@@ -352,15 +204,10 @@ class TestApplicationsApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/v1/k8s/apps" in kwargs["url"]
-
-        # Verify query parameters
-        assert "roles=" in kwargs["url"]
-        # Verify query parameters
-        assert "onlyCreatedByMe=" in kwargs["url"]
+        assert "/api/v1/apps" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, List[App])
+        assert isinstance(response, List[Application])
 
     def test_get_applications_error(self):
         """Test error handling for get_applications"""
@@ -375,90 +222,6 @@ class TestApplicationsApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_applications()
-        assert exc_info.value.status == 400
-
-    def test_get_applications_0(self):
-        """Test case for get_applications_0
-
-        Get a list of applications. Retrieve a list of applications.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Make request
-        response = self.api.get_applications_0()
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/api/v1/apps" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, List[Application])
-
-    def test_get_applications_0_error(self):
-        """Test error handling for get_applications_0"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_applications_0()
-        assert exc_info.value.status == 400
-
-    def test_get_installer_app(self):
-        """Test case for get_installer_app
-
-        Get a list of installer applications. Retrieve a list of installer applications.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Make request
-        response = self.api.get_installer_app()
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/api/v1/apps/installer" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, ApplicationPostResponse)
-
-    def test_get_installer_app_error(self):
-        """Test error handling for get_installer_app"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_installer_app()
         assert exc_info.value.status == 400
 
     def test_regenerate_application_secret(self):
@@ -509,111 +272,8 @@ class TestApplicationsApi:
             )
         assert exc_info.value.status == 400
 
-    def test_reset_app_secret(self):
-        """Test case for reset_app_secret
-
-        Re-generate secret of application. Generate a new secret for a given application. This endpoint requires ADMIN role. Deprecated in favor of the new endpoint api/v1/apps/{clientId}/secret.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        client_id = "client_id_example"  # str |
-
-        # Make request
-        response = self.api.reset_app_secret(
-            client_id=client_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "POST"
-        assert "/v1/k8s/apps/{clientId}/secret" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, App)
-
-    def test_reset_app_secret_error(self):
-        """Test error handling for reset_app_secret"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        client_id = "client_id_example"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.reset_app_secret(
-                client_id=client_id,
-            )
-        assert exc_info.value.status == 400
-
     def test_update_application_by_id(self):
         """Test case for update_application_by_id
-
-        Update app details. Update the details of a given app. This endpoint requires ADMIN role. Deprecated in favor of the new endpoint api/v1/apps/{clientId}.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        client_id = "client_id_example"  # str |
-        app = runai.App()  # App |
-
-        # Make request
-        response = self.api.update_application_by_id(
-            client_id=client_id,
-            app=app,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "PUT"
-        assert "/v1/k8s/apps/{clientId}" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, App)
-
-    def test_update_application_by_id_error(self):
-        """Test error handling for update_application_by_id"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        client_id = "client_id_example"
-        app = runai.App()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.update_application_by_id(
-                client_id=client_id,
-                app=app,
-            )
-        assert exc_info.value.status == 400
-
-    def test_update_application_by_id_0(self):
-        """Test case for update_application_by_id_0
 
         Update application details by id. Use to update the details of an application by id.
         """
@@ -630,7 +290,7 @@ class TestApplicationsApi:
         )  # ApplicationPatchRequest | Application object that needs to be updated.
 
         # Make request
-        self.api.update_application_by_id_0(
+        self.api.update_application_by_id(
             app_id=app_id,
         )
 
@@ -645,8 +305,8 @@ class TestApplicationsApi:
         # Verify body
         assert kwargs["body"] is not None
 
-    def test_update_application_by_id_0_error(self):
-        """Test error handling for update_application_by_id_0"""
+    def test_update_application_by_id_error(self):
+        """Test error handling for update_application_by_id"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -658,7 +318,7 @@ class TestApplicationsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.update_application_by_id_0(
+            self.api.update_application_by_id(
                 app_id=app_id,
             )
         assert exc_info.value.status == 400

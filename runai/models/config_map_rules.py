@@ -33,16 +33,19 @@ class ConfigMapRules(BaseModel):
         config_map: Optional[StringRules]
         mount_path: Optional[StringRules]
         sub_path: Optional[StringRules]
+        default_mode: Optional[StringRules]
         ```
         config_map: See model StringRules for more information.
         mount_path: See model StringRules for more information.
         sub_path: See model StringRules for more information.
+        default_mode: See model StringRules for more information.
     Example:
         ```python
         ConfigMapRules(
             config_map=runai.models.string_rules.StringRules(),
                         mount_path=runai.models.string_rules.StringRules(),
-                        sub_path=runai.models.string_rules.StringRules()
+                        sub_path=runai.models.string_rules.StringRules(),
+                        default_mode=runai.models.string_rules.StringRules()
         )
         ```
     """  # noqa: E501
@@ -50,7 +53,13 @@ class ConfigMapRules(BaseModel):
     config_map: Optional[StringRules] = Field(default=None, alias="configMap")
     mount_path: Optional[StringRules] = Field(default=None, alias="mountPath")
     sub_path: Optional[StringRules] = Field(default=None, alias="subPath")
-    __properties: ClassVar[List[str]] = ["configMap", "mountPath", "subPath"]
+    default_mode: Optional[StringRules] = Field(default=None, alias="defaultMode")
+    __properties: ClassVar[List[str]] = [
+        "configMap",
+        "mountPath",
+        "subPath",
+        "defaultMode",
+    ]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -98,6 +107,9 @@ class ConfigMapRules(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of sub_path
         if self.sub_path:
             _dict["subPath"] = self.sub_path.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of default_mode
+        if self.default_mode:
+            _dict["defaultMode"] = self.default_mode.to_dict()
         # set to None if config_map (nullable) is None
         # and model_fields_set contains the field
         if self.config_map is None and "config_map" in self.model_fields_set:
@@ -112,6 +124,11 @@ class ConfigMapRules(BaseModel):
         # and model_fields_set contains the field
         if self.sub_path is None and "sub_path" in self.model_fields_set:
             _dict["subPath"] = None
+
+        # set to None if default_mode (nullable) is None
+        # and model_fields_set contains the field
+        if self.default_mode is None and "default_mode" in self.model_fields_set:
+            _dict["defaultMode"] = None
 
         return _dict
 
@@ -139,6 +156,11 @@ class ConfigMapRules(BaseModel):
                 "subPath": (
                     StringRules.from_dict(obj["subPath"])
                     if obj.get("subPath") is not None
+                    else None
+                ),
+                "defaultMode": (
+                    StringRules.from_dict(obj["defaultMode"])
+                    if obj.get("defaultMode") is not None
                     else None
                 ),
             }

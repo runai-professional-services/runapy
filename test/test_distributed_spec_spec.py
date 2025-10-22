@@ -37,52 +37,42 @@ class TestDistributedSpecSpec(unittest.TestCase):
         # model = DistributedSpecSpec()
         if include_optional:
             return DistributedSpecSpec(
-                command="python",
+                annotations=[
+                    runai.models.annotation.Annotation(
+                        name="billing",
+                        value="my-billing-unit",
+                        exclude=False,
+                    )
+                ],
                 args="-x my-script.py",
-                image="python:3.8",
-                image_pull_policy="Always",
-                working_dir="/home/myfolder",
-                create_home_dir=True,
-                probes=runai.models.probes.Probes(
-                    readiness=runai.models.probe.Probe(
-                        initial_delay_seconds=0,
-                        period_seconds=1,
-                        timeout_seconds=1,
-                        success_threshold=1,
-                        failure_threshold=1,
-                        handler=runai.models.probe_handler.ProbeHandler(
-                            http_get=runai.models.probe_handler_http_get.ProbeHandler_httpGet(
-                                path="/",
-                                port=1,
-                                host="example.com",
-                                scheme="HTTP",
-                            ),
-                        ),
-                    ),
-                ),
-                node_type="my-node-type",
-                node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
-                    node_selector_terms=[
-                        runai.models.node_selector_term.NodeSelectorTerm(
-                            match_expressions=[
-                                runai.models.match_expression.MatchExpression(
-                                    key="",
-                                    operator="In",
-                                    values=[""],
-                                )
-                            ],
+                auto_deletion_time_after_completion_seconds=15,
+                backoff_limit=3,
+                category="jUR,rZ#UM/?R,Fp^l6$ARj",
+                clean_pod_policy="None",
+                command="python",
+                compute=runai.models.superset_spec_all_of_compute.SupersetSpec_allOf_compute(
+                    cpu_core_limit=2,
+                    cpu_core_request=0.5,
+                    cpu_memory_limit="30M",
+                    cpu_memory_request="20M",
+                    extended_resources=[
+                        runai.models.extended_resource.ExtendedResource(
+                            resource="hardware-vendor.example/foo",
+                            quantity="2",
+                            exclude=False,
                         )
                     ],
+                    gpu_devices_request=1,
+                    gpu_memory_limit="10M",
+                    gpu_memory_request="10M",
+                    gpu_portion_limit=0.5,
+                    gpu_portion_request=0.5,
+                    gpu_request_type="portion",
+                    large_shm_request=False,
+                    mig_profile=None,
                 ),
-                pod_affinity=runai.models.pod_affinity.PodAffinity(
-                    type="Required",
-                    key="",
-                ),
-                category="",
-                priority_class="",
-                node_pools=[my - node - pool - a, my - node - pool - b],
-                tty=True,
-                stdin=True,
+                create_home_dir=True,
+                distributed_framework="MPI",
                 environment_variables=[
                     runai.models.environment_variable.EnvironmentVariable(
                         name="HOME",
@@ -102,54 +92,6 @@ class TestDistributedSpecSpec(unittest.TestCase):
                         description="Home directory of the user.",
                     )
                 ],
-                annotations=[
-                    runai.models.annotation.Annotation(
-                        name="billing",
-                        value="my-billing-unit",
-                        exclude=False,
-                    )
-                ],
-                labels=[
-                    runai.models.label.Label(
-                        name="stage",
-                        value="initial-research",
-                        exclude=False,
-                    )
-                ],
-                image_pull_secrets=[
-                    runai.models.image_pull_secret.ImagePullSecret(
-                        name="",
-                        user_credential=True,
-                        exclude=False,
-                    )
-                ],
-                tolerations=[
-                    runai.models.toleration.Toleration(
-                        name="0",
-                        operator="Equal",
-                        key="",
-                        value="",
-                        effect="NoSchedule",
-                        seconds=1,
-                        exclude=False,
-                    )
-                ],
-                terminate_after_preemption=False,
-                auto_deletion_time_after_completion_seconds=15,
-                termination_grace_period_seconds=20,
-                backoff_limit=3,
-                restart_policy="Always",
-                ports=[
-                    runai.models.port.Port(
-                        container=8080,
-                        service_type="LoadBalancer",
-                        external=30080,
-                        tool_type="pytorch",
-                        tool_name="my-pytorch",
-                        name="port-instance-a",
-                        exclude=False,
-                    )
-                ],
                 exposed_urls=[
                     runai.models.exposed_url.ExposedUrl(
                         container=8080,
@@ -162,6 +104,74 @@ class TestDistributedSpecSpec(unittest.TestCase):
                         exclude=False,
                     )
                 ],
+                image="python:3.8",
+                image_pull_policy="Always",
+                image_pull_secrets=[
+                    runai.models.image_pull_secret.ImagePullSecret(
+                        name="w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx",
+                        user_credential=True,
+                        exclude=False,
+                    )
+                ],
+                labels=[
+                    runai.models.label.Label(
+                        name="stage",
+                        value="initial-research",
+                        exclude=False,
+                    )
+                ],
+                max_replicas=56,
+                min_replicas=56,
+                mpi_launcher_creation_policy="AtStartup",
+                node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
+                    node_selector_terms=[
+                        runai.models.node_selector_term.NodeSelectorTerm(
+                            match_expressions=[
+                                runai.models.match_expression.MatchExpression(
+                                    key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                                    operator="In",
+                                    values=["jUR,rZ#UM/?R,Fp^l6$ARj"],
+                                )
+                            ],
+                        )
+                    ],
+                ),
+                node_pools=["my-node-pool-a", "my-node-pool-b"],
+                node_type="my-node-type",
+                num_workers=1,
+                pod_affinity=runai.models.pod_affinity.PodAffinity(
+                    type="Required",
+                    key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                ),
+                ports=[
+                    runai.models.port.Port(
+                        container=8080,
+                        service_type="LoadBalancer",
+                        external=30080,
+                        tool_type="pytorch",
+                        tool_name="my-pytorch",
+                        name="port-instance-a",
+                        exclude=False,
+                    )
+                ],
+                priority_class="jUR,rZ#UM/?R,Fp^l6$ARj",
+                probes=runai.models.probes.Probes(
+                    readiness=runai.models.probe.Probe(
+                        initial_delay_seconds=0,
+                        period_seconds=1,
+                        timeout_seconds=1,
+                        success_threshold=1,
+                        failure_threshold=1,
+                        handler=runai.models.probe_handler.ProbeHandler(
+                            http_get=runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                path="/",
+                                port=1,
+                                host="example.com",
+                                scheme="HTTP",
+                            ),
+                        ),
+                    ),
+                ),
                 related_urls=[
                     runai.models.related_url.RelatedUrl(
                         url="https://my-url.com",
@@ -170,17 +180,55 @@ class TestDistributedSpecSpec(unittest.TestCase):
                         exclude=False,
                     )
                 ],
-                num_workers=1,
-                distributed_framework="MPI",
+                restart_policy="Always",
+                security=runai.models.superset_spec_all_of_security.SupersetSpec_allOf_security(
+                    allow_privilege_escalation=False,
+                    capabilities=["CHOWN", "KILL"],
+                    host_ipc=False,
+                    host_network=False,
+                    read_only_root_filesystem=False,
+                    run_as_gid=30,
+                    run_as_non_root=True,
+                    run_as_uid=500,
+                    seccomp_profile_type="RuntimeDefault",
+                    supplemental_groups="2,3,5,8",
+                    uid_gid_source="fromTheImage",
+                ),
                 slots_per_worker=1,
                 ssh_auth_mount_path="/root/.ssh",
-                mpi_launcher_creation_policy="AtStartup",
-                min_replicas=56,
-                max_replicas=56,
-                clean_pod_policy="None",
-                compute=runai.models.compute_fields.ComputeFields(),
-                storage=runai.models.storage_fields.StorageFields(),
-                security=runai.models.security_flat_fields.SecurityFlatFields(),
+                stdin=True,
+                storage=runai.models.superset_spec_all_of_storage.SupersetSpec_allOf_storage(
+                    config_map_volume=[
+                        runai.models.config_map_instance.ConfigMapInstance()
+                    ],
+                    data_volume=[
+                        runai.models.data_volume_instance.DataVolumeInstance()
+                    ],
+                    empty_dir_volume=[
+                        runai.models.empty_dir_instance.EmptyDirInstance()
+                    ],
+                    git=[runai.models.git_instance.GitInstance()],
+                    host_path=[runai.models.host_path_instance.HostPathInstance()],
+                    nfs=[runai.models.nfs_instance.NfsInstance()],
+                    pvc=[runai.models.pvc_instance.PvcInstance()],
+                    s3=[runai.models.s3_instance.S3Instance()],
+                    secret_volume=[runai.models.secret_instance2.SecretInstance2()],
+                ),
+                terminate_after_preemption=False,
+                termination_grace_period_seconds=20,
+                tolerations=[
+                    runai.models.toleration.Toleration(
+                        name="jUR,rZ#UM/?R,Fp^l6$ARj0",
+                        operator="Equal",
+                        key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        value="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        effect="NoSchedule",
+                        seconds=1,
+                        exclude=False,
+                    )
+                ],
+                tty=True,
+                working_dir="/home/myfolder",
             )
         else:
             return DistributedSpecSpec()

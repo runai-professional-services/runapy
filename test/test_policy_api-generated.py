@@ -36,6 +36,66 @@ class TestPolicyApi:
         yield
         self.request_patcher.stop()
 
+    def test_delete_distributed_inference_policy(self):
+        """Test case for delete_distributed_inference_policy
+
+        Delete a distributed inference policy. Use to delete a distributed inference policy for a given organizational unit.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        scope = "scope_example"  # str | The scope that the policy relates to.
+        department_id = "1"  # str | Filter using the department id.
+        project_id = "1"  # str | project id to filter by
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
+
+        # Make request
+        self.api.delete_distributed_inference_policy(
+            scope=scope,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "DELETE"
+        assert "/api/v2/policy/distributed-inferences" in kwargs["url"]
+
+        # Verify query parameters
+        assert "scope=" in kwargs["url"]
+        # Verify query parameters
+        assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "projectId=" in kwargs["url"]
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
+
+    def test_delete_distributed_inference_policy_error(self):
+        """Test error handling for delete_distributed_inference_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        scope = "scope_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.delete_distributed_inference_policy(
+                scope=scope,
+            )
+        assert exc_info.value.status == 400
+
     def test_delete_distributed_policy(self):
         """Test case for delete_distributed_policy
 
@@ -52,6 +112,7 @@ class TestPolicyApi:
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
         cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
         self.api.delete_distributed_policy(
@@ -74,6 +135,8 @@ class TestPolicyApi:
         assert "projectId=" in kwargs["url"]
         # Verify query parameters
         assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
     def test_delete_distributed_policy_error(self):
         """Test error handling for delete_distributed_policy"""
@@ -109,6 +172,7 @@ class TestPolicyApi:
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
         cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
         self.api.delete_inference_policy(
@@ -131,6 +195,8 @@ class TestPolicyApi:
         assert "projectId=" in kwargs["url"]
         # Verify query parameters
         assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
     def test_delete_inference_policy_error(self):
         """Test error handling for delete_inference_policy"""
@@ -166,6 +232,7 @@ class TestPolicyApi:
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
         cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
         self.api.delete_training_policy(
@@ -188,6 +255,8 @@ class TestPolicyApi:
         assert "projectId=" in kwargs["url"]
         # Verify query parameters
         assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
     def test_delete_training_policy_error(self):
         """Test error handling for delete_training_policy"""
@@ -223,6 +292,7 @@ class TestPolicyApi:
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
         cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
         self.api.delete_workspace_policy(
@@ -245,6 +315,8 @@ class TestPolicyApi:
         assert "projectId=" in kwargs["url"]
         # Verify query parameters
         assert "clusterId=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
     def test_delete_workspace_policy_error(self):
         """Test error handling for delete_workspace_policy"""
@@ -260,6 +332,66 @@ class TestPolicyApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.delete_workspace_policy(
+                scope=scope,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_distributed_inference_policy_v2(self):
+        """Test case for get_distributed_inference_policy_v2
+
+        Get a distributed inference policy. Retrieve the details of a distributed inference policy for a given organizational unit.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        scope = "scope_example"  # str | The scope that the policy relates to.
+        department_id = "1"  # str | Filter using the department id.
+        project_id = "1"  # str | project id to filter by
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+
+        # Make request
+        response = self.api.get_distributed_inference_policy_v2(
+            scope=scope,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v2/policy/distributed-inferences" in kwargs["url"]
+
+        # Verify query parameters
+        assert "scope=" in kwargs["url"]
+        # Verify query parameters
+        assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "projectId=" in kwargs["url"]
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, DistributedInferencePolicyV2)
+
+    def test_get_distributed_inference_policy_v2_error(self):
+        """Test error handling for get_distributed_inference_policy_v2"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        scope = "scope_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_distributed_inference_policy_v2(
                 scope=scope,
             )
         assert exc_info.value.status == 400
@@ -387,7 +519,7 @@ class TestPolicyApi:
     def test_get_training_policy_v2(self):
         """Test case for get_training_policy_v2
 
-        Get a training policy. Retrieve the details of an training policy for a given organizational unit.
+        Get a training policy. Retrieve the details of a training policy for a given organizational unit.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -567,6 +699,63 @@ class TestPolicyApi:
             self.api.list_policies()
         assert exc_info.value.status == 400
 
+    def test_overwrite_distributed_inference_policy_v2(self):
+        """Test case for overwrite_distributed_inference_policy_v2
+
+        Overwrite a distributed inference policy. Use to apply a distributed inference policy for a given organizational unit.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        validate_only = (
+            True  # bool | Validate the given policy payload without applying it
+        )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
+        distributed_inference_policy_overwrite_request_v2 = (
+            runai.DistributedInferencePolicyOverwriteRequestV2()
+        )  # DistributedInferencePolicyOverwriteRequestV2 |
+
+        # Make request
+        response = self.api.overwrite_distributed_inference_policy_v2()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v2/policy/distributed-inferences" in kwargs["url"]
+
+        # Verify query parameters
+        assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, DistributedInferencePolicyV2)
+
+    def test_overwrite_distributed_inference_policy_v2_error(self):
+        """Test error handling for overwrite_distributed_inference_policy_v2"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.overwrite_distributed_inference_policy_v2()
+        assert exc_info.value.status == 400
+
     def test_overwrite_distributed_policy_v2(self):
         """Test case for overwrite_distributed_policy_v2
 
@@ -582,6 +771,7 @@ class TestPolicyApi:
         validate_only = (
             True  # bool | Validate the given policy payload without applying it
         )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         distributed_policy_overwrite_request_v2 = (
             runai.DistributedPolicyOverwriteRequestV2()
         )  # DistributedPolicyOverwriteRequestV2 |
@@ -599,6 +789,8 @@ class TestPolicyApi:
 
         # Verify query parameters
         assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None
@@ -636,6 +828,7 @@ class TestPolicyApi:
         validate_only = (
             True  # bool | Validate the given policy payload without applying it
         )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         inference_policy_overwrite_request_v2 = (
             runai.InferencePolicyOverwriteRequestV2()
         )  # InferencePolicyOverwriteRequestV2 |
@@ -653,6 +846,8 @@ class TestPolicyApi:
 
         # Verify query parameters
         assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None
@@ -690,6 +885,7 @@ class TestPolicyApi:
         validate_only = (
             True  # bool | Validate the given policy payload without applying it
         )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         training_policy_overwrite_request_v2 = (
             runai.TrainingPolicyOverwriteRequestV2()
         )  # TrainingPolicyOverwriteRequestV2 |
@@ -707,6 +903,8 @@ class TestPolicyApi:
 
         # Verify query parameters
         assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None
@@ -744,6 +942,7 @@ class TestPolicyApi:
         validate_only = (
             True  # bool | Validate the given policy payload without applying it
         )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         workspace_policy_overwrite_request_v2 = (
             runai.WorkspacePolicyOverwriteRequestV2()
         )  # WorkspacePolicyOverwriteRequestV2 |
@@ -761,6 +960,8 @@ class TestPolicyApi:
 
         # Verify query parameters
         assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None
@@ -783,10 +984,10 @@ class TestPolicyApi:
             self.api.overwrite_workspace_policy_v2()
         assert exc_info.value.status == 400
 
-    def test_update_distributed_policy_v2(self):
-        """Test case for update_distributed_policy_v2
+    def test_update_distributed_inference_policy_v2(self):
+        """Test case for update_distributed_inference_policy_v2
 
-        Update a distributed policy. Use to apply changes to distributed policy for a given organizational unit.
+        Update a distributed inference policy. Use to apply changes to a distributed inference policy for a given organizational unit.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -798,6 +999,64 @@ class TestPolicyApi:
         validate_only = (
             True  # bool | Validate the given policy payload without applying it
         )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
+        distributed_inference_policy_change_request_v2 = (
+            runai.DistributedInferencePolicyChangeRequestV2()
+        )  # DistributedInferencePolicyChangeRequestV2 |
+
+        # Make request
+        response = self.api.update_distributed_inference_policy_v2()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PATCH"
+        assert "/api/v2/policy/distributed-inferences" in kwargs["url"]
+
+        # Verify query parameters
+        assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, DistributedInferencePolicyV2)
+
+    def test_update_distributed_inference_policy_v2_error(self):
+        """Test error handling for update_distributed_inference_policy_v2"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_distributed_inference_policy_v2()
+        assert exc_info.value.status == 400
+
+    def test_update_distributed_policy_v2(self):
+        """Test case for update_distributed_policy_v2
+
+        Update a distributed policy. Use to apply changes to a distributed policy for a given organizational unit.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        validate_only = (
+            True  # bool | Validate the given policy payload without applying it
+        )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         distributed_policy_change_request_v2 = (
             runai.DistributedPolicyChangeRequestV2()
         )  # DistributedPolicyChangeRequestV2 |
@@ -815,6 +1074,8 @@ class TestPolicyApi:
 
         # Verify query parameters
         assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None
@@ -840,7 +1101,7 @@ class TestPolicyApi:
     def test_update_inference_policy_v2(self):
         """Test case for update_inference_policy_v2
 
-        Update an inference policy. Use to apply changes to inference policy for a given organizational unit.
+        Update an inference policy. Use to apply changes to an inference policy for a given organizational unit.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -852,6 +1113,7 @@ class TestPolicyApi:
         validate_only = (
             True  # bool | Validate the given policy payload without applying it
         )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         inference_policy_change_request_v2 = (
             runai.InferencePolicyChangeRequestV2()
         )  # InferencePolicyChangeRequestV2 |
@@ -869,6 +1131,8 @@ class TestPolicyApi:
 
         # Verify query parameters
         assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None
@@ -894,7 +1158,7 @@ class TestPolicyApi:
     def test_update_training_policy_v2(self):
         """Test case for update_training_policy_v2
 
-        Update a training policy. Use to apply changes to training policy for a given organizational unit.
+        Update a training policy. Use to apply changes to a training policy for a given organizational unit.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -906,6 +1170,7 @@ class TestPolicyApi:
         validate_only = (
             True  # bool | Validate the given policy payload without applying it
         )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         training_policy_change_request_v2 = (
             runai.TrainingPolicyChangeRequestV2()
         )  # TrainingPolicyChangeRequestV2 |
@@ -923,6 +1188,8 @@ class TestPolicyApi:
 
         # Verify query parameters
         assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None
@@ -948,7 +1215,7 @@ class TestPolicyApi:
     def test_update_workspace_policy_v2(self):
         """Test case for update_workspace_policy_v2
 
-        Update a workspace policy. Use to apply changes to workspace policy for a given organizational unit.
+        Update a workspace policy. Use to apply changes to a workspace policy for a given organizational unit.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -960,6 +1227,7 @@ class TestPolicyApi:
         validate_only = (
             True  # bool | Validate the given policy payload without applying it
         )
+        approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
         workspace_policy_change_request_v2 = (
             runai.WorkspacePolicyChangeRequestV2()
         )  # WorkspacePolicyChangeRequestV2 |
@@ -977,6 +1245,8 @@ class TestPolicyApi:
 
         # Verify query parameters
         assert "validateOnly=" in kwargs["url"]
+        # Verify query parameters
+        assert "approveClusterDeletion=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None

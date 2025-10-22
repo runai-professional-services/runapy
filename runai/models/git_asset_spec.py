@@ -35,12 +35,14 @@ class GitAssetSpec(BaseModel):
         revision: Optional[str]
         path: Optional[str]
         password_asset_id: Optional[str]
+        credential_id: Optional[str]
         ```
         repository: URL to a remote Git repository. The content of this repository will be mapped to the container running the workload. (mandatory)
         branch: Specific branch to synchronize the repository from.
         revision: Specific revision to synchronize the repository from.
         path: Local path within the workload to which the Git repository will be mapped (mandatory).
-        password_asset_id: ID of credentials asset of type password. Needed for non public repository which requires authentication.
+        password_asset_id: UUID of a credential asset of type userid / password. This credential is required for authenticating with private Git repositories using SSH. (deprecated - use credentialId instead).
+        credential_id: UUID of a credential asset of type generic secret or user id / password required for authenticating with private Git repositories. For generic secret, the credential asset must contain a key-value pair where the key is ssh (lowercase) and the value is a valid private SSH key
     Example:
         ```python
         GitAssetSpec(
@@ -48,7 +50,8 @@ class GitAssetSpec(BaseModel):
                         branch='main',
                         revision='0',
                         path='/container/my-repository',
-                        password_asset_id='0'
+                        password_asset_id='0',
+                        credential_id='0'
         )
         ```
     """  # noqa: E501
@@ -71,9 +74,14 @@ class GitAssetSpec(BaseModel):
     password_asset_id: Optional[Annotated[str, Field(min_length=1, strict=True)]] = (
         Field(
             default=None,
-            description="ID of credentials asset of type password. Needed for non public repository which requires authentication.",
+            description="UUID of a credential asset of type userid / password. This credential is required for authenticating with private Git repositories using SSH. (deprecated - use credentialId instead).",
             alias="passwordAssetId",
         )
+    )
+    credential_id: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="UUID of a credential asset of type generic secret or user id / password required for authenticating with private Git repositories. For generic secret, the credential asset must contain a key-value pair where the key is ssh (lowercase) and the value is a valid private SSH key",
+        alias="credentialId",
     )
     __properties: ClassVar[List[str]] = [
         "repository",
@@ -81,6 +89,7 @@ class GitAssetSpec(BaseModel):
         "revision",
         "path",
         "passwordAssetId",
+        "credentialId",
     ]
 
     model_config = ConfigDict(
@@ -148,6 +157,11 @@ class GitAssetSpec(BaseModel):
         ):
             _dict["passwordAssetId"] = None
 
+        # set to None if credential_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.credential_id is None and "credential_id" in self.model_fields_set:
+            _dict["credentialId"] = None
+
         return _dict
 
     @classmethod
@@ -166,6 +180,7 @@ class GitAssetSpec(BaseModel):
                 "revision": obj.get("revision"),
                 "path": obj.get("path"),
                 "passwordAssetId": obj.get("passwordAssetId"),
+                "credentialId": obj.get("credentialId"),
             }
         )
         return _obj

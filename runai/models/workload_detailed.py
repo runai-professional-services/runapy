@@ -38,6 +38,7 @@ from runai.models.phase import Phase
 from runai.models.phase_reason import PhaseReason
 from runai.models.requested_pods import RequestedPods
 from runai.models.source import Source
+from runai.models.source_api import SourceApi
 from runai.models.workload_allocated_resources import WorkloadAllocatedResources
 from runai.models.workload_children_ids_inner import WorkloadChildrenIdsInner
 from runai.models.workload_request_resources import WorkloadRequestResources
@@ -98,7 +99,13 @@ class WorkloadDetailed(BaseModel):
         phase_reason: Optional[PhaseReason]
         idle_gpus: Optional[int]
         idle_allocated_gpus: Optional[float]
+        total_pending_time_seconds: Optional[int]
+        total_running_time_seconds: Optional[int]
         category: str
+        guaranteed_runtime_ends_at: Optional[datetime]
+        ai_application_id: str
+        ai_application_name: str
+        source_api: Optional[SourceApi]
         pending_scheduling_messages: Optional[List[PendingSchedulingMessage]]
         ```
         tenant_id: The id of the tenant.
@@ -148,7 +155,13 @@ class WorkloadDetailed(BaseModel):
         phase_reason: See model PhaseReason for more information.
         idle_gpus: deprecated. use idleAllocatedGpus instead
         idle_allocated_gpus: sum of idle allocated gpus in the workload
+        total_pending_time_seconds: The total cumulative time, in seconds, that the workload has spent in the Pending phase since submission.
+        total_running_time_seconds: The total cumulative time, in seconds, that the workload has spent in the Running phase since submission.
         category: Category Description
+        guaranteed_runtime_ends_at: A timestamp indicating when the workload will reach its minimum guaranteed runtime, as defined by minGuaranteedRuntime. Until this time, the workload is considered non-preemptible and cannot be interrupted by higher-priority workloads.
+        ai_application_id: See model str for more information.
+        ai_application_name: See model str for more information.
+        source_api: See model SourceApi for more information.
         pending_scheduling_messages: See model List[PendingSchedulingMessage] for more information.
     Example:
         ```python
@@ -316,7 +329,13 @@ class WorkloadDetailed(BaseModel):
                         phase_reason='NonPreemptibleOverQuota',
                         idle_gpus=3,
                         idle_allocated_gpus=1,
+                        total_pending_time_seconds=60,
+                        total_running_time_seconds=60,
                         category='Train',
+                        guaranteed_runtime_ends_at='2025-08-01T03:49:52.531Z',
+                        ai_application_id='',
+                        ai_application_name='',
+                        source_api='WorkloadsV2',
                         pending_scheduling_messages=[
                     runai.models.pending_scheduling_message.PendingSchedulingMessage(
                         node_pool = 'default',
@@ -408,7 +427,29 @@ class WorkloadDetailed(BaseModel):
         description="sum of idle allocated gpus in the workload",
         alias="idleAllocatedGpus",
     )
+    total_pending_time_seconds: Optional[StrictInt] = Field(
+        default=None,
+        description="The total cumulative time, in seconds, that the workload has spent in the Pending phase since submission.",
+        alias="totalPendingTimeSeconds",
+    )
+    total_running_time_seconds: Optional[StrictInt] = Field(
+        default=None,
+        description="The total cumulative time, in seconds, that the workload has spent in the Running phase since submission.",
+        alias="totalRunningTimeSeconds",
+    )
     category: StrictStr = Field(description="Category Description")
+    guaranteed_runtime_ends_at: Optional[datetime] = Field(
+        default=None,
+        description="A timestamp indicating when the workload will reach its minimum guaranteed runtime, as defined by minGuaranteedRuntime. Until this time, the workload is considered non-preemptible and cannot be interrupted by higher-priority workloads.",
+        alias="guaranteedRuntimeEndsAt",
+    )
+    ai_application_id: Optional[StrictStr] = Field(
+        default=None, alias="aiApplicationId"
+    )
+    ai_application_name: Optional[StrictStr] = Field(
+        default=None, alias="aiApplicationName"
+    )
+    source_api: Optional[SourceApi] = Field(default=None, alias="sourceApi")
     pending_scheduling_messages: Optional[List[PendingSchedulingMessage]] = Field(
         default=None, alias="pendingSchedulingMessages"
     )
@@ -460,7 +501,13 @@ class WorkloadDetailed(BaseModel):
         "phaseReason",
         "idleGpus",
         "idleAllocatedGpus",
+        "totalPendingTimeSeconds",
+        "totalRunningTimeSeconds",
         "category",
+        "guaranteedRuntimeEndsAt",
+        "aiApplicationId",
+        "aiApplicationName",
+        "sourceApi",
         "pendingSchedulingMessages",
     ]
 
@@ -622,6 +669,35 @@ class WorkloadDetailed(BaseModel):
         ):
             _dict["idleAllocatedGpus"] = None
 
+        # set to None if total_pending_time_seconds (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.total_pending_time_seconds is None
+            and "total_pending_time_seconds" in self.model_fields_set
+        ):
+            _dict["totalPendingTimeSeconds"] = None
+
+        # set to None if total_running_time_seconds (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.total_running_time_seconds is None
+            and "total_running_time_seconds" in self.model_fields_set
+        ):
+            _dict["totalRunningTimeSeconds"] = None
+
+        # set to None if guaranteed_runtime_ends_at (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.guaranteed_runtime_ends_at is None
+            and "guaranteed_runtime_ends_at" in self.model_fields_set
+        ):
+            _dict["guaranteedRuntimeEndsAt"] = None
+
+        # set to None if source_api (nullable) is None
+        # and model_fields_set contains the field
+        if self.source_api is None and "source_api" in self.model_fields_set:
+            _dict["sourceApi"] = None
+
         # set to None if pending_scheduling_messages (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -738,7 +814,13 @@ class WorkloadDetailed(BaseModel):
                 "phaseReason": obj.get("phaseReason"),
                 "idleGpus": obj.get("idleGpus"),
                 "idleAllocatedGpus": obj.get("idleAllocatedGpus"),
+                "totalPendingTimeSeconds": obj.get("totalPendingTimeSeconds"),
+                "totalRunningTimeSeconds": obj.get("totalRunningTimeSeconds"),
                 "category": obj.get("category"),
+                "guaranteedRuntimeEndsAt": obj.get("guaranteedRuntimeEndsAt"),
+                "aiApplicationId": obj.get("aiApplicationId"),
+                "aiApplicationName": obj.get("aiApplicationName"),
+                "sourceApi": obj.get("sourceApi"),
                 "pendingSchedulingMessages": (
                     [
                         PendingSchedulingMessage.from_dict(_item)

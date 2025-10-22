@@ -38,7 +38,9 @@ class TestPodAffinityTypeOptionsOptionsInner(unittest.TestCase):
 
         # model = PodAffinityTypeOptionsOptionsInner()
         if include_optional:
-            return PodAffinityTypeOptionsOptionsInner(value="Required", displayed="")
+            return PodAffinityTypeOptionsOptionsInner(
+                value="Required", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return PodAffinityTypeOptionsOptionsInner(
                 value="Required",

@@ -51,10 +51,10 @@ class QuantityRules(BaseModel):
             source_of_rule={"scope":"project","projectId":3},
                         required=True,
                         can_edit=True,
-                        min='-0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598',
-                        max='-0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598',
+                        min='+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598',
+                        max='+0..1.73182.66.03300982804.9021169267472mmMGGmuikTPEPmTGiGkePiGemGmmnmeiniPPkTPnEePKmnuuEinuiGEEuiGuMETMPTPmeeKPenkETmEkMikEe-521919116647837856387556598',
                         default_from=runai.models.default_from_rule.DefaultFromRule(
-                    field = '',
+                    field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                     factor = 1.337, )
         )
         ```
@@ -91,9 +91,9 @@ class QuantityRules(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
             raise ValueError(
-                r"must validate the regular expression /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
             )
         return value
 
@@ -103,9 +103,9 @@ class QuantityRules(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
             raise ValueError(
-                r"must validate the regular expression /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
             )
         return value
 

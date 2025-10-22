@@ -87,7 +87,7 @@ class TestDistributedInferencesApi:
     def test_delete_distributed_inference(self):
         """Test case for delete_distributed_inference
 
-        Delete a distributed inference. [Experimental] Delete a distributed inference using a workload id.
+        Delete a distributed inference. Delete a distributed inference using a workload id.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -135,7 +135,7 @@ class TestDistributedInferencesApi:
     def test_get_distributed_inference(self):
         """Test case for get_distributed_inference
 
-        Get a distributed inference data. [Experimental] Retrieve a distributed inference details using a workload id.
+        Get a distributed inference data. Retrieve a distributed inference details using a workload id.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -176,6 +176,58 @@ class TestDistributedInferencesApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_distributed_inference(
+                workload_id=workload_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_distributed_inference_spec(self):
+        """Test case for update_distributed_inference_spec
+
+        Update distributed inference spec. Update the specification of an existing distributed inference workload.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        update_request = runai.UpdateRequest()  # UpdateRequest |
+
+        # Make request
+        response = self.api.update_distributed_inference_spec(
+            workload_id=workload_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PATCH"
+        assert "/api/v1/workloads/distributed-inferences/{workloadId}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, DistributedInference)
+
+    def test_update_distributed_inference_spec_error(self):
+        """Test error handling for update_distributed_inference_spec"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = "workload_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_distributed_inference_spec(
                 workload_id=workload_id,
             )
         assert exc_info.value.status == 400

@@ -58,21 +58,11 @@ class TestAuditLog(unittest.TestCase):
             )
         else:
             return AuditLog(
-                id="",
-                timestamp="2022-01-01T03:49:52.531Z",
                 tenant_id="12345",
                 subject="researcher@run.ai",
                 subject_type="User",
-                source_ip="",
                 action="create",
-                http_method="GET",
-                url="",
-                entity_type="project",
-                entity_name="project-1",
-                entity_id="1234",
                 result="Succeeded",
-                http_status_code=200,
-                metadata={"key' : '"},
             )
 
     def testAuditLog(self):

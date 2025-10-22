@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from runai.models.event1 import Event1
+from runai.models.event2 import Event2
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -31,16 +31,16 @@ class GetWorkloadEvents200Response(BaseModel):
     Parameters:
         ```python
         next: int
-        events: List[Event1]
+        events: List[Event2]
         ```
         next: See model int for more information.
-        events: See model List[Event1] for more information.
+        events: See model List[Event2] for more information.
     Example:
         ```python
         GetWorkloadEvents200Response(
             next=1,
                         events=[
-                    runai.models.event1.Event1(
+                    runai.models.event2.Event2(
                         created_at = '2022-01-01T03:49:52.531Z',
                         id = '',
                         type = 'Normal',
@@ -59,7 +59,7 @@ class GetWorkloadEvents200Response(BaseModel):
     """  # noqa: E501
 
     next: Optional[StrictInt] = None
-    events: List[Optional[Event1]]
+    events: List[Optional[Event2]]
     __properties: ClassVar[List[str]] = ["next", "events"]
 
     model_config = ConfigDict(
@@ -121,7 +121,7 @@ class GetWorkloadEvents200Response(BaseModel):
             {
                 "next": obj.get("next"),
                 "events": (
-                    [Event1.from_dict(_item) for _item in obj["events"]]
+                    [Event2.from_dict(_item) for _item in obj["events"]]
                     if obj.get("events") is not None
                     else None
                 ),

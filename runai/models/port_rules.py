@@ -57,7 +57,7 @@ class PortRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         service_type=runai.models.port_service_type_rules.PortServiceTypeRules(),
                         custom_external_port=runai.models.boolean_rules.BooleanRules(
@@ -72,7 +72,7 @@ class PortRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         tool_type=runai.models.string_rules.StringRules(),
                         tool_name=runai.models.string_rules.StringRules()

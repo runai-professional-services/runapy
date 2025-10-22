@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from runai.models.port_service_type import PortServiceType
 from typing import Optional, Set
 from typing_extensions import Self
@@ -39,16 +40,26 @@ class PortServiceTypeOptionsOptionsInner(BaseModel):
         ```python
         PortServiceTypeOptionsOptionsInner(
             value='LoadBalancer',
-                        displayed=''
+                        displayed='jUR,rZ#UM/?R,Fp^l6$ARj'
         )
         ```
     """  # noqa: E501
 
     value: Optional[PortServiceType]
-    displayed: Optional[StrictStr] = Field(
+    displayed: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None, description="Textual description of the value"
     )
     __properties: ClassVar[List[str]] = ["value", "displayed"]
+
+    @field_validator("displayed")
+    def displayed_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

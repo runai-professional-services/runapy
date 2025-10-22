@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.environment_variable_of_asset import EnvironmentVariableOfAsset
@@ -31,27 +31,24 @@ class OverridableSpecFields(BaseModel):
 
     Parameters:
         ```python
-        command: Optional[str]
         args: Optional[str]
-        run_as_uid: Optional[int]
-        run_as_gid: Optional[int]
-        supplemental_groups: Optional[str]
+        command: Optional[str]
         environment_variables: Optional[List[EnvironmentVariableOfAsset]]
+        run_as_gid: Optional[int]
+        run_as_uid: Optional[int]
+        supplemental_groups: Optional[str]
         ```
-        command: A command to the server as the entry point of the container running the workload.
         args: Arguments to the command that the container running the workload executes.
-        run_as_uid: The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsUid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
-        run_as_gid: The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsGid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
-        supplemental_groups: Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled. Using an empty string implies reverting the supplementary groups of the image.
+        command: A command to the server as the entry point of the container running the workload.
         environment_variables: Set of environment variables to populate into the container running the workspace.
+        run_as_gid: The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsGid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
+        run_as_uid: The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset &#x60;runAsUid&#x60; field (optional). Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled.
+        supplemental_groups: Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not &#x60;fromTheImage&#x60;, and &#x60;overrideUidGidInWorkspace&#x60; is enabled. Using an empty string implies reverting the supplementary groups of the image.
     Example:
         ```python
         OverridableSpecFields(
-            command='python',
-                        args='-x my-script.py',
-                        run_as_uid=500,
-                        run_as_gid=30,
-                        supplemental_groups='2,3,5,8',
+            args='-x my-script.py',
+                        command='python',
                         environment_variables=[
                     runai.models.environment_variable_of_asset.EnvironmentVariableOfAsset(
                         name = 'HOME',
@@ -66,47 +63,80 @@ class OverridableSpecFields(BaseModel):
                             path = 'metadata.name', ),
                         exclude = False,
                         description = 'Home directory of the user.', )
-                    ]
+                    ],
+                        run_as_gid=30,
+                        run_as_uid=500,
+                        supplemental_groups='2,3,5,8'
         )
         ```
     """  # noqa: E501
 
-    command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
-        default=None,
-        description="A command to the server as the entry point of the container running the workload.",
-    )
     args: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
         description="Arguments to the command that the container running the workload executes.",
     )
-    run_as_uid: Optional[StrictInt] = Field(
+    command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
-        description="The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsUid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
-        alias="runAsUid",
-    )
-    run_as_gid: Optional[StrictInt] = Field(
-        default=None,
-        description="The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsGid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
-        alias="runAsGid",
-    )
-    supplemental_groups: Optional[StrictStr] = Field(
-        default=None,
-        description="Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled. Using an empty string implies reverting the supplementary groups of the image.",
-        alias="supplementalGroups",
+        description="A command to the server as the entry point of the container running the workload.",
     )
     environment_variables: Optional[List[Optional[EnvironmentVariableOfAsset]]] = Field(
         default=None,
         description="Set of environment variables to populate into the container running the workspace.",
         alias="environmentVariables",
     )
+    run_as_gid: Optional[StrictInt] = Field(
+        default=None,
+        description="The group id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsGid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
+        alias="runAsGid",
+    )
+    run_as_uid: Optional[StrictInt] = Field(
+        default=None,
+        description="The user id to run the entrypoint of the container which executes the workspace. Default to the value specified in the environment asset `runAsUid` field (optional). Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled.",
+        alias="runAsUid",
+    )
+    supplemental_groups: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Comma separated list of groups that the user running the container belongs to, in addition to the group indicated by runAsGid. Use only when the source uid/gid of the environment asset is not `fromTheImage`, and `overrideUidGidInWorkspace` is enabled. Using an empty string implies reverting the supplementary groups of the image.",
+        alias="supplementalGroups",
+    )
     __properties: ClassVar[List[str]] = [
-        "command",
         "args",
-        "runAsUid",
-        "runAsGid",
-        "supplementalGroups",
+        "command",
         "environmentVariables",
+        "runAsGid",
+        "runAsUid",
+        "supplementalGroups",
     ]
+
+    @field_validator("args")
+    def args_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("command")
+    def command_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("supplemental_groups")
+    def supplemental_groups_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -152,33 +182,15 @@ class OverridableSpecFields(BaseModel):
                 if _item_environment_variables:
                     _items.append(_item_environment_variables.to_dict())
             _dict["environmentVariables"] = _items
-        # set to None if command (nullable) is None
-        # and model_fields_set contains the field
-        if self.command is None and "command" in self.model_fields_set:
-            _dict["command"] = None
-
         # set to None if args (nullable) is None
         # and model_fields_set contains the field
         if self.args is None and "args" in self.model_fields_set:
             _dict["args"] = None
 
-        # set to None if run_as_uid (nullable) is None
+        # set to None if command (nullable) is None
         # and model_fields_set contains the field
-        if self.run_as_uid is None and "run_as_uid" in self.model_fields_set:
-            _dict["runAsUid"] = None
-
-        # set to None if run_as_gid (nullable) is None
-        # and model_fields_set contains the field
-        if self.run_as_gid is None and "run_as_gid" in self.model_fields_set:
-            _dict["runAsGid"] = None
-
-        # set to None if supplemental_groups (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.supplemental_groups is None
-            and "supplemental_groups" in self.model_fields_set
-        ):
-            _dict["supplementalGroups"] = None
+        if self.command is None and "command" in self.model_fields_set:
+            _dict["command"] = None
 
         # set to None if environment_variables (nullable) is None
         # and model_fields_set contains the field
@@ -187,6 +199,24 @@ class OverridableSpecFields(BaseModel):
             and "environment_variables" in self.model_fields_set
         ):
             _dict["environmentVariables"] = None
+
+        # set to None if run_as_gid (nullable) is None
+        # and model_fields_set contains the field
+        if self.run_as_gid is None and "run_as_gid" in self.model_fields_set:
+            _dict["runAsGid"] = None
+
+        # set to None if run_as_uid (nullable) is None
+        # and model_fields_set contains the field
+        if self.run_as_uid is None and "run_as_uid" in self.model_fields_set:
+            _dict["runAsUid"] = None
+
+        # set to None if supplemental_groups (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.supplemental_groups is None
+            and "supplemental_groups" in self.model_fields_set
+        ):
+            _dict["supplementalGroups"] = None
 
         return _dict
 
@@ -201,11 +231,8 @@ class OverridableSpecFields(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "command": obj.get("command"),
                 "args": obj.get("args"),
-                "runAsUid": obj.get("runAsUid"),
-                "runAsGid": obj.get("runAsGid"),
-                "supplementalGroups": obj.get("supplementalGroups"),
+                "command": obj.get("command"),
                 "environmentVariables": (
                     [
                         EnvironmentVariableOfAsset.from_dict(_item)
@@ -214,6 +241,9 @@ class OverridableSpecFields(BaseModel):
                     if obj.get("environmentVariables") is not None
                     else None
                 ),
+                "runAsGid": obj.get("runAsGid"),
+                "runAsUid": obj.get("runAsUid"),
+                "supplementalGroups": obj.get("supplementalGroups"),
             }
         )
         return _obj

@@ -13,179 +13,205 @@ Do not edit the class manually.
 
 
 from __future__ import annotations
-import json
 import pprint
-from pydantic import (
-    BaseModel,
-    ConfigDict,
-    Field,
-    StrictStr,
-    ValidationError,
-    field_validator,
-)
-from typing import Any, List, Optional
-from runai.models.email_notification_channel_config import (
-    EmailNotificationChannelConfig,
-)
-from runai.models.slack_notification_channel_config import (
-    SlackNotificationChannelConfig,
-)
-from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
-from typing_extensions import Literal, Self
+import re  # noqa: F401
+import json
 
-NOTIFICATIONCHANNELCONFIG_ONE_OF_SCHEMAS = [
-    "EmailNotificationChannelConfig",
-    "SlackNotificationChannelConfig",
-]
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
+from runai.models.email_auth_type import EmailAuthType
+from typing import Optional, Set
+from typing_extensions import Self
 
 
 class NotificationChannelConfig(BaseModel):
     """
-    NotificationChannelConfig
-    """
+    Pydantic class model representing NotificationChannelConfig.
 
-    # data type: EmailNotificationChannelConfig
-    oneof_schema_1_validator: Optional[EmailNotificationChannelConfig] = None
-    # data type: SlackNotificationChannelConfig
-    oneof_schema_2_validator: Optional[SlackNotificationChannelConfig] = None
-    actual_instance: Optional[
-        Union[EmailNotificationChannelConfig, SlackNotificationChannelConfig]
-    ] = None
-    one_of_schemas: Set[str] = {
-        "EmailNotificationChannelConfig",
-        "SlackNotificationChannelConfig",
-    }
+    Parameters:
+        ```python
+        username: str
+        password: str
+        smtp_host: str
+        var_from: str
+        smtp_port: int
+        auth_type: EmailAuthType
+        smtp_tls_enabled: Optional[bool]
+        recipients: List[str]
+        from_display_name: str
+        direct_notifications: Optional[bool]
+        use_attachments: Optional[bool]
+        subject: str
+        api_token: str
+        ```
+        username: See model str for more information.
+        password: See model str for more information.
+        smtp_host: See model str for more information.
+        var_from: See model str for more information.
+        smtp_port: See model int for more information. - Default: 587
+        auth_type: See model EmailAuthType for more information. - Default: EmailAuthType.AUTH_LOGIN
+        smtp_tls_enabled: See model bool for more information.
+        recipients: See model List[str] for more information. - Default: []
+        from_display_name: See model str for more information. - Default: &#39;Run:ai&#39;
+        direct_notifications: See model bool for more information.
+        use_attachments: See model bool for more information.
+        subject: See model str for more information. - Default: &#39;Run:ai notification - {{ .category }} {{ .reason }}&#39;
+        api_token: See model str for more information.
+    Example:
+        ```python
+        NotificationChannelConfig(
+            username='',
+                        password='',
+                        smtp_host='',
+                        var_from='',
+                        smtp_port=56,
+                        auth_type='auth_login',
+                        smtp_tls_enabled=True,
+                        recipients=[
+                    ''
+                    ],
+                        from_display_name='Run:ai',
+                        direct_notifications=True,
+                        use_attachments=True,
+                        subject='Run:ai notification - {{ .category }} {{ .reason }}',
+                        api_token=''
+        )
+        ```
+    """  # noqa: E501
+
+    username: Optional[StrictStr] = None
+    password: Optional[StrictStr] = None
+    smtp_host: Optional[StrictStr] = Field(default=None, alias="smtpHost")
+    var_from: Optional[StrictStr] = Field(default=None, alias="from")
+    smtp_port: Optional[StrictInt] = Field(default=587, alias="smtpPort")
+    auth_type: Optional[EmailAuthType] = Field(
+        default=EmailAuthType.AUTH_LOGIN, alias="authType"
+    )
+    smtp_tls_enabled: Optional[StrictBool] = Field(default=None, alias="smtpTlsEnabled")
+    recipients: Optional[List[StrictStr]] = None
+    from_display_name: Optional[StrictStr] = Field(
+        default="Run:ai", alias="fromDisplayName"
+    )
+    direct_notifications: Optional[StrictBool] = Field(
+        default=None, alias="directNotifications"
+    )
+    use_attachments: Optional[StrictBool] = Field(default=None, alias="useAttachments")
+    subject: Optional[StrictStr] = "Run:ai notification - {{ .category }} {{ .reason }}"
+    api_token: Optional[StrictStr] = Field(default=None, alias="apiToken")
+    __properties: ClassVar[List[str]] = [
+        "username",
+        "password",
+        "smtpHost",
+        "from",
+        "smtpPort",
+        "authType",
+        "smtpTlsEnabled",
+        "recipients",
+        "fromDisplayName",
+        "directNotifications",
+        "useAttachments",
+        "subject",
+        "apiToken",
+    ]
 
     model_config = ConfigDict(
+        populate_by_name=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
 
-    def __init__(self, *args, **kwargs) -> None:
-        if args:
-            if len(args) > 1:
-                raise ValueError(
-                    "If a position argument is used, only 1 is allowed to set `actual_instance`"
-                )
-            if kwargs:
-                raise ValueError(
-                    "If a position argument is used, keyword arguments cannot be used."
-                )
-            super().__init__(actual_instance=args[0])
-        else:
-            super().__init__(**kwargs)
-
-    @field_validator("actual_instance")
-    def actual_instance_must_validate_oneof(cls, v):
-        instance = NotificationChannelConfig.model_construct()
-        error_messages = []
-        match = 0
-        # validate data type: EmailNotificationChannelConfig
-        if not isinstance(v, EmailNotificationChannelConfig):
-            error_messages.append(
-                f"Error! Input type `{type(v)}` is not `EmailNotificationChannelConfig`"
-            )
-        else:
-            match += 1
-        # validate data type: SlackNotificationChannelConfig
-        if not isinstance(v, SlackNotificationChannelConfig):
-            error_messages.append(
-                f"Error! Input type `{type(v)}` is not `SlackNotificationChannelConfig`"
-            )
-        else:
-            match += 1
-        if match > 1:
-            # more than 1 match
-            raise ValueError(
-                "Multiple matches found when setting `actual_instance` in NotificationChannelConfig with oneOf schemas: EmailNotificationChannelConfig, SlackNotificationChannelConfig. Details: "
-                + ", ".join(error_messages)
-            )
-        elif match == 0:
-            # no match
-            raise ValueError(
-                "No match found when setting `actual_instance` in NotificationChannelConfig with oneOf schemas: EmailNotificationChannelConfig, SlackNotificationChannelConfig. Details: "
-                + ", ".join(error_messages)
-            )
-        else:
-            return v
-
-    @classmethod
-    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
-        return cls.from_json(json.dumps(obj))
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Self:
-        """Returns the object represented by the json string"""
-        instance = cls.model_construct()
-        error_messages = []
-        match = 0
-
-        # deserialize data into EmailNotificationChannelConfig
-        try:
-            instance.actual_instance = EmailNotificationChannelConfig.from_json(
-                json_str
-            )
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-        # deserialize data into SlackNotificationChannelConfig
-        try:
-            instance.actual_instance = SlackNotificationChannelConfig.from_json(
-                json_str
-            )
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-
-        if match > 1:
-            # more than 1 match
-            raise ValueError(
-                "Multiple matches found when deserializing the JSON string into NotificationChannelConfig with oneOf schemas: EmailNotificationChannelConfig, SlackNotificationChannelConfig. Details: "
-                + ", ".join(error_messages)
-            )
-        elif match == 0:
-            # no match
-            raise ValueError(
-                "No match found when deserializing the JSON string into NotificationChannelConfig with oneOf schemas: EmailNotificationChannelConfig, SlackNotificationChannelConfig. Details: "
-                + ", ".join(error_messages)
-            )
-        else:
-            return instance
+    def to_str(self) -> str:
+        """Returns the string representation of the model using alias"""
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
-        """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is None:
-            return "null"
+        """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
+        return json.dumps(self.to_dict())
 
-        if hasattr(self.actual_instance, "to_json") and callable(
-            self.actual_instance.to_json
+    @classmethod
+    def from_json(cls, json_str: str) -> Optional[Self]:
+        """Create an instance of NotificationChannelConfig from a JSON string"""
+        return cls.from_dict(json.loads(json_str))
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        excluded_fields: Set[str] = set([])
+
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude=excluded_fields,
+            exclude_none=True,
+        )
+        # set to None if smtp_tls_enabled (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.smtp_tls_enabled is None
+            and "smtp_tls_enabled" in self.model_fields_set
         ):
-            return self.actual_instance.to_json()
-        else:
-            return json.dumps(self.actual_instance)
+            _dict["smtpTlsEnabled"] = None
 
-    def to_dict(
-        self,
-    ) -> Optional[
-        Union[
-            Dict[str, Any],
-            EmailNotificationChannelConfig,
-            SlackNotificationChannelConfig,
-        ]
-    ]:
-        """Returns the dict representation of the actual instance"""
-        if self.actual_instance is None:
+        # set to None if direct_notifications (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.direct_notifications is None
+            and "direct_notifications" in self.model_fields_set
+        ):
+            _dict["directNotifications"] = None
+
+        # set to None if use_attachments (nullable) is None
+        # and model_fields_set contains the field
+        if self.use_attachments is None and "use_attachments" in self.model_fields_set:
+            _dict["useAttachments"] = None
+
+        return _dict
+
+    @classmethod
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of NotificationChannelConfig from a dict"""
+        if obj is None:
             return None
 
-        if hasattr(self.actual_instance, "to_dict") and callable(
-            self.actual_instance.to_dict
-        ):
-            return self.actual_instance.to_dict()
-        else:
-            # primitive type
-            return self.actual_instance
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
 
-    def to_str(self) -> str:
-        """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.model_dump())
+        _obj = cls.model_validate(
+            {
+                "username": obj.get("username"),
+                "password": obj.get("password"),
+                "smtpHost": obj.get("smtpHost"),
+                "from": obj.get("from"),
+                "smtpPort": (
+                    obj.get("smtpPort") if obj.get("smtpPort") is not None else 587
+                ),
+                "authType": (
+                    obj.get("authType")
+                    if obj.get("authType") is not None
+                    else EmailAuthType.AUTH_LOGIN
+                ),
+                "smtpTlsEnabled": obj.get("smtpTlsEnabled"),
+                "recipients": obj.get("recipients"),
+                "fromDisplayName": (
+                    obj.get("fromDisplayName")
+                    if obj.get("fromDisplayName") is not None
+                    else "Run:ai"
+                ),
+                "directNotifications": obj.get("directNotifications"),
+                "useAttachments": obj.get("useAttachments"),
+                "subject": (
+                    obj.get("subject")
+                    if obj.get("subject") is not None
+                    else "Run:ai notification - {{ .category }} {{ .reason }}"
+                ),
+                "apiToken": obj.get("apiToken"),
+            }
+        )
+        return _obj

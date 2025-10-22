@@ -42,10 +42,10 @@ class PodNodeAffinityPreferred(BaseModel):
                         preference = runai.models.node_selector_term.NodeSelectorTerm(
                             match_expressions = [
                                 runai.models.match_expression.MatchExpression(
-                                    key = '',
+                                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                                     operator = 'In',
                                     values = [
-                                        ''
+                                        'jUR,rZ#UM/?R,Fp^l6$ARj'
                                         ], )
                                 ], ), )
                     ]

@@ -36,9 +36,7 @@ class TestTokenResponse(unittest.TestCase):
 
         # model = TokenResponse()
         if include_optional:
-            return TokenResponse(
-                access_token="", id_token="", refresh_token="", external_token=""
-            )
+            return TokenResponse(access_token="", id_token="", refresh_token="")
         else:
             return TokenResponse()
 

@@ -26,6 +26,13 @@ class TestPolicyApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_delete_distributed_inference_policy(self) -> None:
+        """Test case for delete_distributed_inference_policy
+
+        Delete a distributed inference policy.
+        """
+        pass
+
     def test_delete_distributed_policy(self) -> None:
         """Test case for delete_distributed_policy
 
@@ -51,6 +58,13 @@ class TestPolicyApi(unittest.TestCase):
         """Test case for delete_workspace_policy
 
         Delete a workspace policy.
+        """
+        pass
+
+    def test_get_distributed_inference_policy_v2(self) -> None:
+        """Test case for get_distributed_inference_policy_v2
+
+        Get a distributed inference policy.
         """
         pass
 
@@ -89,6 +103,13 @@ class TestPolicyApi(unittest.TestCase):
         """
         pass
 
+    def test_overwrite_distributed_inference_policy_v2(self) -> None:
+        """Test case for overwrite_distributed_inference_policy_v2
+
+        Overwrite a distributed inference policy.
+        """
+        pass
+
     def test_overwrite_distributed_policy_v2(self) -> None:
         """Test case for overwrite_distributed_policy_v2
 
@@ -114,6 +135,13 @@ class TestPolicyApi(unittest.TestCase):
         """Test case for overwrite_workspace_policy_v2
 
         Overwrite a workspace policy.
+        """
+        pass
+
+    def test_update_distributed_inference_policy_v2(self) -> None:
+        """Test case for update_distributed_inference_policy_v2
+
+        Update a distributed inference policy.
         """
         pass
 

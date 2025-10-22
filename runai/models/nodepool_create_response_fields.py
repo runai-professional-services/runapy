@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.gpu_resource_optimization import GPUResourceOptimization
@@ -27,6 +27,7 @@ from runai.models.nodepool_create_response_fields_placement_strategy import (
 from runai.models.nodepool_gpu_network_acceleration_detection import (
     NodepoolGPUNetworkAccelerationDetection,
 )
+from runai.models.scheduling_configuration import SchedulingConfiguration
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -45,7 +46,10 @@ class NodepoolCreateResponseFields(BaseModel):
         placement_strategy: NodepoolCreateResponseFieldsPlacementStrategy
         gpu_network_acceleration_label_key: str
         gpu_network_acceleration_detection: Optional[NodepoolGPUNetworkAccelerationDetection]
+        network_topology_name: Optional[str]
+        network_topology_id: Optional[str]
         gpu_resource_optimization: Optional[GPUResourceOptimization]
+        scheduling_configuration: Optional[SchedulingConfiguration]
         ```
         name: See model str for more information.
         label_key: Label key for associated nodes to the Node Pool (with value as in labelValue)
@@ -55,7 +59,10 @@ class NodepoolCreateResponseFields(BaseModel):
         placement_strategy: See model NodepoolCreateResponseFieldsPlacementStrategy for more information.
         gpu_network_acceleration_label_key: Label key by which to determine GPUNetworkAccelerationDetection nodes
         gpu_network_acceleration_detection: See model NodepoolGPUNetworkAccelerationDetection for more information. - Default: NodepoolGPUNetworkAccelerationDetection.AUTO
+        network_topology_name: Name of the network topology
+        network_topology_id: The unique identifier for the network topology
         gpu_resource_optimization: See model GPUResourceOptimization for more information.
+        scheduling_configuration: See model SchedulingConfiguration for more information.
     Example:
         ```python
         NodepoolCreateResponseFields(
@@ -69,11 +76,18 @@ class NodepoolCreateResponseFields(BaseModel):
                     gpu = 'spread', ),
                         gpu_network_acceleration_label_key='',
                         gpu_network_acceleration_detection='Auto',
+                        network_topology_name='default-topology',
+                        network_topology_id='123e4567-e89b-12d3-a456-426614174000',
                         gpu_resource_optimization=runai.models.gpu_resource_optimization.GPUResourceOptimization(
                     swap_enabled = True,
                     cpu_swap_memory_size = '100G',
                     reserved_gpu_memory_for_swap_operations = '2G',
-                    node_level_scheduler_enabled = True, )
+                    node_level_scheduler_enabled = True, ),
+                        scheduling_configuration=runai.models.scheduling_configuration.SchedulingConfiguration(
+                    placement_strategy = runai.models.scheduling_configuration_placement_strategy.SchedulingConfiguration_placementStrategy(
+                        cpu = 'spread',
+                        gpu = 'spread', ),
+                    min_guaranteed_runtime = '5d8h40m', )
         )
         ```
     """  # noqa: E501
@@ -105,8 +119,23 @@ class NodepoolCreateResponseFields(BaseModel):
         default=NodepoolGPUNetworkAccelerationDetection.AUTO,
         alias="gpuNetworkAccelerationDetection",
     )
+    network_topology_name: Optional[
+        Annotated[str, Field(min_length=1, strict=True, max_length=63)]
+    ] = Field(
+        default=None,
+        description="Name of the network topology",
+        alias="networkTopologyName",
+    )
+    network_topology_id: Optional[StrictStr] = Field(
+        default=None,
+        description="The unique identifier for the network topology",
+        alias="networkTopologyId",
+    )
     gpu_resource_optimization: Optional[GPUResourceOptimization] = Field(
         default=None, alias="gpuResourceOptimization"
+    )
+    scheduling_configuration: Optional[SchedulingConfiguration] = Field(
+        default=None, alias="schedulingConfiguration"
     )
     __properties: ClassVar[List[str]] = [
         "name",
@@ -117,8 +146,23 @@ class NodepoolCreateResponseFields(BaseModel):
         "placementStrategy",
         "gpuNetworkAccelerationLabelKey",
         "gpuNetworkAccelerationDetection",
+        "networkTopologyName",
+        "networkTopologyId",
         "gpuResourceOptimization",
+        "schedulingConfiguration",
     ]
+
+    @field_validator("network_topology_name")
+    def network_topology_name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[a-z]([a-z0-9-]*[a-z0-9])?$", value):
+            raise ValueError(
+                r"must validate the regular expression /^[a-z]([a-z0-9-]*[a-z0-9])?$/"
+            )
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -163,6 +207,9 @@ class NodepoolCreateResponseFields(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of gpu_resource_optimization
         if self.gpu_resource_optimization:
             _dict["gpuResourceOptimization"] = self.gpu_resource_optimization.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of scheduling_configuration
+        if self.scheduling_configuration:
+            _dict["schedulingConfiguration"] = self.scheduling_configuration.to_dict()
         # set to None if over_provisioning_ratio (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -179,6 +226,22 @@ class NodepoolCreateResponseFields(BaseModel):
         ):
             _dict["gpuNetworkAccelerationDetection"] = None
 
+        # set to None if network_topology_name (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.network_topology_name is None
+            and "network_topology_name" in self.model_fields_set
+        ):
+            _dict["networkTopologyName"] = None
+
+        # set to None if network_topology_id (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.network_topology_id is None
+            and "network_topology_id" in self.model_fields_set
+        ):
+            _dict["networkTopologyId"] = None
+
         # set to None if gpu_resource_optimization (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -186,6 +249,14 @@ class NodepoolCreateResponseFields(BaseModel):
             and "gpu_resource_optimization" in self.model_fields_set
         ):
             _dict["gpuResourceOptimization"] = None
+
+        # set to None if scheduling_configuration (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.scheduling_configuration is None
+            and "scheduling_configuration" in self.model_fields_set
+        ):
+            _dict["schedulingConfiguration"] = None
 
         return _dict
 
@@ -224,9 +295,16 @@ class NodepoolCreateResponseFields(BaseModel):
                     if obj.get("gpuNetworkAccelerationDetection") is not None
                     else NodepoolGPUNetworkAccelerationDetection.AUTO
                 ),
+                "networkTopologyName": obj.get("networkTopologyName"),
+                "networkTopologyId": obj.get("networkTopologyId"),
                 "gpuResourceOptimization": (
                     GPUResourceOptimization.from_dict(obj["gpuResourceOptimization"])
                     if obj.get("gpuResourceOptimization") is not None
+                    else None
+                ),
+                "schedulingConfiguration": (
+                    SchedulingConfiguration.from_dict(obj["schedulingConfiguration"])
+                    if obj.get("schedulingConfiguration") is not None
                     else None
                 ),
             }

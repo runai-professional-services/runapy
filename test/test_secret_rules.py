@@ -39,6 +39,7 @@ class TestSecretRules(unittest.TestCase):
             return SecretRules(
                 secret=runai.models.string_rules.StringRules(),
                 mount_path=runai.models.string_rules.StringRules(),
+                default_mode=runai.models.string_rules.StringRules(),
             )
         else:
             return SecretRules()

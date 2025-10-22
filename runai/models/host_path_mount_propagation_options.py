@@ -41,7 +41,7 @@ class HostPathMountPropagationOptions(BaseModel):
             options=[
                     runai.models.host_path_mount_propagation_options_options_inner.HostPathMountPropagationOptions_options_inner(
                         value = 'None',
-                        displayed = '', )
+                        displayed = 'jUR,rZ#UM/?R,Fp^l6$ARj', )
                     ]
         )
         ```

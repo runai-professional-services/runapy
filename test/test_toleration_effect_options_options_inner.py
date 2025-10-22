@@ -38,7 +38,9 @@ class TestTolerationEffectOptionsOptionsInner(unittest.TestCase):
 
         # model = TolerationEffectOptionsOptionsInner()
         if include_optional:
-            return TolerationEffectOptionsOptionsInner(value="NoSchedule", displayed="")
+            return TolerationEffectOptionsOptionsInner(
+                value="NoSchedule", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return TolerationEffectOptionsOptionsInner(
                 value="NoSchedule",

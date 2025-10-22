@@ -42,9 +42,9 @@ class ResourceType(str, Enum):
 
     SECURITY_MINUS_SETTINGS = 'security-settings'
 
-    USERS = 'users'
+    BRANDING_MINUS_SETTINGS = 'branding-settings'
 
-    GROUPS = 'groups'
+    USERS = 'users'
 
     APPS = 'apps'
 
@@ -102,6 +102,10 @@ class ResourceType(str, Enum):
 
     WORKLOAD_MINUS_PROPERTIES = 'workload-properties'
 
+    NETWORK_MINUS_TOPOLOGIES = 'network-topologies'
+
+    REGISTRIES = 'registries'
+
 
     Example:
         ```python
@@ -114,8 +118,8 @@ class ResourceType(str, Enum):
         ResourceType.NODES
         ResourceType.SETTINGS
         ResourceType.SECURITY_MINUS_SETTINGS
+        ResourceType.BRANDING_MINUS_SETTINGS
         ResourceType.USERS
-        ResourceType.GROUPS
         ResourceType.APPS
         ResourceType.DASHBOARDS_MINUS_OVERVIEW
         ResourceType.DASHBOARDS_MINUS_ANALYTICS
@@ -144,6 +148,8 @@ class ResourceType(str, Enum):
         ResourceType.STORAGE_MINUS_CLASS_MINUS_CONFIGURATION
         ResourceType.USER_MINUS_APPS
         ResourceType.WORKLOAD_MINUS_PROPERTIES
+        ResourceType.NETWORK_MINUS_TOPOLOGIES
+        ResourceType.REGISTRIES
         ```
     """
 
@@ -156,8 +162,8 @@ class ResourceType(str, Enum):
     NODES = "nodes"
     SETTINGS = "settings"
     SECURITY_MINUS_SETTINGS = "security-settings"
+    BRANDING_MINUS_SETTINGS = "branding-settings"
     USERS = "users"
-    GROUPS = "groups"
     APPS = "apps"
     DASHBOARDS_MINUS_OVERVIEW = "dashboards-overview"
     DASHBOARDS_MINUS_ANALYTICS = "dashboards-analytics"
@@ -186,6 +192,8 @@ class ResourceType(str, Enum):
     STORAGE_MINUS_CLASS_MINUS_CONFIGURATION = "storage-class-configuration"
     USER_MINUS_APPS = "user-apps"
     WORKLOAD_MINUS_PROPERTIES = "workload-properties"
+    NETWORK_MINUS_TOPOLOGIES = "network-topologies"
+    REGISTRIES = "registries"
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

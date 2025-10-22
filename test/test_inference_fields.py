@@ -37,7 +37,6 @@ class TestInferenceFields(unittest.TestCase):
         # model = InferenceFields()
         if include_optional:
             return InferenceFields(
-                serving_port=runai.models.serving_port.ServingPort(),
                 autoscaling=runai.models.auto_scaling.AutoScaling(),
                 serving_configuration=runai.models.serving_configuration.ServingConfiguration(
                     initialization_timeout_seconds=1,

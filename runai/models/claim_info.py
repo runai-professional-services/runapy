@@ -93,9 +93,21 @@ class ClaimInfo(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
             raise ValueError(
-                r"must validate the regular expression /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+            )
+        return value
+
+    @field_validator("storage_class")
+    def storage_class_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?$", value):
+            raise ValueError(
+                r"must validate the regular expression /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/"
             )
         return value
 

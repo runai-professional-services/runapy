@@ -39,19 +39,19 @@ class TolerationsDefaults(BaseModel):
         ```python
         TolerationsDefaults(
             attributes=runai.models.toleration.Toleration(
-                    name = '0',
+                    name = 'jUR,rZ#UM/?R,Fp^l6$ARj0',
                     operator = 'Equal',
-                    key = '',
-                    value = '',
+                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                    value = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                     effect = 'NoSchedule',
                     seconds = 1,
                     exclude = False, ),
                         instances=[
                     runai.models.toleration.Toleration(
-                        name = '0',
+                        name = 'jUR,rZ#UM/?R,Fp^l6$ARj0',
                         operator = 'Equal',
-                        key = '',
-                        value = '',
+                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                        value = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         effect = 'NoSchedule',
                         seconds = 1,
                         exclude = False, )

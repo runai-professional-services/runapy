@@ -37,11 +37,8 @@ class TestEnvironmentAssetSpec(unittest.TestCase):
         # model = EnvironmentAssetSpec()
         if include_optional:
             return EnvironmentAssetSpec(
-                command="python",
                 args="-x my-script.py",
-                run_as_uid=500,
-                run_as_gid=30,
-                supplemental_groups="2,3,5,8",
+                command="python",
                 environment_variables=[
                     runai.models.environment_variable_of_asset.EnvironmentVariableOfAsset(
                         name="HOME",
@@ -61,10 +58,16 @@ class TestEnvironmentAssetSpec(unittest.TestCase):
                         description="Home directory of the user.",
                     )
                 ],
+                run_as_gid=30,
+                run_as_uid=500,
+                supplemental_groups="2,3,5,8",
+                allow_privilege_escalation=False,
+                capabilities=["CHOWN", "KILL"],
+                create_home_dir=True,
+                host_ipc=False,
+                host_network=False,
                 image="python:3.8",
                 image_pull_policy="Always",
-                working_dir="/home/myfolder",
-                create_home_dir=True,
                 probes=runai.models.probes.Probes(
                     readiness=runai.models.probe.Probe(
                         initial_delay_seconds=0,
@@ -82,16 +85,13 @@ class TestEnvironmentAssetSpec(unittest.TestCase):
                         ),
                     ),
                 ),
-                uid_gid_source="fromTheImage",
-                capabilities=[CHOWN, KILL],
-                seccomp_profile_type="RuntimeDefault",
-                run_as_non_root=True,
                 read_only_root_filesystem=False,
-                tty=True,
+                run_as_non_root=True,
+                seccomp_profile_type="RuntimeDefault",
                 stdin=True,
-                allow_privilege_escalation=False,
-                host_ipc=False,
-                host_network=False,
+                tty=True,
+                uid_gid_source="fromTheImage",
+                working_dir="/home/myfolder",
                 connections=[
                     runai.models.connection.Connection(
                         name="0",

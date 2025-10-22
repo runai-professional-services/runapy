@@ -46,6 +46,8 @@ class MetricsType(str, Enum):
 
     AVG_WORKLOAD_WAIT_TIME = 'AVG_WORKLOAD_WAIT_TIME'
 
+    WORKLOADS_COUNT = 'WORKLOADS_COUNT'
+
 
     Example:
         ```python
@@ -60,6 +62,7 @@ class MetricsType(str, Enum):
         MetricsType.ALLOCATED_GPU
         MetricsType.UNALLOCATED_GPU
         MetricsType.AVG_WORKLOAD_WAIT_TIME
+        MetricsType.WORKLOADS_COUNT
         ```
     """
 
@@ -74,6 +77,7 @@ class MetricsType(str, Enum):
     ALLOCATED_GPU = "ALLOCATED_GPU"
     UNALLOCATED_GPU = "UNALLOCATED_GPU"
     AVG_WORKLOAD_WAIT_TIME = "AVG_WORKLOAD_WAIT_TIME"
+    WORKLOADS_COUNT = "WORKLOADS_COUNT"
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

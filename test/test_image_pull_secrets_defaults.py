@@ -39,7 +39,7 @@ class TestImagePullSecretsDefaults(unittest.TestCase):
             return ImagePullSecretsDefaults(
                 instances=[
                     runai.models.image_pull_secret.ImagePullSecret(
-                        name="",
+                        name="w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx",
                         user_credential=True,
                         exclude=False,
                     )

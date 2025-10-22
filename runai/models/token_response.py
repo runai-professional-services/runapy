@@ -32,19 +32,16 @@ class TokenResponse(BaseModel):
         access_token: str
         id_token: str
         refresh_token: str
-        external_token: str
         ```
         access_token: See model str for more information.
         id_token: See model str for more information.
         refresh_token: See model str for more information.
-        external_token: See model str for more information.
     Example:
         ```python
         TokenResponse(
             access_token='',
                         id_token='',
-                        refresh_token='',
-                        external_token=''
+                        refresh_token=''
         )
         ```
     """  # noqa: E501
@@ -52,13 +49,7 @@ class TokenResponse(BaseModel):
     access_token: Optional[StrictStr] = Field(default=None, alias="accessToken")
     id_token: Optional[StrictStr] = Field(default=None, alias="idToken")
     refresh_token: Optional[StrictStr] = Field(default=None, alias="refreshToken")
-    external_token: Optional[StrictStr] = Field(default=None, alias="externalToken")
-    __properties: ClassVar[List[str]] = [
-        "accessToken",
-        "idToken",
-        "refreshToken",
-        "externalToken",
-    ]
+    __properties: ClassVar[List[str]] = ["accessToken", "idToken", "refreshToken"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -113,7 +104,6 @@ class TokenResponse(BaseModel):
                 "accessToken": obj.get("accessToken"),
                 "idToken": obj.get("idToken"),
                 "refreshToken": obj.get("refreshToken"),
-                "externalToken": obj.get("externalToken"),
             }
         )
         return _obj

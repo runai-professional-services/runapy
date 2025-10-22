@@ -36,7 +36,9 @@ class TestMigProfileOptionsOptionsInner(unittest.TestCase):
 
         # model = MigProfileOptionsOptionsInner()
         if include_optional:
-            return MigProfileOptionsOptionsInner(value="1g.5gb", displayed="")
+            return MigProfileOptionsOptionsInner(
+                value="1g.5gb", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return MigProfileOptionsOptionsInner(
                 value="1g.5gb",

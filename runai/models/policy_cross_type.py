@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
+from runai.models.distributed_inference_policy_v2 import DistributedInferencePolicyV2
 from runai.models.distributed_policy_v2 import DistributedPolicyV2
 from runai.models.inference_policy_v2 import InferencePolicyV2
 from runai.models.training_policy_v2 import TrainingPolicyV2
@@ -37,67 +38,222 @@ class PolicyCrossType(BaseModel):
         training: Optional[TrainingPolicyV2]
         distributed: Optional[DistributedPolicyV2]
         inference: Optional[InferencePolicyV2]
+        distributed_inference: Optional[DistributedInferencePolicyV2]
         ```
         workspace: See model WorkspacePolicyV2 for more information.
         training: See model TrainingPolicyV2 for more information.
         distributed: See model DistributedPolicyV2 for more information.
         inference: See model InferencePolicyV2 for more information.
+        distributed_inference: See model DistributedInferencePolicyV2 for more information.
     Example:
         ```python
         PolicyCrossType(
             workspace=runai.models.workspace_policy_v2.WorkspacePolicyV2(
                     meta = null,
                     policy = runai.models.workspace_policy_defaults_and_rules_v2.WorkspacePolicyDefaultsAndRulesV2(
-                        defaults = runai.models.workspace_policy_defaults_and_rules_v2_defaults.WorkspacePolicyDefaultsAndRulesV2_defaults(),
+                        defaults = runai.models.defaults.defaults(),
                         rules = runai.models.rules.rules(),
                         imposed_assets = [
                             ''
                             ],
                         status = runai.models.policy_validation_status.PolicyValidationStatus(
                             validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                                error_message = '', ), ), ),
+                                error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), ), ),
                     effective = runai.models.workspace_policy_defaults_and_rules_v2.WorkspacePolicyDefaultsAndRulesV2(
+                        defaults = runai.models.defaults.defaults(),
                         rules = runai.models.rules.rules(), ),
                     effective_updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), ),
                         training=runai.models.training_policy_v2.TrainingPolicyV2(
                     meta = null,
                     policy = runai.models.training_policy_defaults_and_rules_v2.TrainingPolicyDefaultsAndRulesV2(
-                        defaults = runai.models.training_policy_defaults_and_rules_v2_defaults.TrainingPolicyDefaultsAndRulesV2_defaults(),
+                        defaults = runai.models.defaults.defaults(),
                         rules = runai.models.rules.rules(),
                         imposed_assets = [
                             ''
                             ],
                         status = runai.models.policy_validation_status.PolicyValidationStatus(
                             validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                                error_message = '', ), ), ),
+                                error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), ), ),
                     effective = runai.models.training_policy_defaults_and_rules_v2.TrainingPolicyDefaultsAndRulesV2(
+                        defaults = runai.models.defaults.defaults(),
                         rules = runai.models.rules.rules(), ),
                     effective_updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), ),
                         distributed=runai.models.distributed_policy_v2.DistributedPolicyV2(
                     meta = null,
                     policy = runai.models.distributed_policy_defaults_and_rules_v2.DistributedPolicyDefaultsAndRulesV2(
                         defaults = runai.models.distributed_policy_defaults_v2.DistributedPolicyDefaultsV2(
-                            worker = runai.models.distributed_policy_defaults_v2_worker.DistributedPolicyDefaultsV2_worker(),
-                            master = runai.models.replica_defaults_v2.ReplicaDefaultsV2(), ),
+                            master = runai.models.replica_defaults_v2.ReplicaDefaultsV2(
+                                annotations = runai.models.annotations_defaults.AnnotationsDefaults(
+                                    instances = [
+                                        runai.models.annotation.Annotation(
+                                            name = 'billing',
+                                            value = 'my-billing-unit',
+                                            exclude = False, )
+                                        ], ),
+                                args = '-x my-script.py',
+                                auto_deletion_time_after_completion_seconds = 15,
+                                backoff_limit = 3,
+                                category = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                command = 'python',
+                                compute = runai.models.superset_defaults_all_of_compute.SupersetDefaults_allOf_compute(
+                                    cpu_core_limit = 2,
+                                    cpu_core_request = 0.5,
+                                    cpu_memory_limit = '30M',
+                                    cpu_memory_request = '20M',
+                                    extended_resources = runai.models.extended_resources_defaults.ExtendedResourcesDefaults(
+                                        attributes = runai.models.extended_resource.ExtendedResource(
+                                            resource = 'hardware-vendor.example/foo',
+                                            quantity = '2',
+                                            exclude = False, ),
+                                        instances = [
+                                            runai.models.extended_resource.ExtendedResource(
+                                                resource = 'hardware-vendor.example/foo',
+                                                quantity = '2',
+                                                exclude = False, )
+                                            ], ),
+                                    gpu_devices_request = 1,
+                                    gpu_memory_limit = '10M',
+                                    gpu_memory_request = '10M',
+                                    gpu_portion_limit = 0.5,
+                                    gpu_portion_request = 0.5,
+                                    gpu_request_type = 'portion',
+                                    large_shm_request = False,
+                                    mig_profile = null, ),
+                                create_home_dir = True,
+                                environment_variables = runai.models.environment_variables_defaults.EnvironmentVariablesDefaults(
+                                    instances = [
+                                        runai.models.environment_variable.EnvironmentVariable(
+                                            name = 'HOME',
+                                            value = '/home/my-folder',
+                                            secret = runai.models.environment_variable_secret.EnvironmentVariableSecret(
+                                                name = 'postgress_secret',
+                                                key = 'POSTGRES_PASSWORD', ),
+                                            config_map = runai.models.environment_variable_config_map.EnvironmentVariableConfigMap(
+                                                name = 'my-config-map',
+                                                key = 'MY_POSTGRES_SCHEMA', ),
+                                            pod_field_ref = runai.models.environment_variable_pod_field_reference.EnvironmentVariablePodFieldReference(
+                                                path = 'metadata.name', ),
+                                            exclude = False,
+                                            description = 'Home directory of the user.', )
+                                        ], ),
+                                exposed_urls = runai.models.exposed_urls_defaults.ExposedUrlsDefaults(
+                                    instances = [
+                                        runai.models.exposed_url.ExposedUrl(
+                                            container = 8080,
+                                            url = 'https://my-url.com',
+                                            authorized_users = ["user-a","user-b"],
+                                            authorized_groups = ["group-a","group-b"],
+                                            tool_type = 'jupyter',
+                                            tool_name = 'my-pytorch',
+                                            name = 'url-instance-a',
+                                            exclude = False, )
+                                        ], ),
+                                image = 'python:3.8',
+                                image_pull_policy = 'Always',
+                                image_pull_secrets = runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(),
+                                labels = runai.models.labels_defaults.LabelsDefaults(),
+                                node_affinity_required = runai.models.node_affinity_required.NodeAffinityRequired(
+                                    node_selector_terms = [
+                                        runai.models.node_selector_term.NodeSelectorTerm(
+                                            match_expressions = [
+                                                runai.models.match_expression.MatchExpression(
+                                                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                                    operator = 'In',
+                                                    values = [
+                                                        'jUR,rZ#UM/?R,Fp^l6$ARj'
+                                                        ], )
+                                                ], )
+                                        ], ),
+                                node_pools = ["my-node-pool-a","my-node-pool-b"],
+                                node_type = 'my-node-type',
+                                pod_affinity = runai.models.pod_affinity.PodAffinity(
+                                    type = 'Required',
+                                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj', ),
+                                ports = runai.models.ports_defaults.PortsDefaults(),
+                                priority_class = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                probes = runai.models.probes.Probes(
+                                    readiness = runai.models.probe.Probe(
+                                        initial_delay_seconds = 0,
+                                        period_seconds = 1,
+                                        timeout_seconds = 1,
+                                        success_threshold = 1,
+                                        failure_threshold = 1,
+                                        handler = runai.models.probe_handler.ProbeHandler(
+                                            http_get = runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                                path = '/',
+                                                port = 1,
+                                                host = 'example.com',
+                                                scheme = 'HTTP', ), ), ), ),
+                                related_urls = runai.models.related_urls_defaults.RelatedUrlsDefaults(),
+                                restart_policy = 'Always',
+                                security = runai.models.superset_spec_all_of_security.SupersetSpec_allOf_security(
+                                    allow_privilege_escalation = False,
+                                    capabilities = ["CHOWN","KILL"],
+                                    host_ipc = False,
+                                    host_network = False,
+                                    read_only_root_filesystem = False,
+                                    run_as_gid = 30,
+                                    run_as_non_root = True,
+                                    run_as_uid = 500,
+                                    seccomp_profile_type = 'RuntimeDefault',
+                                    supplemental_groups = '2,3,5,8',
+                                    uid_gid_source = 'fromTheImage', ),
+                                stdin = True,
+                                storage = runai.models.superset_defaults_all_of_storage.SupersetDefaults_allOf_storage(
+                                    config_map_volume = runai.models.config_maps_defaults.ConfigMapsDefaults(),
+                                    data_volume = runai.models.data_volumes_defaults.DataVolumesDefaults(),
+                                    empty_dir_volume = runai.models.empty_dirs_defaults.EmptyDirsDefaults(),
+                                    git = runai.models.gits_defaults.GitsDefaults(),
+                                    host_path = runai.models.host_paths_defaults.HostPathsDefaults(),
+                                    nfs = runai.models.nfss_defaults.NfssDefaults(),
+                                    pvc = runai.models.pvcs_defaults.PvcsDefaults(),
+                                    s3 = runai.models.s3s_defaults.S3sDefaults(),
+                                    secret_volume = runai.models.secrets_defaults.SecretsDefaults(), ),
+                                terminate_after_preemption = False,
+                                termination_grace_period_seconds = 20,
+                                tolerations = runai.models.tolerations_defaults.TolerationsDefaults(),
+                                tty = True,
+                                working_dir = '/home/myfolder', ),
+                            worker = runai.models.distributed_policy_defaults_v2_worker.DistributedPolicyDefaultsV2_worker(), ),
                         rules = runai.models.distributed_policy_rules_v2.DistributedPolicyRulesV2(),
                         imposed_assets = runai.models.distributed_imposed_assets.DistributedImposedAssets(),
                         status = runai.models.policy_validation_status.PolicyValidationStatus(
                             validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                                error_message = '', ), ), ),
+                                error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), ), ),
                     effective = runai.models.distributed_policy_defaults_and_rules_v2.DistributedPolicyDefaultsAndRulesV2(),
                     effective_updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), ),
                         inference=runai.models.inference_policy_v2.InferencePolicyV2(
                     meta = null,
                     policy = runai.models.inference_policy_defaults_and_rules_v2.InferencePolicyDefaultsAndRulesV2(
-                        defaults = runai.models.inference_policy_defaults_and_rules_v2_defaults.InferencePolicyDefaultsAndRulesV2_defaults(),
+                        defaults = runai.models.defaults.defaults(),
                         rules = runai.models.rules.rules(),
                         imposed_assets = [
                             ''
                             ],
                         status = runai.models.policy_validation_status.PolicyValidationStatus(
                             validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                                error_message = '', ), ), ),
+                                error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), ), ),
                     effective = runai.models.inference_policy_defaults_and_rules_v2.InferencePolicyDefaultsAndRulesV2(
+                        defaults = runai.models.defaults.defaults(),
+                        rules = runai.models.rules.rules(), ),
+                    effective_updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), ),
+                        distributed_inference=runai.models.distributed_inference_policy_v2.DistributedInferencePolicyV2(
+                    meta = null,
+                    policy = runai.models.distributed_inference_policy_defaults_and_rules_v2.DistributedInferencePolicyDefaultsAndRulesV2(
+                        defaults = runai.models.defaults.defaults(),
+                        rules = runai.models.rules.rules(),
+                        imposed_assets = runai.models.distributed_inference_imposed_assets.DistributedInferenceImposedAssets(
+                            leader = [
+                                ''
+                                ],
+                            worker = [
+                                ''
+                                ], ),
+                        status = runai.models.policy_validation_status.PolicyValidationStatus(
+                            validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
+                                error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), ), ),
+                    effective = runai.models.distributed_inference_policy_defaults_and_rules_v2.DistributedInferencePolicyDefaultsAndRulesV2(
+                        defaults = runai.models.defaults.defaults(),
                         rules = runai.models.rules.rules(), ),
                     effective_updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
         )
@@ -108,11 +264,15 @@ class PolicyCrossType(BaseModel):
     training: Optional[TrainingPolicyV2] = None
     distributed: Optional[DistributedPolicyV2] = None
     inference: Optional[InferencePolicyV2] = None
+    distributed_inference: Optional[DistributedInferencePolicyV2] = Field(
+        default=None, alias="distributedInference"
+    )
     __properties: ClassVar[List[str]] = [
         "workspace",
         "training",
         "distributed",
         "inference",
+        "distributedInference",
     ]
 
     model_config = ConfigDict(
@@ -164,6 +324,9 @@ class PolicyCrossType(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of inference
         if self.inference:
             _dict["inference"] = self.inference.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of distributed_inference
+        if self.distributed_inference:
+            _dict["distributedInference"] = self.distributed_inference.to_dict()
         # set to None if workspace (nullable) is None
         # and model_fields_set contains the field
         if self.workspace is None and "workspace" in self.model_fields_set:
@@ -183,6 +346,14 @@ class PolicyCrossType(BaseModel):
         # and model_fields_set contains the field
         if self.inference is None and "inference" in self.model_fields_set:
             _dict["inference"] = None
+
+        # set to None if distributed_inference (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.distributed_inference is None
+            and "distributed_inference" in self.model_fields_set
+        ):
+            _dict["distributedInference"] = None
 
         return _dict
 
@@ -215,6 +386,11 @@ class PolicyCrossType(BaseModel):
                 "inference": (
                     InferencePolicyV2.from_dict(obj["inference"])
                     if obj.get("inference") is not None
+                    else None
+                ),
+                "distributedInference": (
+                    DistributedInferencePolicyV2.from_dict(obj["distributedInference"])
+                    if obj.get("distributedInference") is not None
                     else None
                 ),
             }

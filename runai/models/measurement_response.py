@@ -19,8 +19,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from runai.models.measurement_response_values_inner import (
-    MeasurementResponseValuesInner,
+from runai.models.grouped_measurement_response_values_inner import (
+    GroupedMeasurementResponseValuesInner,
 )
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,18 +34,18 @@ class MeasurementResponse(BaseModel):
         ```python
         type: str
         labels: Optional[Dict[str, str]]
-        values: Optional[List[MeasurementResponseValuesInner]]
+        values: Optional[List[GroupedMeasurementResponseValuesInner]]
         ```
         type: specifies what data returned
         labels: labels of the metric measurement
-        values: See model List[MeasurementResponseValuesInner] for more information.
+        values: See model List[GroupedMeasurementResponseValuesInner] for more information.
     Example:
         ```python
         MeasurementResponse(
             type='ALLOCATED_GPU',
                         labels={'gpu': '3'},
                         values=[
-                    runai.models.measurement_response_values_inner.MeasurementResponse_values_inner(
+                    runai.models.grouped_measurement_response_values_inner.GroupedMeasurementResponse_values_inner(
                         value = '85',
                         timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ]
@@ -57,7 +57,7 @@ class MeasurementResponse(BaseModel):
     labels: Optional[Dict[str, StrictStr]] = Field(
         default=None, description="labels of the metric measurement"
     )
-    values: Optional[List[MeasurementResponseValuesInner]]
+    values: Optional[List[GroupedMeasurementResponseValuesInner]]
     __properties: ClassVar[List[str]] = ["type", "labels", "values"]
 
     model_config = ConfigDict(
@@ -131,7 +131,7 @@ class MeasurementResponse(BaseModel):
                 "labels": obj.get("labels"),
                 "values": (
                     [
-                        MeasurementResponseValuesInner.from_dict(_item)
+                        GroupedMeasurementResponseValuesInner.from_dict(_item)
                         for _item in obj["values"]
                     ]
                     if obj.get("values") is not None

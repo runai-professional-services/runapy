@@ -18,8 +18,13 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
+from runai.models.workload_type_resource_interfaces_with_version_inner import (
+    WorkloadTypeResourceInterfacesWithVersionInner,
+)
+from runai.models.workload_type_status import WorkloadTypeStatus
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,29 +35,73 @@ class WorkloadTypeConfig(BaseModel):
 
     Parameters:
         ```python
+        category_id: str
+        priority_id: str
+        name: str
+        group: str
         id: str
         category_name: str
         priority_name: str
         updated_at: datetime
         updated_by: str
+        created_at: datetime
+        created_by: str
+        resource_interfaces: List[WorkloadTypeResourceInterfacesWithVersionInner]
+        cluster_statuses: Optional[List[WorkloadTypeStatus]]
         ```
+        category_id: The unique identifier of the workload category.
+        priority_id: The unique identifier of the workload priority.
+        name: The unique name of the workload type. This value must exactly match the Kubernetes Kind that represents the workload type.
+        group: The Kubernetes group associated with the workload resource.
         id: The unique identifier of the workload type.
         category_name: The name of the workload category.
         priority_name: The name of the workload priority.
-        updated_at: The time at which the type has been updated
-        updated_by: The recent user who updated the type
+        updated_at: The timestamp for the last time the workload type was updated.
+        updated_by: Identifier of the user who last updated the workload type.
+        created_at: The timestamp for when the workload type was created.
+        created_by: Identifier of the user who created the workload type.
+        resource_interfaces: Lists the versions of the custom resource definition (CRD) supported for this workload type, such as v1, v1beta1, or v1alpha1. This enables the platform to correctly parse, interpret, and manage manifests for this workload type according to the specific structure and schema associated with each listed version.
+        cluster_statuses: See model List[WorkloadTypeStatus] for more information.
     Example:
         ```python
         WorkloadTypeConfig(
-            id='',
+            category_id='',
+                        priority_id='',
+                        name='Deployment',
+                        group='apps',
+                        id='',
                         category_name='Build',
                         priority_name='medium',
                         updated_at=datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
-                        updated_by=''
+                        updated_by='',
+                        created_at=datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                        created_by='',
+                        resource_interfaces=[
+                    runai.models.workload_type_resource_interfaces_with_version_inner.WorkloadTypeResourceInterfacesWithVersion_inner(
+                        version = 'v1',
+                        resource_interface = {"spec":{"structureDefinition":{"rootComponent":{"kind":{"group":"apps","version":"v1","kind":"Deployment"}}}}}, )
+                    ],
+                        cluster_statuses=[
+                    null
+                    ]
         )
         ```
     """  # noqa: E501
 
+    category_id: StrictStr = Field(
+        description="The unique identifier of the workload category.",
+        alias="categoryId",
+    )
+    priority_id: StrictStr = Field(
+        description="The unique identifier of the workload priority.",
+        alias="priorityId",
+    )
+    name: Annotated[str, Field(strict=True)] = Field(
+        description="The unique name of the workload type. This value must exactly match the Kubernetes Kind that represents the workload type."
+    )
+    group: Annotated[str, Field(strict=True)] = Field(
+        description="The Kubernetes group associated with the workload resource."
+    )
     id: Optional[StrictStr] = Field(
         default=None, description="The unique identifier of the workload type."
     )
@@ -68,21 +117,67 @@ class WorkloadTypeConfig(BaseModel):
     )
     updated_at: Optional[datetime] = Field(
         default=None,
-        description="The time at which the type has been updated",
+        description="The timestamp for the last time the workload type was updated.",
         alias="updatedAt",
     )
     updated_by: Optional[StrictStr] = Field(
         default=None,
-        description="The recent user who updated the type",
+        description="Identifier of the user who last updated the workload type.",
         alias="updatedBy",
     )
+    created_at: Optional[datetime] = Field(
+        default=None,
+        description="The timestamp for when the workload type was created.",
+        alias="createdAt",
+    )
+    created_by: Optional[StrictStr] = Field(
+        default=None,
+        description="Identifier of the user who created the workload type.",
+        alias="createdBy",
+    )
+    resource_interfaces: Optional[
+        List[WorkloadTypeResourceInterfacesWithVersionInner]
+    ] = Field(
+        default=None,
+        description="Lists the versions of the custom resource definition (CRD) supported for this workload type, such as v1, v1beta1, or v1alpha1. This enables the platform to correctly parse, interpret, and manage manifests for this workload type according to the specific structure and schema associated with each listed version.",
+        alias="resourceInterfaces",
+    )
+    cluster_statuses: Optional[List[WorkloadTypeStatus]] = Field(
+        default=None, alias="clusterStatuses"
+    )
     __properties: ClassVar[List[str]] = [
+        "categoryId",
+        "priorityId",
+        "name",
+        "group",
         "id",
         "categoryName",
         "priorityName",
         "updatedAt",
         "updatedBy",
+        "createdAt",
+        "createdBy",
+        "resourceInterfaces",
+        "clusterStatuses",
     ]
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^[A-Z][a-z0-9]*([A-Z][a-z0-9]*)*$", value):
+            raise ValueError(
+                r"must validate the regular expression /^[A-Z][a-z0-9]*([A-Z][a-z0-9]*)*$/"
+            )
+        return value
+
+    @field_validator("group")
+    def group_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^[a-z](?:[a-z0-9.-]*[a-z0-9])?$", value):
+            raise ValueError(
+                r"must validate the regular expression /^[a-z](?:[a-z0-9.-]*[a-z0-9])?$/"
+            )
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -121,6 +216,28 @@ class WorkloadTypeConfig(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in resource_interfaces (list)
+        _items = []
+        if self.resource_interfaces:
+            for _item_resource_interfaces in self.resource_interfaces:
+                if _item_resource_interfaces:
+                    _items.append(_item_resource_interfaces.to_dict())
+            _dict["resourceInterfaces"] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in cluster_statuses (list)
+        _items = []
+        if self.cluster_statuses:
+            for _item_cluster_statuses in self.cluster_statuses:
+                if _item_cluster_statuses:
+                    _items.append(_item_cluster_statuses.to_dict())
+            _dict["clusterStatuses"] = _items
+        # set to None if cluster_statuses (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.cluster_statuses is None
+            and "cluster_statuses" in self.model_fields_set
+        ):
+            _dict["clusterStatuses"] = None
+
         return _dict
 
     @classmethod
@@ -134,11 +251,33 @@ class WorkloadTypeConfig(BaseModel):
 
         _obj = cls.model_validate(
             {
+                "categoryId": obj.get("categoryId"),
+                "priorityId": obj.get("priorityId"),
+                "name": obj.get("name"),
+                "group": obj.get("group"),
                 "id": obj.get("id"),
                 "categoryName": obj.get("categoryName"),
                 "priorityName": obj.get("priorityName"),
                 "updatedAt": obj.get("updatedAt"),
                 "updatedBy": obj.get("updatedBy"),
+                "createdAt": obj.get("createdAt"),
+                "createdBy": obj.get("createdBy"),
+                "resourceInterfaces": (
+                    [
+                        WorkloadTypeResourceInterfacesWithVersionInner.from_dict(_item)
+                        for _item in obj["resourceInterfaces"]
+                    ]
+                    if obj.get("resourceInterfaces") is not None
+                    else None
+                ),
+                "clusterStatuses": (
+                    [
+                        WorkloadTypeStatus.from_dict(_item)
+                        for _item in obj["clusterStatuses"]
+                    ]
+                    if obj.get("clusterStatuses") is not None
+                    else None
+                ),
             }
         )
         return _obj

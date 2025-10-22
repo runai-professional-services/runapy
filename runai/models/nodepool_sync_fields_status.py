@@ -21,12 +21,14 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.gpu_resource_optimization import GPUResourceOptimization
+from runai.models.nodepool_condition_details import NodepoolConditionDetails
 from runai.models.nodepool_create_response_fields_placement_strategy import (
     NodepoolCreateResponseFieldsPlacementStrategy,
 )
 from runai.models.nodepool_gpu_network_acceleration_detection import (
     NodepoolGPUNetworkAccelerationDetection,
 )
+from runai.models.scheduling_configuration import SchedulingConfiguration
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -44,6 +46,8 @@ class NodepoolSyncFieldsStatus(BaseModel):
         gpu_network_acceleration_label_key: str
         gpu_network_acceleration_detection: Optional[NodepoolGPUNetworkAccelerationDetection]
         gpu_resource_optimization: Optional[GPUResourceOptimization]
+        scheduling_configuration: Optional[SchedulingConfiguration]
+        conditions: List[NodepoolConditionDetails]
         gpu_network_acceleration_detected: bool
         nodes: List[str]
         ```
@@ -54,6 +58,8 @@ class NodepoolSyncFieldsStatus(BaseModel):
         gpu_network_acceleration_label_key: Label key by which to determine GPUNetworkAccelerationDetection nodes
         gpu_network_acceleration_detection: See model NodepoolGPUNetworkAccelerationDetection for more information. - Default: NodepoolGPUNetworkAccelerationDetection.AUTO
         gpu_resource_optimization: See model GPUResourceOptimization for more information.
+        scheduling_configuration: See model SchedulingConfiguration for more information.
+        conditions: See model List[NodepoolConditionDetails] for more information.
         gpu_network_acceleration_detected: Signals to all relevant parties about GPUNetworkAcceleration being detected in some nodepool&#39;s nodes
         nodes: See model List[str] for more information.
     Example:
@@ -72,6 +78,19 @@ class NodepoolSyncFieldsStatus(BaseModel):
                     cpu_swap_memory_size = '100G',
                     reserved_gpu_memory_for_swap_operations = '2G',
                     node_level_scheduler_enabled = True, ),
+                        scheduling_configuration=runai.models.scheduling_configuration.SchedulingConfiguration(
+                    placement_strategy = runai.models.scheduling_configuration_placement_strategy.SchedulingConfiguration_placementStrategy(
+                        cpu = 'spread',
+                        gpu = 'spread', ),
+                    min_guaranteed_runtime = '5d8h40m', ),
+                        conditions=[
+                    runai.models.nodepool_condition_details.NodepoolConditionDetails(
+                        type = '',
+                        reason = 'TopologyMismatch',
+                        message = 'Network Topology labels mismatch',
+                        status = 'True',
+                        nodes = ["node1","node2"], )
+                    ],
                         gpu_network_acceleration_detected=True,
                         nodes=[
                     'node1'
@@ -110,6 +129,10 @@ class NodepoolSyncFieldsStatus(BaseModel):
     gpu_resource_optimization: Optional[GPUResourceOptimization] = Field(
         default=None, alias="gpuResourceOptimization"
     )
+    scheduling_configuration: Optional[SchedulingConfiguration] = Field(
+        default=None, alias="schedulingConfiguration"
+    )
+    conditions: Optional[List[NodepoolConditionDetails]] = None
     gpu_network_acceleration_detected: Optional[StrictBool] = Field(
         default=None,
         description="Signals to all relevant parties about GPUNetworkAcceleration being detected in some nodepool's nodes",
@@ -124,6 +147,8 @@ class NodepoolSyncFieldsStatus(BaseModel):
         "gpuNetworkAccelerationLabelKey",
         "gpuNetworkAccelerationDetection",
         "gpuResourceOptimization",
+        "schedulingConfiguration",
+        "conditions",
         "gpuNetworkAccelerationDetected",
         "nodes",
     ]
@@ -171,6 +196,16 @@ class NodepoolSyncFieldsStatus(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of gpu_resource_optimization
         if self.gpu_resource_optimization:
             _dict["gpuResourceOptimization"] = self.gpu_resource_optimization.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of scheduling_configuration
+        if self.scheduling_configuration:
+            _dict["schedulingConfiguration"] = self.scheduling_configuration.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in conditions (list)
+        _items = []
+        if self.conditions:
+            for _item_conditions in self.conditions:
+                if _item_conditions:
+                    _items.append(_item_conditions.to_dict())
+            _dict["conditions"] = _items
         # set to None if label_key (nullable) is None
         # and model_fields_set contains the field
         if self.label_key is None and "label_key" in self.model_fields_set:
@@ -204,6 +239,14 @@ class NodepoolSyncFieldsStatus(BaseModel):
             and "gpu_resource_optimization" in self.model_fields_set
         ):
             _dict["gpuResourceOptimization"] = None
+
+        # set to None if scheduling_configuration (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.scheduling_configuration is None
+            and "scheduling_configuration" in self.model_fields_set
+        ):
+            _dict["schedulingConfiguration"] = None
 
         return _dict
 
@@ -243,6 +286,19 @@ class NodepoolSyncFieldsStatus(BaseModel):
                 "gpuResourceOptimization": (
                     GPUResourceOptimization.from_dict(obj["gpuResourceOptimization"])
                     if obj.get("gpuResourceOptimization") is not None
+                    else None
+                ),
+                "schedulingConfiguration": (
+                    SchedulingConfiguration.from_dict(obj["schedulingConfiguration"])
+                    if obj.get("schedulingConfiguration") is not None
+                    else None
+                ),
+                "conditions": (
+                    [
+                        NodepoolConditionDetails.from_dict(_item)
+                        for _item in obj["conditions"]
+                    ]
+                    if obj.get("conditions") is not None
                     else None
                 ),
                 "gpuNetworkAccelerationDetected": obj.get(

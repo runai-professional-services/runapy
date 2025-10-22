@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from runai.models.history_record import HistoryRecord
+from runai.models.history_record1 import HistoryRecord1
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -31,21 +31,21 @@ class GetWorkloadHistory200Response(BaseModel):
     Parameters:
         ```python
         next: int
-        records: List[HistoryRecord]
+        records: List[HistoryRecord1]
         ```
         next: See model int for more information.
-        records: See model List[HistoryRecord] for more information.
+        records: See model List[HistoryRecord1] for more information.
     Example:
         ```python
         GetWorkloadHistory200Response(
             next=1,
                         records=[
-                    runai.models.history_record.HistoryRecord(
+                    runai.models.history_record1.HistoryRecord1(
                         meta = runai.models.history_record_meta.HistoryRecordMeta(
                             creation_timestamp = '2022-01-01T03:49:52.531Z',
                             type = 'Event', ),
-                        spec = runai.models.history_record_spec.HistoryRecord_spec(
-                            event = runai.models.event1.Event1(
+                        spec = runai.models.history_record1_spec.HistoryRecord1_spec(
+                            event = runai.models.event2.Event2(
                                 created_at = '2022-01-01T03:49:52.531Z',
                                 id = '',
                                 type = 'Normal',
@@ -67,7 +67,7 @@ class GetWorkloadHistory200Response(BaseModel):
     """  # noqa: E501
 
     next: Optional[StrictInt] = None
-    records: List[HistoryRecord]
+    records: List[HistoryRecord1]
     __properties: ClassVar[List[str]] = ["next", "records"]
 
     model_config = ConfigDict(
@@ -129,7 +129,7 @@ class GetWorkloadHistory200Response(BaseModel):
             {
                 "next": obj.get("next"),
                 "records": (
-                    [HistoryRecord.from_dict(_item) for _item in obj["records"]]
+                    [HistoryRecord1.from_dict(_item) for _item in obj["records"]]
                     if obj.get("records") is not None
                     else None
                 ),

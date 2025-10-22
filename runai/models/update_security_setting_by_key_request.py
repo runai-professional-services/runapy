@@ -28,7 +28,6 @@ from pydantic import (
 from typing import Optional
 from runai.models.auto_redirect_sso_setting import AutoRedirectSsoSetting
 from runai.models.browser_session_timeout_setting import BrowserSessionTimeoutSetting
-from runai.models.exclude_groups_from_token_setting import ExcludeGroupsFromTokenSetting
 from runai.models.logout_redirect_uri_setting import LogoutRedirectUriSetting
 from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
@@ -37,7 +36,6 @@ from pydantic import Field
 UPDATESECURITYSETTINGBYKEYREQUEST_ANY_OF_SCHEMAS = [
     "AutoRedirectSsoSetting",
     "BrowserSessionTimeoutSetting",
-    "ExcludeGroupsFromTokenSetting",
     "LogoutRedirectUriSetting",
 ]
 
@@ -49,18 +47,15 @@ class UpdateSecuritySettingByKeyRequest(BaseModel):
 
     # data type: AutoRedirectSsoSetting
     anyof_schema_1_validator: Optional[AutoRedirectSsoSetting] = None
-    # data type: ExcludeGroupsFromTokenSetting
-    anyof_schema_2_validator: Optional[ExcludeGroupsFromTokenSetting] = None
     # data type: BrowserSessionTimeoutSetting
-    anyof_schema_3_validator: Optional[BrowserSessionTimeoutSetting] = None
+    anyof_schema_2_validator: Optional[BrowserSessionTimeoutSetting] = None
     # data type: LogoutRedirectUriSetting
-    anyof_schema_4_validator: Optional[LogoutRedirectUriSetting] = None
+    anyof_schema_3_validator: Optional[LogoutRedirectUriSetting] = None
     if TYPE_CHECKING:
         actual_instance: Optional[
             Union[
                 AutoRedirectSsoSetting,
                 BrowserSessionTimeoutSetting,
-                ExcludeGroupsFromTokenSetting,
                 LogoutRedirectUriSetting,
             ]
         ] = None
@@ -69,7 +64,6 @@ class UpdateSecuritySettingByKeyRequest(BaseModel):
     any_of_schemas: Set[str] = {
         "AutoRedirectSsoSetting",
         "BrowserSessionTimeoutSetting",
-        "ExcludeGroupsFromTokenSetting",
         "LogoutRedirectUriSetting",
     }
 
@@ -104,14 +98,6 @@ class UpdateSecuritySettingByKeyRequest(BaseModel):
         else:
             return v
 
-        # validate data type: ExcludeGroupsFromTokenSetting
-        if not isinstance(v, ExcludeGroupsFromTokenSetting):
-            error_messages.append(
-                f"Error! Input type `{type(v)}` is not `ExcludeGroupsFromTokenSetting`"
-            )
-        else:
-            return v
-
         # validate data type: BrowserSessionTimeoutSetting
         if not isinstance(v, BrowserSessionTimeoutSetting):
             error_messages.append(
@@ -131,7 +117,7 @@ class UpdateSecuritySettingByKeyRequest(BaseModel):
         if error_messages:
             # no match
             raise ValueError(
-                "No match found when setting the actual_instance in UpdateSecuritySettingByKeyRequest with anyOf schemas: AutoRedirectSsoSetting, BrowserSessionTimeoutSetting, ExcludeGroupsFromTokenSetting, LogoutRedirectUriSetting. Details: "
+                "No match found when setting the actual_instance in UpdateSecuritySettingByKeyRequest with anyOf schemas: AutoRedirectSsoSetting, BrowserSessionTimeoutSetting, LogoutRedirectUriSetting. Details: "
                 + ", ".join(error_messages)
             )
         else:
@@ -152,19 +138,13 @@ class UpdateSecuritySettingByKeyRequest(BaseModel):
             return instance
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # anyof_schema_2_validator: Optional[ExcludeGroupsFromTokenSetting] = None
-        try:
-            instance.actual_instance = ExcludeGroupsFromTokenSetting.from_json(json_str)
-            return instance
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-        # anyof_schema_3_validator: Optional[BrowserSessionTimeoutSetting] = None
+        # anyof_schema_2_validator: Optional[BrowserSessionTimeoutSetting] = None
         try:
             instance.actual_instance = BrowserSessionTimeoutSetting.from_json(json_str)
             return instance
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # anyof_schema_4_validator: Optional[LogoutRedirectUriSetting] = None
+        # anyof_schema_3_validator: Optional[LogoutRedirectUriSetting] = None
         try:
             instance.actual_instance = LogoutRedirectUriSetting.from_json(json_str)
             return instance
@@ -174,7 +154,7 @@ class UpdateSecuritySettingByKeyRequest(BaseModel):
         if error_messages:
             # no match
             raise ValueError(
-                "No match found when deserializing the JSON string into UpdateSecuritySettingByKeyRequest with anyOf schemas: AutoRedirectSsoSetting, BrowserSessionTimeoutSetting, ExcludeGroupsFromTokenSetting, LogoutRedirectUriSetting. Details: "
+                "No match found when deserializing the JSON string into UpdateSecuritySettingByKeyRequest with anyOf schemas: AutoRedirectSsoSetting, BrowserSessionTimeoutSetting, LogoutRedirectUriSetting. Details: "
                 + ", ".join(error_messages)
             )
         else:
@@ -199,7 +179,6 @@ class UpdateSecuritySettingByKeyRequest(BaseModel):
             Dict[str, Any],
             AutoRedirectSsoSetting,
             BrowserSessionTimeoutSetting,
-            ExcludeGroupsFromTokenSetting,
             LogoutRedirectUriSetting,
         ]
     ]:

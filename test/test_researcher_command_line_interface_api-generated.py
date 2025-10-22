@@ -158,7 +158,7 @@ class TestResearcherCommandLineInterfaceApi:
         assert "/api/v1/cli-exposer/installer/linux/commands" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Command)
+        assert isinstance(response, Command1)
 
     def test_get_installer_linux_commands_error(self):
         """Test error handling for get_installer_linux_commands"""
@@ -242,7 +242,7 @@ class TestResearcherCommandLineInterfaceApi:
         assert "/api/v1/cli-exposer/installer/mac/commands" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Command)
+        assert isinstance(response, Command1)
 
     def test_get_installer_mac_commands_error(self):
         """Test error handling for get_installer_mac_commands"""
@@ -326,7 +326,7 @@ class TestResearcherCommandLineInterfaceApi:
         assert "/api/v1/cli-exposer/installer/unix/commands" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Command)
+        assert isinstance(response, Command1)
 
     def test_get_installer_unix_commands_error(self):
         """Test error handling for get_installer_unix_commands"""
@@ -368,7 +368,7 @@ class TestResearcherCommandLineInterfaceApi:
         assert "/api/v1/cli-exposer/installer/windows/commands" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Command)
+        assert isinstance(response, Command1)
 
     def test_get_installer_windows_commands_error(self):
         """Test error handling for get_installer_windows_commands"""

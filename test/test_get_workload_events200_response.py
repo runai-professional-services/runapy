@@ -39,7 +39,7 @@ class TestGetWorkloadEvents200Response(unittest.TestCase):
             return GetWorkloadEvents200Response(
                 next=1,
                 events=[
-                    runai.models.event1.Event1(
+                    runai.models.event2.Event2(
                         created_at="2022-01-01T03:49:52.531Z",
                         id="",
                         type="Normal",
@@ -59,7 +59,7 @@ class TestGetWorkloadEvents200Response(unittest.TestCase):
         else:
             return GetWorkloadEvents200Response(
                 events=[
-                    runai.models.event1.Event1(
+                    runai.models.event2.Event2(
                         created_at="2022-01-01T03:49:52.531Z",
                         id="",
                         type="Normal",

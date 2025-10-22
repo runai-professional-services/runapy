@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
+from runai.models.git_secret_ref import GitSecretRef
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -39,16 +40,18 @@ class GitInstance(BaseModel):
         secret_key_of_user: Optional[str]
         secret_key_of_password: Optional[str]
         exclude: Optional[bool]
+        secret_ref: Optional[GitSecretRef]
         ```
         name: unique name to identify the instance. primarily used for policy locked rules.
         repository: URL to a remote Git repository. The content of this repository will be mapped to the container running the workload. (mandatory)
         branch: Specific branch to synchronize the repository from.
         revision: Specific revision to synchronize the repository from.
         path: Local path within the workload to which the Git repository will be mapped (mandatory).
-        password_secret: Secret containing the credentials of the repository (needed for non public repository which requires authentication).
-        secret_key_of_user: The key to use for loading the user name from the secret. The default is &#x60;User&#x60;.
-        secret_key_of_password: The key to use for loading the password from the secret. The default is &#x60;Password&#x60;.
+        password_secret: Secret containing the credentials of the repository (needed for non public repository which requires authentication). (deprecated)
+        secret_key_of_user: The key to use for loading the user name from the secret. The default is &#x60;User&#x60;. (deprecated)
+        secret_key_of_password: The key to use for loading the password from the secret. The default is &#x60;Password&#x60;. (deprecated)
         exclude: Use &#39;true&#39; in case the item is defined in defaults of the policy, and you wish to exclude it from the workload. - Default: False
+        secret_ref: See model GitSecretRef for more information.
     Example:
         ```python
         GitInstance(
@@ -60,7 +63,12 @@ class GitInstance(BaseModel):
                         password_secret='my-password-secret',
                         secret_key_of_user='User',
                         secret_key_of_password='Password',
-                        exclude=False
+                        exclude=False,
+                        secret_ref=runai.models.git_secret_ref.GitSecretRef(
+                    name = 'my-password-secret',
+                    authentication_method = 'password',
+                    secret_key_of_user = 'User',
+                    secret_key_of_password = 'Password', )
         )
         ```
     """  # noqa: E501
@@ -86,13 +94,13 @@ class GitInstance(BaseModel):
     )
     password_secret: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
-        description="Secret containing the credentials of the repository (needed for non public repository which requires authentication).",
+        description="Secret containing the credentials of the repository (needed for non public repository which requires authentication). (deprecated)",
         alias="passwordSecret",
     )
     secret_key_of_user: Optional[Annotated[str, Field(min_length=1, strict=True)]] = (
         Field(
             default=None,
-            description="The key to use for loading the user name from the secret. The default is `User`.",
+            description="The key to use for loading the user name from the secret. The default is `User`. (deprecated)",
             alias="secretKeyOfUser",
         )
     )
@@ -100,13 +108,14 @@ class GitInstance(BaseModel):
         Annotated[str, Field(min_length=1, strict=True)]
     ] = Field(
         default=None,
-        description="The key to use for loading the password from the secret. The default is `Password`.",
+        description="The key to use for loading the password from the secret. The default is `Password`. (deprecated)",
         alias="secretKeyOfPassword",
     )
     exclude: Optional[StrictBool] = Field(
         default=False,
         description="Use 'true' in case the item is defined in defaults of the policy, and you wish to exclude it from the workload.",
     )
+    secret_ref: Optional[GitSecretRef] = Field(default=None, alias="secretRef")
     __properties: ClassVar[List[str]] = [
         "name",
         "repository",
@@ -117,6 +126,7 @@ class GitInstance(BaseModel):
         "secretKeyOfUser",
         "secretKeyOfPassword",
         "exclude",
+        "secretRef",
     ]
 
     model_config = ConfigDict(
@@ -156,6 +166,9 @@ class GitInstance(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of secret_ref
+        if self.secret_ref:
+            _dict["secretRef"] = self.secret_ref.to_dict()
         # set to None if name (nullable) is None
         # and model_fields_set contains the field
         if self.name is None and "name" in self.model_fields_set:
@@ -207,6 +220,11 @@ class GitInstance(BaseModel):
         if self.exclude is None and "exclude" in self.model_fields_set:
             _dict["exclude"] = None
 
+        # set to None if secret_ref (nullable) is None
+        # and model_fields_set contains the field
+        if self.secret_ref is None and "secret_ref" in self.model_fields_set:
+            _dict["secretRef"] = None
+
         return _dict
 
     @classmethod
@@ -230,6 +248,11 @@ class GitInstance(BaseModel):
                 "secretKeyOfPassword": obj.get("secretKeyOfPassword"),
                 "exclude": (
                     obj.get("exclude") if obj.get("exclude") is not None else False
+                ),
+                "secretRef": (
+                    GitSecretRef.from_dict(obj["secretRef"])
+                    if obj.get("secretRef") is not None
+                    else None
                 ),
             }
         )

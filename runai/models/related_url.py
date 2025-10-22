@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -49,15 +50,15 @@ class RelatedUrl(BaseModel):
         ```
     """  # noqa: E501
 
-    url: Optional[StrictStr] = Field(
+    url: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="The URL for connecting an external service related to the workload. (mandatory)",
     )
-    type: Optional[StrictStr] = Field(
+    type: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="The type of service that the url provides. For example, wandb (Weights & Biases). (mandatory)",
     )
-    name: Optional[StrictStr] = Field(
+    name: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="Unique name to identify the instance. primarily used for policy locked rules.",
     )
@@ -66,6 +67,36 @@ class RelatedUrl(BaseModel):
         description="Use 'true' in case the item is defined in defaults of the policy, and you wish to exclude it from the workload.",
     )
     __properties: ClassVar[List[str]] = ["url", "type", "name", "exclude"]
+
+    @field_validator("url")
+    def url_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("type")
+    def type_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

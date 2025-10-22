@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.environment_variable_config_map import EnvironmentVariableConfigMap
@@ -72,7 +72,7 @@ class EnvironmentVariable(BaseModel):
     name: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None, description="The name of the environment variable. (mandatory)"
     )
-    value: Optional[StrictStr] = Field(
+    value: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="The value of the environment variable. (mutually exclusive with secret, credential, configMap and podFieldRef)",
     )
@@ -87,7 +87,7 @@ class EnvironmentVariable(BaseModel):
         default=None,
         description="Use 'true' in case the environment variable is defined in defaults of the policy, and you wish to exclude it from the workload.",
     )
-    description: Optional[StrictStr] = Field(
+    description: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None, description="Description of the environment variable."
     )
     __properties: ClassVar[List[str]] = [
@@ -99,6 +99,36 @@ class EnvironmentVariable(BaseModel):
         "exclude",
         "description",
     ]
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("value")
+    def value_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("description")
+    def description_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

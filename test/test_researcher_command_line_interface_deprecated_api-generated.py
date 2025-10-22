@@ -115,7 +115,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
         assert "/api/v1/cli/installer/linux/commands" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Command)
+        assert isinstance(response, Command1)
 
     def test_get_installer_linux_commands_deprecated_error(self):
         """Test error handling for get_installer_linux_commands_deprecated"""
@@ -199,7 +199,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
         assert "/api/v1/cli/installer/mac/commands" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Command)
+        assert isinstance(response, Command1)
 
     def test_get_installer_mac_commands_deprecated_error(self):
         """Test error handling for get_installer_mac_commands_deprecated"""
@@ -283,7 +283,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
         assert "/api/v1/cli/installer/unix/commands" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Command)
+        assert isinstance(response, Command1)
 
     def test_get_installer_unix_commands_deprecated_error(self):
         """Test error handling for get_installer_unix_commands_deprecated"""
@@ -367,7 +367,7 @@ class TestResearcherCommandLineInterfaceDeprecatedApi:
         assert "/api/v1/cli/installer/windows/commands" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Command)
+        assert isinstance(response, Command1)
 
     def test_get_installer_windows_commands_deprecated_error(self):
         """Test error handling for get_installer_windows_commands_deprecated"""

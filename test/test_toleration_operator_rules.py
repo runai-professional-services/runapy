@@ -43,7 +43,7 @@ class TestTolerationOperatorRules(unittest.TestCase):
                 options=[
                     runai.models.toleration_operator_options_options_inner.TolerationOperatorOptions_options_inner(
                         value="Equal",
-                        displayed="",
+                        displayed="jUR,rZ#UM/?R,Fp^l6$ARj",
                     )
                 ],
             )

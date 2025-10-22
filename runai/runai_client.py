@@ -68,6 +68,10 @@ class Organizations(_ApiGroup):
     ) -> api.AdministratorCommandLineInterfaceApi:
         return api.AdministratorCommandLineInterfaceApi(self.api_client)
 
+    @property
+    def network_topologies(self) -> api.NetworkTopologiesApi:
+        return api.NetworkTopologiesApi(self.api_client)
+
 
 class AuthenticationAndAuthorization(_ApiGroup):
     def __init__(self, api_client: ApiClient):
@@ -117,10 +121,6 @@ class AuthenticationAndAuthorization(_ApiGroup):
     def org_unit(self) -> api.OrgUnitApi:
         return api.OrgUnitApi(self.api_client)
 
-    @property
-    def logout(self) -> api.LogoutApi:
-        return api.LogoutApi(self.api_client)
-
 
 class Audit(_ApiGroup):
     def __init__(self, api_client: ApiClient):
@@ -157,6 +157,10 @@ class Workloads(_ApiGroup):
         return api.WorkloadsApi(self.api_client)
 
     @property
+    def workloads_v2(self) -> api.WorkloadsV2Api:
+        return api.WorkloadsV2Api(self.api_client)
+
+    @property
     def workspaces(self) -> api.WorkspacesApi:
         return api.WorkspacesApi(self.api_client)
 
@@ -181,8 +185,12 @@ class Workloads(_ApiGroup):
         return api.WorkloadsBatchApi(self.api_client)
 
     @property
-    def workloads_priorities(self) -> api.WorkloadsPrioritiesApi:
-        return api.WorkloadsPrioritiesApi(self.api_client)
+    def workload_properties(self) -> api.WorkloadPropertiesApi:
+        return api.WorkloadPropertiesApi(self.api_client)
+
+    @property
+    def workload_templates(self) -> api.WorkloadTemplatesApi:
+        return api.WorkloadTemplatesApi(self.api_client)
 
     @property
     def distributed_inferences(self) -> api.DistributedInferencesApi:
@@ -280,6 +288,15 @@ class Notifications(_ApiGroup):
         return api.SubscriptionsApi(self.api_client)
 
 
+class AIApplications(_ApiGroup):
+    def __init__(self, api_client: ApiClient):
+        self.api_client = api_client
+
+    @property
+    def ai_applications(self) -> api.AIApplicationsApi:
+        return api.AIApplicationsApi(self.api_client)
+
+
 class RunaiClient:
     def __init__(self, api_client=None):
         self.api_client = api_client
@@ -340,3 +357,7 @@ class RunaiClient:
     @property
     def notifications(self) -> Notifications:
         return Notifications(self.api_client)
+
+    @property
+    def ai_applications(self) -> AIApplications:
+        return AIApplications(self.api_client)

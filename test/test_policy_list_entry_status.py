@@ -45,7 +45,7 @@ class TestPolicyListEntryStatus(unittest.TestCase):
                     )
                 ],
                 validation=runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                    error_message="",
+                    error_message="jUR,rZ#UM/?R,Fp^l6$ARj",
                 ),
             )
         else:

@@ -51,7 +51,7 @@ class PodAffinityTypeRules(BaseModel):
                         options=[
                     runai.models.pod_affinity_type_options_options_inner.PodAffinityTypeOptions_options_inner(
                         value = 'Required',
-                        displayed = '', )
+                        displayed = 'jUR,rZ#UM/?R,Fp^l6$ARj', )
                     ]
         )
         ```

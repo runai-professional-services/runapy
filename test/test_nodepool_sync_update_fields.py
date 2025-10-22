@@ -52,6 +52,13 @@ class TestNodepoolSyncUpdateFields(unittest.TestCase):
                     reserved_gpu_memory_for_swap_operations="2G",
                     node_level_scheduler_enabled=True,
                 ),
+                scheduling_configuration=runai.models.scheduling_configuration.SchedulingConfiguration(
+                    placement_strategy=runai.models.scheduling_configuration_placement_strategy.SchedulingConfiguration_placementStrategy(
+                        cpu="spread",
+                        gpu="spread",
+                    ),
+                    min_guaranteed_runtime="5d8h40m",
+                ),
             )
         else:
             return NodepoolSyncUpdateFields()

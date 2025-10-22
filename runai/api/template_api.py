@@ -15,6 +15,7 @@ class TemplateApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    @deprecated_message()
     def create_template(
         self,
         workload_template_creation_request: Optional[
@@ -22,7 +23,7 @@ class TemplateApi(RunaiAPIService):
         ] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Create a template.
@@ -52,12 +53,13 @@ class TemplateApi(RunaiAPIService):
             body=body_params,
         )
 
+    @deprecated_message()
     def delete_template_by_id(
         self,
         asset_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Delete a template.
@@ -83,12 +85,13 @@ class TemplateApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def get_template_by_id(
         self,
         asset_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get a template.
@@ -114,6 +117,7 @@ class TemplateApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def list_templates(
         self,
         name: Optional[str] = None,
@@ -127,7 +131,7 @@ class TemplateApi(RunaiAPIService):
         is_workspace: Optional[bool] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         List templates.
@@ -188,6 +192,7 @@ class TemplateApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    @deprecated_message()
     def update_template(
         self,
         asset_id: str,
@@ -196,7 +201,7 @@ class TemplateApi(RunaiAPIService):
         ] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Update a template.

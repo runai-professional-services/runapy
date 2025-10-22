@@ -32,21 +32,25 @@ class SecretRules(BaseModel):
         ```python
         secret: Optional[StringRules]
         mount_path: Optional[StringRules]
+        default_mode: Optional[StringRules]
         ```
         secret: See model StringRules for more information.
         mount_path: See model StringRules for more information.
+        default_mode: See model StringRules for more information.
     Example:
         ```python
         SecretRules(
             secret=runai.models.string_rules.StringRules(),
-                        mount_path=runai.models.string_rules.StringRules()
+                        mount_path=runai.models.string_rules.StringRules(),
+                        default_mode=runai.models.string_rules.StringRules()
         )
         ```
     """  # noqa: E501
 
     secret: Optional[StringRules] = None
     mount_path: Optional[StringRules] = Field(default=None, alias="mountPath")
-    __properties: ClassVar[List[str]] = ["secret", "mountPath"]
+    default_mode: Optional[StringRules] = Field(default=None, alias="defaultMode")
+    __properties: ClassVar[List[str]] = ["secret", "mountPath", "defaultMode"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -91,6 +95,9 @@ class SecretRules(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of mount_path
         if self.mount_path:
             _dict["mountPath"] = self.mount_path.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of default_mode
+        if self.default_mode:
+            _dict["defaultMode"] = self.default_mode.to_dict()
         # set to None if secret (nullable) is None
         # and model_fields_set contains the field
         if self.secret is None and "secret" in self.model_fields_set:
@@ -100,6 +107,11 @@ class SecretRules(BaseModel):
         # and model_fields_set contains the field
         if self.mount_path is None and "mount_path" in self.model_fields_set:
             _dict["mountPath"] = None
+
+        # set to None if default_mode (nullable) is None
+        # and model_fields_set contains the field
+        if self.default_mode is None and "default_mode" in self.model_fields_set:
+            _dict["defaultMode"] = None
 
         return _dict
 
@@ -122,6 +134,11 @@ class SecretRules(BaseModel):
                 "mountPath": (
                     StringRules.from_dict(obj["mountPath"])
                     if obj.get("mountPath") is not None
+                    else None
+                ),
+                "defaultMode": (
+                    StringRules.from_dict(obj["defaultMode"])
+                    if obj.get("defaultMode") is not None
                     else None
                 ),
             }

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -33,16 +33,19 @@ class ConfigMapAssetSpec(BaseModel):
         config_map: Optional[str]
         mount_path: Optional[str]
         sub_path: Optional[str]
+        default_mode: Optional[str]
         ```
         config_map: The name of the ConfigMap resource. (mandatory)
         mount_path: Local path within the workload to which the ConfigMap will be mapped to. (mandatory)
         sub_path: Path within the volume from which the container&#39;s volume should be mounted.
+        default_mode: File permission mode in octal string format. This value must be a 4-digit octal number, representing the default file mode when mounting a Secret or ConfigMap as a volume.
     Example:
         ```python
         ConfigMapAssetSpec(
-            config_map='0',
-                        mount_path='0',
-                        sub_path='0'
+            config_map='w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx0',
+                        mount_path='jUR,rZ#UM/?R,Fp^l6$ARj0',
+                        sub_path='jUR,rZ#UM/?R,Fp^l6$ARj0',
+                        default_mode='0644'
         )
         ```
     """  # noqa: E501
@@ -62,7 +65,61 @@ class ConfigMapAssetSpec(BaseModel):
         description="Path within the volume from which the container's volume should be mounted.",
         alias="subPath",
     )
-    __properties: ClassVar[List[str]] = ["configMap", "mountPath", "subPath"]
+    default_mode: Optional[
+        Annotated[str, Field(min_length=4, strict=True, max_length=4)]
+    ] = Field(
+        default=None,
+        description="File permission mode in octal string format. This value must be a 4-digit octal number, representing the default file mode when mounting a Secret or ConfigMap as a volume. ",
+        alias="defaultMode",
+    )
+    __properties: ClassVar[List[str]] = [
+        "configMap",
+        "mountPath",
+        "subPath",
+        "defaultMode",
+    ]
+
+    @field_validator("config_map")
+    def config_map_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?$", value):
+            raise ValueError(
+                r"must validate the regular expression /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/"
+            )
+        return value
+
+    @field_validator("mount_path")
+    def mount_path_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("sub_path")
+    def sub_path_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("default_mode")
+    def default_mode_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"0[0-7]{3}", value):
+            raise ValueError(r"must validate the regular expression /0[0-7]{3}/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -116,6 +173,11 @@ class ConfigMapAssetSpec(BaseModel):
         if self.sub_path is None and "sub_path" in self.model_fields_set:
             _dict["subPath"] = None
 
+        # set to None if default_mode (nullable) is None
+        # and model_fields_set contains the field
+        if self.default_mode is None and "default_mode" in self.model_fields_set:
+            _dict["defaultMode"] = None
+
         return _dict
 
     @classmethod
@@ -132,6 +194,7 @@ class ConfigMapAssetSpec(BaseModel):
                 "configMap": obj.get("configMap"),
                 "mountPath": obj.get("mountPath"),
                 "subPath": obj.get("subPath"),
+                "defaultMode": obj.get("defaultMode"),
             }
         )
         return _obj

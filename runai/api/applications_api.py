@@ -15,43 +15,7 @@ class ApplicationsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
-    @deprecated_message()
     def create_application(
-        self,
-        app: models.App,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Create a new app.
-
-        ### Parameters:
-        ```python
-        app: App
-        ```
-        app: See model App for more information.
-
-        ### Example:
-        ```python
-        ApplicationsApi(
-            app=runai.App()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = app
-
-        resource_path = f"/v1/k8s/apps".replace("_", "-")
-        method = "POST"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
-    def create_application_0(
         self,
         application_creation_request: models.ApplicationCreationRequest,
     ):
@@ -86,39 +50,7 @@ class ApplicationsApi(RunaiAPIService):
             body=body_params,
         )
 
-    @deprecated_message()
     def delete_application_by_id(
-        self,
-        client_id: str,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Delete a App.
-
-        ### Parameters:
-        ```python
-        client_id: str
-        ```
-        client_id: See model str for more information.
-
-        ### Example:
-        ```python
-        ApplicationsApi(
-            client_id='client_id_example'
-        )
-        ```
-        """
-
-        resource_path = f"/v1/k8s/apps/{client_id}".replace("_", "-")
-        method = "DELETE"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
-    def delete_application_by_id_0(
         self,
         app_id: str,
     ):
@@ -149,39 +81,7 @@ class ApplicationsApi(RunaiAPIService):
             method=method,
         )
 
-    @deprecated_message()
     def get_application_by_id(
-        self,
-        client_id: str,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Get app details.
-
-        ### Parameters:
-        ```python
-        client_id: str
-        ```
-        client_id: See model str for more information.
-
-        ### Example:
-        ```python
-        ApplicationsApi(
-            client_id='client_id_example'
-        )
-        ```
-        """
-
-        resource_path = f"/v1/k8s/apps/{client_id}".replace("_", "-")
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
-    def get_application_by_id_0(
         self,
         app_id: str,
     ):
@@ -212,47 +112,7 @@ class ApplicationsApi(RunaiAPIService):
             method=method,
         )
 
-    @deprecated_message()
     def get_applications(
-        self,
-        roles: Optional[List[models.Role]] = None,
-        only_created_by_me: Optional[bool] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Get Apps list.
-
-        ### Parameters:
-        ```python
-        roles: Optional[models.List[Role]]
-        only_created_by_me: Optional[bool]
-        ```
-        roles: Filter the returned entities to only those with the required role
-        only_created_by_me: Filter the returned entities to only those that created by the requesting subject
-
-        ### Example:
-        ```python
-        ApplicationsApi(
-            roles=[runai.Role()],
-                        only_created_by_me=True
-        )
-        ```
-        """
-
-        # Query params:
-        query_params = [
-            ("roles", roles),
-            ("onlyCreatedByMe", only_created_by_me),
-        ]
-        resource_path = f"/v1/k8s/apps".replace("_", "-")
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path, method=method, query_params=query_params
-        )
-
-    def get_applications_0(
         self,
     ):
         r"""
@@ -274,34 +134,6 @@ class ApplicationsApi(RunaiAPIService):
         """
 
         resource_path = f"/api/v1/apps".replace("_", "-")
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
-    def get_installer_app(
-        self,
-    ):
-        r"""
-
-
-        ### Description
-        Get a list of installer applications.
-
-        ### Parameters:
-        ```python
-        ```
-
-        ### Example:
-        ```python
-        ApplicationsApi(
-
-        )
-        ```
-        """
-
-        resource_path = f"/api/v1/apps/installer".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -339,79 +171,7 @@ class ApplicationsApi(RunaiAPIService):
             method=method,
         )
 
-    @deprecated_message()
-    def reset_app_secret(
-        self,
-        client_id: str,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Re-generate secret of application.
-
-        ### Parameters:
-        ```python
-        client_id: str
-        ```
-        client_id: See model str for more information.
-
-        ### Example:
-        ```python
-        ApplicationsApi(
-            client_id='client_id_example'
-        )
-        ```
-        """
-
-        resource_path = f"/v1/k8s/apps/{client_id}/secret".replace("_", "-")
-        method = "POST"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
-    @deprecated_message()
     def update_application_by_id(
-        self,
-        client_id: str,
-        app: models.App,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Update app details.
-
-        ### Parameters:
-        ```python
-        client_id: str
-        app: App
-        ```
-        client_id: See model str for more information.
-        app: See model App for more information.
-
-        ### Example:
-        ```python
-        ApplicationsApi(
-            client_id='client_id_example',
-                        app=runai.App()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = app
-
-        resource_path = f"/v1/k8s/apps/{client_id}".replace("_", "-")
-        method = "PUT"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
-    def update_application_by_id_0(
         self,
         app_id: str,
         application_patch_request: Optional[models.ApplicationPatchRequest] = None,

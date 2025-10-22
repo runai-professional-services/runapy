@@ -17,17 +17,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.auto_scaling import AutoScaling
-from runai.models.compute_fields import ComputeFields
 from runai.models.environment_variable import EnvironmentVariable
 from runai.models.image_pull_policy import ImagePullPolicy
 from runai.models.node_affinity_required import NodeAffinityRequired
 from runai.models.pod_affinity import PodAffinity
 from runai.models.probes import Probes
 from runai.models.serving_configuration import ServingConfiguration
+from runai.models.superset_spec_all_of_compute import SupersetSpecAllOfCompute
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -38,82 +38,71 @@ class InferenceUpdateSpecSpec(BaseModel):
 
     Parameters:
         ```python
-        command: Optional[str]
-        args: Optional[str]
-        image: Optional[str]
-        image_pull_policy: Optional[ImagePullPolicy]
-        working_dir: Optional[str]
-        create_home_dir: Optional[bool]
-        probes: Optional[Probes]
-        node_type: Optional[str]
-        node_affinity_required: Optional[NodeAffinityRequired]
-        pod_affinity: Optional[PodAffinity]
-        category: Optional[str]
-        priority_class: Optional[str]
-        node_pools: Optional[List[str]]
-        environment_variables: Optional[List[EnvironmentVariable]]
-        compute: Optional[ComputeFields]
         autoscaling: Optional[AutoScaling]
         serving_configuration: Optional[ServingConfiguration]
+        args: Optional[str]
+        category: Optional[str]
+        command: Optional[str]
+        compute: Optional[SupersetSpecAllOfCompute]
+        create_home_dir: Optional[bool]
+        environment_variables: Optional[List[EnvironmentVariable]]
+        image: Optional[str]
+        image_pull_policy: Optional[ImagePullPolicy]
+        node_affinity_required: Optional[NodeAffinityRequired]
+        node_pools: Optional[List[str]]
+        node_type: Optional[str]
+        pod_affinity: Optional[PodAffinity]
+        priority_class: Optional[str]
+        probes: Optional[Probes]
+        working_dir: Optional[str]
         ```
-        command: A command to the server as the entry point of the container running the workload.
-        args: Arguments to the command that the container running the workload executes.
-        image: Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.
-        image_pull_policy: See model ImagePullPolicy for more information.
-        working_dir: Container&#39;s working directory. If not specified, the container runtime default will be used. This may be configured in the container image.
-        create_home_dir: When set to &#x60;true&#x60;, creates a home directory for the container.
-        probes: See model Probes for more information.
-        node_type: Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).
-        node_affinity_required: See model NodeAffinityRequired for more information.
-        pod_affinity: See model PodAffinity for more information.
-        category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
-        priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
-        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
-        environment_variables: Set of environment variables to populate into the container running the workload.
-        compute: See model ComputeFields for more information.
         autoscaling: See model AutoScaling for more information.
         serving_configuration: See model ServingConfiguration for more information.
+        args: Arguments to the command that the container running the workload executes.
+        category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
+        command: A command to the server as the entry point of the container running the workload.
+        compute: See model SupersetSpecAllOfCompute for more information.
+        create_home_dir: When set to &#x60;true&#x60;, creates a home directory for the container.
+        environment_variables: Set of environment variables to populate into the container running the workload.
+        image: Docker image name. For more information, see [Images](https://kubernetes.io/docs/concepts/containers/images). The image name is mandatory for creating a workload.
+        image_pull_policy: See model ImagePullPolicy for more information.
+        node_affinity_required: See model NodeAffinityRequired for more information.
+        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
+        node_type: Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).
+        pod_affinity: See model PodAffinity for more information.
+        priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
+        probes: See model Probes for more information.
+        working_dir: Container&#39;s working directory. If not specified, the container runtime default will be used. This may be configured in the container image.
     Example:
         ```python
         InferenceUpdateSpecSpec(
-            command='python',
+            autoscaling=runai.models.auto_scaling.AutoScaling(),
+                        serving_configuration=runai.models.serving_configuration.ServingConfiguration(
+                    initialization_timeout_seconds = 1,
+                    request_timeout_seconds = 1, ),
                         args='-x my-script.py',
-                        image='python:3.8',
-                        image_pull_policy='Always',
-                        working_dir='/home/myfolder',
+                        category='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        command='python',
+                        compute=runai.models.superset_spec_all_of_compute.SupersetSpec_allOf_compute(
+                    cpu_core_limit = 2,
+                    cpu_core_request = 0.5,
+                    cpu_memory_limit = '30M',
+                    cpu_memory_request = '20M',
+                    extended_resources = [
+                        runai.models.extended_resource.ExtendedResource(
+                            resource = 'hardware-vendor.example/foo',
+                            quantity = '2',
+                            exclude = False, )
+                        ],
+                    gpu_devices_request = 1,
+                    gpu_memory_limit = '10M',
+                    gpu_memory_request = '10M',
+                    gpu_portion_limit = 0.5,
+                    gpu_portion_request = 0.5,
+                    gpu_request_type = 'portion',
+                    large_shm_request = False,
+                    mig_profile = null, ),
                         create_home_dir=True,
-                        probes=runai.models.probes.Probes(
-                    readiness = runai.models.probe.Probe(
-                        initial_delay_seconds = 0,
-                        period_seconds = 1,
-                        timeout_seconds = 1,
-                        success_threshold = 1,
-                        failure_threshold = 1,
-                        handler = runai.models.probe_handler.ProbeHandler(
-                            http_get = runai.models.probe_handler_http_get.ProbeHandler_httpGet(
-                                path = '/',
-                                port = 1,
-                                host = 'example.com',
-                                scheme = 'HTTP', ), ), ), ),
-                        node_type='my-node-type',
-                        node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
-                    node_selector_terms = [
-                        runai.models.node_selector_term.NodeSelectorTerm(
-                            match_expressions = [
-                                runai.models.match_expression.MatchExpression(
-                                    key = '',
-                                    operator = 'In',
-                                    values = [
-                                        ''
-                                        ], )
-                                ], )
-                        ], ),
-                        pod_affinity=runai.models.pod_affinity.PodAffinity(
-                    type = 'Required',
-                    key = '', ),
-                        category='',
-                        priority_class='',
-                        node_pools=[my-node-pool-a, my-node-pool-b],
                         environment_variables=[
                     runai.models.environment_variable.EnvironmentVariable(
                         name = 'HOME',
@@ -129,22 +118,70 @@ class InferenceUpdateSpecSpec(BaseModel):
                         exclude = False,
                         description = 'Home directory of the user.', )
                     ],
-                        compute=runai.models.compute_fields.ComputeFields(),
-                        autoscaling=runai.models.auto_scaling.AutoScaling(),
-                        serving_configuration=runai.models.serving_configuration.ServingConfiguration(
-                    initialization_timeout_seconds = 1,
-                    request_timeout_seconds = 1, )
+                        image='python:3.8',
+                        image_pull_policy='Always',
+                        node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
+                    node_selector_terms = [
+                        runai.models.node_selector_term.NodeSelectorTerm(
+                            match_expressions = [
+                                runai.models.match_expression.MatchExpression(
+                                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                    operator = 'In',
+                                    values = [
+                                        'jUR,rZ#UM/?R,Fp^l6$ARj'
+                                        ], )
+                                ], )
+                        ], ),
+                        node_pools=["my-node-pool-a","my-node-pool-b"],
+                        node_type='my-node-type',
+                        pod_affinity=runai.models.pod_affinity.PodAffinity(
+                    type = 'Required',
+                    key = 'jUR,rZ#UM/?R,Fp^l6$ARj', ),
+                        priority_class='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        probes=runai.models.probes.Probes(
+                    readiness = runai.models.probe.Probe(
+                        initial_delay_seconds = 0,
+                        period_seconds = 1,
+                        timeout_seconds = 1,
+                        success_threshold = 1,
+                        failure_threshold = 1,
+                        handler = runai.models.probe_handler.ProbeHandler(
+                            http_get = runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                path = '/',
+                                port = 1,
+                                host = 'example.com',
+                                scheme = 'HTTP', ), ), ), ),
+                        working_dir='/home/myfolder'
         )
         ```
     """  # noqa: E501
 
-    command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
-        default=None,
-        description="A command to the server as the entry point of the container running the workload.",
+    autoscaling: Optional[AutoScaling] = None
+    serving_configuration: Optional[ServingConfiguration] = Field(
+        default=None, alias="servingConfiguration"
     )
     args: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
         description="Arguments to the command that the container running the workload executes.",
+    )
+    category: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
+    )
+    command: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        default=None,
+        description="A command to the server as the entry point of the container running the workload.",
+    )
+    compute: Optional[SupersetSpecAllOfCompute] = None
+    create_home_dir: Optional[StrictBool] = Field(
+        default=None,
+        description="When set to `true`, creates a home directory for the container.",
+        alias="createHomeDir",
+    )
+    environment_variables: Optional[List[Optional[EnvironmentVariable]]] = Field(
+        default=None,
+        description="Set of environment variables to populate into the container running the workload.",
+        alias="environmentVariables",
     )
     image: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
@@ -153,69 +190,120 @@ class InferenceUpdateSpecSpec(BaseModel):
     image_pull_policy: Optional[ImagePullPolicy] = Field(
         default=None, alias="imagePullPolicy"
     )
-    working_dir: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
-        default=None,
-        description="Container's working directory. If not specified, the container runtime default will be used. This may be configured in the container image.",
-        alias="workingDir",
+    node_affinity_required: Optional[NodeAffinityRequired] = Field(
+        default=None, alias="nodeAffinityRequired"
     )
-    create_home_dir: Optional[StrictBool] = Field(
+    node_pools: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
         default=None,
-        description="When set to `true`, creates a home directory for the container.",
-        alias="createHomeDir",
+        description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
+        alias="nodePools",
     )
-    probes: Optional[Probes] = None
     node_type: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
         description="Nodes (machines), or a group of nodes on which the workload will run. To use this feature, your Administrator will need to label nodes. For more information, see [Group Nodes](https://docs.run.ai/latest/admin/researcher-setup/limit-to-node-group). When using this flag with with Project-based affinity, it refines the list of allowable node groups set in the Project. For more information, see [Projects](https://docshub.run.ai/guides/platform-management/aiinitiatives/organization/projects).",
         alias="nodeType",
     )
-    node_affinity_required: Optional[NodeAffinityRequired] = Field(
-        default=None, alias="nodeAffinityRequired"
-    )
     pod_affinity: Optional[PodAffinity] = Field(default=None, alias="podAffinity")
-    category: Optional[StrictStr] = Field(
-        default=None,
-        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
-    )
-    priority_class: Optional[StrictStr] = Field(
+    priority_class: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload's scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.",
         alias="priorityClass",
     )
-    node_pools: Optional[List[StrictStr]] = Field(
+    probes: Optional[Probes] = None
+    working_dir: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None,
-        description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
-        alias="nodePools",
-    )
-    environment_variables: Optional[List[Optional[EnvironmentVariable]]] = Field(
-        default=None,
-        description="Set of environment variables to populate into the container running the workload.",
-        alias="environmentVariables",
-    )
-    compute: Optional[ComputeFields] = None
-    autoscaling: Optional[AutoScaling] = None
-    serving_configuration: Optional[ServingConfiguration] = Field(
-        default=None, alias="servingConfiguration"
+        description="Container's working directory. If not specified, the container runtime default will be used. This may be configured in the container image.",
+        alias="workingDir",
     )
     __properties: ClassVar[List[str]] = [
-        "command",
-        "args",
-        "image",
-        "imagePullPolicy",
-        "workingDir",
-        "createHomeDir",
-        "probes",
-        "nodeType",
-        "nodeAffinityRequired",
-        "podAffinity",
-        "category",
-        "priorityClass",
-        "nodePools",
-        "environmentVariables",
-        "compute",
         "autoscaling",
         "servingConfiguration",
+        "args",
+        "category",
+        "command",
+        "compute",
+        "createHomeDir",
+        "environmentVariables",
+        "image",
+        "imagePullPolicy",
+        "nodeAffinityRequired",
+        "nodePools",
+        "nodeType",
+        "podAffinity",
+        "priorityClass",
+        "probes",
+        "workingDir",
     ]
+
+    @field_validator("args")
+    def args_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("category")
+    def category_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("command")
+    def command_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("image")
+    def image_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("node_type")
+    def node_type_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("priority_class")
+    def priority_class_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("working_dir")
+    def working_dir_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -254,15 +342,15 @@ class InferenceUpdateSpecSpec(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of probes
-        if self.probes:
-            _dict["probes"] = self.probes.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of node_affinity_required
-        if self.node_affinity_required:
-            _dict["nodeAffinityRequired"] = self.node_affinity_required.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of pod_affinity
-        if self.pod_affinity:
-            _dict["podAffinity"] = self.pod_affinity.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of autoscaling
+        if self.autoscaling:
+            _dict["autoscaling"] = self.autoscaling.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of serving_configuration
+        if self.serving_configuration:
+            _dict["servingConfiguration"] = self.serving_configuration.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of compute
+        if self.compute:
+            _dict["compute"] = self.compute.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in environment_variables (list)
         _items = []
         if self.environment_variables:
@@ -270,24 +358,60 @@ class InferenceUpdateSpecSpec(BaseModel):
                 if _item_environment_variables:
                     _items.append(_item_environment_variables.to_dict())
             _dict["environmentVariables"] = _items
-        # override the default output from pydantic by calling `to_dict()` of compute
-        if self.compute:
-            _dict["compute"] = self.compute.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of autoscaling
-        if self.autoscaling:
-            _dict["autoscaling"] = self.autoscaling.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of serving_configuration
-        if self.serving_configuration:
-            _dict["servingConfiguration"] = self.serving_configuration.to_dict()
-        # set to None if command (nullable) is None
+        # override the default output from pydantic by calling `to_dict()` of node_affinity_required
+        if self.node_affinity_required:
+            _dict["nodeAffinityRequired"] = self.node_affinity_required.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of pod_affinity
+        if self.pod_affinity:
+            _dict["podAffinity"] = self.pod_affinity.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of probes
+        if self.probes:
+            _dict["probes"] = self.probes.to_dict()
+        # set to None if autoscaling (nullable) is None
         # and model_fields_set contains the field
-        if self.command is None and "command" in self.model_fields_set:
-            _dict["command"] = None
+        if self.autoscaling is None and "autoscaling" in self.model_fields_set:
+            _dict["autoscaling"] = None
+
+        # set to None if serving_configuration (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.serving_configuration is None
+            and "serving_configuration" in self.model_fields_set
+        ):
+            _dict["servingConfiguration"] = None
 
         # set to None if args (nullable) is None
         # and model_fields_set contains the field
         if self.args is None and "args" in self.model_fields_set:
             _dict["args"] = None
+
+        # set to None if category (nullable) is None
+        # and model_fields_set contains the field
+        if self.category is None and "category" in self.model_fields_set:
+            _dict["category"] = None
+
+        # set to None if command (nullable) is None
+        # and model_fields_set contains the field
+        if self.command is None and "command" in self.model_fields_set:
+            _dict["command"] = None
+
+        # set to None if compute (nullable) is None
+        # and model_fields_set contains the field
+        if self.compute is None and "compute" in self.model_fields_set:
+            _dict["compute"] = None
+
+        # set to None if create_home_dir (nullable) is None
+        # and model_fields_set contains the field
+        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
+            _dict["createHomeDir"] = None
+
+        # set to None if environment_variables (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.environment_variables is None
+            and "environment_variables" in self.model_fields_set
+        ):
+            _dict["environmentVariables"] = None
 
         # set to None if image (nullable) is None
         # and model_fields_set contains the field
@@ -302,26 +426,6 @@ class InferenceUpdateSpecSpec(BaseModel):
         ):
             _dict["imagePullPolicy"] = None
 
-        # set to None if working_dir (nullable) is None
-        # and model_fields_set contains the field
-        if self.working_dir is None and "working_dir" in self.model_fields_set:
-            _dict["workingDir"] = None
-
-        # set to None if create_home_dir (nullable) is None
-        # and model_fields_set contains the field
-        if self.create_home_dir is None and "create_home_dir" in self.model_fields_set:
-            _dict["createHomeDir"] = None
-
-        # set to None if probes (nullable) is None
-        # and model_fields_set contains the field
-        if self.probes is None and "probes" in self.model_fields_set:
-            _dict["probes"] = None
-
-        # set to None if node_type (nullable) is None
-        # and model_fields_set contains the field
-        if self.node_type is None and "node_type" in self.model_fields_set:
-            _dict["nodeType"] = None
-
         # set to None if node_affinity_required (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -330,51 +434,35 @@ class InferenceUpdateSpecSpec(BaseModel):
         ):
             _dict["nodeAffinityRequired"] = None
 
+        # set to None if node_pools (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_pools is None and "node_pools" in self.model_fields_set:
+            _dict["nodePools"] = None
+
+        # set to None if node_type (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_type is None and "node_type" in self.model_fields_set:
+            _dict["nodeType"] = None
+
         # set to None if pod_affinity (nullable) is None
         # and model_fields_set contains the field
         if self.pod_affinity is None and "pod_affinity" in self.model_fields_set:
             _dict["podAffinity"] = None
-
-        # set to None if category (nullable) is None
-        # and model_fields_set contains the field
-        if self.category is None and "category" in self.model_fields_set:
-            _dict["category"] = None
 
         # set to None if priority_class (nullable) is None
         # and model_fields_set contains the field
         if self.priority_class is None and "priority_class" in self.model_fields_set:
             _dict["priorityClass"] = None
 
-        # set to None if node_pools (nullable) is None
+        # set to None if probes (nullable) is None
         # and model_fields_set contains the field
-        if self.node_pools is None and "node_pools" in self.model_fields_set:
-            _dict["nodePools"] = None
+        if self.probes is None and "probes" in self.model_fields_set:
+            _dict["probes"] = None
 
-        # set to None if environment_variables (nullable) is None
+        # set to None if working_dir (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.environment_variables is None
-            and "environment_variables" in self.model_fields_set
-        ):
-            _dict["environmentVariables"] = None
-
-        # set to None if compute (nullable) is None
-        # and model_fields_set contains the field
-        if self.compute is None and "compute" in self.model_fields_set:
-            _dict["compute"] = None
-
-        # set to None if autoscaling (nullable) is None
-        # and model_fields_set contains the field
-        if self.autoscaling is None and "autoscaling" in self.model_fields_set:
-            _dict["autoscaling"] = None
-
-        # set to None if serving_configuration (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.serving_configuration is None
-            and "serving_configuration" in self.model_fields_set
-        ):
-            _dict["servingConfiguration"] = None
+        if self.working_dir is None and "working_dir" in self.model_fields_set:
+            _dict["workingDir"] = None
 
         return _dict
 
@@ -389,44 +477,6 @@ class InferenceUpdateSpecSpec(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "command": obj.get("command"),
-                "args": obj.get("args"),
-                "image": obj.get("image"),
-                "imagePullPolicy": obj.get("imagePullPolicy"),
-                "workingDir": obj.get("workingDir"),
-                "createHomeDir": obj.get("createHomeDir"),
-                "probes": (
-                    Probes.from_dict(obj["probes"])
-                    if obj.get("probes") is not None
-                    else None
-                ),
-                "nodeType": obj.get("nodeType"),
-                "nodeAffinityRequired": (
-                    NodeAffinityRequired.from_dict(obj["nodeAffinityRequired"])
-                    if obj.get("nodeAffinityRequired") is not None
-                    else None
-                ),
-                "podAffinity": (
-                    PodAffinity.from_dict(obj["podAffinity"])
-                    if obj.get("podAffinity") is not None
-                    else None
-                ),
-                "category": obj.get("category"),
-                "priorityClass": obj.get("priorityClass"),
-                "nodePools": obj.get("nodePools"),
-                "environmentVariables": (
-                    [
-                        EnvironmentVariable.from_dict(_item)
-                        for _item in obj["environmentVariables"]
-                    ]
-                    if obj.get("environmentVariables") is not None
-                    else None
-                ),
-                "compute": (
-                    ComputeFields.from_dict(obj["compute"])
-                    if obj.get("compute") is not None
-                    else None
-                ),
                 "autoscaling": (
                     AutoScaling.from_dict(obj["autoscaling"])
                     if obj.get("autoscaling") is not None
@@ -437,6 +487,44 @@ class InferenceUpdateSpecSpec(BaseModel):
                     if obj.get("servingConfiguration") is not None
                     else None
                 ),
+                "args": obj.get("args"),
+                "category": obj.get("category"),
+                "command": obj.get("command"),
+                "compute": (
+                    SupersetSpecAllOfCompute.from_dict(obj["compute"])
+                    if obj.get("compute") is not None
+                    else None
+                ),
+                "createHomeDir": obj.get("createHomeDir"),
+                "environmentVariables": (
+                    [
+                        EnvironmentVariable.from_dict(_item)
+                        for _item in obj["environmentVariables"]
+                    ]
+                    if obj.get("environmentVariables") is not None
+                    else None
+                ),
+                "image": obj.get("image"),
+                "imagePullPolicy": obj.get("imagePullPolicy"),
+                "nodeAffinityRequired": (
+                    NodeAffinityRequired.from_dict(obj["nodeAffinityRequired"])
+                    if obj.get("nodeAffinityRequired") is not None
+                    else None
+                ),
+                "nodePools": obj.get("nodePools"),
+                "nodeType": obj.get("nodeType"),
+                "podAffinity": (
+                    PodAffinity.from_dict(obj["podAffinity"])
+                    if obj.get("podAffinity") is not None
+                    else None
+                ),
+                "priorityClass": obj.get("priorityClass"),
+                "probes": (
+                    Probes.from_dict(obj["probes"])
+                    if obj.get("probes") is not None
+                    else None
+                ),
+                "workingDir": obj.get("workingDir"),
             }
         )
         return _obj

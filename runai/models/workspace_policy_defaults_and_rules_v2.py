@@ -20,9 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from runai.models.policy_validation_status import PolicyValidationStatus
-from runai.models.workspace_policy_defaults_and_rules_v2_defaults import (
-    WorkspacePolicyDefaultsAndRulesV2Defaults,
-)
+from runai.models.workspace_policy_defaults_v2 import WorkspacePolicyDefaultsV2
 from runai.models.workspace_policy_rules_v2 import WorkspacePolicyRulesV2
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,31 +32,31 @@ class WorkspacePolicyDefaultsAndRulesV2(BaseModel):
 
     Parameters:
         ```python
-        defaults: Optional[WorkspacePolicyDefaultsAndRulesV2Defaults]
+        defaults: Optional[WorkspacePolicyDefaultsV2]
         rules: Optional[WorkspacePolicyRulesV2]
         imposed_assets: Optional[List[str]]
         status: Optional[PolicyValidationStatus]
         ```
-        defaults: See model WorkspacePolicyDefaultsAndRulesV2Defaults for more information.
+        defaults: See model WorkspacePolicyDefaultsV2 for more information.
         rules: See model WorkspacePolicyRulesV2 for more information.
         imposed_assets: a list of datasource assets to import into the policy. these datasources will be included in any workload that will be created in the scope of the policy.
         status: See model PolicyValidationStatus for more information.
     Example:
         ```python
         WorkspacePolicyDefaultsAndRulesV2(
-            defaults=runai.models.workspace_policy_defaults_and_rules_v2_defaults.WorkspacePolicyDefaultsAndRulesV2_defaults(),
+            defaults="example",
                         rules="example",
                         imposed_assets=[
                     ''
                     ],
                         status=runai.models.policy_validation_status.PolicyValidationStatus(
                     validation = runai.models.policy_validation_status_validation.PolicyValidationStatus_validation(
-                        error_message = '', ), )
+                        error_message = 'jUR,rZ#UM/?R,Fp^l6$ARj', ), )
         )
         ```
     """  # noqa: E501
 
-    defaults: Optional[WorkspacePolicyDefaultsAndRulesV2Defaults] = None
+    defaults: Optional[WorkspacePolicyDefaultsV2] = None
     rules: Optional[WorkspacePolicyRulesV2] = None
     imposed_assets: Optional[List[StrictStr]] = Field(
         default=None,
@@ -148,7 +146,7 @@ class WorkspacePolicyDefaultsAndRulesV2(BaseModel):
         _obj = cls.model_validate(
             {
                 "defaults": (
-                    WorkspacePolicyDefaultsAndRulesV2Defaults.from_dict(obj["defaults"])
+                    WorkspacePolicyDefaultsV2.from_dict(obj["defaults"])
                     if obj.get("defaults") is not None
                     else None
                 ),

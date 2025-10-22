@@ -38,7 +38,9 @@ class TestRestartPolicyOptionsOptionsInner(unittest.TestCase):
 
         # model = RestartPolicyOptionsOptionsInner()
         if include_optional:
-            return RestartPolicyOptionsOptionsInner(value="Always", displayed="")
+            return RestartPolicyOptionsOptionsInner(
+                value="Always", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return RestartPolicyOptionsOptionsInner(
                 value="Always",

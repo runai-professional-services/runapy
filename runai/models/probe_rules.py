@@ -55,7 +55,7 @@ class ProbeRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         period_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -65,7 +65,7 @@ class ProbeRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         timeout_seconds=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -75,7 +75,7 @@ class ProbeRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         success_threshold=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -85,7 +85,7 @@ class ProbeRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         failure_threshold=runai.models.integer_rules.IntegerRules(
                     source_of_rule = {"scope":"project","projectId":3},
@@ -95,7 +95,7 @@ class ProbeRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         handler=runai.models.probe_handler_rules.ProbeHandlerRules(
                     http_get = runai.models.probe_handler_rules_http_get.ProbeHandlerRules_httpGet(
@@ -108,7 +108,7 @@ class ProbeRules(BaseModel):
                             max = 56,
                             step = 56,
                             default_from = runai.models.default_from_rule.DefaultFromRule(
-                                field = '',
+                                field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                                 factor = 1.337, ), ),
                         host = runai.models.string_rules.StringRules(),
                         scheme = runai.models.string_rules.StringRules(), ), )

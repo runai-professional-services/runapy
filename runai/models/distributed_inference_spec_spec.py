@@ -17,14 +17,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from runai.models.distributed_inference_leader_worker_spec import (
-    DistributedInferenceLeaderWorkerSpec,
+from runai.models.distributed_inference_leader_worker_spec1 import (
+    DistributedInferenceLeaderWorkerSpec1,
 )
 from runai.models.distributed_inference_restart_policy import (
     DistributedInferenceRestartPolicy,
+)
+from runai.models.distributed_inference_serving_port import (
+    DistributedInferenceServingPort,
 )
 from runai.models.distributed_inference_startup_policy import (
     DistributedInferenceStartupPolicy,
@@ -39,22 +42,22 @@ class DistributedInferenceSpecSpec(BaseModel):
 
     Parameters:
         ```python
-        node_pools: Optional[List[str]]
         category: Optional[str]
+        node_pools: Optional[List[str]]
         priority_class: Optional[str]
-        serving_port: Optional[object]
         restart_policy: Optional[DistributedInferenceRestartPolicy]
+        serving_port: Optional[DistributedInferenceServingPort]
         startup_policy: Optional[DistributedInferenceStartupPolicy]
         workers: Optional[int]
         replicas: Optional[int]
-        leader: Optional[DistributedInferenceLeaderWorkerSpec]
-        worker: Optional[DistributedInferenceLeaderWorkerSpec]
+        leader: Optional[DistributedInferenceLeaderWorkerSpec1]
+        worker: Optional[DistributedInferenceLeaderWorkerSpec1]
         ```
-        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
         category: Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.
+        node_pools: A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.
         priority_class: Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload&#39;s scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.
-        serving_port: Defines the configuration for the inference serving endpoint. This determines how applications or services can send inference requests to the workload.
         restart_policy: See model DistributedInferenceRestartPolicy for more information. - Default: DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART
+        serving_port: See model DistributedInferenceServingPort for more information.
         startup_policy: See model DistributedInferenceStartupPolicy for more information. - Default: DistributedInferenceStartupPolicy.LEADERCREATED
         workers: Specifies the number of worker nodes to run. If set to 0, only the leader node will run, and no worker pods will be created. In this case, worker spec is not required. - Default: 0
         replicas: Specifies the number of leader-worker sets to deploy. Each replica represents a group consisting of one leader pod and multiple worker pods.  For example, setting replicas: 3 will create 3 independent groups, each with its own leader and corresponding set of workers.  - Default: 1
@@ -63,42 +66,276 @@ class DistributedInferenceSpecSpec(BaseModel):
     Example:
         ```python
         DistributedInferenceSpecSpec(
-            node_pools=[my-node-pool-a, my-node-pool-b],
-                        category='',
-                        priority_class='',
-                        serving_port=None,
+            category='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        node_pools=["my-node-pool-a","my-node-pool-b"],
+                        priority_class='jUR,rZ#UM/?R,Fp^l6$ARj',
                         restart_policy='RecreateGroupOnPodRestart',
+                        serving_port=runai.models.distributed_inference_serving_port.DistributedInferenceServingPort(),
                         startup_policy='LeaderCreated',
                         workers=4,
                         replicas=2,
-                        leader=runai.models.distributed_inference_leader_worker_spec.DistributedInferenceLeaderWorkerSpec(),
-                        worker=runai.models.distributed_inference_leader_worker_spec.DistributedInferenceLeaderWorkerSpec()
+                        leader=runai.models.distributed_inference_leader_worker_spec1.DistributedInferenceLeaderWorkerSpec1(
+                    annotations = [
+                        runai.models.annotation.Annotation(
+                            name = 'billing',
+                            value = 'my-billing-unit',
+                            exclude = False, )
+                        ],
+                    args = '-x my-script.py',
+                    command = 'python',
+                    compute = runai.models.superset_spec_all_of_compute.SupersetSpec_allOf_compute(
+                        cpu_core_limit = 2,
+                        cpu_core_request = 0.5,
+                        cpu_memory_limit = '30M',
+                        cpu_memory_request = '20M',
+                        extended_resources = [
+                            runai.models.extended_resource.ExtendedResource(
+                                resource = 'hardware-vendor.example/foo',
+                                quantity = '2',
+                                exclude = False, )
+                            ],
+                        gpu_devices_request = 1,
+                        gpu_memory_limit = '10M',
+                        gpu_memory_request = '10M',
+                        gpu_portion_limit = 0.5,
+                        gpu_portion_request = 0.5,
+                        gpu_request_type = 'portion',
+                        large_shm_request = False,
+                        mig_profile = null, ),
+                    create_home_dir = True,
+                    environment_variables = [
+                        runai.models.environment_variable.EnvironmentVariable(
+                            name = 'HOME',
+                            value = '/home/my-folder',
+                            secret = runai.models.environment_variable_secret.EnvironmentVariableSecret(
+                                name = 'postgress_secret',
+                                key = 'POSTGRES_PASSWORD', ),
+                            config_map = runai.models.environment_variable_config_map.EnvironmentVariableConfigMap(
+                                name = 'my-config-map',
+                                key = 'MY_POSTGRES_SCHEMA', ),
+                            pod_field_ref = runai.models.environment_variable_pod_field_reference.EnvironmentVariablePodFieldReference(
+                                path = 'metadata.name', ),
+                            exclude = False,
+                            description = 'Home directory of the user.', )
+                        ],
+                    image = 'python:3.8',
+                    image_pull_policy = 'Always',
+                    image_pull_secrets = [
+                        runai.models.image_pull_secret.ImagePullSecret(
+                            name = 'w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx',
+                            user_credential = True,
+                            exclude = False, )
+                        ],
+                    labels = [
+                        runai.models.label.Label(
+                            name = 'stage',
+                            value = 'initial-research',
+                            exclude = False, )
+                        ],
+                    node_affinity_required = runai.models.node_affinity_required.NodeAffinityRequired(
+                        node_selector_terms = [
+                            runai.models.node_selector_term.NodeSelectorTerm(
+                                match_expressions = [
+                                    runai.models.match_expression.MatchExpression(
+                                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                        operator = 'In',
+                                        values = [
+                                            'jUR,rZ#UM/?R,Fp^l6$ARj'
+                                            ], )
+                                    ], )
+                            ], ),
+                    node_type = 'my-node-type',
+                    pod_affinity = runai.models.pod_affinity.PodAffinity(
+                        type = 'Required',
+                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj', ),
+                    probes = runai.models.probes.Probes(
+                        readiness = runai.models.probe.Probe(
+                            initial_delay_seconds = 0,
+                            period_seconds = 1,
+                            timeout_seconds = 1,
+                            success_threshold = 1,
+                            failure_threshold = 1,
+                            handler = runai.models.probe_handler.ProbeHandler(
+                                http_get = runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                    path = '/',
+                                    port = 1,
+                                    host = 'example.com',
+                                    scheme = 'HTTP', ), ), ), ),
+                    security = runai.models.inference_policy_defaults_v2_all_of_security.InferencePolicyDefaultsV2_allOf_security(
+                        capabilities = ["CHOWN","KILL"],
+                        read_only_root_filesystem = False,
+                        run_as_gid = 30,
+                        run_as_non_root = True,
+                        run_as_uid = 500,
+                        seccomp_profile_type = 'RuntimeDefault',
+                        supplemental_groups = '2,3,5,8',
+                        uid_gid_source = 'fromTheImage', ),
+                    storage = runai.models.distributed_inference_leader_worker_spec1_storage.DistributedInferenceLeaderWorkerSpec1_storage(
+                        config_map_volume = [
+                            runai.models.config_map_instance.ConfigMapInstance()
+                            ],
+                        empty_dir_volume = [
+                            runai.models.empty_dir_instance.EmptyDirInstance()
+                            ],
+                        pvc = [
+                            runai.models.pvc_instance.PvcInstance()
+                            ],
+                        secret_volume = [
+                            runai.models.secret_instance2.SecretInstance2()
+                            ], ),
+                    tolerations = [
+                        runai.models.toleration.Toleration(
+                            name = 'jUR,rZ#UM/?R,Fp^l6$ARj0',
+                            key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            value = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            effect = 'NoSchedule',
+                            seconds = 1,
+                            exclude = False, )
+                        ],
+                    working_dir = '/home/myfolder', ),
+                        worker=runai.models.distributed_inference_leader_worker_spec1.DistributedInferenceLeaderWorkerSpec1(
+                    annotations = [
+                        runai.models.annotation.Annotation(
+                            name = 'billing',
+                            value = 'my-billing-unit',
+                            exclude = False, )
+                        ],
+                    args = '-x my-script.py',
+                    command = 'python',
+                    compute = runai.models.superset_spec_all_of_compute.SupersetSpec_allOf_compute(
+                        cpu_core_limit = 2,
+                        cpu_core_request = 0.5,
+                        cpu_memory_limit = '30M',
+                        cpu_memory_request = '20M',
+                        extended_resources = [
+                            runai.models.extended_resource.ExtendedResource(
+                                resource = 'hardware-vendor.example/foo',
+                                quantity = '2',
+                                exclude = False, )
+                            ],
+                        gpu_devices_request = 1,
+                        gpu_memory_limit = '10M',
+                        gpu_memory_request = '10M',
+                        gpu_portion_limit = 0.5,
+                        gpu_portion_request = 0.5,
+                        gpu_request_type = 'portion',
+                        large_shm_request = False,
+                        mig_profile = null, ),
+                    create_home_dir = True,
+                    environment_variables = [
+                        runai.models.environment_variable.EnvironmentVariable(
+                            name = 'HOME',
+                            value = '/home/my-folder',
+                            secret = runai.models.environment_variable_secret.EnvironmentVariableSecret(
+                                name = 'postgress_secret',
+                                key = 'POSTGRES_PASSWORD', ),
+                            config_map = runai.models.environment_variable_config_map.EnvironmentVariableConfigMap(
+                                name = 'my-config-map',
+                                key = 'MY_POSTGRES_SCHEMA', ),
+                            pod_field_ref = runai.models.environment_variable_pod_field_reference.EnvironmentVariablePodFieldReference(
+                                path = 'metadata.name', ),
+                            exclude = False,
+                            description = 'Home directory of the user.', )
+                        ],
+                    image = 'python:3.8',
+                    image_pull_policy = 'Always',
+                    image_pull_secrets = [
+                        runai.models.image_pull_secret.ImagePullSecret(
+                            name = 'w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx',
+                            user_credential = True,
+                            exclude = False, )
+                        ],
+                    labels = [
+                        runai.models.label.Label(
+                            name = 'stage',
+                            value = 'initial-research',
+                            exclude = False, )
+                        ],
+                    node_affinity_required = runai.models.node_affinity_required.NodeAffinityRequired(
+                        node_selector_terms = [
+                            runai.models.node_selector_term.NodeSelectorTerm(
+                                match_expressions = [
+                                    runai.models.match_expression.MatchExpression(
+                                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                                        operator = 'In',
+                                        values = [
+                                            'jUR,rZ#UM/?R,Fp^l6$ARj'
+                                            ], )
+                                    ], )
+                            ], ),
+                    node_type = 'my-node-type',
+                    pod_affinity = runai.models.pod_affinity.PodAffinity(
+                        type = 'Required',
+                        key = 'jUR,rZ#UM/?R,Fp^l6$ARj', ),
+                    probes = runai.models.probes.Probes(
+                        readiness = runai.models.probe.Probe(
+                            initial_delay_seconds = 0,
+                            period_seconds = 1,
+                            timeout_seconds = 1,
+                            success_threshold = 1,
+                            failure_threshold = 1,
+                            handler = runai.models.probe_handler.ProbeHandler(
+                                http_get = runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                    path = '/',
+                                    port = 1,
+                                    host = 'example.com',
+                                    scheme = 'HTTP', ), ), ), ),
+                    security = runai.models.inference_policy_defaults_v2_all_of_security.InferencePolicyDefaultsV2_allOf_security(
+                        capabilities = ["CHOWN","KILL"],
+                        read_only_root_filesystem = False,
+                        run_as_gid = 30,
+                        run_as_non_root = True,
+                        run_as_uid = 500,
+                        seccomp_profile_type = 'RuntimeDefault',
+                        supplemental_groups = '2,3,5,8',
+                        uid_gid_source = 'fromTheImage', ),
+                    storage = runai.models.distributed_inference_leader_worker_spec1_storage.DistributedInferenceLeaderWorkerSpec1_storage(
+                        config_map_volume = [
+                            runai.models.config_map_instance.ConfigMapInstance()
+                            ],
+                        empty_dir_volume = [
+                            runai.models.empty_dir_instance.EmptyDirInstance()
+                            ],
+                        pvc = [
+                            runai.models.pvc_instance.PvcInstance()
+                            ],
+                        secret_volume = [
+                            runai.models.secret_instance2.SecretInstance2()
+                            ], ),
+                    tolerations = [
+                        runai.models.toleration.Toleration(
+                            name = 'jUR,rZ#UM/?R,Fp^l6$ARj0',
+                            key = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            value = 'jUR,rZ#UM/?R,Fp^l6$ARj',
+                            effect = 'NoSchedule',
+                            seconds = 1,
+                            exclude = False, )
+                        ],
+                    working_dir = '/home/myfolder', )
         )
         ```
     """  # noqa: E501
 
-    node_pools: Optional[List[StrictStr]] = Field(
+    category: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
+    )
+    node_pools: Optional[List[Annotated[str, Field(strict=True)]]] = Field(
         default=None,
         description="A prioritized list of node pools for the scheduler to run the workload on. The scheduler will always try to use the first node pool before moving to the next one if the first is not available.",
         alias="nodePools",
     )
-    category: Optional[StrictStr] = Field(
-        default=None,
-        description="Specify the workload category assigned to the workload. Categories are used to classify and monitor different types of workloads within the NVIDIA Run:ai platform.",
-    )
-    priority_class: Optional[StrictStr] = Field(
+    priority_class: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="Specifies the priority class for the workload.  The default value depends on the workload type:  high for workspace workloads, low for training/distributed training workloads, and very-high for inference workloads. You can change it to any of the following valid values to adjust the workload's scheduling behavior: very-low, low, medium-low, medium, medium-high, high, very-high.",
         alias="priorityClass",
     )
-    serving_port: Optional[Dict[str, Any]] = Field(
-        default=None,
-        description="Defines the configuration for the inference serving endpoint. This determines how applications or services can send inference requests to the workload.",
-        alias="servingPort",
-    )
     restart_policy: Optional[DistributedInferenceRestartPolicy] = Field(
         default=DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART,
         alias="restartPolicy",
+    )
+    serving_port: Optional[DistributedInferenceServingPort] = Field(
+        default=None, alias="servingPort"
     )
     startup_policy: Optional[DistributedInferenceStartupPolicy] = Field(
         default=DistributedInferenceStartupPolicy.LEADERCREATED, alias="startupPolicy"
@@ -111,26 +348,46 @@ class DistributedInferenceSpecSpec(BaseModel):
         default=1,
         description="Specifies the number of leader-worker sets to deploy. Each replica represents a group consisting of one leader pod and multiple worker pods.  For example, setting replicas: 3 will create 3 independent groups, each with its own leader and corresponding set of workers. ",
     )
-    leader: Optional[DistributedInferenceLeaderWorkerSpec] = Field(
+    leader: Optional[DistributedInferenceLeaderWorkerSpec1] = Field(
         default=None,
         description="Defines the pod specification for the leader. Must always be provided, regardless of the number of workers.",
     )
-    worker: Optional[DistributedInferenceLeaderWorkerSpec] = Field(
+    worker: Optional[DistributedInferenceLeaderWorkerSpec1] = Field(
         default=None,
         description="Defines the pod specification for the workers. Required only if the number of workers is greater than 0.",
     )
     __properties: ClassVar[List[str]] = [
-        "nodePools",
         "category",
+        "nodePools",
         "priorityClass",
-        "servingPort",
         "restartPolicy",
+        "servingPort",
         "startupPolicy",
         "workers",
         "replicas",
         "leader",
         "worker",
     ]
+
+    @field_validator("category")
+    def category_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("priority_class")
+    def priority_class_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -169,36 +426,39 @@ class DistributedInferenceSpecSpec(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of serving_port
+        if self.serving_port:
+            _dict["servingPort"] = self.serving_port.to_dict()
         # override the default output from pydantic by calling `to_dict()` of leader
         if self.leader:
             _dict["leader"] = self.leader.to_dict()
         # override the default output from pydantic by calling `to_dict()` of worker
         if self.worker:
             _dict["worker"] = self.worker.to_dict()
-        # set to None if node_pools (nullable) is None
-        # and model_fields_set contains the field
-        if self.node_pools is None and "node_pools" in self.model_fields_set:
-            _dict["nodePools"] = None
-
         # set to None if category (nullable) is None
         # and model_fields_set contains the field
         if self.category is None and "category" in self.model_fields_set:
             _dict["category"] = None
+
+        # set to None if node_pools (nullable) is None
+        # and model_fields_set contains the field
+        if self.node_pools is None and "node_pools" in self.model_fields_set:
+            _dict["nodePools"] = None
 
         # set to None if priority_class (nullable) is None
         # and model_fields_set contains the field
         if self.priority_class is None and "priority_class" in self.model_fields_set:
             _dict["priorityClass"] = None
 
-        # set to None if serving_port (nullable) is None
-        # and model_fields_set contains the field
-        if self.serving_port is None and "serving_port" in self.model_fields_set:
-            _dict["servingPort"] = None
-
         # set to None if restart_policy (nullable) is None
         # and model_fields_set contains the field
         if self.restart_policy is None and "restart_policy" in self.model_fields_set:
             _dict["restartPolicy"] = None
+
+        # set to None if serving_port (nullable) is None
+        # and model_fields_set contains the field
+        if self.serving_port is None and "serving_port" in self.model_fields_set:
+            _dict["servingPort"] = None
 
         # set to None if startup_policy (nullable) is None
         # and model_fields_set contains the field
@@ -238,14 +498,18 @@ class DistributedInferenceSpecSpec(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "nodePools": obj.get("nodePools"),
                 "category": obj.get("category"),
+                "nodePools": obj.get("nodePools"),
                 "priorityClass": obj.get("priorityClass"),
-                "servingPort": obj.get("servingPort"),
                 "restartPolicy": (
                     obj.get("restartPolicy")
                     if obj.get("restartPolicy") is not None
                     else DistributedInferenceRestartPolicy.RECREATEGROUPONPODRESTART
+                ),
+                "servingPort": (
+                    DistributedInferenceServingPort.from_dict(obj["servingPort"])
+                    if obj.get("servingPort") is not None
+                    else None
                 ),
                 "startupPolicy": (
                     obj.get("startupPolicy")
@@ -257,12 +521,12 @@ class DistributedInferenceSpecSpec(BaseModel):
                     obj.get("replicas") if obj.get("replicas") is not None else 1
                 ),
                 "leader": (
-                    DistributedInferenceLeaderWorkerSpec.from_dict(obj["leader"])
+                    DistributedInferenceLeaderWorkerSpec1.from_dict(obj["leader"])
                     if obj.get("leader") is not None
                     else None
                 ),
                 "worker": (
-                    DistributedInferenceLeaderWorkerSpec.from_dict(obj["worker"])
+                    DistributedInferenceLeaderWorkerSpec1.from_dict(obj["worker"])
                     if obj.get("worker") is not None
                     else None
                 ),

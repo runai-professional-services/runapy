@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -32,11 +32,13 @@ class SecretInstance2(BaseModel):
         ```python
         name: Optional[str]
         mount_path: Optional[str]
+        default_mode: Optional[str]
         secret: Optional[str]
         exclude: Optional[bool]
         ```
         name: unique name to identify the instance. primarily used for policy locked rules.
         mount_path: Local path within the workload to which the Secret will be mapped to. (mandatory)
+        default_mode: File permission mode in octal string format. This value must be a 4-digit octal number, representing the default file mode when mounting a Secret or ConfigMap as a volume.
         secret: The name of the Secret resource. (mandatory)
         exclude: Use &#39;true&#39; in case the item is defined in defaults of the policy, and you wish to exclude it from the workload. - Default: False
     Example:
@@ -44,6 +46,7 @@ class SecretInstance2(BaseModel):
         SecretInstance2(
             name='storage-instance-a',
                         mount_path='0',
+                        default_mode='0644',
                         secret='0',
                         exclude=False
         )
@@ -59,6 +62,13 @@ class SecretInstance2(BaseModel):
         description="Local path within the workload to which the Secret will be mapped to. (mandatory)",
         alias="mountPath",
     )
+    default_mode: Optional[
+        Annotated[str, Field(min_length=4, strict=True, max_length=4)]
+    ] = Field(
+        default=None,
+        description="File permission mode in octal string format. This value must be a 4-digit octal number, representing the default file mode when mounting a Secret or ConfigMap as a volume. ",
+        alias="defaultMode",
+    )
     secret: Optional[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         default=None, description="The name of the Secret resource. (mandatory)"
     )
@@ -66,7 +76,23 @@ class SecretInstance2(BaseModel):
         default=False,
         description="Use 'true' in case the item is defined in defaults of the policy, and you wish to exclude it from the workload.",
     )
-    __properties: ClassVar[List[str]] = ["name", "mountPath", "secret", "exclude"]
+    __properties: ClassVar[List[str]] = [
+        "name",
+        "mountPath",
+        "defaultMode",
+        "secret",
+        "exclude",
+    ]
+
+    @field_validator("default_mode")
+    def default_mode_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"0[0-7]{3}", value):
+            raise ValueError(r"must validate the regular expression /0[0-7]{3}/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -115,6 +141,11 @@ class SecretInstance2(BaseModel):
         if self.mount_path is None and "mount_path" in self.model_fields_set:
             _dict["mountPath"] = None
 
+        # set to None if default_mode (nullable) is None
+        # and model_fields_set contains the field
+        if self.default_mode is None and "default_mode" in self.model_fields_set:
+            _dict["defaultMode"] = None
+
         # set to None if secret (nullable) is None
         # and model_fields_set contains the field
         if self.secret is None and "secret" in self.model_fields_set:
@@ -140,6 +171,7 @@ class SecretInstance2(BaseModel):
             {
                 "name": obj.get("name"),
                 "mountPath": obj.get("mountPath"),
+                "defaultMode": obj.get("defaultMode"),
                 "secret": obj.get("secret"),
                 "exclude": (
                     obj.get("exclude") if obj.get("exclude") is not None else False

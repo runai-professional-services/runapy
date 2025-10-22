@@ -60,7 +60,7 @@ class ServingPortRules(BaseModel):
                     max = 56,
                     step = 56,
                     default_from = runai.models.default_from_rule.DefaultFromRule(
-                        field = '',
+                        field = 'jUR,rZ#UM/?R,Fp^l6$ARj',
                         factor = 1.337, ), ),
                         protocol=runai.models.serving_port_protocol_rules.ServingPortProtocolRules(),
                         authorization_type=runai.models.serving_port_authorization_type_rules.ServingPortAuthorizationTypeRules(),

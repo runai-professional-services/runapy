@@ -36,7 +36,9 @@ class TestGpuRequestOptionsOptionsInner(unittest.TestCase):
 
         # model = GpuRequestOptionsOptionsInner()
         if include_optional:
-            return GpuRequestOptionsOptionsInner(value="portion", displayed="")
+            return GpuRequestOptionsOptionsInner(
+                value="portion", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
+            )
         else:
             return GpuRequestOptionsOptionsInner(
                 value="portion",

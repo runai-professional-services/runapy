@@ -47,7 +47,7 @@ def example_delete_distributed_inference():
     """
     Example of using delete_distributed_inference
 
-    Delete a distributed inference. [Experimental]
+    Delete a distributed inference.
     Delete a distributed inference using a workload id.
     """
     try:
@@ -68,7 +68,7 @@ def example_get_distributed_inference():
     """
     Example of using get_distributed_inference
 
-    Get a distributed inference data. [Experimental]
+    Get a distributed inference data.
     Retrieve a distributed inference details using a workload id.
     """
     try:
@@ -83,3 +83,28 @@ def example_get_distributed_inference():
 
     except Exception as e:
         print(f"Exception when calling get_distributed_inference: {e}")
+
+
+def example_update_distributed_inference_spec():
+    """
+    Example of using update_distributed_inference_spec
+
+    Update distributed inference spec.
+    Update the specification of an existing distributed inference workload.
+    """
+    try:
+        # Prepare the request parameters
+        workload_id = "example_workload_id"
+
+        # Create example data for UpdateRequest
+        update_request = models.UpdateRequest()
+
+        # Make the API call
+        api_response = api_instance.update_distributed_inference_spec(
+            workload_id=workload_id,
+            update_request=update_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling update_distributed_inference_spec: {e}")

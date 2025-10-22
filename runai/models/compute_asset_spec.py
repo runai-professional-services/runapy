@@ -33,75 +33,107 @@ class ComputeAssetSpec(BaseModel):
 
     Parameters:
         ```python
-        gpu_devices_request: Optional[int]
-        gpu_request_type: Optional[GpuRequestType]
-        gpu_portion_request: Optional[float]
-        gpu_portion_limit: Optional[float]
-        gpu_memory_request: Optional[str]
-        gpu_memory_limit: Optional[str]
-        mig_profile: Optional[MigProfile]
-        cpu_core_request: Optional[float]
         cpu_core_limit: Optional[float]
-        cpu_memory_request: Optional[str]
+        cpu_core_request: Optional[float]
         cpu_memory_limit: Optional[str]
-        large_shm_request: Optional[bool]
+        cpu_memory_request: Optional[str]
         extended_resources: Optional[List[ExtendedResource]]
+        gpu_devices_request: Optional[int]
+        gpu_memory_limit: Optional[str]
+        gpu_memory_request: Optional[str]
+        gpu_portion_limit: Optional[float]
+        gpu_portion_request: Optional[float]
+        gpu_request_type: Optional[GpuRequestType]
+        large_shm_request: Optional[bool]
+        mig_profile: Optional[MigProfile]
         ```
-        gpu_devices_request: Requested number of GPU devices. Currently if more than one device is requested, it is not possible to provide values for gpuMemory, gpuPortion or migProfile [deprecated].
-        gpu_request_type: See model GpuRequestType for more information.
-        gpu_portion_request: Required if and only if gpuRequestType is portion. States the portion of the GPU to allocate for the created workload, per GPU device, between 0 and 1. The default is no allocated GPUs.
-        gpu_portion_limit: Limitations on the portion consumed by the workload, per GPU device. The system guarantees The gpuPotionLimit must be no less than the gpuPortionRequest.
-        gpu_memory_request: Required if and only if gpuRequestType is memory. States the GPU memory to allocate for the created workload, per GPU device. Note that the workload will not be scheduled unless the system can guarantee this amount of GPU memory to the workload.
-        gpu_memory_limit: Limitation on the memory consumed by the workload, per GPU device. The system guarantees The gpuMemoryLimit must be no less than gpuMemoryRequest.
-        mig_profile: See model MigProfile for more information.
-        cpu_core_request: CPU units to allocate for the created workload (0.5, 1, .etc). The workload will receive at least this amount of CPU. Note that the workload will not be scheduled unless the system can guarantee this amount of CPUs to the workload.
         cpu_core_limit: Limitations on the number of CPUs consumed by the workload (0.5, 1, .etc). The system guarantees that this workload will not be able to consume more than this amount of CPUs.
-        cpu_memory_request: The amount of CPU memory to allocate for this workload (1G, 20M, .etc). The workload will receive at least this amount of memory. Note that the workload will not be scheduled unless the system can guarantee this amount of memory to the workload
+        cpu_core_request: CPU units to allocate for the created workload (0.5, 1, .etc). The workload will receive at least this amount of CPU. Note that the workload will not be scheduled unless the system can guarantee this amount of CPUs to the workload.
         cpu_memory_limit: Limitations on the CPU memory to allocate for this workload (1G, 20M, .etc). The system guarantees that this workload will not be able to consume more than this amount of memory. The workload will receive an error when trying to allocate more memory than this limit.
-        large_shm_request: A large /dev/shm device to mount into a container running the created workload. An shm is a shared file system mounted on RAM.
+        cpu_memory_request: The amount of CPU memory to allocate for this workload (1G, 20M, .etc). The workload will receive at least this amount of memory. Note that the workload will not be scheduled unless the system can guarantee this amount of memory to the workload
         extended_resources: Extended resources and their quantity.
+        gpu_devices_request: Requested number of GPU devices. Currently if more than one device is requested, it is not possible to provide values for gpuMemory, gpuPortion or migProfile [deprecated].
+        gpu_memory_limit: Limitation on the memory consumed by the workload, per GPU device. The system guarantees The gpuMemoryLimit must be no less than gpuMemoryRequest.
+        gpu_memory_request: Required if and only if gpuRequestType is memory. States the GPU memory to allocate for the created workload, per GPU device. Note that the workload will not be scheduled unless the system can guarantee this amount of GPU memory to the workload.
+        gpu_portion_limit: Limitations on the portion consumed by the workload, per GPU device. The system guarantees The gpuPotionLimit must be no less than the gpuPortionRequest.
+        gpu_portion_request: Required if and only if gpuRequestType is portion. States the portion of the GPU to allocate for the created workload, per GPU device, between 0 and 1. The default is no allocated GPUs.
+        gpu_request_type: See model GpuRequestType for more information.
+        large_shm_request: A large /dev/shm device to mount into a container running the created workload. An shm is a shared file system mounted on RAM.
+        mig_profile: See model MigProfile for more information.
     Example:
         ```python
         ComputeAssetSpec(
-            gpu_devices_request=1,
-                        gpu_request_type='portion',
-                        gpu_portion_request=0.5,
-                        gpu_portion_limit=0.5,
-                        gpu_memory_request='10M',
-                        gpu_memory_limit='10M',
-                        mig_profile='1g.5gb',
+            cpu_core_limit=2,
                         cpu_core_request=0.5,
-                        cpu_core_limit=2,
-                        cpu_memory_request='20M',
                         cpu_memory_limit='30M',
-                        large_shm_request=False,
+                        cpu_memory_request='20M',
                         extended_resources=[
                     runai.models.extended_resource.ExtendedResource(
                         resource = 'hardware-vendor.example/foo',
                         quantity = '2',
                         exclude = False, )
-                    ]
+                    ],
+                        gpu_devices_request=1,
+                        gpu_memory_limit='10M',
+                        gpu_memory_request='10M',
+                        gpu_portion_limit=0.5,
+                        gpu_portion_request=0.5,
+                        gpu_request_type='portion',
+                        large_shm_request=False,
+                        mig_profile='1g.5gb'
         )
         ```
     """  # noqa: E501
 
-    gpu_devices_request: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(
-        default=None,
-        description="Requested number of GPU devices. Currently if more than one device is requested, it is not possible to provide values for gpuMemory, gpuPortion or migProfile [deprecated].",
-        alias="gpuDevicesRequest",
-    )
-    gpu_request_type: Optional[GpuRequestType] = Field(
-        default=None, alias="gpuRequestType"
-    )
-    gpu_portion_request: Optional[
+    cpu_core_limit: Optional[
         Union[
             Annotated[float, Field(strict=True, ge=0)],
             Annotated[int, Field(strict=True, ge=0)],
         ]
     ] = Field(
         default=None,
-        description="Required if and only if gpuRequestType is portion. States the portion of the GPU to allocate for the created workload, per GPU device, between 0 and 1. The default is no allocated GPUs.",
-        alias="gpuPortionRequest",
+        description="Limitations on the number of CPUs consumed by the workload (0.5, 1, .etc). The system guarantees that this workload will not be able to consume more than this amount of CPUs.",
+        alias="cpuCoreLimit",
+    )
+    cpu_core_request: Optional[
+        Union[
+            Annotated[float, Field(strict=True, ge=0)],
+            Annotated[int, Field(strict=True, ge=0)],
+        ]
+    ] = Field(
+        default=None,
+        description="CPU units to allocate for the created workload (0.5, 1, .etc). The workload will receive at least this amount of CPU. Note that the workload will not be scheduled unless the system can guarantee this amount of CPUs to the workload.",
+        alias="cpuCoreRequest",
+    )
+    cpu_memory_limit: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Limitations on the CPU memory to allocate for this workload (1G, 20M, .etc). The system guarantees that this workload will not be able to consume more than this amount of memory. The workload will receive an error when trying to allocate more memory than this limit.",
+        alias="cpuMemoryLimit",
+    )
+    cpu_memory_request: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="The amount of CPU memory to allocate for this workload (1G, 20M, .etc). The workload will receive at least this amount of memory. Note that the workload will not be scheduled unless the system can guarantee this amount of memory to the workload",
+        alias="cpuMemoryRequest",
+    )
+    extended_resources: Optional[List[Optional[ExtendedResource]]] = Field(
+        default=None,
+        description="Extended resources and their quantity.",
+        alias="extendedResources",
+    )
+    gpu_devices_request: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(
+        default=None,
+        description="Requested number of GPU devices. Currently if more than one device is requested, it is not possible to provide values for gpuMemory, gpuPortion or migProfile [deprecated].",
+        alias="gpuDevicesRequest",
+    )
+    gpu_memory_limit: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Limitation on the memory consumed by the workload, per GPU device. The system guarantees The gpuMemoryLimit must be no less than gpuMemoryRequest.",
+        alias="gpuMemoryLimit",
+    )
+    gpu_memory_request: Optional[Annotated[str, Field(strict=True)]] = Field(
+        default=None,
+        description="Required if and only if gpuRequestType is memory. States the GPU memory to allocate for the created workload, per GPU device. Note that the workload will not be scheduled unless the system can guarantee this amount of GPU memory to the workload.",
+        alias="gpuMemoryRequest",
     )
     gpu_portion_limit: Optional[
         Union[
@@ -113,94 +145,50 @@ class ComputeAssetSpec(BaseModel):
         description="Limitations on the portion consumed by the workload, per GPU device. The system guarantees The gpuPotionLimit must be no less than the gpuPortionRequest.",
         alias="gpuPortionLimit",
     )
-    gpu_memory_request: Optional[Annotated[str, Field(strict=True)]] = Field(
-        default=None,
-        description="Required if and only if gpuRequestType is memory. States the GPU memory to allocate for the created workload, per GPU device. Note that the workload will not be scheduled unless the system can guarantee this amount of GPU memory to the workload.",
-        alias="gpuMemoryRequest",
-    )
-    gpu_memory_limit: Optional[Annotated[str, Field(strict=True)]] = Field(
-        default=None,
-        description="Limitation on the memory consumed by the workload, per GPU device. The system guarantees The gpuMemoryLimit must be no less than gpuMemoryRequest.",
-        alias="gpuMemoryLimit",
-    )
-    mig_profile: Optional[MigProfile] = Field(default=None, alias="migProfile")
-    cpu_core_request: Optional[
+    gpu_portion_request: Optional[
         Union[
             Annotated[float, Field(strict=True, ge=0)],
             Annotated[int, Field(strict=True, ge=0)],
         ]
     ] = Field(
         default=None,
-        description="CPU units to allocate for the created workload (0.5, 1, .etc). The workload will receive at least this amount of CPU. Note that the workload will not be scheduled unless the system can guarantee this amount of CPUs to the workload.",
-        alias="cpuCoreRequest",
+        description="Required if and only if gpuRequestType is portion. States the portion of the GPU to allocate for the created workload, per GPU device, between 0 and 1. The default is no allocated GPUs.",
+        alias="gpuPortionRequest",
     )
-    cpu_core_limit: Optional[
-        Union[
-            Annotated[float, Field(strict=True, ge=0)],
-            Annotated[int, Field(strict=True, ge=0)],
-        ]
-    ] = Field(
-        default=None,
-        description="Limitations on the number of CPUs consumed by the workload (0.5, 1, .etc). The system guarantees that this workload will not be able to consume more than this amount of CPUs.",
-        alias="cpuCoreLimit",
-    )
-    cpu_memory_request: Optional[Annotated[str, Field(strict=True)]] = Field(
-        default=None,
-        description="The amount of CPU memory to allocate for this workload (1G, 20M, .etc). The workload will receive at least this amount of memory. Note that the workload will not be scheduled unless the system can guarantee this amount of memory to the workload",
-        alias="cpuMemoryRequest",
-    )
-    cpu_memory_limit: Optional[Annotated[str, Field(strict=True)]] = Field(
-        default=None,
-        description="Limitations on the CPU memory to allocate for this workload (1G, 20M, .etc). The system guarantees that this workload will not be able to consume more than this amount of memory. The workload will receive an error when trying to allocate more memory than this limit.",
-        alias="cpuMemoryLimit",
+    gpu_request_type: Optional[GpuRequestType] = Field(
+        default=None, alias="gpuRequestType"
     )
     large_shm_request: Optional[StrictBool] = Field(
         default=None,
         description="A large /dev/shm device to mount into a container running the created workload. An shm is a shared file system mounted on RAM.",
         alias="largeShmRequest",
     )
-    extended_resources: Optional[List[Optional[ExtendedResource]]] = Field(
-        default=None,
-        description="Extended resources and their quantity.",
-        alias="extendedResources",
-    )
+    mig_profile: Optional[MigProfile] = Field(default=None, alias="migProfile")
     __properties: ClassVar[List[str]] = [
-        "gpuDevicesRequest",
-        "gpuRequestType",
-        "gpuPortionRequest",
-        "gpuPortionLimit",
-        "gpuMemoryRequest",
-        "gpuMemoryLimit",
-        "migProfile",
-        "cpuCoreRequest",
         "cpuCoreLimit",
-        "cpuMemoryRequest",
+        "cpuCoreRequest",
         "cpuMemoryLimit",
-        "largeShmRequest",
+        "cpuMemoryRequest",
         "extendedResources",
+        "gpuDevicesRequest",
+        "gpuMemoryLimit",
+        "gpuMemoryRequest",
+        "gpuPortionLimit",
+        "gpuPortionRequest",
+        "gpuRequestType",
+        "largeShmRequest",
+        "migProfile",
     ]
 
-    @field_validator("gpu_memory_request")
-    def gpu_memory_request_validate_regular_expression(cls, value):
+    @field_validator("cpu_memory_limit")
+    def cpu_memory_limit_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
             raise ValueError(
-                r"must validate the regular expression /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
-            )
-        return value
-
-    @field_validator("gpu_memory_limit")
-    def gpu_memory_limit_validate_regular_expression(cls, value):
-        """Validates the regular expression"""
-        if value is None:
-            return value
-
-        if not re.match(r"^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
-            raise ValueError(
-                r"must validate the regular expression /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
             )
         return value
 
@@ -210,21 +198,33 @@ class ComputeAssetSpec(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
             raise ValueError(
-                r"must validate the regular expression /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
             )
         return value
 
-    @field_validator("cpu_memory_limit")
-    def cpu_memory_limit_validate_regular_expression(cls, value):
+    @field_validator("gpu_memory_limit")
+    def gpu_memory_limit_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         if value is None:
             return value
 
-        if not re.match(r"^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
             raise ValueError(
-                r"must validate the regular expression /^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
+            )
+        return value
+
+    @field_validator("gpu_memory_request")
+    def gpu_memory_request_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$", value):
+            raise ValueError(
+                r"must validate the regular expression /^([+]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$/"
             )
         return value
 
@@ -272,58 +272,10 @@ class ComputeAssetSpec(BaseModel):
                 if _item_extended_resources:
                     _items.append(_item_extended_resources.to_dict())
             _dict["extendedResources"] = _items
-        # set to None if gpu_devices_request (nullable) is None
+        # set to None if cpu_core_limit (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.gpu_devices_request is None
-            and "gpu_devices_request" in self.model_fields_set
-        ):
-            _dict["gpuDevicesRequest"] = None
-
-        # set to None if gpu_request_type (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.gpu_request_type is None
-            and "gpu_request_type" in self.model_fields_set
-        ):
-            _dict["gpuRequestType"] = None
-
-        # set to None if gpu_portion_request (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.gpu_portion_request is None
-            and "gpu_portion_request" in self.model_fields_set
-        ):
-            _dict["gpuPortionRequest"] = None
-
-        # set to None if gpu_portion_limit (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.gpu_portion_limit is None
-            and "gpu_portion_limit" in self.model_fields_set
-        ):
-            _dict["gpuPortionLimit"] = None
-
-        # set to None if gpu_memory_request (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.gpu_memory_request is None
-            and "gpu_memory_request" in self.model_fields_set
-        ):
-            _dict["gpuMemoryRequest"] = None
-
-        # set to None if gpu_memory_limit (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.gpu_memory_limit is None
-            and "gpu_memory_limit" in self.model_fields_set
-        ):
-            _dict["gpuMemoryLimit"] = None
-
-        # set to None if mig_profile (nullable) is None
-        # and model_fields_set contains the field
-        if self.mig_profile is None and "mig_profile" in self.model_fields_set:
-            _dict["migProfile"] = None
+        if self.cpu_core_limit is None and "cpu_core_limit" in self.model_fields_set:
+            _dict["cpuCoreLimit"] = None
 
         # set to None if cpu_core_request (nullable) is None
         # and model_fields_set contains the field
@@ -333,10 +285,13 @@ class ComputeAssetSpec(BaseModel):
         ):
             _dict["cpuCoreRequest"] = None
 
-        # set to None if cpu_core_limit (nullable) is None
+        # set to None if cpu_memory_limit (nullable) is None
         # and model_fields_set contains the field
-        if self.cpu_core_limit is None and "cpu_core_limit" in self.model_fields_set:
-            _dict["cpuCoreLimit"] = None
+        if (
+            self.cpu_memory_limit is None
+            and "cpu_memory_limit" in self.model_fields_set
+        ):
+            _dict["cpuMemoryLimit"] = None
 
         # set to None if cpu_memory_request (nullable) is None
         # and model_fields_set contains the field
@@ -346,13 +301,61 @@ class ComputeAssetSpec(BaseModel):
         ):
             _dict["cpuMemoryRequest"] = None
 
-        # set to None if cpu_memory_limit (nullable) is None
+        # set to None if extended_resources (nullable) is None
         # and model_fields_set contains the field
         if (
-            self.cpu_memory_limit is None
-            and "cpu_memory_limit" in self.model_fields_set
+            self.extended_resources is None
+            and "extended_resources" in self.model_fields_set
         ):
-            _dict["cpuMemoryLimit"] = None
+            _dict["extendedResources"] = None
+
+        # set to None if gpu_devices_request (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.gpu_devices_request is None
+            and "gpu_devices_request" in self.model_fields_set
+        ):
+            _dict["gpuDevicesRequest"] = None
+
+        # set to None if gpu_memory_limit (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.gpu_memory_limit is None
+            and "gpu_memory_limit" in self.model_fields_set
+        ):
+            _dict["gpuMemoryLimit"] = None
+
+        # set to None if gpu_memory_request (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.gpu_memory_request is None
+            and "gpu_memory_request" in self.model_fields_set
+        ):
+            _dict["gpuMemoryRequest"] = None
+
+        # set to None if gpu_portion_limit (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.gpu_portion_limit is None
+            and "gpu_portion_limit" in self.model_fields_set
+        ):
+            _dict["gpuPortionLimit"] = None
+
+        # set to None if gpu_portion_request (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.gpu_portion_request is None
+            and "gpu_portion_request" in self.model_fields_set
+        ):
+            _dict["gpuPortionRequest"] = None
+
+        # set to None if gpu_request_type (nullable) is None
+        # and model_fields_set contains the field
+        if (
+            self.gpu_request_type is None
+            and "gpu_request_type" in self.model_fields_set
+        ):
+            _dict["gpuRequestType"] = None
 
         # set to None if large_shm_request (nullable) is None
         # and model_fields_set contains the field
@@ -362,13 +365,10 @@ class ComputeAssetSpec(BaseModel):
         ):
             _dict["largeShmRequest"] = None
 
-        # set to None if extended_resources (nullable) is None
+        # set to None if mig_profile (nullable) is None
         # and model_fields_set contains the field
-        if (
-            self.extended_resources is None
-            and "extended_resources" in self.model_fields_set
-        ):
-            _dict["extendedResources"] = None
+        if self.mig_profile is None and "mig_profile" in self.model_fields_set:
+            _dict["migProfile"] = None
 
         return _dict
 
@@ -383,18 +383,10 @@ class ComputeAssetSpec(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "gpuDevicesRequest": obj.get("gpuDevicesRequest"),
-                "gpuRequestType": obj.get("gpuRequestType"),
-                "gpuPortionRequest": obj.get("gpuPortionRequest"),
-                "gpuPortionLimit": obj.get("gpuPortionLimit"),
-                "gpuMemoryRequest": obj.get("gpuMemoryRequest"),
-                "gpuMemoryLimit": obj.get("gpuMemoryLimit"),
-                "migProfile": obj.get("migProfile"),
-                "cpuCoreRequest": obj.get("cpuCoreRequest"),
                 "cpuCoreLimit": obj.get("cpuCoreLimit"),
-                "cpuMemoryRequest": obj.get("cpuMemoryRequest"),
+                "cpuCoreRequest": obj.get("cpuCoreRequest"),
                 "cpuMemoryLimit": obj.get("cpuMemoryLimit"),
-                "largeShmRequest": obj.get("largeShmRequest"),
+                "cpuMemoryRequest": obj.get("cpuMemoryRequest"),
                 "extendedResources": (
                     [
                         ExtendedResource.from_dict(_item)
@@ -403,6 +395,14 @@ class ComputeAssetSpec(BaseModel):
                     if obj.get("extendedResources") is not None
                     else None
                 ),
+                "gpuDevicesRequest": obj.get("gpuDevicesRequest"),
+                "gpuMemoryLimit": obj.get("gpuMemoryLimit"),
+                "gpuMemoryRequest": obj.get("gpuMemoryRequest"),
+                "gpuPortionLimit": obj.get("gpuPortionLimit"),
+                "gpuPortionRequest": obj.get("gpuPortionRequest"),
+                "gpuRequestType": obj.get("gpuRequestType"),
+                "largeShmRequest": obj.get("largeShmRequest"),
+                "migProfile": obj.get("migProfile"),
             }
         )
         return _obj

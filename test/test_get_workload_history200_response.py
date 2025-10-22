@@ -39,13 +39,13 @@ class TestGetWorkloadHistory200Response(unittest.TestCase):
             return GetWorkloadHistory200Response(
                 next=1,
                 records=[
-                    runai.models.history_record.HistoryRecord(
+                    runai.models.history_record1.HistoryRecord1(
                         meta=runai.models.history_record_meta.HistoryRecordMeta(
                             creation_timestamp="2022-01-01T03:49:52.531Z",
                             type="Event",
                         ),
-                        spec=runai.models.history_record_spec.HistoryRecord_spec(
-                            event=runai.models.event1.Event1(
+                        spec=runai.models.history_record1_spec.HistoryRecord1_spec(
+                            event=runai.models.event2.Event2(
                                 created_at="2022-01-01T03:49:52.531Z",
                                 id="",
                                 type="Normal",
@@ -71,13 +71,13 @@ class TestGetWorkloadHistory200Response(unittest.TestCase):
         else:
             return GetWorkloadHistory200Response(
                 records=[
-                    runai.models.history_record.HistoryRecord(
+                    runai.models.history_record1.HistoryRecord1(
                         meta=runai.models.history_record_meta.HistoryRecordMeta(
                             creation_timestamp="2022-01-01T03:49:52.531Z",
                             type="Event",
                         ),
-                        spec=runai.models.history_record_spec.HistoryRecord_spec(
-                            event=runai.models.event1.Event1(
+                        spec=runai.models.history_record1_spec.HistoryRecord1_spec(
+                            event=runai.models.event2.Event2(
                                 created_at="2022-01-01T03:49:52.531Z",
                                 id="",
                                 type="Normal",

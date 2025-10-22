@@ -39,7 +39,7 @@ class MigProfileOptions(BaseModel):
             options=[
                     runai.models.mig_profile_options_options_inner.MigProfileOptions_options_inner(
                         value = '1g.5gb',
-                        displayed = '', )
+                        displayed = 'jUR,rZ#UM/?R,Fp^l6$ARj', )
                     ]
         )
         ```

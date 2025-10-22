@@ -41,7 +41,7 @@ class TestHostPathMountPropagationOptionsOptionsInner(unittest.TestCase):
         # model = HostPathMountPropagationOptionsOptionsInner()
         if include_optional:
             return HostPathMountPropagationOptionsOptionsInner(
-                value="None", displayed=""
+                value="None", displayed="jUR,rZ#UM/?R,Fp^l6$ARj"
             )
         else:
             return HostPathMountPropagationOptionsOptionsInner(

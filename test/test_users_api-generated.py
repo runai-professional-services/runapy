@@ -140,110 +140,8 @@ class TestUsersApi:
             self.api.count_users()
         assert exc_info.value.status == 400
 
-    def test_create_group(self):
-        """Test case for create_group
-
-        Create a new group. Create a new group and assign it with roles. Deprecated endpoint. please reffer to Roles &amp; Access rules API.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        group_creation_request = runai.GroupCreationRequest()  # GroupCreationRequest |
-
-        # Make request
-        response = self.api.create_group(
-            group_creation_request=group_creation_request,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "POST"
-        assert "/v1/k8s/groups" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, GroupCreationResponse)
-
-    def test_create_group_error(self):
-        """Test error handling for create_group"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        group_creation_request = runai.GroupCreationRequest()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.create_group(
-                group_creation_request=group_creation_request,
-            )
-        assert exc_info.value.status == 400
-
     def test_create_user(self):
         """Test case for create_user
-
-        Create a new user. Deprecated endpoint. Use the new endpoint api/v1/users instead and api/v1/authorization/access-rules to give user permissions.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_creation_request = runai.UserCreationRequest()  # UserCreationRequest |
-
-        # Make request
-        response = self.api.create_user(
-            user_creation_request=user_creation_request,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "POST"
-        assert "/v1/k8s/users" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, UserCreationResponse)
-
-    def test_create_user_error(self):
-        """Test error handling for create_user"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_creation_request = runai.UserCreationRequest()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.create_user(
-                user_creation_request=user_creation_request,
-            )
-        assert exc_info.value.status == 400
-
-    def test_create_user_0(self):
-        """Test case for create_user_0
 
         Create a local user. Use to create a local platform user.
         """
@@ -259,7 +157,7 @@ class TestUsersApi:
         )  # UserCreationRequest1 | User object to create
 
         # Make request
-        response = self.api.create_user_0(
+        response = self.api.create_user(
             user_creation_request1=user_creation_request1,
         )
 
@@ -277,8 +175,8 @@ class TestUsersApi:
         # Verify response
         assert isinstance(response, UserPostResponse)
 
-    def test_create_user_0_error(self):
-        """Test error handling for create_user_0"""
+    def test_create_user_error(self):
+        """Test error handling for create_user"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -290,60 +188,15 @@ class TestUsersApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.create_user_0(
+            self.api.create_user(
                 user_creation_request1=user_creation_request1,
-            )
-        assert exc_info.value.status == 400
-
-    def test_delete_group_by_name(self):
-        """Test case for delete_group_by_name
-
-        Delete a group. Delete the given group from the tenant. This endpoint requires ADMIN role. Deprecated endpoint. please reffer to Roles &amp; Access rules API.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        group_name = "group1"  # str |
-
-        # Make request
-        self.api.delete_group_by_name(
-            group_name=group_name,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "DELETE"
-        assert "/v1/k8s/groups/{groupName}" in kwargs["url"]
-
-    def test_delete_group_by_name_error(self):
-        """Test error handling for delete_group_by_name"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        group_name = "group1"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.delete_group_by_name(
-                group_name=group_name,
             )
         assert exc_info.value.status == 400
 
     def test_delete_user_by_id(self):
         """Test case for delete_user_by_id
 
-        Delete a user. Delete the given user from the tenant. This endpoint requires ADMIN role. Deprecated endpoint. Use the new endpoint api/v1/users/{userId} instead.
+        Delete a user by id. Use to delete a user by id.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -352,10 +205,7 @@ class TestUsersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        user_id = "user_id_example"  # str |
-        users_type = [
-            runai.UserType()
-        ]  # List[UserType] | Available only when SSO enabled
+        user_id = "user_id_example"  # str | The id of the user
 
         # Make request
         self.api.delete_user_by_id(
@@ -368,10 +218,7 @@ class TestUsersApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "DELETE"
-        assert "/v1/k8s/users/{userId}" in kwargs["url"]
-
-        # Verify query parameters
-        assert "usersType=" in kwargs["url"]
+        assert "/api/v1/users/{userId}" in kwargs["url"]
 
     def test_delete_user_by_id_error(self):
         """Test error handling for delete_user_by_id"""
@@ -391,205 +238,19 @@ class TestUsersApi:
             )
         assert exc_info.value.status == 400
 
-    def test_delete_user_by_id_0(self):
-        """Test case for delete_user_by_id_0
+    def test_get_user_by_id(self):
+        """Test case for get_user_by_id
 
-        Delete a user by id. Use to delete a user by id.
+        Get a user by id. Retrieve a user&#39;s details by id.
         """
         # Mock response
         mock_response = mock.Mock()
         mock_response.status = 200
-        mock_response.read.return_value = json.dumps({})
+        mock_response.read.return_value = json.dumps({"data": {}})
         self.mock_request.return_value = mock_response
 
         # Test parameters
         user_id = "user_id_example"  # str | The id of the user
-
-        # Make request
-        self.api.delete_user_by_id_0(
-            user_id=user_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "DELETE"
-        assert "/api/v1/users/{userId}" in kwargs["url"]
-
-    def test_delete_user_by_id_0_error(self):
-        """Test error handling for delete_user_by_id_0"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_id = "user_id_example"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.delete_user_by_id_0(
-                user_id=user_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_ge_group_by_name(self):
-        """Test case for ge_group_by_name
-
-        Get group details. Get the details of a given group. This endpoint requires ADMIN, EDITOR or VIEWER role. Deprecated endpoint. please reffer to Roles &amp; Access rules API.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        group_name = "group1"  # str |
-
-        # Make request
-        response = self.api.ge_group_by_name(
-            group_name=group_name,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/groups/{groupName}" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, Group)
-
-    def test_ge_group_by_name_error(self):
-        """Test error handling for ge_group_by_name"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        group_name = "group1"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.ge_group_by_name(
-                group_name=group_name,
-            )
-        assert exc_info.value.status == 400
-
-    def test_get_groups(self):
-        """Test case for get_groups
-
-        Get groups list. Return the list of groups of the tenant. Deprecated endpoint. please reffer to Roles &amp; Access rules API.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        roles = [
-            runai.Role()
-        ]  # List[Role] | Filter the returned entities to only those with the required role
-        only_created_by_me = True  # bool | Filter the returned entities to only those that created by the requesting subject
-
-        # Make request
-        response = self.api.get_groups()
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/groups" in kwargs["url"]
-
-        # Verify query parameters
-        assert "roles=" in kwargs["url"]
-        # Verify query parameters
-        assert "onlyCreatedByMe=" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, List[Group])
-
-    def test_get_groups_error(self):
-        """Test error handling for get_groups"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_groups()
-        assert exc_info.value.status == 400
-
-    def test_get_roles(self):
-        """Test case for get_roles
-
-        Get all possible permissions. Get the complete set of permissions that a tenant can grant to users and applications. Deprecated endpoint. please refer to Roles &amp; Access rules API.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Make request
-        response = self.api.get_roles()
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/users/roles" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, List[Role])
-
-    def test_get_roles_error(self):
-        """Test error handling for get_roles"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_roles()
-        assert exc_info.value.status == 400
-
-    def test_get_user_by_id(self):
-        """Test case for get_user_by_id
-
-        Get user details. Get the details of a given user. This endpoint requires ADMIN, EDITOR or VIEWER role. Deprecated endpoint. Use the new endpoint api/v1/users/{userId} instead.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_id = "user_id_example"  # str |
 
         # Make request
         response = self.api.get_user_by_id(
@@ -602,10 +263,10 @@ class TestUsersApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/v1/k8s/users/{userId}" in kwargs["url"]
+        assert "/api/v1/users/{userId}" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, User1)
+        assert isinstance(response, User2)
 
     def test_get_user_by_id_error(self):
         """Test error handling for get_user_by_id"""
@@ -625,160 +286,8 @@ class TestUsersApi:
             )
         assert exc_info.value.status == 400
 
-    def test_get_user_by_id_0(self):
-        """Test case for get_user_by_id_0
-
-        Get a user by id. Retrieve a user&#39;s details by id.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_id = "user_id_example"  # str | The id of the user
-
-        # Make request
-        response = self.api.get_user_by_id_0(
-            user_id=user_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/api/v1/users/{userId}" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, User2)
-
-    def test_get_user_by_id_0_error(self):
-        """Test error handling for get_user_by_id_0"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_id = "user_id_example"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_user_by_id_0(
-                user_id=user_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_get_user_roles(self):
-        """Test case for get_user_roles
-
-        Get user permissions. Return the set of permissions granted to a given user. Deprecated endpoint. please reffer to Roles &amp; Access rules API.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_id = "user_id_example"  # str |
-
-        # Make request
-        response = self.api.get_user_roles(
-            user_id=user_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/users/{userId}/roles" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, List[Role])
-
-    def test_get_user_roles_error(self):
-        """Test error handling for get_user_roles"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_id = "user_id_example"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_user_roles(
-                user_id=user_id,
-            )
-        assert exc_info.value.status == 400
-
     def test_get_users(self):
         """Test case for get_users
-
-        Get users list. Deprecated, use /api/v1/users instead.  Return the list of users of the tenant.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        roles = [
-            runai.Role()
-        ]  # List[Role] | Filter the returned entities to only those with the required role
-        only_created_by_me = True  # bool | Filter the returned entities to only those that created by the requesting subject
-        users_type = [
-            runai.UserType()
-        ]  # List[UserType] | Available only when SSO enabled
-
-        # Make request
-        response = self.api.get_users()
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/users" in kwargs["url"]
-
-        # Verify query parameters
-        assert "roles=" in kwargs["url"]
-        # Verify query parameters
-        assert "onlyCreatedByMe=" in kwargs["url"]
-        # Verify query parameters
-        assert "usersType=" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, List[User1])
-
-    def test_get_users_error(self):
-        """Test error handling for get_users"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_users()
-        assert exc_info.value.status == 400
-
-    def test_get_users_0(self):
-        """Test case for get_users_0
 
         Get users. Retrieve a list of platform users.
         """
@@ -802,7 +311,7 @@ class TestUsersApi:
         search = "test@run"  # str | Filter results by a free text search.
 
         # Make request
-        response = self.api.get_users_0()
+        response = self.api.get_users()
 
         # Verify request was made
         assert self.mock_request.called
@@ -830,8 +339,8 @@ class TestUsersApi:
         # Verify response
         assert isinstance(response, List[User2])
 
-    def test_get_users_0_error(self):
-        """Test error handling for get_users_0"""
+    def test_get_users_error(self):
+        """Test error handling for get_users"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -842,7 +351,7 @@ class TestUsersApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_users_0()
+            self.api.get_users()
         assert exc_info.value.status == 400
 
     def test_logout_user(self):
@@ -935,115 +444,5 @@ class TestUsersApi:
         with pytest.raises(ApiException) as exc_info:
             self.api.reset_user_password(
                 user_id=user_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_update_group_by_name(self):
-        """Test case for update_group_by_name
-
-        Update group details. Update the details of a given group. This endpoint requires ADMIN role. Deprecated endpoint. please reffer to Roles &amp; Access rules API.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        group_name = "group1"  # str |
-        group_with_name = runai.GroupWithName()  # GroupWithName |
-
-        # Make request
-        response = self.api.update_group_by_name(
-            group_name=group_name,
-            group_with_name=group_with_name,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "PUT"
-        assert "/v1/k8s/groups/{groupName}" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, Group)
-
-    def test_update_group_by_name_error(self):
-        """Test error handling for update_group_by_name"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        group_name = "group1"
-        group_with_name = runai.GroupWithName()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.update_group_by_name(
-                group_name=group_name,
-                group_with_name=group_with_name,
-            )
-        assert exc_info.value.status == 400
-
-    def test_update_user_by_id(self):
-        """Test case for update_user_by_id
-
-        Update user details. Update the details of a given user. This endpoint requires ADMIN role. Deprecated endpoint. Use the new endpoint api/v1/users/{userId} instead.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_id = "user_id_example"  # str |
-        user1 = runai.User1()  # User1 |
-
-        # Make request
-        response = self.api.update_user_by_id(
-            user_id=user_id,
-            user1=user1,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "PUT"
-        assert "/v1/k8s/users/{userId}" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, User1)
-
-    def test_update_user_by_id_error(self):
-        """Test error handling for update_user_by_id"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        user_id = "user_id_example"
-        user1 = runai.User1()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.update_user_by_id(
-                user_id=user_id,
-                user1=user1,
             )
         assert exc_info.value.status == 400

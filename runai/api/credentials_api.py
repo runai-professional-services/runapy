@@ -120,6 +120,41 @@ class CredentialsApi(RunaiAPIService):
             body=body_params,
         )
 
+    def create_ngc_api_key(
+        self,
+        ngc_api_key_creation_request: models.NgcApiKeyCreationRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Create a ngc-api-key.
+
+        ### Parameters:
+        ```python
+        ngc_api_key_creation_request: NgcApiKeyCreationRequest
+        ```
+        ngc_api_key_creation_request: See model NgcApiKeyCreationRequest for more information.
+
+        ### Example:
+        ```python
+        CredentialsApi(
+            ngc_api_key_creation_request=runai.NgcApiKeyCreationRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = ngc_api_key_creation_request
+
+        resource_path = f"/api/v1/asset/credentials/ngc_api_key".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
     def create_password(
         self,
         password_creation_request: models.PasswordCreationRequest,
@@ -246,6 +281,39 @@ class CredentialsApi(RunaiAPIService):
         """
 
         resource_path = f"/api/v1/asset/credentials/generic_secret/{asset_id}".replace(
+            "_", "-"
+        )
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def delete_ngc_api_key(
+        self,
+        asset_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Delete a ngc-api-key.
+
+        ### Parameters:
+        ```python
+        asset_id: str
+        ```
+        asset_id: Unique identifier of the asset.
+
+        ### Example:
+        ```python
+        CredentialsApi(
+            asset_id='asset_id_example'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/asset/credentials/ngc_api_key/{asset_id}".replace(
             "_", "-"
         )
         method = "DELETE"
@@ -415,6 +483,51 @@ class CredentialsApi(RunaiAPIService):
             ("statusInfo", status_info),
         ]
         resource_path = f"/api/v1/asset/credentials/generic_secret/{asset_id}".replace(
+            "_", "-"
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_ngc_api_key_by_id(
+        self,
+        asset_id: str,
+        usage_info: Optional[bool] = None,
+        status_info: Optional[bool] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get a ngc-api-key.
+
+        ### Parameters:
+        ```python
+        asset_id: str
+        usage_info: Optional[bool]
+        status_info: Optional[bool]
+        ```
+        asset_id: Unique identifier of the asset.
+        usage_info: Whether the query should include asset usage information as part of the response.
+        status_info: Whether the query should include asset status information as part of the response.
+
+        ### Example:
+        ```python
+        CredentialsApi(
+            asset_id='asset_id_example',
+                        usage_info=True,
+                        status_info=True
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("usageInfo", usage_info),
+            ("statusInfo", status_info),
+        ]
+        resource_path = f"/api/v1/asset/credentials/ngc_api_key/{asset_id}".replace(
             "_", "-"
         )
         method = "GET"
@@ -723,6 +836,70 @@ class CredentialsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    def list_ngc_api_key(
+        self,
+        name: Optional[str] = None,
+        scope: Optional[str] = None,
+        project_id: Optional[int] = None,
+        department_id: Optional[str] = None,
+        cluster_id: Optional[str] = None,
+        usage_info: Optional[bool] = None,
+        status_info: Optional[bool] = None,
+    ):
+        r"""
+
+
+        ### Description
+        List ngc-api-keys.
+
+        ### Parameters:
+        ```python
+        name: Optional[str]
+        scope: Optional[str]
+        project_id: Optional[int]
+        department_id: Optional[str]
+        cluster_id: Optional[str]
+        usage_info: Optional[bool]
+        status_info: Optional[bool]
+        ```
+        name: Filter results by name.
+        scope: Filter results by scope.
+        project_id: Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
+        department_id: Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
+        cluster_id: Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        usage_info: Whether the query should include asset usage information as part of the response.
+        status_info: Whether the query should include asset status information as part of the response.
+
+        ### Example:
+        ```python
+        CredentialsApi(
+            name='name_example',
+                        scope='scope_example',
+                        project_id=56,
+                        department_id='1',
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        usage_info=True,
+                        status_info=True
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("name", name),
+            ("scope", scope),
+            ("projectId", project_id),
+            ("departmentId", department_id),
+            ("clusterId", cluster_id),
+            ("usageInfo", usage_info),
+            ("statusInfo", status_info),
+        ]
+        resource_path = f"/api/v1/asset/credentials/ngc_api_key".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def list_passwords(
         self,
         name: Optional[str] = None,
@@ -901,6 +1078,47 @@ class CredentialsApi(RunaiAPIService):
         body_params = generic_secret_update_request
 
         resource_path = f"/api/v1/asset/credentials/generic_secret/{asset_id}".replace(
+            "_", "-"
+        )
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_ngc_api_key(
+        self,
+        asset_id: str,
+        ngc_api_key_update_request: models.NgcApiKeyUpdateRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Update a ngc-api-key.
+
+        ### Parameters:
+        ```python
+        asset_id: str
+        ngc_api_key_update_request: NgcApiKeyUpdateRequest
+        ```
+        asset_id: Unique identifier of the asset.
+        ngc_api_key_update_request: See model NgcApiKeyUpdateRequest for more information.
+
+        ### Example:
+        ```python
+        CredentialsApi(
+            asset_id='asset_id_example',
+                        ngc_api_key_update_request=runai.NgcApiKeyUpdateRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = ngc_api_key_update_request
+
+        resource_path = f"/api/v1/asset/credentials/ngc_api_key/{asset_id}".replace(
             "_", "-"
         )
         method = "PUT"

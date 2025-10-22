@@ -32,14 +32,17 @@ class UserCreationRequest1(BaseModel):
         ```python
         email: str
         reset_password: Optional[bool]
+        notify: Optional[bool]
         ```
         email: The email of the user. Must be a valid email address.
         reset_password: See model bool for more information.
+        notify: When true, send an email to the user. The email includes a link to reset the password.
     Example:
         ```python
         UserCreationRequest1(
             email='A@9LCSLv1C1ylmgd0.Y2TA5TkIRHRRA401iz1CiIy.dNTRddzXYdswQltRTtwKQzBuNJxBelKTmfIQcBkWgeAShmXXoTaDzlkczbtHjkljEhQVqeWYqqMQZlEQb',
-                        reset_password=True
+                        reset_password=True,
+                        notify=True
         )
         ```
     """  # noqa: E501
@@ -48,7 +51,11 @@ class UserCreationRequest1(BaseModel):
         description="The email of the user. Must be a valid email address."
     )
     reset_password: Optional[StrictBool] = Field(default=None, alias="resetPassword")
-    __properties: ClassVar[List[str]] = ["email", "resetPassword"]
+    notify: Optional[StrictBool] = Field(
+        default=None,
+        description="When true, send an email to the user. The email includes a link to reset the password.",
+    )
+    __properties: ClassVar[List[str]] = ["email", "resetPassword", "notify"]
 
     @field_validator("email")
     def email_validate_regular_expression(cls, value):
@@ -101,6 +108,11 @@ class UserCreationRequest1(BaseModel):
         if self.reset_password is None and "reset_password" in self.model_fields_set:
             _dict["resetPassword"] = None
 
+        # set to None if notify (nullable) is None
+        # and model_fields_set contains the field
+        if self.notify is None and "notify" in self.model_fields_set:
+            _dict["notify"] = None
+
         return _dict
 
     @classmethod
@@ -113,6 +125,10 @@ class UserCreationRequest1(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate(
-            {"email": obj.get("email"), "resetPassword": obj.get("resetPassword")}
+            {
+                "email": obj.get("email"),
+                "resetPassword": obj.get("resetPassword"),
+                "notify": obj.get("notify"),
+            }
         )
         return _obj

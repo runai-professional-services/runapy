@@ -274,6 +274,8 @@ class TestClustersApi:
         number_of_samples = (
             20  # int | The number of samples to take in the specified time range.
         )
+        group_by = "Category"  # str | Labels to group the returned metrics data by. Grouping availability depends on the selected metric type. Supported values: \"category\" (workload category) or \"node pool\".
+        nodepool_name = "default"  # str | Filter using the nodepool.
 
         # Make request
         response = self.api.get_cluster_metrics(
@@ -299,9 +301,13 @@ class TestClustersApi:
         assert "numberOfSamples=" in kwargs["url"]
         # Verify query parameters
         assert "metricType=" in kwargs["url"]
+        # Verify query parameters
+        assert "groupBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "nodepoolName=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, MetricsResponse)
+        assert isinstance(response, GroupedMetricsResponse)
 
     def test_get_cluster_metrics_error(self):
         """Test error handling for get_cluster_metrics"""

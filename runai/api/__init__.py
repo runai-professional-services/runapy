@@ -1,6 +1,7 @@
 # flake8: noqa
 
 # import apis into api package
+from runai.api.ai_applications_api import AIApplicationsApi
 from runai.api.access_rules_api import AccessRulesApi
 from runai.api.administrator_command_line_interface_api import (
     AdministratorCommandLineInterfaceApi,
@@ -23,9 +24,9 @@ from runai.api.host_path_api import HostPathApi
 from runai.api.idps_api import IdpsApi
 from runai.api.inferences_api import InferencesApi
 from runai.api.logo_api import LogoApi
-from runai.api.logout_api import LogoutApi
 from runai.api.me_api import MeApi
 from runai.api.nfs_api import NFSApi
+from runai.api.network_topologies_api import NetworkTopologiesApi
 from runai.api.node_pools_api import NodePoolsApi
 from runai.api.nodes_api import NodesApi
 from runai.api.notification_channels_api import NotificationChannelsApi
@@ -58,7 +59,9 @@ from runai.api.tokens_api import TokensApi
 from runai.api.trainings_api import TrainingsApi
 from runai.api.user_applications_api import UserApplicationsApi
 from runai.api.users_api import UsersApi
+from runai.api.workload_properties_api import WorkloadPropertiesApi
+from runai.api.workload_templates_api import WorkloadTemplatesApi
 from runai.api.workloads_api import WorkloadsApi
+from runai.api.workloads_v2_api import WorkloadsV2Api
 from runai.api.workloads_batch_api import WorkloadsBatchApi
-from runai.api.workloads_priorities_api import WorkloadsPrioritiesApi
 from runai.api.workspaces_api import WorkspacesApi

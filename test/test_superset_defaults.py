@@ -37,52 +37,57 @@ class TestSupersetDefaults(unittest.TestCase):
         # model = SupersetDefaults()
         if include_optional:
             return SupersetDefaults(
-                command="python",
-                args="-x my-script.py",
-                image="python:3.8",
-                image_pull_policy="Always",
-                working_dir="/home/myfolder",
-                create_home_dir=True,
-                probes=runai.models.probes.Probes(
-                    readiness=runai.models.probe.Probe(
-                        initial_delay_seconds=0,
-                        period_seconds=1,
-                        timeout_seconds=1,
-                        success_threshold=1,
-                        failure_threshold=1,
-                        handler=runai.models.probe_handler.ProbeHandler(
-                            http_get=runai.models.probe_handler_http_get.ProbeHandler_httpGet(
-                                path="/",
-                                port=1,
-                                host="example.com",
-                                scheme="HTTP",
-                            ),
-                        ),
-                    ),
+                autoscaling=runai.models.auto_scaling.AutoScaling(),
+                serving_configuration=runai.models.serving_configuration.ServingConfiguration(
+                    initialization_timeout_seconds=1,
+                    request_timeout_seconds=1,
                 ),
-                node_type="my-node-type",
-                node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
-                    node_selector_terms=[
-                        runai.models.node_selector_term.NodeSelectorTerm(
-                            match_expressions=[
-                                runai.models.match_expression.MatchExpression(
-                                    key="",
-                                    operator="In",
-                                    values=[""],
-                                )
-                            ],
+                annotations=runai.models.annotations_defaults.AnnotationsDefaults(
+                    instances=[
+                        runai.models.annotation.Annotation(
+                            name="billing",
+                            value="my-billing-unit",
+                            exclude=False,
                         )
                     ],
                 ),
-                pod_affinity=runai.models.pod_affinity.PodAffinity(
-                    type="Required",
-                    key="",
+                args="-x my-script.py",
+                auto_deletion_time_after_completion_seconds=15,
+                backoff_limit=3,
+                category="jUR,rZ#UM/?R,Fp^l6$ARj",
+                clean_pod_policy="None",
+                command="python",
+                completions=1,
+                compute=runai.models.superset_defaults_all_of_compute.SupersetDefaults_allOf_compute(
+                    cpu_core_limit=2,
+                    cpu_core_request=0.5,
+                    cpu_memory_limit="30M",
+                    cpu_memory_request="20M",
+                    extended_resources=runai.models.extended_resources_defaults.ExtendedResourcesDefaults(
+                        attributes=runai.models.extended_resource.ExtendedResource(
+                            resource="hardware-vendor.example/foo",
+                            quantity="2",
+                            exclude=False,
+                        ),
+                        instances=[
+                            runai.models.extended_resource.ExtendedResource(
+                                resource="hardware-vendor.example/foo",
+                                quantity="2",
+                                exclude=False,
+                            )
+                        ],
+                    ),
+                    gpu_devices_request=1,
+                    gpu_memory_limit="10M",
+                    gpu_memory_request="10M",
+                    gpu_portion_limit=0.5,
+                    gpu_portion_request=0.5,
+                    gpu_request_type="portion",
+                    large_shm_request=False,
+                    mig_profile=None,
                 ),
-                category="",
-                priority_class="",
-                node_pools=[my - node - pool - a, my - node - pool - b],
-                tty=True,
-                stdin=True,
+                create_home_dir=True,
+                distributed_framework="MPI",
                 environment_variables=runai.models.environment_variables_defaults.EnvironmentVariablesDefaults(
                     instances=[
                         runai.models.environment_variable.EnvironmentVariable(
@@ -101,79 +106,6 @@ class TestSupersetDefaults(unittest.TestCase):
                             ),
                             exclude=False,
                             description="Home directory of the user.",
-                        )
-                    ],
-                ),
-                annotations=runai.models.annotations_defaults.AnnotationsDefaults(
-                    instances=[
-                        runai.models.annotation.Annotation(
-                            name="billing",
-                            value="my-billing-unit",
-                            exclude=False,
-                        )
-                    ],
-                ),
-                labels=runai.models.labels_defaults.LabelsDefaults(
-                    instances=[
-                        runai.models.label.Label(
-                            name="stage",
-                            value="initial-research",
-                            exclude=False,
-                        )
-                    ],
-                ),
-                image_pull_secrets=runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(
-                    instances=[
-                        runai.models.image_pull_secret.ImagePullSecret(
-                            name="",
-                            user_credential=True,
-                            exclude=False,
-                        )
-                    ],
-                ),
-                tolerations=runai.models.tolerations_defaults.TolerationsDefaults(
-                    attributes=runai.models.toleration.Toleration(
-                        name="0",
-                        operator="Equal",
-                        key="",
-                        value="",
-                        effect="NoSchedule",
-                        seconds=1,
-                        exclude=False,
-                    ),
-                    instances=[
-                        runai.models.toleration.Toleration(
-                            name="0",
-                            key="",
-                            value="",
-                            seconds=1,
-                            exclude=False,
-                        )
-                    ],
-                ),
-                terminate_after_preemption=False,
-                auto_deletion_time_after_completion_seconds=15,
-                termination_grace_period_seconds=20,
-                backoff_limit=3,
-                restart_policy="Always",
-                ports=runai.models.ports_defaults.PortsDefaults(
-                    attributes=runai.models.port.Port(
-                        container=8080,
-                        service_type="LoadBalancer",
-                        external=30080,
-                        tool_type="pytorch",
-                        tool_name="my-pytorch",
-                        name="port-instance-a",
-                        exclude=False,
-                    ),
-                    instances=[
-                        runai.models.port.Port(
-                            container=8080,
-                            external=30080,
-                            tool_type="pytorch",
-                            tool_name="my-pytorch",
-                            name="port-instance-a",
-                            exclude=False,
                         )
                     ],
                 ),
@@ -201,6 +133,89 @@ class TestSupersetDefaults(unittest.TestCase):
                         )
                     ],
                 ),
+                image="python:3.8",
+                image_pull_policy="Always",
+                image_pull_secrets=runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(
+                    instances=[
+                        runai.models.image_pull_secret.ImagePullSecret(
+                            name="w1c2v7s6djuy1zmetozkhdomha1bae37b8ocvx8o53ow2eg7p6qw9qklp6l4y010fogx",
+                            user_credential=True,
+                            exclude=False,
+                        )
+                    ],
+                ),
+                labels=runai.models.labels_defaults.LabelsDefaults(
+                    instances=[
+                        runai.models.label.Label(
+                            name="stage",
+                            value="initial-research",
+                            exclude=False,
+                        )
+                    ],
+                ),
+                max_replicas=56,
+                min_replicas=56,
+                mpi_launcher_creation_policy="AtStartup",
+                node_affinity_required=runai.models.node_affinity_required.NodeAffinityRequired(
+                    node_selector_terms=[
+                        runai.models.node_selector_term.NodeSelectorTerm(
+                            match_expressions=[
+                                runai.models.match_expression.MatchExpression(
+                                    key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                                    operator="In",
+                                    values=["jUR,rZ#UM/?R,Fp^l6$ARj"],
+                                )
+                            ],
+                        )
+                    ],
+                ),
+                node_pools=["my-node-pool-a", "my-node-pool-b"],
+                node_type="my-node-type",
+                num_workers=1,
+                parallelism=1,
+                pod_affinity=runai.models.pod_affinity.PodAffinity(
+                    type="Required",
+                    key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                ),
+                ports=runai.models.ports_defaults.PortsDefaults(
+                    attributes=runai.models.port.Port(
+                        container=8080,
+                        service_type="LoadBalancer",
+                        external=30080,
+                        tool_type="pytorch",
+                        tool_name="my-pytorch",
+                        name="port-instance-a",
+                        exclude=False,
+                    ),
+                    instances=[
+                        runai.models.port.Port(
+                            container=8080,
+                            external=30080,
+                            tool_type="pytorch",
+                            tool_name="my-pytorch",
+                            name="port-instance-a",
+                            exclude=False,
+                        )
+                    ],
+                ),
+                priority_class="jUR,rZ#UM/?R,Fp^l6$ARj",
+                probes=runai.models.probes.Probes(
+                    readiness=runai.models.probe.Probe(
+                        initial_delay_seconds=0,
+                        period_seconds=1,
+                        timeout_seconds=1,
+                        success_threshold=1,
+                        failure_threshold=1,
+                        handler=runai.models.probe_handler.ProbeHandler(
+                            http_get=runai.models.probe_handler_http_get.ProbeHandler_httpGet(
+                                path="/",
+                                port=1,
+                                host="example.com",
+                                scheme="HTTP",
+                            ),
+                        ),
+                    ),
+                ),
                 related_urls=runai.models.related_urls_defaults.RelatedUrlsDefaults(
                     attributes=runai.models.related_url.RelatedUrl(
                         url="https://my-url.com",
@@ -217,25 +232,92 @@ class TestSupersetDefaults(unittest.TestCase):
                         )
                     ],
                 ),
-                completions=1,
-                parallelism=1,
-                num_workers=1,
-                distributed_framework="MPI",
+                restart_policy="jUR,rZ#UM/?R,Fp^l6$ARj0",
+                security=runai.models.superset_spec_all_of_security.SupersetSpec_allOf_security(
+                    allow_privilege_escalation=False,
+                    capabilities=["CHOWN", "KILL"],
+                    host_ipc=False,
+                    host_network=False,
+                    read_only_root_filesystem=False,
+                    run_as_gid=30,
+                    run_as_non_root=True,
+                    run_as_uid=500,
+                    seccomp_profile_type="RuntimeDefault",
+                    supplemental_groups="2,3,5,8",
+                    uid_gid_source="fromTheImage",
+                ),
+                serving_port=runai.models.superset_serving_port.SupersetServingPort(
+                    port=56,
+                    container=56,
+                    protocol="jUR,rZ#UM/?R,Fp^l6$ARj",
+                    authorization_type="jUR,rZ#UM/?R,Fp^l6$ARj",
+                    authorized_users=["jUR,rZ#UM/?R,Fp^l6$ARj"],
+                    authorized_groups=["jUR,rZ#UM/?R,Fp^l6$ARj"],
+                    cluster_local_access_only=True,
+                    expose_externally=True,
+                    exposed_url="jUR,rZ#UM/?R,Fp^l6$ARj",
+                ),
                 slots_per_worker=1,
                 ssh_auth_mount_path="/root/.ssh",
-                mpi_launcher_creation_policy="AtStartup",
-                min_replicas=56,
-                max_replicas=56,
-                clean_pod_policy="None",
-                serving_port=runai.models.serving_port.ServingPort(),
-                autoscaling=runai.models.auto_scaling.AutoScaling(),
-                serving_configuration=runai.models.serving_configuration.ServingConfiguration(
-                    initialization_timeout_seconds=1,
-                    request_timeout_seconds=1,
+                stdin=True,
+                storage=runai.models.superset_defaults_all_of_storage.SupersetDefaults_allOf_storage(
+                    config_map_volume=runai.models.config_maps_defaults.ConfigMapsDefaults(
+                        attributes=runai.models.config_map_instance.ConfigMapInstance(),
+                        instances=[
+                            runai.models.config_map_instance.ConfigMapInstance()
+                        ],
+                    ),
+                    data_volume=runai.models.data_volumes_defaults.DataVolumesDefaults(
+                        instances=[
+                            runai.models.data_volume_instance.DataVolumeInstance()
+                        ],
+                    ),
+                    empty_dir_volume=runai.models.empty_dirs_defaults.EmptyDirsDefaults(
+                        instances=[runai.models.empty_dir_instance.EmptyDirInstance()],
+                    ),
+                    git=runai.models.gits_defaults.GitsDefaults(
+                        instances=[runai.models.git_instance.GitInstance()],
+                    ),
+                    host_path=runai.models.host_paths_defaults.HostPathsDefaults(
+                        instances=[runai.models.host_path_instance.HostPathInstance()],
+                    ),
+                    nfs=runai.models.nfss_defaults.NfssDefaults(
+                        instances=[runai.models.nfs_instance.NfsInstance()],
+                    ),
+                    pvc=runai.models.pvcs_defaults.PvcsDefaults(
+                        instances=[runai.models.pvc_instance.PvcInstance()],
+                    ),
+                    s3=runai.models.s3s_defaults.S3sDefaults(
+                        instances=[runai.models.s3_instance.S3Instance()],
+                    ),
+                    secret_volume=runai.models.secrets_defaults.SecretsDefaults(
+                        instances=[runai.models.secret_instance2.SecretInstance2()],
+                    ),
                 ),
-                security=runai.models.security_flat_fields.SecurityFlatFields(),
-                compute=runai.models.compute_fields_defaults.ComputeFieldsDefaults(),
-                storage=runai.models.storage_fields_defaults.StorageFieldsDefaults(),
+                terminate_after_preemption=False,
+                termination_grace_period_seconds=20,
+                tolerations=runai.models.tolerations_defaults.TolerationsDefaults(
+                    attributes=runai.models.toleration.Toleration(
+                        name="jUR,rZ#UM/?R,Fp^l6$ARj0",
+                        operator="Equal",
+                        key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        value="jUR,rZ#UM/?R,Fp^l6$ARj",
+                        effect="NoSchedule",
+                        seconds=1,
+                        exclude=False,
+                    ),
+                    instances=[
+                        runai.models.toleration.Toleration(
+                            name="jUR,rZ#UM/?R,Fp^l6$ARj0",
+                            key="jUR,rZ#UM/?R,Fp^l6$ARj",
+                            value="jUR,rZ#UM/?R,Fp^l6$ARj",
+                            seconds=1,
+                            exclude=False,
+                        )
+                    ],
+                ),
+                tty=True,
+                working_dir="/home/myfolder",
             )
         else:
             return SupersetDefaults()

@@ -36,14 +36,21 @@ class TestDistributedInferencesApi(unittest.TestCase):
     def test_delete_distributed_inference(self) -> None:
         """Test case for delete_distributed_inference
 
-        Delete a distributed inference. [Experimental]
+        Delete a distributed inference.
         """
         pass
 
     def test_get_distributed_inference(self) -> None:
         """Test case for get_distributed_inference
 
-        Get a distributed inference data. [Experimental]
+        Get a distributed inference data.
+        """
+        pass
+
+    def test_update_distributed_inference_spec(self) -> None:
+        """Test case for update_distributed_inference_spec
+
+        Update distributed inference spec.
         """
         pass
 

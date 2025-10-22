@@ -41,7 +41,7 @@ class TolerationEffectOptions(BaseModel):
             options=[
                     runai.models.toleration_effect_options_options_inner.TolerationEffectOptions_options_inner(
                         value = 'NoSchedule',
-                        displayed = '', )
+                        displayed = 'jUR,rZ#UM/?R,Fp^l6$ARj', )
                     ]
         )
         ```

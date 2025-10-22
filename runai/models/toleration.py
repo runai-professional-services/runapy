@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from runai.models.toleration_effect import TolerationEffect
@@ -50,10 +50,10 @@ class Toleration(BaseModel):
     Example:
         ```python
         Toleration(
-            name='0',
+            name='jUR,rZ#UM/?R,Fp^l6$ARj0',
                         operator='Equal',
-                        key='',
-                        value='',
+                        key='jUR,rZ#UM/?R,Fp^l6$ARj',
+                        value='jUR,rZ#UM/?R,Fp^l6$ARj',
                         effect='NoSchedule',
                         seconds=1,
                         exclude=False
@@ -65,11 +65,11 @@ class Toleration(BaseModel):
         default=None, description="The name of the toleration."
     )
     operator: Optional[TolerationOperator] = None
-    key: Optional[StrictStr] = Field(
+    key: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="The taint key that the toleration applies to. (mandatory)",
     )
-    value: Optional[StrictStr] = Field(
+    value: Optional[Annotated[str, Field(strict=True)]] = Field(
         default=None,
         description="The taint value the toleration matches to. Mandatory if operator is Exists, forbidden otherwise.",
     )
@@ -91,6 +91,36 @@ class Toleration(BaseModel):
         "seconds",
         "exclude",
     ]
+
+    @field_validator("name")
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("key")
+    def key_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
+
+    @field_validator("value")
+    def value_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r".*", value):
+            raise ValueError(r"must validate the regular expression /.*/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
