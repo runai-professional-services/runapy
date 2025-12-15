@@ -49,7 +49,7 @@ class TestDatasourcesApi:
 
         # Test parameters
         name = "name_example"  # str | Filter results by name.
-        scope = "scope_example"  # str | Filter results by scope.
+        scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
         cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
@@ -59,6 +59,7 @@ class TestDatasourcesApi:
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
         asset_ids = "dbf4767e-2fa1-43b0-97a2-7c0cecda180b,550e8400-e29b-41d4-a716-44665544000a"  # str | Filter results by the ids of the assets. Provided value should be a comma separated string of UUIDs.
         comply_to_replica_type = "comply_to_replica_type_example"  # str | Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
+        include_descendants = True  # bool | Indicates whether to include assets from all descendant scopes under the specified scope. When set to True, and a specific scope identifier (for example, clusterId) is provided, the query also returns assets from all nested scopes within it (for example, departments and projects).  Mutually exclusive with scope.
 
         # Make request
         response = self.api.list_datasource_assets()
@@ -93,6 +94,8 @@ class TestDatasourcesApi:
         assert "assetIds=" in kwargs["url"]
         # Verify query parameters
         assert "complyToReplicaType=" in kwargs["url"]
+        # Verify query parameters
+        assert "includeDescendants=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, DatasourceListResponse)

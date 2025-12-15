@@ -200,7 +200,7 @@ class TestNotificationChannelsApi:
         assert "/api/v1/notification-channels/{name}" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, NotificationChannel)
+        assert isinstance(response, NotificationChannelResponse)
 
     def test_get_notification_channel_config_error(self):
         """Test error handling for get_notification_channel_config"""

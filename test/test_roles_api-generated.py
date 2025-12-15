@@ -64,7 +64,7 @@ class TestRolesApi:
         assert "/api/v1/authorization/roles/{roleIdPath}" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Role1)
+        assert isinstance(response, RoleV1)
 
     def test_get_role_v1_error(self):
         """Test error handling for get_role_v1"""
@@ -109,7 +109,7 @@ class TestRolesApi:
         assert "/api/v1/authorization/roles" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, List[Role1])
+        assert isinstance(response, List[RoleV1])
 
     def test_get_roles_v1_error(self):
         """Test error handling for get_roles_v1"""

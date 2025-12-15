@@ -23,7 +23,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
 
         ### Description
-        Create a workload
+        Create a workload. [Experimental]
 
         ### Parameters:
         ```python
@@ -58,7 +58,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
 
         ### Description
-        Delete a workload
+        Delete a workload. [Experimental]
 
         ### Parameters:
         ```python
@@ -89,7 +89,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
 
         ### Description
-        Get a specific workload
+        Get a specific workload. [Experimental]
 
         ### Parameters:
         ```python
@@ -110,4 +110,43 @@ class WorkloadsV2Api(RunaiAPIService):
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
+        )
+
+    def update_workload_v2(
+        self,
+        workload_v2_id: str,
+        workload_v2_update_request: models.WorkloadV2UpdateRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Update workload spec. [Experimental]
+
+        ### Parameters:
+        ```python
+        workload_v2_id: str
+        workload_v2_update_request: WorkloadV2UpdateRequest
+        ```
+        workload_v2_id: See model str for more information.
+        workload_v2_update_request: See model WorkloadV2UpdateRequest for more information.
+
+        ### Example:
+        ```python
+        WorkloadsV2Api(
+            workload_v2_id='workload_v2_id_example',
+                        workload_v2_update_request=runai.WorkloadV2UpdateRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = workload_v2_update_request
+
+        resource_path = f"/api/v2/workloads/{workload_v2_id}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )

@@ -63,31 +63,6 @@ def example_create_department():
         print(f"Exception when calling create_department: {e}")
 
 
-def example_create_department_0():
-    """
-    Example of using create_department_0
-
-    Create a new department.
-    Creates a new department in the cluster.
-    """
-    try:
-        # Prepare the request parameters
-        cluster_id = "example_cluster_id"
-
-        # Create example data for DepartmentCreateRequest
-        department_create_request = models.DepartmentCreateRequest()
-
-        # Make the API call
-        api_response = api_instance.create_department_0(
-            cluster_id=cluster_id,
-            department_create_request=department_create_request,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling create_department_0: {e}")
-
-
 def example_delete_department():
     """
     Example of using delete_department
@@ -106,30 +81,6 @@ def example_delete_department():
 
     except Exception as e:
         print(f"Exception when calling delete_department: {e}")
-
-
-def example_delete_department_0():
-    """
-    Example of using delete_department_0
-
-    Delete a department.
-    Deletes a department from a specific cluster.
-    """
-    try:
-        # Prepare the request parameters
-        cluster_id = "example_cluster_id"
-
-        department_id = 42
-
-        # Make the API call
-        api_response = api_instance.delete_department_0(
-            cluster_id=cluster_id,
-            department_id=department_id,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling delete_department_0: {e}")
 
 
 def example_get_department():
@@ -151,33 +102,6 @@ def example_get_department():
 
     except Exception as e:
         print(f"Exception when calling get_department: {e}")
-
-
-def example_get_department_0():
-    """
-    Example of using get_department_0
-
-    Get a specific department.
-    Retrieves the details of a specific department. Requires  the&#x60;view&#x60; permission for the department.
-    """
-    try:
-        # Prepare the request parameters
-        cluster_id = "example_cluster_id"
-
-        department_id = 42
-
-        exclude_permissions = True
-
-        # Make the API call
-        api_response = api_instance.get_department_0(
-            cluster_id=cluster_id,
-            department_id=department_id,
-            exclude_permissions=exclude_permissions,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling get_department_0: {e}")
 
 
 def example_get_department_metrics():
@@ -424,34 +348,6 @@ def example_update_department():
 
     except Exception as e:
         print(f"Exception when calling update_department: {e}")
-
-
-def example_update_department_0():
-    """
-    Example of using update_department_0
-
-    Update a department.
-    Updates a department&#39;s details in the cluster. \\n For example, node pools and other details.
-    """
-    try:
-        # Prepare the request parameters
-        cluster_id = "example_cluster_id"
-
-        department_id = 42
-
-        # Create example data for DepartmentUpdateRequest1
-        department_update_request1 = models.DepartmentUpdateRequest1()
-
-        # Make the API call
-        api_response = api_instance.update_department_0(
-            cluster_id=cluster_id,
-            department_id=department_id,
-            department_update_request1=department_update_request1,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling update_department_0: {e}")
 
 
 def example_update_department_admins():

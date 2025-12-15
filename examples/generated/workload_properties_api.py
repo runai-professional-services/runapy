@@ -22,7 +22,7 @@ def example_create_workload_type():
     """
     Example of using create_workload_type
 
-    Create a workload type.
+    Create a workload type. [Experimental]
     Create a new workload type in the system by providing its identification details and configuration, making it available for use and management within the platform.
     """
     try:
@@ -45,7 +45,7 @@ def example_delete_workload_type():
     """
     Example of using delete_workload_type
 
-    Delete a workload type by id.
+    Delete a workload type by id. [Experimental]
     Deletes a specific workload type by its ID.
     """
     try:

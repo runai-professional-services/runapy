@@ -145,7 +145,7 @@ def example_get_workloads_telemetry():
     Example of using get_workloads_telemetry
 
     Get the workloads telemetry.
-    Retrieves workload data by telemetry type.
+    Retrieves workload data by telemetry type. Optionally filter by specific workload phases.  Telemetry Types: - WORKLOADS_COUNT: Count of workloads - GPU_ALLOCATION: GPU allocation metrics - PENDING_TIME_DISTRIBUTION: Distribution of workloads by current pending time (time since entering Pending phase).         For this type, results are automatically grouped by 4 time buckets and any additional groupBy parameters.
     """
     try:
         # Prepare the request parameters
@@ -158,6 +158,8 @@ def example_get_workloads_telemetry():
 
         group_by = ["example_item_1", "example_item_2"]
 
+        filter_by_phases = ["example_item_1", "example_item_2"]
+
         # Make the API call
         api_response = api_instance.get_workloads_telemetry(
             telemetry_type=telemetry_type,
@@ -165,6 +167,7 @@ def example_get_workloads_telemetry():
             nodepool_name=nodepool_name,
             department_id=department_id,
             group_by=group_by,
+            filter_by_phases=filter_by_phases,
         )
         print(f"API response: {api_response}")
 

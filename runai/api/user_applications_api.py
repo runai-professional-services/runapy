@@ -15,12 +15,13 @@ class UserApplicationsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    @deprecated_message()
     def create_user_application(
         self,
         user_app_creation_request: models.UserAppCreationRequest,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Create a user application.
@@ -50,12 +51,13 @@ class UserApplicationsApi(RunaiAPIService):
             body=body_params,
         )
 
+    @deprecated_message()
     def delete_user_application_by_id(
         self,
         app_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Delete a user application byid.
@@ -81,12 +83,13 @@ class UserApplicationsApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def delete_user_application_by_id_administration(
         self,
         app_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Delete a user application by id for adminstrations.
@@ -114,12 +117,13 @@ class UserApplicationsApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def get_user_application_by_id(
         self,
         app_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get user application by id.
@@ -145,11 +149,12 @@ class UserApplicationsApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def get_user_applications(
         self,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get a list of users applications.
@@ -173,13 +178,14 @@ class UserApplicationsApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def get_user_applications_administration(
         self,
         client_id: Optional[str] = None,
         created_by: Optional[str] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get a list of all users applications.
@@ -212,12 +218,13 @@ class UserApplicationsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    @deprecated_message()
     def regenerate_user_application_secret(
         self,
         app_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Regenerate a user application secret.

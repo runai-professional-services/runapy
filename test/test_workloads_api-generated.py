@@ -281,7 +281,7 @@ class TestWorkloadsApi:
     def test_get_workloads_telemetry(self):
         """Test case for get_workloads_telemetry
 
-        Get the workloads telemetry. Retrieves workload data by telemetry type.
+        Get the workloads telemetry. Retrieves workload data by telemetry type. Optionally filter by specific workload phases.  Telemetry Types: - WORKLOADS_COUNT: Count of workloads - GPU_ALLOCATION: GPU allocation metrics - PENDING_TIME_DISTRIBUTION: Distribution of workloads by current pending time (time since entering Pending phase).         For this type, results are automatically grouped by 4 time buckets and any additional groupBy parameters.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -297,6 +297,9 @@ class TestWorkloadsApi:
         nodepool_name = "default"  # str | Filter using the nodepool.
         department_id = "1"  # str | Filter using the department id.
         group_by = ["group_by_example"]  # List[str] | Group workloads by field.
+        filter_by_phases = [
+            runai.Phase()
+        ]  # List[Phase] | Filter workloads by specific phases. If not specified, all phases are included.
 
         # Make request
         response = self.api.get_workloads_telemetry(
@@ -321,6 +324,8 @@ class TestWorkloadsApi:
         assert "groupBy=" in kwargs["url"]
         # Verify query parameters
         assert "telemetryType=" in kwargs["url"]
+        # Verify query parameters
+        assert "filterByPhases=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, TelemetryResponse)

@@ -214,6 +214,7 @@ class WorkloadsApi(RunaiAPIService):
         nodepool_name: Optional[str] = None,
         department_id: Optional[str] = None,
         group_by: Optional[List[str]] = None,
+        filter_by_phases: Optional[List[models.Phase]] = None,
     ):
         r"""
 
@@ -228,12 +229,14 @@ class WorkloadsApi(RunaiAPIService):
         nodepool_name: Optional[str]
         department_id: Optional[str]
         group_by: Optional[List[str]]
+        filter_by_phases: Optional[models.List[Phase]]
         ```
         telemetry_type: Specifies the telemetry type.
         cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
         nodepool_name: Filter using the nodepool.
         department_id: Filter using the department id.
         group_by: Group workloads by field.
+        filter_by_phases: Filter workloads by specific phases. If not specified, all phases are included.
 
         ### Example:
         ```python
@@ -242,7 +245,8 @@ class WorkloadsApi(RunaiAPIService):
                         cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
                         nodepool_name='default',
                         department_id='1',
-                        group_by=['group_by_example']
+                        group_by=['group_by_example'],
+                        filter_by_phases=[runai.Phase()]
         )
         ```
         """
@@ -254,6 +258,7 @@ class WorkloadsApi(RunaiAPIService):
             ("departmentId", department_id),
             ("groupBy", group_by),
             ("telemetryType", telemetry_type),
+            ("filterByPhases", filter_by_phases),
         ]
         resource_path = f"/api/v1/workloads/telemetry".replace("_", "-")
         method = "GET"

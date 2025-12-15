@@ -36,10 +36,61 @@ class TestAIApplicationsApi:
         yield
         self.request_patcher.stop()
 
+    def test_count_applications(self):
+        """Test case for count_applications
+
+        Count AI applications. [Experimental] Get the total number of AI applications.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["name!=some-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
+        search = "test project"  # str | Filter results by a free text search.
+
+        # Make request
+        response = self.api.count_applications()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/ai-applications/count" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, CountResponse)
+
+    def test_count_applications_error(self):
+        """Test error handling for count_applications"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.count_applications()
+        assert exc_info.value.status == 400
+
     def test_get_application(self):
         """Test case for get_application
 
-        Get AI application. Get AI application.
+        Get AI application. [Experimental] Get AI application.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -87,7 +138,7 @@ class TestAIApplicationsApi:
     def test_list_applications(self):
         """Test case for list_applications
 
-        List AI applications. List AI applications.
+        List AI applications. [Experimental] List AI applications.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -104,6 +155,7 @@ class TestAIApplicationsApi:
         filter_by = [
             '["name!=some-name"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
         response = self.api.list_applications()
@@ -128,6 +180,8 @@ class TestAIApplicationsApi:
         assert "sortBy=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, ListApplications200Response)

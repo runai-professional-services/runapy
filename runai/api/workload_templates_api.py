@@ -91,6 +91,43 @@ class WorkloadTemplatesApi(RunaiAPIService):
             body=body_params,
         )
 
+    def create_inference_template(
+        self,
+        inference_template_creation_request: Optional[
+            models.InferenceTemplateCreationRequest
+        ] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Create a new inference template. [Experimental]
+
+        ### Parameters:
+        ```python
+        inference_template_creation_request: InferenceTemplateCreationRequest
+        ```
+        inference_template_creation_request: See model InferenceTemplateCreationRequest for more information.
+
+        ### Example:
+        ```python
+        WorkloadTemplatesApi(
+            inference_template_creation_request=runai.InferenceTemplateCreationRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = inference_template_creation_request
+
+        resource_path = f"/api/v1/workload_templates/inferences".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
     def create_training_template(
         self,
         training_template_creation_request: Optional[
@@ -198,6 +235,39 @@ class WorkloadTemplatesApi(RunaiAPIService):
             method=method,
         )
 
+    def delete_inference_template(
+        self,
+        template_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Delete an inference template by ID. [Experimental]
+
+        ### Parameters:
+        ```python
+        template_id: str
+        ```
+        template_id: The  Universally Unique Identifier (UUID) of the template.
+
+        ### Example:
+        ```python
+        WorkloadTemplatesApi(
+            template_id='550e8400-e29b-41d4-a716-446655440000'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workload_templates/inferences/{template_id}".replace(
+            "_", "-"
+        )
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
     def delete_training_template(
         self,
         template_id: str,
@@ -289,6 +359,39 @@ class WorkloadTemplatesApi(RunaiAPIService):
         """
 
         resource_path = f"/api/v1/workload_templates/distributed/{template_id}".replace(
+            "_", "-"
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_inference_template(
+        self,
+        template_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Get a specific inference template by ID. [Experimental]
+
+        ### Parameters:
+        ```python
+        template_id: str
+        ```
+        template_id: The  Universally Unique Identifier (UUID) of the template.
+
+        ### Example:
+        ```python
+        WorkloadTemplatesApi(
+            template_id='550e8400-e29b-41d4-a716-446655440000'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workload_templates/inferences/{template_id}".replace(
             "_", "-"
         )
         method = "GET"
@@ -402,6 +505,8 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
         search: Optional[str] = None,
+        comply_to_project: Optional[int] = None,
+        comply_to_replica_type: Optional[str] = None,
     ):
         r"""
 
@@ -417,6 +522,8 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Optional[str]
         filter_by: Optional[List[str]]
         search: Optional[str]
+        comply_to_project: Optional[int]
+        comply_to_replica_type: Optional[str]
         ```
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
@@ -424,6 +531,8 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Sort results by parameter.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
         search: Filter results by a free text search.
+        comply_to_project: Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
+        comply_to_replica_type: Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
 
         ### Example:
         ```python
@@ -433,7 +542,9 @@ class WorkloadTemplatesApi(RunaiAPIService):
                         sort_order=asc,
                         sort_by='sort_by_example',
                         filter_by=['[\"name!=some-template-name\",\"createdAt>=2021-01-01T00:00:00Z\"]'],
-                        search='test project'
+                        search='test project',
+                        comply_to_project=56,
+                        comply_to_replica_type='comply_to_replica_type_example'
         )
         ```
         """
@@ -446,8 +557,74 @@ class WorkloadTemplatesApi(RunaiAPIService):
             ("sortBy", sort_by),
             ("filterBy", filter_by),
             ("search", search),
+            ("complyToProject", comply_to_project),
+            ("complyToReplicaType", comply_to_replica_type),
         ]
         resource_path = f"/api/v1/workload_templates/distributed".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def list_inference_templates(
+        self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_order: Optional[str] = None,
+        sort_by: Optional[str] = None,
+        filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
+        comply_to_project: Optional[int] = None,
+    ):
+        r"""
+
+
+        ### Description
+        List all inference templates. [Experimental]
+
+        ### Parameters:
+        ```python
+        offset: Optional[int]
+        limit: Optional[int]
+        sort_order: Optional[str]
+        sort_by: Optional[str]
+        filter_by: Optional[List[str]]
+        search: Optional[str]
+        comply_to_project: Optional[int]
+        ```
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        sort_by: Sort results by parameter.
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
+        search: Filter results by a free text search.
+        comply_to_project: Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
+
+        ### Example:
+        ```python
+        WorkloadTemplatesApi(
+            offset=100,
+                        limit=50,
+                        sort_order=asc,
+                        sort_by='sort_by_example',
+                        filter_by=['[\"name!=some-template-name\",\"createdAt>=2021-01-01T00:00:00Z\"]'],
+                        search='test project',
+                        comply_to_project=56
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("offset", offset),
+            ("limit", limit),
+            ("sortOrder", sort_order),
+            ("sortBy", sort_by),
+            ("filterBy", filter_by),
+            ("search", search),
+            ("complyToProject", comply_to_project),
+        ]
+        resource_path = f"/api/v1/workload_templates/inferences".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
@@ -461,6 +638,9 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
         search: Optional[str] = None,
+        comply_to_project: Optional[int] = None,
+        comply_to_workload_type: Optional[str] = None,
+        comply_to_replica_type: Optional[str] = None,
     ):
         r"""
 
@@ -476,6 +656,9 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Optional[str]
         filter_by: Optional[List[str]]
         search: Optional[str]
+        comply_to_project: Optional[int]
+        comply_to_workload_type: Optional[str]
+        comply_to_replica_type: Optional[str]
         ```
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
@@ -483,6 +666,9 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Sort results by parameter.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
         search: Filter results by a free text search.
+        comply_to_project: Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
+        comply_to_workload_type: Include workload creation compliance information of an asset, for a given workload type, as part of the response. To check compliance, you need to provide both project id and workload type.
+        comply_to_replica_type: Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
 
         ### Example:
         ```python
@@ -492,7 +678,10 @@ class WorkloadTemplatesApi(RunaiAPIService):
                         sort_order=asc,
                         sort_by='sort_by_example',
                         filter_by=['[\"name!=some-template-name\",\"createdAt>=2021-01-01T00:00:00Z\"]'],
-                        search='test project'
+                        search='test project',
+                        comply_to_project=56,
+                        comply_to_workload_type='comply_to_workload_type_example',
+                        comply_to_replica_type='comply_to_replica_type_example'
         )
         ```
         """
@@ -505,6 +694,9 @@ class WorkloadTemplatesApi(RunaiAPIService):
             ("sortBy", sort_by),
             ("filterBy", filter_by),
             ("search", search),
+            ("complyToProject", comply_to_project),
+            ("complyToWorkloadType", comply_to_workload_type),
+            ("complyToReplicaType", comply_to_replica_type),
         ]
         resource_path = f"/api/v1/workload_templates".replace("_", "-")
         method = "GET"
@@ -520,6 +712,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
         search: Optional[str] = None,
+        comply_to_project: Optional[int] = None,
     ):
         r"""
 
@@ -535,6 +728,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Optional[str]
         filter_by: Optional[List[str]]
         search: Optional[str]
+        comply_to_project: Optional[int]
         ```
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
@@ -542,6 +736,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Sort results by parameter.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
         search: Filter results by a free text search.
+        comply_to_project: Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
 
         ### Example:
         ```python
@@ -551,7 +746,8 @@ class WorkloadTemplatesApi(RunaiAPIService):
                         sort_order=asc,
                         sort_by='sort_by_example',
                         filter_by=['[\"name!=some-template-name\",\"createdAt>=2021-01-01T00:00:00Z\"]'],
-                        search='test project'
+                        search='test project',
+                        comply_to_project=56
         )
         ```
         """
@@ -564,6 +760,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
             ("sortBy", sort_by),
             ("filterBy", filter_by),
             ("search", search),
+            ("complyToProject", comply_to_project),
         ]
         resource_path = f"/api/v1/workload_templates/trainings".replace("_", "-")
         method = "GET"
@@ -579,6 +776,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
         search: Optional[str] = None,
+        comply_to_project: Optional[int] = None,
     ):
         r"""
 
@@ -594,6 +792,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Optional[str]
         filter_by: Optional[List[str]]
         search: Optional[str]
+        comply_to_project: Optional[int]
         ```
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
@@ -601,6 +800,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         sort_by: Sort results by parameter.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
         search: Filter results by a free text search.
+        comply_to_project: Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
 
         ### Example:
         ```python
@@ -610,7 +810,8 @@ class WorkloadTemplatesApi(RunaiAPIService):
                         sort_order=asc,
                         sort_by='sort_by_example',
                         filter_by=['[\"name!=some-template-name\",\"createdAt>=2021-01-01T00:00:00Z\"]'],
-                        search='test project'
+                        search='test project',
+                        comply_to_project=56
         )
         ```
         """
@@ -623,6 +824,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
             ("sortBy", sort_by),
             ("filterBy", filter_by),
             ("search", search),
+            ("complyToProject", comply_to_project),
         ]
         resource_path = f"/api/v1/workload_templates/workspaces".replace("_", "-")
         method = "GET"
@@ -757,6 +959,52 @@ class WorkloadTemplatesApi(RunaiAPIService):
             resource_path=resource_path,
             method=method,
             body=body_params,
+        )
+
+    def template_name_availability(
+        self,
+        template_name: str,
+        scope_type: str,
+        scope_id: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Template name availability
+
+        ### Parameters:
+        ```python
+        template_name: Optional[str]
+        scope_type: Optional[str]
+        scope_id: Optional[str]
+        ```
+        template_name: The name of the template.
+        scope_type: The resource scope type to filter by.
+        scope_id: filter by scope id
+
+        ### Example:
+        ```python
+        WorkloadTemplatesApi(
+            template_name='my-template-name',
+                        scope_type='scope_type_example',
+                        scope_id='scope_id_example'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("templateName", template_name),
+            ("scopeType", scope_type),
+            ("scopeId", scope_id),
+        ]
+        resource_path = f"/api/v1/workload_templates/name_availability".replace(
+            "_", "-"
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
         )
 
     def update_distributed_template(

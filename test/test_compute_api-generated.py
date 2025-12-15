@@ -206,7 +206,7 @@ class TestComputeApi:
 
         # Test parameters
         name = "name_example"  # str | Filter results by name.
-        scope = "scope_example"  # str | Filter results by scope.
+        scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
         cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
@@ -214,6 +214,7 @@ class TestComputeApi:
         comply_to_project = 56  # int | Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
         comply_to_workload_type = "comply_to_workload_type_example"  # str | Include workload creation compliance information of an asset, for a given workload type, as part of the response. To check compliance, you need to provide both project id and workload type.
         comply_to_replica_type = "comply_to_replica_type_example"  # str | Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
+        include_descendants = True  # bool | Indicates whether to include assets from all descendant scopes under the specified scope. When set to True, and a specific scope identifier (for example, clusterId) is provided, the query also returns assets from all nested scopes within it (for example, departments and projects).  Mutually exclusive with scope.
 
         # Make request
         response = self.api.list_compute_assets()
@@ -244,6 +245,8 @@ class TestComputeApi:
         assert "complyToWorkloadType=" in kwargs["url"]
         # Verify query parameters
         assert "complyToReplicaType=" in kwargs["url"]
+        # Verify query parameters
+        assert "includeDescendants=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, ComputeListResponse)

@@ -78,6 +78,10 @@ class AuthenticationAndAuthorization(_ApiGroup):
         self.api_client = api_client
 
     @property
+    def access_keys(self) -> api.AccessKeysApi:
+        return api.AccessKeysApi(self.api_client)
+
+    @property
     def access_rules(self) -> api.AccessRulesApi:
         return api.AccessRulesApi(self.api_client)
 
@@ -88,6 +92,10 @@ class AuthenticationAndAuthorization(_ApiGroup):
     @property
     def applications(self) -> api.ApplicationsApi:
         return api.ApplicationsApi(self.api_client)
+
+    @property
+    def service_accounts(self) -> api.ServiceAccountsApi:
+        return api.ServiceAccountsApi(self.api_client)
 
     @property
     def roles(self) -> api.RolesApi:
@@ -161,6 +169,10 @@ class Workloads(_ApiGroup):
         return api.WorkloadsV2Api(self.api_client)
 
     @property
+    def nvidia_nim(self) -> api.NVIDIANIMApi:
+        return api.NVIDIANIMApi(self.api_client)
+
+    @property
     def workspaces(self) -> api.WorkspacesApi:
         return api.WorkspacesApi(self.api_client)
 
@@ -220,6 +232,10 @@ class WorkloadAssets(_ApiGroup):
     @property
     def storage_classes(self) -> api.StorageClassesApi:
         return api.StorageClassesApi(self.api_client)
+
+    @property
+    def storage_class_configuration(self) -> api.StorageClassConfigurationApi:
+        return api.StorageClassConfigurationApi(self.api_client)
 
     @property
     def git(self) -> api.GitApi:

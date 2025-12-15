@@ -137,63 +137,6 @@ class TestDepartmentsApi:
             )
         assert exc_info.value.status == 400
 
-    def test_create_department_0(self):
-        """Test case for create_department_0
-
-        Create a new department. Creates a new department in the cluster.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The unique uuid identifying the cluster.
-        department_create_request = (
-            runai.DepartmentCreateRequest()
-        )  # DepartmentCreateRequest |
-
-        # Make request
-        response = self.api.create_department_0(
-            cluster_id=cluster_id,
-            department_create_request=department_create_request,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "POST"
-        assert "/v1/k8s/clusters/{clusterId}/departments" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, Department2)
-
-    def test_create_department_0_error(self):
-        """Test error handling for create_department_0"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"
-        department_create_request = runai.DepartmentCreateRequest()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.create_department_0(
-                cluster_id=cluster_id,
-                department_create_request=department_create_request,
-            )
-        assert exc_info.value.status == 400
-
     def test_delete_department(self):
         """Test case for delete_department
 
@@ -235,60 +178,6 @@ class TestDepartmentsApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.delete_department(
-                department_id=department_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_delete_department_0(self):
-        """Test case for delete_department_0
-
-        Delete a department. Deletes a department from a specific cluster.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The unique uuid identifying the cluster.
-        department_id = 2  # int | The unique id identifying the department.
-
-        # Make request
-        response = self.api.delete_department_0(
-            cluster_id=cluster_id,
-            department_id=department_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "DELETE"
-        assert (
-            "/v1/k8s/clusters/{clusterId}/departments/{department-id}" in kwargs["url"]
-        )
-
-        # Verify response
-        assert isinstance(response, Department2)
-
-    def test_delete_department_0_error(self):
-        """Test error handling for delete_department_0"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"
-        department_id = 2
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.delete_department_0(
-                cluster_id=cluster_id,
                 department_id=department_id,
             )
         assert exc_info.value.status == 400
@@ -337,64 +226,6 @@ class TestDepartmentsApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_department(
-                department_id=department_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_get_department_0(self):
-        """Test case for get_department_0
-
-        Get a specific department. Retrieves the details of a specific department. Requires  the&#x60;view&#x60; permission for the department.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
-        department_id = 2  # int | The unique id of the department.
-        exclude_permissions = true  # bool | backwards compatibility of the "departmentAdmins\' field. if \'true", will not set the "departmentAdmins\' field in the returned department. if \'false", will set the 'departmentAdmins' field in the returned department.
-
-        # Make request
-        response = self.api.get_department_0(
-            cluster_id=cluster_id,
-            department_id=department_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert (
-            "/v1/k8s/clusters/{clusterId}/departments/{department-id}" in kwargs["url"]
-        )
-
-        # Verify query parameters
-        assert "excludePermissions=" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, Department2)
-
-    def test_get_department_0_error(self):
-        """Test error handling for get_department_0"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"
-        department_id = 2
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_department_0(
-                cluster_id=cluster_id,
                 department_id=department_id,
             )
         assert exc_info.value.status == 400
@@ -909,69 +740,6 @@ class TestDepartmentsApi:
             self.api.update_department(
                 department_id=department_id,
                 department_update_request=department_update_request,
-            )
-        assert exc_info.value.status == 400
-
-    def test_update_department_0(self):
-        """Test case for update_department_0
-
-        Update a department. Updates a department&#39;s details in the cluster. \\n For example, node pools and other details.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The unique uuid identifying the cluster.
-        department_id = 2  # int | The unique id identifying the department.
-        department_update_request1 = (
-            runai.DepartmentUpdateRequest1()
-        )  # DepartmentUpdateRequest1 |
-
-        # Make request
-        response = self.api.update_department_0(
-            cluster_id=cluster_id,
-            department_id=department_id,
-            department_update_request1=department_update_request1,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "PUT"
-        assert (
-            "/v1/k8s/clusters/{clusterId}/departments/{department-id}" in kwargs["url"]
-        )
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, Department2)
-
-    def test_update_department_0_error(self):
-        """Test error handling for update_department_0"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"
-        department_id = 2
-        department_update_request1 = runai.DepartmentUpdateRequest1()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.update_department_0(
-                cluster_id=cluster_id,
-                department_id=department_id,
-                department_update_request1=department_update_request1,
             )
         assert exc_info.value.status == 400
 

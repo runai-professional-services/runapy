@@ -84,46 +84,6 @@ class DepartmentsApi(RunaiAPIService):
             body=body_params,
         )
 
-    @deprecated_message()
-    def create_department_0(
-        self,
-        cluster_id: str,
-        department_create_request: models.DepartmentCreateRequest,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Create a new department.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        department_create_request: DepartmentCreateRequest
-        ```
-        cluster_id: The unique uuid identifying the cluster.
-        department_create_request: See model DepartmentCreateRequest for more information.
-
-        ### Example:
-        ```python
-        DepartmentsApi(
-            cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        department_create_request=runai.DepartmentCreateRequest()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = department_create_request
-
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/departments".replace("_", "-")
-        method = "POST"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
     def delete_department(
         self,
         department_id: str,
@@ -150,46 +110,6 @@ class DepartmentsApi(RunaiAPIService):
 
         resource_path = f"/api/v1/org_unit/departments/{department_id}".replace(
             "_", "-"
-        )
-        method = "DELETE"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
-    @deprecated_message()
-    def delete_department_0(
-        self,
-        cluster_id: str,
-        department_id: int,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Delete a department.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        department_id: int
-        ```
-        cluster_id: The unique uuid identifying the cluster.
-        department_id: The unique id identifying the department.
-
-        ### Example:
-        ```python
-        DepartmentsApi(
-            cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        department_id=2
-        )
-        ```
-        """
-
-        resource_path = (
-            f"/v1/k8s/clusters/{cluster_id}/departments/{department_id}".replace(
-                "_", "-"
-            )
         )
         method = "DELETE"
         return self._api_client.call_api(
@@ -228,53 +148,6 @@ class DepartmentsApi(RunaiAPIService):
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
-        )
-
-    @deprecated_message()
-    def get_department_0(
-        self,
-        cluster_id: str,
-        department_id: int,
-        exclude_permissions: Optional[bool] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Get a specific department.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        department_id: int
-        exclude_permissions: Optional[bool]
-        ```
-        cluster_id: The Universally Unique Identifier (UUID) of the cluster.
-        department_id: The unique id of the department.
-        exclude_permissions: backwards compatibility of the &#39;departmentAdmins&#39; field. if &#39;true&#39;, will not set the &#39;departmentAdmins&#39; field in the returned department. if &#39;false&#39;, will set the &#39;departmentAdmins&#39; field in the returned department.
-
-        ### Example:
-        ```python
-        DepartmentsApi(
-            cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        department_id=2,
-                        exclude_permissions=true
-        )
-        ```
-        """
-
-        # Query params:
-        query_params = [
-            ("excludePermissions", exclude_permissions),
-        ]
-        resource_path = (
-            f"/v1/k8s/clusters/{cluster_id}/departments/{department_id}".replace(
-                "_", "-"
-            )
-        )
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path, method=method, query_params=query_params
         )
 
     def get_department_metrics(
@@ -684,54 +557,6 @@ class DepartmentsApi(RunaiAPIService):
 
         resource_path = f"/api/v1/org_unit/departments/{department_id}".replace(
             "_", "-"
-        )
-        method = "PUT"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
-    @deprecated_message()
-    def update_department_0(
-        self,
-        cluster_id: str,
-        department_id: int,
-        department_update_request1: models.DepartmentUpdateRequest1,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Update a department.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        department_id: int
-        department_update_request1: DepartmentUpdateRequest1
-        ```
-        cluster_id: The unique uuid identifying the cluster.
-        department_id: The unique id identifying the department.
-        department_update_request1: See model DepartmentUpdateRequest1 for more information.
-
-        ### Example:
-        ```python
-        DepartmentsApi(
-            cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        department_id=2,
-                        department_update_request1=runai.DepartmentUpdateRequest1()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = department_update_request1
-
-        resource_path = (
-            f"/v1/k8s/clusters/{cluster_id}/departments/{department_id}".replace(
-                "_", "-"
-            )
         )
         method = "PUT"
         return self._api_client.call_api(

@@ -68,6 +68,29 @@ def example_create_distributed_template():
         print(f"Exception when calling create_distributed_template: {e}")
 
 
+def example_create_inference_template():
+    """
+    Example of using create_inference_template
+
+    Create a new inference template. [Experimental]
+    Create a new inference template.
+    """
+    try:
+        # Prepare the request parameters
+
+        # Create example data for InferenceTemplateCreationRequest
+        inference_template_creation_request = models.InferenceTemplateCreationRequest()
+
+        # Make the API call
+        api_response = api_instance.create_inference_template(
+            inference_template_creation_request=inference_template_creation_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling create_inference_template: {e}")
+
+
 def example_create_training_template():
     """
     Example of using create_training_template
@@ -134,6 +157,26 @@ def example_delete_distributed_template():
         print(f"Exception when calling delete_distributed_template: {e}")
 
 
+def example_delete_inference_template():
+    """
+    Example of using delete_inference_template
+
+    Delete an inference template by ID. [Experimental]
+    Delete an inference template by ID.
+    """
+    try:
+        # Prepare the request parameters
+        template_id = "example_template_id"
+
+        # Make the API call
+        api_instance.delete_inference_template(
+            template_id=template_id,
+        )
+
+    except Exception as e:
+        print(f"Exception when calling delete_inference_template: {e}")
+
+
 def example_delete_training_template():
     """
     Example of using delete_training_template
@@ -193,6 +236,27 @@ def example_get_distributed_template():
 
     except Exception as e:
         print(f"Exception when calling get_distributed_template: {e}")
+
+
+def example_get_inference_template():
+    """
+    Example of using get_inference_template
+
+    Get a specific inference template by ID. [Experimental]
+    Get a specific inference template by ID.
+    """
+    try:
+        # Prepare the request parameters
+        template_id = "example_template_id"
+
+        # Make the API call
+        api_response = api_instance.get_inference_template(
+            template_id=template_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_inference_template: {e}")
 
 
 def example_get_template_by_id1():
@@ -280,6 +344,10 @@ def example_list_distributed_templates():
 
         search = "example_search"
 
+        comply_to_project = 42
+
+        comply_to_replica_type = "example_comply_to_replica_type"
+
         # Make the API call
         api_response = api_instance.list_distributed_templates(
             offset=offset,
@@ -288,11 +356,53 @@ def example_list_distributed_templates():
             sort_by=sort_by,
             filter_by=filter_by,
             search=search,
+            comply_to_project=comply_to_project,
+            comply_to_replica_type=comply_to_replica_type,
         )
         print(f"API response: {api_response}")
 
     except Exception as e:
         print(f"Exception when calling list_distributed_templates: {e}")
+
+
+def example_list_inference_templates():
+    """
+    Example of using list_inference_templates
+
+    List all inference templates. [Experimental]
+    List all inference templates.
+    """
+    try:
+        # Prepare the request parameters
+
+        offset = 42
+
+        limit = 42
+
+        sort_order = "example_sort_order"
+
+        sort_by = "example_sort_by"
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        search = "example_search"
+
+        comply_to_project = 42
+
+        # Make the API call
+        api_response = api_instance.list_inference_templates(
+            offset=offset,
+            limit=limit,
+            sort_order=sort_order,
+            sort_by=sort_by,
+            filter_by=filter_by,
+            search=search,
+            comply_to_project=comply_to_project,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling list_inference_templates: {e}")
 
 
 def example_list_templates1():
@@ -317,6 +427,12 @@ def example_list_templates1():
 
         search = "example_search"
 
+        comply_to_project = 42
+
+        comply_to_workload_type = "example_comply_to_workload_type"
+
+        comply_to_replica_type = "example_comply_to_replica_type"
+
         # Make the API call
         api_response = api_instance.list_templates1(
             offset=offset,
@@ -325,6 +441,9 @@ def example_list_templates1():
             sort_by=sort_by,
             filter_by=filter_by,
             search=search,
+            comply_to_project=comply_to_project,
+            comply_to_workload_type=comply_to_workload_type,
+            comply_to_replica_type=comply_to_replica_type,
         )
         print(f"API response: {api_response}")
 
@@ -354,6 +473,8 @@ def example_list_training_templates():
 
         search = "example_search"
 
+        comply_to_project = 42
+
         # Make the API call
         api_response = api_instance.list_training_templates(
             offset=offset,
@@ -362,6 +483,7 @@ def example_list_training_templates():
             sort_by=sort_by,
             filter_by=filter_by,
             search=search,
+            comply_to_project=comply_to_project,
         )
         print(f"API response: {api_response}")
 
@@ -391,6 +513,8 @@ def example_list_workspace_templates():
 
         search = "example_search"
 
+        comply_to_project = 42
+
         # Make the API call
         api_response = api_instance.list_workspace_templates(
             offset=offset,
@@ -399,6 +523,7 @@ def example_list_workspace_templates():
             sort_by=sort_by,
             filter_by=filter_by,
             search=search,
+            comply_to_project=comply_to_project,
         )
         print(f"API response: {api_response}")
 
@@ -479,6 +604,32 @@ def example_patch_workspace_template():
 
     except Exception as e:
         print(f"Exception when calling patch_workspace_template: {e}")
+
+
+def example_template_name_availability():
+    """
+    Example of using template_name_availability
+
+    Template name availability
+    Check if a given template name creates naming conflicts under the given scope. Returns conflict (409) in case the name is not available, or 204 (no content) if it is ok.
+    """
+    try:
+        # Prepare the request parameters
+        template_name = "example_template_name"
+
+        scope_type = "example_scope_type"
+
+        scope_id = "example_scope_id"
+
+        # Make the API call
+        api_instance.template_name_availability(
+            template_name=template_name,
+            scope_type=scope_type,
+            scope_id=scope_id,
+        )
+
+    except Exception as e:
+        print(f"Exception when calling template_name_availability: {e}")
 
 
 def example_update_distributed_template():

@@ -39,7 +39,7 @@ class TestWorkloadPropertiesApi:
     def test_create_workload_type(self):
         """Test case for create_workload_type
 
-        Create a workload type. Create a new workload type in the system by providing its identification details and configuration, making it available for use and management within the platform.
+        Create a workload type. [Experimental] Create a new workload type in the system by providing its identification details and configuration, making it available for use and management within the platform.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -92,7 +92,7 @@ class TestWorkloadPropertiesApi:
     def test_delete_workload_type(self):
         """Test case for delete_workload_type
 
-        Delete a workload type by id. Deletes a specific workload type by its ID.
+        Delete a workload type by id. [Experimental] Deletes a specific workload type by its ID.
         """
         # Mock response
         mock_response = mock.Mock()

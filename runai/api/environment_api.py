@@ -186,7 +186,7 @@ class EnvironmentApi(RunaiAPIService):
         include_descendants: Optional[bool]
         ```
         name: Filter results by name.
-        scope: Filter results by scope.
+        scope: Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id: Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id: Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
         cluster_id: Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
@@ -200,7 +200,7 @@ class EnvironmentApi(RunaiAPIService):
         is_inference: Filter results to workload of type inference.
         comply_to_replica_type: Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
         status_info: Whether the query should include asset status information as part of the response.
-        include_descendants: Whether the query should include asset from all nested layers within the specified entity
+        include_descendants: Indicates whether to include assets from all descendant scopes under the specified scope. When set to true, and a specific scope identifier (for example, clusterId) is provided, the query also returns assets from all nested scopes within it (for example, departments and projects).  Mutually exclusive with scope.
 
         ### Example:
         ```python

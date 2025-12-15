@@ -117,7 +117,7 @@ def example_create_ngc_api_key():
         ngc_api_key_creation_request = models.NgcApiKeyCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
             spec = runai.models.ngc_api_key_creation_spec.NgcApiKeyCreationSpec(
-                    ngc_api_key = 'C0', )
+                    ngc_api_key = '20', )
         )
 
         # Make the API call

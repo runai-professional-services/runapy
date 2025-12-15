@@ -39,7 +39,7 @@ class TestWorkloadsV2Api:
     def test_create_workload_v2(self):
         """Test case for create_workload_v2
 
-        Create a workload Submit a workload with metadata and a Kubernetes manifest [Experimental].
+        Create a workload. [Experimental] Submit a workload with metadata and a Kubernetes manifest.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -92,7 +92,7 @@ class TestWorkloadsV2Api:
     def test_delete_workload_v2(self):
         """Test case for delete_workload_v2
 
-        Delete a workload Delete a specific workload by ID [Experimental]
+        Delete a workload. [Experimental] Delete a specific workload by ID
         """
         # Mock response
         mock_response = mock.Mock()
@@ -140,7 +140,7 @@ class TestWorkloadsV2Api:
     def test_get_workload_v2_by_id(self):
         """Test case for get_workload_v2_by_id
 
-        Get a specific workload Retrieve details of a specific workload by ID [Experimental]
+        Get a specific workload. [Experimental] Retrieve details of a specific workload by ID
         """
         # Mock response
         mock_response = mock.Mock()
@@ -182,5 +182,62 @@ class TestWorkloadsV2Api:
         with pytest.raises(ApiException) as exc_info:
             self.api.get_workload_v2_by_id(
                 workload_v2_id=workload_v2_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_workload_v2(self):
+        """Test case for update_workload_v2
+
+        Update workload spec. [Experimental] Update the specification of an existing workload.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_v2_id = "workload_v2_id_example"  # str |
+        workload_v2_update_request = (
+            runai.WorkloadV2UpdateRequest()
+        )  # WorkloadV2UpdateRequest |
+
+        # Make request
+        response = self.api.update_workload_v2(
+            workload_v2_id=workload_v2_id,
+            workload_v2_update_request=workload_v2_update_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v2/workloads/{WorkloadV2Id}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, WorkloadV2)
+
+    def test_update_workload_v2_error(self):
+        """Test error handling for update_workload_v2"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_v2_id = "workload_v2_id_example"
+        workload_v2_update_request = runai.WorkloadV2UpdateRequest()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_workload_v2(
+                workload_v2_id=workload_v2_id,
+                workload_v2_update_request=workload_v2_update_request,
             )
         assert exc_info.value.status == 400

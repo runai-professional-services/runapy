@@ -45,7 +45,7 @@ def example_grant_token():
     """
     Example of using grant_token
 
-    Create a token
+    Create an access token v1
     Create tokens using the &#x60;grant_type&#x60; parameter.
     """
     try:
@@ -74,3 +74,45 @@ def example_grant_token():
 
     except Exception as e:
         print(f"Exception when calling grant_token: {e}")
+
+
+def example_grant_token_v2():
+    """
+    Example of using grant_token_v2
+
+    Create an access token v2
+    Use this endpoint to obtain an access token. Compliant with standard OAuth2 protocol and supports the common OAuth2 grant types.
+    """
+    try:
+        # Prepare the request parameters
+        grant_type = "example_grant_type"
+
+        client_id = "example_client_id"
+
+        client_secret = "example_client_secret"
+
+        username = "example_username"
+
+        password = "example_password"
+
+        refresh_token = "example_refresh_token"
+
+        code = "example_code"
+
+        redirect_uri = "example_redirect_uri"
+
+        # Make the API call
+        api_response = api_instance.grant_token_v2(
+            grant_type=grant_type,
+            client_id=client_id,
+            client_secret=client_secret,
+            username=username,
+            password=password,
+            refresh_token=refresh_token,
+            code=code,
+            redirect_uri=redirect_uri,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling grant_token_v2: {e}")

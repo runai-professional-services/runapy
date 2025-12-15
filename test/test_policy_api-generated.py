@@ -216,6 +216,63 @@ class TestPolicyApi:
             )
         assert exc_info.value.status == 400
 
+    def test_delete_nim_service_policy(self):
+        """Test case for delete_nim_service_policy
+
+        Delete NVIDIA NIM service policy. Use to delete NVIDIA NIM service policy for a given organizational unit.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        scope = "scope_example"  # str | The scope that the policy relates to.
+        department_id = "1"  # str | Filter using the department id.
+        project_id = "1"  # str | project id to filter by
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+
+        # Make request
+        self.api.delete_nim_service_policy(
+            scope=scope,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "DELETE"
+        assert "/api/v2/policy/nim-services" in kwargs["url"]
+
+        # Verify query parameters
+        assert "scope=" in kwargs["url"]
+        # Verify query parameters
+        assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "projectId=" in kwargs["url"]
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+
+    def test_delete_nim_service_policy_error(self):
+        """Test error handling for delete_nim_service_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        scope = "scope_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.delete_nim_service_policy(
+                scope=scope,
+            )
+        assert exc_info.value.status == 400
+
     def test_delete_training_policy(self):
         """Test case for delete_training_policy
 
@@ -512,6 +569,66 @@ class TestPolicyApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_inference_policy_v2(
+                scope=scope,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_nim_service_policy(self):
+        """Test case for get_nim_service_policy
+
+        Get NVIDIA NIM service policy. Retrieve the details of NVIDIA NIM service policy for a given organizational unit.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        scope = "scope_example"  # str | The scope that the policy relates to.
+        department_id = "1"  # str | Filter using the department id.
+        project_id = "1"  # str | project id to filter by
+        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+
+        # Make request
+        response = self.api.get_nim_service_policy(
+            scope=scope,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v2/policy/nim-services" in kwargs["url"]
+
+        # Verify query parameters
+        assert "scope=" in kwargs["url"]
+        # Verify query parameters
+        assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "projectId=" in kwargs["url"]
+        # Verify query parameters
+        assert "clusterId=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, NimServicePolicy)
+
+    def test_get_nim_service_policy_error(self):
+        """Test error handling for get_nim_service_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        scope = "scope_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_nim_service_policy(
                 scope=scope,
             )
         assert exc_info.value.status == 400
@@ -870,6 +987,60 @@ class TestPolicyApi:
             self.api.overwrite_inference_policy_v2()
         assert exc_info.value.status == 400
 
+    def test_overwrite_nim_service_policy(self):
+        """Test case for overwrite_nim_service_policy
+
+        Overwrite NVIDIA NIM service policy. Use to apply NVIDIA NIM service policy for a given organizational unit.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        validate_only = (
+            True  # bool | Validate the given policy payload without applying it
+        )
+        nim_service_policy_overwrite_request = (
+            runai.NimServicePolicyOverwriteRequest()
+        )  # NimServicePolicyOverwriteRequest |
+
+        # Make request
+        response = self.api.overwrite_nim_service_policy()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v2/policy/nim-services" in kwargs["url"]
+
+        # Verify query parameters
+        assert "validateOnly=" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, NimServicePolicy)
+
+    def test_overwrite_nim_service_policy_error(self):
+        """Test error handling for overwrite_nim_service_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.overwrite_nim_service_policy()
+        assert exc_info.value.status == 400
+
     def test_overwrite_training_policy_v2(self):
         """Test case for overwrite_training_policy_v2
 
@@ -1153,6 +1324,60 @@ class TestPolicyApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.update_inference_policy_v2()
+        assert exc_info.value.status == 400
+
+    def test_update_nim_service_policy(self):
+        """Test case for update_nim_service_policy
+
+        Update NVIDIA NIM service policy. Use to apply changes to NVIDIA NIM service policy for a given organizational unit.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        validate_only = (
+            True  # bool | Validate the given policy payload without applying it
+        )
+        nim_service_policy_change_request = (
+            runai.NimServicePolicyChangeRequest()
+        )  # NimServicePolicyChangeRequest |
+
+        # Make request
+        response = self.api.update_nim_service_policy()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PATCH"
+        assert "/api/v2/policy/nim-services" in kwargs["url"]
+
+        # Verify query parameters
+        assert "validateOnly=" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, NimServicePolicy)
+
+    def test_update_nim_service_policy_error(self):
+        """Test error handling for update_nim_service_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_nim_service_policy()
         assert exc_info.value.status == 400
 
     def test_update_training_policy_v2(self):

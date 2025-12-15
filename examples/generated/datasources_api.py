@@ -49,6 +49,8 @@ def example_list_datasource_assets():
 
         comply_to_replica_type = "example_comply_to_replica_type"
 
+        include_descendants = True
+
         # Make the API call
         api_response = api_instance.list_datasource_assets(
             name=name,
@@ -62,6 +64,7 @@ def example_list_datasource_assets():
             status_info=status_info,
             asset_ids=asset_ids,
             comply_to_replica_type=comply_to_replica_type,
+            include_descendants=include_descendants,
         )
         print(f"API response: {api_response}")
 

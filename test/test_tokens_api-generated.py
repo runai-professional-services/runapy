@@ -85,7 +85,7 @@ class TestTokensApi:
     def test_grant_token(self):
         """Test case for grant_token
 
-        Create a token Create tokens using the &#x60;grant_type&#x60; parameter.
+        Create an access token v1 Create tokens using the &#x60;grant_type&#x60; parameter.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -130,4 +130,61 @@ class TestTokensApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.grant_token()
+        assert exc_info.value.status == 400
+
+    def test_grant_token_v2(self):
+        """Test case for grant_token_v2
+
+        Create an access token v2 Use this endpoint to obtain an access token. Compliant with standard OAuth2 protocol and supports the common OAuth2 grant types.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        grant_type = "grant_type_example"  # str | The OAuth2 grant type that determines how the token will be issued.
+        client_id = "client_id_example"  # str | OAuth2 client identifier
+        client_secret = "client_secret_example"  # str | OAuth2 client secret
+        username = (
+            "username_example"  # str | Resource owner username (for password grant)
+        )
+        password = "password_example"  # str | The password of the resource owner. Required only when using the password grant type.
+        refresh_token = "refresh_token_example"  # str | The refresh token used to obtain a new access token. Required only when using the refresh_token grant type.
+        code = "code_example"  # str | Authorization code issued by the authorization server. Used in the authorization_code grant to exchange the code for an access token.
+        redirect_uri = "redirect_uri_example"  # str | The redirect URI used during the authorization request. Required for the authorization_code grant to validate the redirect destination.
+
+        # Make request
+        response = self.api.grant_token_v2(
+            grant_type=grant_type,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v2/token" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, OAuth2TokenResponse)
+
+    def test_grant_token_v2_error(self):
+        """Test error handling for grant_token_v2"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        grant_type = "grant_type_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.grant_token_v2(
+                grant_type=grant_type,
+            )
         assert exc_info.value.status == 400

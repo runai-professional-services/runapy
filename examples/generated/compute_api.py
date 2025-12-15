@@ -30,7 +30,7 @@ def example_create_compute_asset():
         # Create example data for ComputeCreationRequest
         compute_creation_request = models.ComputeCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-            spec = {cpuMemoryLimit=30M, extendedResources=[Ljava.lang.Object;@2fe2965c, gpuMemoryLimit=10M, migProfile=, cpuCoreLimit=2, gpuRequestType=portion, cpuMemoryRequest=20M, gpuDevicesRequest=1, gpuMemoryRequest=10M, gpuPortionRequest=0.5, largeShmRequest=false, cpuCoreRequest=0.5, gpuPortionLimit=0.5}
+            spec = {cpuMemoryLimit=30M, extendedResources=[Ljava.lang.Object;@5b02a984, gpuMemoryRequest=10M, gpuPortionRequest=0.5, gpuMemoryLimit=10M, cpuCoreLimit=2, largeShmRequest=false, cpuCoreRequest=0.5, gpuPortionLimit=0.5, gpuRequestType=portion, cpuMemoryRequest=20M, gpuDevicesRequest=1}
         )
 
         # Make the API call
@@ -213,6 +213,14 @@ def example_list_compute_assets():
         
         
         
+        
+        
+        include_descendants = True
+        
+        
+        
+        
+        
 
         # Make the API call
         api_response = api_instance.list_compute_assets(
@@ -225,6 +233,7 @@ def example_list_compute_assets():
             comply_to_project=comply_to_project,
             comply_to_workload_type=comply_to_workload_type,
             comply_to_replica_type=comply_to_replica_type,
+            include_descendants=include_descendants,
         )
         print(f"API response: {api_response}")
 
@@ -252,7 +261,7 @@ def example_update_compute_asset_by_id():
         # Create example data for ComputeUpdateRequest
         compute_update_request = models.ComputeUpdateRequest(
             meta = {"name":"my-asset"},
-            spec = {cpuMemoryLimit=30M, extendedResources=[Ljava.lang.Object;@2fe2965c, gpuMemoryLimit=10M, migProfile=, cpuCoreLimit=2, gpuRequestType=portion, cpuMemoryRequest=20M, gpuDevicesRequest=1, gpuMemoryRequest=10M, gpuPortionRequest=0.5, largeShmRequest=false, cpuCoreRequest=0.5, gpuPortionLimit=0.5}
+            spec = {cpuMemoryLimit=30M, extendedResources=[Ljava.lang.Object;@5b02a984, gpuMemoryRequest=10M, gpuPortionRequest=0.5, gpuMemoryLimit=10M, cpuCoreLimit=2, largeShmRequest=false, cpuCoreRequest=0.5, gpuPortionLimit=0.5, gpuRequestType=portion, cpuMemoryRequest=20M, gpuDevicesRequest=1}
         )
 
         # Make the API call

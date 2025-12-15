@@ -15,6 +15,45 @@ class AIApplicationsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def count_applications(
+        self,
+        filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count AI applications. [Experimental]
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        search: Optional[str]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
+        search: Filter results by a free text search.
+
+        ### Example:
+        ```python
+        AIApplicationsApi(
+            filter_by=['[\"name!=some-name\"]'],
+                        search='test project'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("search", search),
+        ]
+        resource_path = f"/api/v1/ai_applications/count".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def get_application(
         self,
         ai_application_id: str,
@@ -23,7 +62,7 @@ class AIApplicationsApi(RunaiAPIService):
 
 
         ### Description
-        Get AI application.
+        Get AI application. [Experimental]
 
         ### Parameters:
         ```python
@@ -54,12 +93,13 @@ class AIApplicationsApi(RunaiAPIService):
         sort_order: Optional[str] = None,
         sort_by: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
     ):
         r"""
 
 
         ### Description
-        List AI applications.
+        List AI applications. [Experimental]
 
         ### Parameters:
         ```python
@@ -69,6 +109,7 @@ class AIApplicationsApi(RunaiAPIService):
         sort_order: Optional[str]
         sort_by: Optional[str]
         filter_by: Optional[List[str]]
+        search: Optional[str]
         ```
         verbosity: response verbosity level. - Default: brief
         offset: The offset of the first item returned in the collection.
@@ -76,6 +117,7 @@ class AIApplicationsApi(RunaiAPIService):
         sort_order: Sort results in descending or ascending order. - Default: asc
         sort_by: Sort results by a parameter.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
@@ -85,7 +127,8 @@ class AIApplicationsApi(RunaiAPIService):
                         limit=50,
                         sort_order=asc,
                         sort_by='sort_by_example',
-                        filter_by=['[\"name!=some-name\"]']
+                        filter_by=['[\"name!=some-name\"]'],
+                        search='test project'
         )
         ```
         """
@@ -98,6 +141,7 @@ class AIApplicationsApi(RunaiAPIService):
             ("sortOrder", sort_order),
             ("sortBy", sort_by),
             ("filterBy", filter_by),
+            ("search", search),
         ]
         resource_path = f"/api/v1/ai_applications".replace("_", "-")
         method = "GET"

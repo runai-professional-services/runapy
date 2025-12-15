@@ -23,7 +23,7 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
 
         ### Description
-        Create a workload type.
+        Create a workload type. [Experimental]
 
         ### Parameters:
         ```python
@@ -58,7 +58,7 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
 
         ### Description
-        Delete a workload type by id.
+        Delete a workload type by id. [Experimental]
 
         ### Parameters:
         ```python

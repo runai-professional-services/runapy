@@ -59,7 +59,7 @@ class TokensApi(RunaiAPIService):
 
 
         ### Description
-        Create a token
+        Create an access token v1
 
         ### Parameters:
         ```python
@@ -84,4 +84,63 @@ class TokensApi(RunaiAPIService):
             resource_path=resource_path,
             method=method,
             body=body_params,
+        )
+
+    def grant_token_v2(
+        self,
+        grant_type: str,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        refresh_token: Optional[str] = None,
+        code: Optional[str] = None,
+        redirect_uri: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Create an access token v2
+
+        ### Parameters:
+        ```python
+        grant_type: str
+        client_id: str
+        client_secret: str
+        username: str
+        password: str
+        refresh_token: str
+        code: str
+        redirect_uri: str
+        ```
+        grant_type: The OAuth2 grant type that determines how the token will be issued.
+        client_id: OAuth2 client identifier
+        client_secret: OAuth2 client secret
+        username: Resource owner username (for password grant)
+        password: The password of the resource owner. Required only when using the password grant type.
+        refresh_token: The refresh token used to obtain a new access token. Required only when using the refresh_token grant type.
+        code: Authorization code issued by the authorization server. Used in the authorization_code grant to exchange the code for an access token.
+        redirect_uri: The redirect URI used during the authorization request. Required for the authorization_code grant to validate the redirect destination.
+
+        ### Example:
+        ```python
+        TokensApi(
+            grant_type='grant_type_example',
+                        client_id='client_id_example',
+                        client_secret='client_secret_example',
+                        username='username_example',
+                        password='password_example',
+                        refresh_token='refresh_token_example',
+                        code='code_example',
+                        redirect_uri='redirect_uri_example'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v2/token".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
         )

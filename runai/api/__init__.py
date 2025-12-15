@@ -2,6 +2,7 @@
 
 # import apis into api package
 from runai.api.ai_applications_api import AIApplicationsApi
+from runai.api.access_keys_api import AccessKeysApi
 from runai.api.access_rules_api import AccessRulesApi
 from runai.api.administrator_command_line_interface_api import (
     AdministratorCommandLineInterfaceApi,
@@ -26,6 +27,7 @@ from runai.api.inferences_api import InferencesApi
 from runai.api.logo_api import LogoApi
 from runai.api.me_api import MeApi
 from runai.api.nfs_api import NFSApi
+from runai.api.nvidianim_api import NVIDIANIMApi
 from runai.api.network_topologies_api import NetworkTopologiesApi
 from runai.api.node_pools_api import NodePoolsApi
 from runai.api.nodes_api import NodesApi
@@ -50,7 +52,9 @@ from runai.api.revisions_api import RevisionsApi
 from runai.api.roles_api import RolesApi
 from runai.api.s3_api import S3Api
 from runai.api.secret_api import SecretApi
+from runai.api.service_accounts_api import ServiceAccountsApi
 from runai.api.settings_api import SettingsApi
+from runai.api.storage_class_configuration_api import StorageClassConfigurationApi
 from runai.api.storage_classes_api import StorageClassesApi
 from runai.api.subscriptions_api import SubscriptionsApi
 from runai.api.template_api import TemplateApi

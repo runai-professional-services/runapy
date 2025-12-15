@@ -203,6 +203,59 @@ def example_delete_inference_policy():
     except Exception as e:
         print(f"Exception when calling delete_inference_policy: {e}")
 
+def example_delete_nim_service_policy():
+    """
+    Example of using delete_nim_service_policy
+    
+    Delete NVIDIA NIM service policy.
+    Use to delete NVIDIA NIM service policy for a given organizational unit.
+    """
+    try:
+        # Prepare the request parameters
+        scope = "example_scope"
+        
+        
+        
+        
+        
+        
+        
+        department_id = "example_department_id"
+        
+        
+        
+        
+        
+        
+        
+        project_id = "example_project_id"
+        
+        
+        
+        
+        
+        
+        
+        cluster_id = "example_cluster_id"
+        
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_instance.delete_nim_service_policy(
+            scope=scope,
+            department_id=department_id,
+            project_id=project_id,
+            cluster_id=cluster_id,
+        )
+
+    except Exception as e:
+        print(f"Exception when calling delete_nim_service_policy: {e}")
+
 def example_delete_training_policy():
     """
     Example of using delete_training_policy
@@ -488,6 +541,60 @@ def example_get_inference_policy_v2():
 
     except Exception as e:
         print(f"Exception when calling get_inference_policy_v2: {e}")
+
+def example_get_nim_service_policy():
+    """
+    Example of using get_nim_service_policy
+    
+    Get NVIDIA NIM service policy.
+    Retrieve the details of NVIDIA NIM service policy for a given organizational unit.
+    """
+    try:
+        # Prepare the request parameters
+        scope = "example_scope"
+        
+        
+        
+        
+        
+        
+        
+        department_id = "example_department_id"
+        
+        
+        
+        
+        
+        
+        
+        project_id = "example_project_id"
+        
+        
+        
+        
+        
+        
+        
+        cluster_id = "example_cluster_id"
+        
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.get_nim_service_policy(
+            scope=scope,
+            department_id=department_id,
+            project_id=project_id,
+            cluster_id=cluster_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_nim_service_policy: {e}")
 
 def example_get_training_policy_v2():
     """
@@ -789,8 +896,7 @@ def example_overwrite_distributed_policy_v2():
                                 gpu_portion_limit = 0.5, 
                                 gpu_portion_request = 0.5, 
                                 gpu_request_type = 'portion', 
-                                large_shm_request = False, 
-                                mig_profile = null, ), 
+                                large_shm_request = False, ), 
                             create_home_dir = True, 
                             environment_variables = runai.models.environment_variables_defaults.EnvironmentVariablesDefaults(
                                 instances = [
@@ -802,6 +908,9 @@ def example_overwrite_distributed_policy_v2():
                                             key = 'POSTGRES_PASSWORD', ), 
                                         config_map = {name=my-config-map, key=MY_POSTGRES_SCHEMA}, 
                                         pod_field_ref = {path=metadata.name}, 
+                                        user_credential = runai.models.environment_variable_user_credential.EnvironmentVariableUserCredential(
+                                            name = 'my_postgres_user_and_password', 
+                                            key = 'POSTGRES_PASSWORD', ), 
                                         exclude = False, 
                                         description = 'Home directory of the user.', )
                                     ], ), 
@@ -810,6 +919,7 @@ def example_overwrite_distributed_policy_v2():
                                     runai.models.exposed_url.ExposedUrl(
                                         container = 8080, 
                                         url = 'https://my-url.com', 
+                                        authorization_type = 'authenticatedUsers', 
                                         authorized_users = ["user-a","user-b"], 
                                         authorized_groups = ["group-a","group-b"], 
                                         tool_type = 'jupyter', 
@@ -821,11 +931,12 @@ def example_overwrite_distributed_policy_v2():
                             image_pull_policy = 'Always', 
                             image_pull_secrets = runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(), 
                             labels = runai.models.labels_defaults.LabelsDefaults(), 
-                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@1a531422}, 
+                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@787988f4}, 
                             node_pools = ["my-node-pool-a","my-node-pool-b"], 
                             node_type = 'my-node-type', 
                             pod_affinity = {type=Required, key=key}, 
                             ports = runai.models.ports_defaults.PortsDefaults(), 
+                            preemptibility = 'preemptible', 
                             priority_class = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                             probes = {readiness={handler={httpGet={path=/, scheme=HTTP, port=15087, host=example.com}}, failureThreshold=1, periodSeconds=1, timeoutSeconds=1, successThreshold=1, initialDelaySeconds=0}}, 
                             related_urls = runai.models.related_urls_defaults.RelatedUrlsDefaults(), 
@@ -928,6 +1039,48 @@ def example_overwrite_inference_policy_v2():
 
     except Exception as e:
         print(f"Exception when calling overwrite_inference_policy_v2: {e}")
+
+def example_overwrite_nim_service_policy():
+    """
+    Example of using overwrite_nim_service_policy
+    
+    Overwrite NVIDIA NIM service policy.
+    Use to apply NVIDIA NIM service policy for a given organizational unit.
+    """
+    try:
+        # Prepare the request parameters
+        
+        
+        validate_only = True
+        
+        
+        
+        
+        
+        
+        # Create example data for NimServicePolicyOverwriteRequest
+        nim_service_policy_overwrite_request = models.NimServicePolicyOverwriteRequest(
+            meta = runai.models.policy_creation_fields.PolicyCreationFields(
+                    scope = 'system', 
+                    project_id = 1, 
+                    department_id = '2', 
+                    cluster_id = '71f69d83-ba66-4822-adf5-55ce55efd210', 
+                    name = 'my-policy', ),
+            policy = runai.models.nim_service_policy_defaults_and_rules.NimServicePolicyDefaultsAndRules(
+                    defaults = runai.models.defaults.defaults(), 
+                    rules = runai.models.rules.rules(), 
+                    status = {validation={errorMessage=errorMessage}}, )
+        )
+
+        # Make the API call
+        api_response = api_instance.overwrite_nim_service_policy(
+            validate_only=validate_only,
+            nim_service_policy_overwrite_request=nim_service_policy_overwrite_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling overwrite_nim_service_policy: {e}")
 
 def example_overwrite_training_policy_v2():
     """
@@ -1159,8 +1312,7 @@ def example_update_distributed_policy_v2():
                                 gpu_portion_limit = 0.5, 
                                 gpu_portion_request = 0.5, 
                                 gpu_request_type = 'portion', 
-                                large_shm_request = False, 
-                                mig_profile = null, ), 
+                                large_shm_request = False, ), 
                             create_home_dir = True, 
                             environment_variables = runai.models.environment_variables_defaults.EnvironmentVariablesDefaults(
                                 instances = [
@@ -1172,6 +1324,9 @@ def example_update_distributed_policy_v2():
                                             key = 'POSTGRES_PASSWORD', ), 
                                         config_map = {name=my-config-map, key=MY_POSTGRES_SCHEMA}, 
                                         pod_field_ref = {path=metadata.name}, 
+                                        user_credential = runai.models.environment_variable_user_credential.EnvironmentVariableUserCredential(
+                                            name = 'my_postgres_user_and_password', 
+                                            key = 'POSTGRES_PASSWORD', ), 
                                         exclude = False, 
                                         description = 'Home directory of the user.', )
                                     ], ), 
@@ -1180,6 +1335,7 @@ def example_update_distributed_policy_v2():
                                     runai.models.exposed_url.ExposedUrl(
                                         container = 8080, 
                                         url = 'https://my-url.com', 
+                                        authorization_type = 'authenticatedUsers', 
                                         authorized_users = ["user-a","user-b"], 
                                         authorized_groups = ["group-a","group-b"], 
                                         tool_type = 'jupyter', 
@@ -1191,11 +1347,12 @@ def example_update_distributed_policy_v2():
                             image_pull_policy = 'Always', 
                             image_pull_secrets = runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(), 
                             labels = runai.models.labels_defaults.LabelsDefaults(), 
-                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@1a531422}, 
+                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@787988f4}, 
                             node_pools = ["my-node-pool-a","my-node-pool-b"], 
                             node_type = 'my-node-type', 
                             pod_affinity = {type=Required, key=key}, 
                             ports = runai.models.ports_defaults.PortsDefaults(), 
+                            preemptibility = 'preemptible', 
                             priority_class = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                             probes = {readiness={handler={httpGet={path=/, scheme=HTTP, port=15087, host=example.com}}, failureThreshold=1, periodSeconds=1, timeoutSeconds=1, successThreshold=1, initialDelaySeconds=0}}, 
                             related_urls = runai.models.related_urls_defaults.RelatedUrlsDefaults(), 
@@ -1300,6 +1457,49 @@ def example_update_inference_policy_v2():
 
     except Exception as e:
         print(f"Exception when calling update_inference_policy_v2: {e}")
+
+def example_update_nim_service_policy():
+    """
+    Example of using update_nim_service_policy
+    
+    Update NVIDIA NIM service policy.
+    Use to apply changes to NVIDIA NIM service policy for a given organizational unit.
+    """
+    try:
+        # Prepare the request parameters
+        
+        
+        validate_only = True
+        
+        
+        
+        
+        
+        
+        # Create example data for NimServicePolicyChangeRequest
+        nim_service_policy_change_request = models.NimServicePolicyChangeRequest(
+            meta = runai.models.policy_creation_fields.PolicyCreationFields(
+                    scope = 'system', 
+                    project_id = 1, 
+                    department_id = '2', 
+                    cluster_id = '71f69d83-ba66-4822-adf5-55ce55efd210', 
+                    name = 'my-policy', ),
+            policy = runai.models.nim_service_policy_defaults_and_rules.NimServicePolicyDefaultsAndRules(
+                    defaults = runai.models.defaults.defaults(), 
+                    rules = runai.models.rules.rules(), 
+                    status = {validation={errorMessage=errorMessage}}, ),
+            reset = ["master.security.runAsGpu","worker.compute.gpu"]
+        )
+
+        # Make the API call
+        api_response = api_instance.update_nim_service_policy(
+            validate_only=validate_only,
+            nim_service_policy_change_request=nim_service_policy_change_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling update_nim_service_policy: {e}")
 
 def example_update_training_policy_v2():
     """

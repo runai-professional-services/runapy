@@ -28,6 +28,7 @@ class DatasourcesApi(RunaiAPIService):
         status_info: Optional[bool] = None,
         asset_ids: Optional[str] = None,
         comply_to_replica_type: Optional[str] = None,
+        include_descendants: Optional[bool] = None,
     ):
         r"""
 
@@ -48,9 +49,10 @@ class DatasourcesApi(RunaiAPIService):
         status_info: Optional[bool]
         asset_ids: Optional[str]
         comply_to_replica_type: Optional[str]
+        include_descendants: Optional[bool]
         ```
         name: Filter results by name.
-        scope: Filter results by scope.
+        scope: Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id: Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id: Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
         cluster_id: Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
@@ -60,6 +62,7 @@ class DatasourcesApi(RunaiAPIService):
         status_info: Whether the query should include asset status information as part of the response.
         asset_ids: Filter results by the ids of the assets. Provided value should be a comma separated string of UUIDs.
         comply_to_replica_type: Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
+        include_descendants: Indicates whether to include assets from all descendant scopes under the specified scope. When set to true, and a specific scope identifier (for example, clusterId) is provided, the query also returns assets from all nested scopes within it (for example, departments and projects).  Mutually exclusive with scope.
 
         ### Example:
         ```python
@@ -74,7 +77,8 @@ class DatasourcesApi(RunaiAPIService):
                         comply_to_workload_type='comply_to_workload_type_example',
                         status_info=True,
                         asset_ids='dbf4767e-2fa1-43b0-97a2-7c0cecda180b,550e8400-e29b-41d4-a716-44665544000a',
-                        comply_to_replica_type='comply_to_replica_type_example'
+                        comply_to_replica_type='comply_to_replica_type_example',
+                        include_descendants=True
         )
         ```
         """
@@ -92,6 +96,7 @@ class DatasourcesApi(RunaiAPIService):
             ("statusInfo", status_info),
             ("assetIds", asset_ids),
             ("complyToReplicaType", comply_to_replica_type),
+            ("includeDescendants", include_descendants),
         ]
         resource_path = f"/api/v1/asset/datasource".replace("_", "-")
         method = "GET"

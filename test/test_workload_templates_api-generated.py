@@ -135,6 +135,54 @@ class TestWorkloadTemplatesApi:
             self.api.create_distributed_template()
         assert exc_info.value.status == 400
 
+    def test_create_inference_template(self):
+        """Test case for create_inference_template
+
+        Create a new inference template. [Experimental] Create a new inference template.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        inference_template_creation_request = (
+            runai.InferenceTemplateCreationRequest()
+        )  # InferenceTemplateCreationRequest |
+
+        # Make request
+        response = self.api.create_inference_template()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/workload-templates/inferences" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, InferenceTemplate)
+
+    def test_create_inference_template_error(self):
+        """Test error handling for create_inference_template"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.create_inference_template()
+        assert exc_info.value.status == 400
+
     def test_create_training_template(self):
         """Test case for create_training_template
 
@@ -276,6 +324,51 @@ class TestWorkloadTemplatesApi:
             )
         assert exc_info.value.status == 400
 
+    def test_delete_inference_template(self):
+        """Test case for delete_inference_template
+
+        Delete an inference template by ID. [Experimental] Delete an inference template by ID.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+
+        # Make request
+        self.api.delete_inference_template(
+            template_id=template_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "DELETE"
+        assert "/api/v1/workload-templates/inferences/{templateId}" in kwargs["url"]
+
+    def test_delete_inference_template_error(self):
+        """Test error handling for delete_inference_template"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        template_id = "550e8400-e29b-41d4-a716-446655440000"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.delete_inference_template(
+                template_id=template_id,
+            )
+        assert exc_info.value.status == 400
+
     def test_delete_training_template(self):
         """Test case for delete_training_template
 
@@ -410,6 +503,54 @@ class TestWorkloadTemplatesApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_distributed_template(
+                template_id=template_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_inference_template(self):
+        """Test case for get_inference_template
+
+        Get a specific inference template by ID. [Experimental] Get a specific inference template by ID.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+
+        # Make request
+        response = self.api.get_inference_template(
+            template_id=template_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workload-templates/inferences/{templateId}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, InferenceTemplate)
+
+    def test_get_inference_template_error(self):
+        """Test error handling for get_inference_template"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        template_id = "550e8400-e29b-41d4-a716-446655440000"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_inference_template(
                 template_id=template_id,
             )
         assert exc_info.value.status == 400
@@ -578,6 +719,8 @@ class TestWorkloadTemplatesApi:
             '["name!=some-template-name","createdAt>=2021-01-01T00:00:00Z"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
         search = "test project"  # str | Filter results by a free text search.
+        comply_to_project = 56  # int | Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
+        comply_to_replica_type = "comply_to_replica_type_example"  # str | Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
 
         # Make request
         response = self.api.list_distributed_templates()
@@ -602,6 +745,10 @@ class TestWorkloadTemplatesApi:
         assert "filterBy=" in kwargs["url"]
         # Verify query parameters
         assert "search=" in kwargs["url"]
+        # Verify query parameters
+        assert "complyToProject=" in kwargs["url"]
+        # Verify query parameters
+        assert "complyToReplicaType=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, DistributedTemplatesListResponse)
@@ -619,6 +766,72 @@ class TestWorkloadTemplatesApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.list_distributed_templates()
+        assert exc_info.value.status == 400
+
+    def test_list_inference_templates(self):
+        """Test case for list_inference_templates
+
+        List all inference templates. [Experimental] List all inference templates.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
+        sort_order = asc  # str | Sort results in descending or ascending order.
+        sort_by = "sort_by_example"  # str | Sort results by parameter.
+        filter_by = [
+            '["name!=some-template-name","createdAt>=2021-01-01T00:00:00Z"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
+        search = "test project"  # str | Filter results by a free text search.
+        comply_to_project = 56  # int | Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
+
+        # Make request
+        response = self.api.list_inference_templates()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workload-templates/inferences" in kwargs["url"]
+
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+        # Verify query parameters
+        assert "complyToProject=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, InferenceTemplatesListResponse)
+
+    def test_list_inference_templates_error(self):
+        """Test error handling for list_inference_templates"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.list_inference_templates()
         assert exc_info.value.status == 400
 
     def test_list_templates1(self):
@@ -641,6 +854,9 @@ class TestWorkloadTemplatesApi:
             '["name!=some-template-name","createdAt>=2021-01-01T00:00:00Z"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
         search = "test project"  # str | Filter results by a free text search.
+        comply_to_project = 56  # int | Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
+        comply_to_workload_type = "comply_to_workload_type_example"  # str | Include workload creation compliance information of an asset, for a given workload type, as part of the response. To check compliance, you need to provide both project id and workload type.
+        comply_to_replica_type = "comply_to_replica_type_example"  # str | Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
 
         # Make request
         response = self.api.list_templates1()
@@ -665,6 +881,12 @@ class TestWorkloadTemplatesApi:
         assert "filterBy=" in kwargs["url"]
         # Verify query parameters
         assert "search=" in kwargs["url"]
+        # Verify query parameters
+        assert "complyToProject=" in kwargs["url"]
+        # Verify query parameters
+        assert "complyToWorkloadType=" in kwargs["url"]
+        # Verify query parameters
+        assert "complyToReplicaType=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, TemplatesListResponse)
@@ -704,6 +926,7 @@ class TestWorkloadTemplatesApi:
             '["name!=some-template-name","createdAt>=2021-01-01T00:00:00Z"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
         search = "test project"  # str | Filter results by a free text search.
+        comply_to_project = 56  # int | Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
 
         # Make request
         response = self.api.list_training_templates()
@@ -728,6 +951,8 @@ class TestWorkloadTemplatesApi:
         assert "filterBy=" in kwargs["url"]
         # Verify query parameters
         assert "search=" in kwargs["url"]
+        # Verify query parameters
+        assert "complyToProject=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, TrainingTemplatesListResponse)
@@ -767,6 +992,7 @@ class TestWorkloadTemplatesApi:
             '["name!=some-template-name","createdAt>=2021-01-01T00:00:00Z"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
         search = "test project"  # str | Filter results by a free text search.
+        comply_to_project = 56  # int | Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
 
         # Make request
         response = self.api.list_workspace_templates()
@@ -791,6 +1017,8 @@ class TestWorkloadTemplatesApi:
         assert "filterBy=" in kwargs["url"]
         # Verify query parameters
         assert "search=" in kwargs["url"]
+        # Verify query parameters
+        assert "complyToProject=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, WorkspaceTemplatesListResponse)
@@ -969,6 +1197,63 @@ class TestWorkloadTemplatesApi:
         with pytest.raises(ApiException) as exc_info:
             self.api.patch_workspace_template(
                 template_id=template_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_template_name_availability(self):
+        """Test case for template_name_availability
+
+        Template name availability Check if a given template name creates naming conflicts under the given scope. Returns conflict (409) in case the name is not available, or 204 (no content) if it is ok.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        template_name = "my-template-name"  # str | The name of the template.
+        scope_type = "scope_type_example"  # str | The resource scope type to filter by.
+        scope_id = "scope_id_example"  # str | filter by scope id
+
+        # Make request
+        self.api.template_name_availability(
+            template_name=template_name,
+            scope_type=scope_type,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workload-templates/name-availability" in kwargs["url"]
+
+        # Verify query parameters
+        assert "templateName=" in kwargs["url"]
+        # Verify query parameters
+        assert "scopeType=" in kwargs["url"]
+        # Verify query parameters
+        assert "scopeId=" in kwargs["url"]
+
+    def test_template_name_availability_error(self):
+        """Test error handling for template_name_availability"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        template_name = "my-template-name"
+        scope_type = "scope_type_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.template_name_availability(
+                template_name=template_name,
+                scope_type=scope_type,
             )
         assert exc_info.value.status == 400
 

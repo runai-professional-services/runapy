@@ -177,6 +177,55 @@ class PolicyApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    def delete_nim_service_policy(
+        self,
+        scope: str,
+        department_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        cluster_id: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Delete NVIDIA NIM service policy.
+
+        ### Parameters:
+        ```python
+        scope: Optional[str]
+        department_id: Optional[str]
+        project_id: Optional[str]
+        cluster_id: Optional[str]
+        ```
+        scope: The scope that the policy relates to.
+        department_id: Filter using the department id.
+        project_id: project id to filter by
+        cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            scope='scope_example',
+                        department_id='1',
+                        project_id='1',
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("scope", scope),
+            ("departmentId", department_id),
+            ("projectId", project_id),
+            ("clusterId", cluster_id),
+        ]
+        resource_path = f"/api/v2/policy/nim_services".replace("_", "-")
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def delete_training_policy(
         self,
         scope: str,
@@ -427,6 +476,55 @@ class PolicyApi(RunaiAPIService):
             ("clusterId", cluster_id),
         ]
         resource_path = f"/api/v2/policy/inferences".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_nim_service_policy(
+        self,
+        scope: str,
+        department_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        cluster_id: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get NVIDIA NIM service policy.
+
+        ### Parameters:
+        ```python
+        scope: Optional[str]
+        department_id: Optional[str]
+        project_id: Optional[str]
+        cluster_id: Optional[str]
+        ```
+        scope: The scope that the policy relates to.
+        department_id: Filter using the department id.
+        project_id: project id to filter by
+        cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            scope='scope_example',
+                        department_id='1',
+                        project_id='1',
+                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("scope", scope),
+            ("departmentId", department_id),
+            ("projectId", project_id),
+            ("clusterId", cluster_id),
+        ]
+        resource_path = f"/api/v2/policy/nim_services".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
@@ -742,6 +840,52 @@ class PolicyApi(RunaiAPIService):
             query_params=query_params,
         )
 
+    def overwrite_nim_service_policy(
+        self,
+        validate_only: Optional[bool] = None,
+        nim_service_policy_overwrite_request: Optional[
+            models.NimServicePolicyOverwriteRequest
+        ] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Overwrite NVIDIA NIM service policy.
+
+        ### Parameters:
+        ```python
+        validate_only: Optional[bool]
+        nim_service_policy_overwrite_request: NimServicePolicyOverwriteRequest
+        ```
+        validate_only: Validate the given policy payload without applying it
+        nim_service_policy_overwrite_request: See model NimServicePolicyOverwriteRequest for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            validate_only=True,
+                        nim_service_policy_overwrite_request=runai.NimServicePolicyOverwriteRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = nim_service_policy_overwrite_request
+
+        # Query params:
+        query_params = [
+            ("validateOnly", validate_only),
+        ]
+        resource_path = f"/api/v2/policy/nim_services".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+            query_params=query_params,
+        )
+
     def overwrite_training_policy_v2(
         self,
         validate_only: Optional[bool] = None,
@@ -989,6 +1133,52 @@ class PolicyApi(RunaiAPIService):
             ("approveClusterDeletion", approve_cluster_deletion),
         ]
         resource_path = f"/api/v2/policy/inferences".replace("_", "-")
+        method = "PATCH"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+            query_params=query_params,
+        )
+
+    def update_nim_service_policy(
+        self,
+        validate_only: Optional[bool] = None,
+        nim_service_policy_change_request: Optional[
+            models.NimServicePolicyChangeRequest
+        ] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Update NVIDIA NIM service policy.
+
+        ### Parameters:
+        ```python
+        validate_only: Optional[bool]
+        nim_service_policy_change_request: NimServicePolicyChangeRequest
+        ```
+        validate_only: Validate the given policy payload without applying it
+        nim_service_policy_change_request: See model NimServicePolicyChangeRequest for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            validate_only=True,
+                        nim_service_policy_change_request=runai.NimServicePolicyChangeRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = nim_service_policy_change_request
+
+        # Query params:
+        query_params = [
+            ("validateOnly", validate_only),
+        ]
+        resource_path = f"/api/v2/policy/nim_services".replace("_", "-")
         method = "PATCH"
         return self._api_client.call_api(
             resource_path=resource_path,

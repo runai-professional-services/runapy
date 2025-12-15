@@ -15,12 +15,13 @@ class ApplicationsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    @deprecated_message()
     def create_application(
         self,
         application_creation_request: models.ApplicationCreationRequest,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Create an application.
@@ -50,12 +51,13 @@ class ApplicationsApi(RunaiAPIService):
             body=body_params,
         )
 
+    @deprecated_message()
     def delete_application_by_id(
         self,
         app_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Delete an application by id.
@@ -81,12 +83,13 @@ class ApplicationsApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def get_application_by_id(
         self,
         app_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get application by id.
@@ -112,11 +115,12 @@ class ApplicationsApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def get_applications(
         self,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get a list of applications.
@@ -140,12 +144,13 @@ class ApplicationsApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def regenerate_application_secret(
         self,
         app_id: str,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Regenerate an application secret.
@@ -171,13 +176,14 @@ class ApplicationsApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def update_application_by_id(
         self,
         app_id: str,
         application_patch_request: Optional[models.ApplicationPatchRequest] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Update application details by id.

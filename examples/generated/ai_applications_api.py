@@ -18,11 +18,36 @@ api_client = ApiClient(configuration)
 api_instance = AIApplicationsApi(api_client)
 
 
+def example_count_applications():
+    """
+    Example of using count_applications
+
+    Count AI applications. [Experimental]
+    Get the total number of AI applications.
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        search = "example_search"
+
+        # Make the API call
+        api_response = api_instance.count_applications(
+            filter_by=filter_by,
+            search=search,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_applications: {e}")
+
+
 def example_get_application():
     """
     Example of using get_application
 
-    Get AI application.
+    Get AI application. [Experimental]
     Get AI application.
     """
     try:
@@ -43,7 +68,7 @@ def example_list_applications():
     """
     Example of using list_applications
 
-    List AI applications.
+    List AI applications. [Experimental]
     List AI applications.
     """
     try:
@@ -59,6 +84,8 @@ def example_list_applications():
 
         filter_by = ["example_item_1", "example_item_2"]
 
+        search = "example_search"
+
         # Make the API call
         api_response = api_instance.list_applications(
             verbosity=verbosity,
@@ -67,6 +94,7 @@ def example_list_applications():
             sort_order=sort_order,
             sort_by=sort_by,
             filter_by=filter_by,
+            search=search,
         )
         print(f"API response: {api_response}")
 

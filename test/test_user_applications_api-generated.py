@@ -348,7 +348,7 @@ class TestUserApplicationsApi:
         assert "/api/v1/user-applications/{appId}/secret" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, RegenerateUserApplicationSecret200Response)
+        assert isinstance(response, RegenerateAccessKeySecret200Response)
 
     def test_regenerate_user_application_secret_error(self):
         """Test error handling for regenerate_user_application_secret"""
