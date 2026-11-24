@@ -18,29 +18,6 @@ api_client = ApiClient(configuration)
 api_instance = TokensApi(api_client)
 
 
-def example_app_token():
-    """
-    Example of using app_token
-
-    get application token
-    Retrieve access token for an application. The application token is retrieved from the authorization server. This endpoint is deprecated.  Use /api/v1/token with the grantType parameter set to app_token instead, with AppID and appSecret set accordingly to get an application token
-    """
-    try:
-        # Prepare the request parameters
-
-        # Create example data for AppTokenRequest
-        app_token_request = models.AppTokenRequest(id="", name="", secret="")
-
-        # Make the API call
-        api_response = api_instance.app_token(
-            app_token_request=app_token_request,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling app_token: {e}")
-
-
 def example_grant_token():
     """
     Example of using grant_token
@@ -53,9 +30,7 @@ def example_grant_token():
 
         # Create example data for TokenRequest
         token_request = models.TokenRequest(
-            grant_type="app_token",
-            app_id="",
-            app_secret="",
+            grant_type="client_credentials",
             code="",
             redirect_uri="",
             refresh_token="",
@@ -64,6 +39,7 @@ def example_grant_token():
             client_id="",
             client_secret="",
             external_token="",
+            code_verifier="",
         )
 
         # Make the API call

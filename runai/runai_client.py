@@ -19,6 +19,10 @@ class Organizations(_ApiGroup):
         self.api_client = api_client
 
     @property
+    def settings(self) -> api.SettingsApi:
+        return api.SettingsApi(self.api_client)
+
+    @property
     def clusters(self) -> api.ClustersApi:
         return api.ClustersApi(self.api_client)
 
@@ -110,10 +114,6 @@ class AuthenticationAndAuthorization(_ApiGroup):
     @property
     def me(self) -> api.MeApi:
         return api.MeApi(self.api_client)
-
-    @property
-    def settings(self) -> api.SettingsApi:
-        return api.SettingsApi(self.api_client)
 
     @property
     def org_unit(self) -> api.OrgUnitApi:

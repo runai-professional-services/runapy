@@ -33,6 +33,8 @@ def example_download_audit_logs():
         end = "2024-12-29T12:00:00Z"
         file_type = "example_file_type"
 
+        offset = 42
+
         number_of_samples = 42
 
         filter_by = ["example_item_1", "example_item_2"]
@@ -42,6 +44,7 @@ def example_download_audit_logs():
             start=start,
             end=end,
             file_type=file_type,
+            offset=offset,
             number_of_samples=number_of_samples,
             filter_by=filter_by,
         )

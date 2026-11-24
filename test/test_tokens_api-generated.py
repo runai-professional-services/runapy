@@ -36,52 +36,6 @@ class TestTokensApi:
         yield
         self.request_patcher.stop()
 
-    def test_app_token(self):
-        """Test case for app_token
-
-        get application token Retrieve access token for an application. The application token is retrieved from the authorization server. This endpoint is deprecated.  Use /api/v1/token with the grantType parameter set to app_token instead, with AppID and appSecret set accordingly to get an application token
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        app_token_request = runai.AppTokenRequest()  # AppTokenRequest |
-
-        # Make request
-        response = self.api.app_token()
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "POST"
-        assert "/v1/k8s/auth/oauth/apptoken" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, AppTokenResponse)
-
-    def test_app_token_error(self):
-        """Test error handling for app_token"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.app_token()
-        assert exc_info.value.status == 400
-
     def test_grant_token(self):
         """Test case for grant_token
 

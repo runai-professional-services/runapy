@@ -345,9 +345,6 @@ class TestAccessRulesApi:
 
         # Test parameters
         subject_type = "user"  # str | The type of resource we want to filter by.
-        subject_id_filter = (
-            "some.user"  # str | Part of the subject id that we want to filter by.
-        )
         subject_ids = [
             "subject_ids_example"
         ]  # List[str] | The ids of the subjects to filter the response for.
@@ -358,9 +355,7 @@ class TestAccessRulesApi:
         cluster_id = UUID(
             "d73a738f-fab3-430a-8fa3-5241493d7128"
         )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
-        scope_type = "project"  # str | The type of resource we want to filter by.
         scope_id = "2"  # str | The scope resource id that we want to filter by.
-        role_id = 56  # int | The role id we want to filter by.
         sort_order = asc  # str | Sort results in descending or ascending order.
         sort_by = (
             runai.AccessRulesSortFilterFields()
@@ -384,8 +379,6 @@ class TestAccessRulesApi:
         # Verify query parameters
         assert "subjectType=" in kwargs["url"]
         # Verify query parameters
-        assert "subjectIdFilter=" in kwargs["url"]
-        # Verify query parameters
         assert "subjectIds=" in kwargs["url"]
         # Verify query parameters
         assert "limit=" in kwargs["url"]
@@ -398,11 +391,7 @@ class TestAccessRulesApi:
         # Verify query parameters
         assert "clusterId=" in kwargs["url"]
         # Verify query parameters
-        assert "scopeType=" in kwargs["url"]
-        # Verify query parameters
         assert "scopeId=" in kwargs["url"]
-        # Verify query parameters
-        assert "roleId=" in kwargs["url"]
         # Verify query parameters
         assert "sortOrder=" in kwargs["url"]
         # Verify query parameters

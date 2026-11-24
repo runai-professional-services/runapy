@@ -88,6 +88,66 @@ def example_get_workload():
         print(f"Exception when calling get_workload: {e}")
 
 
+def example_get_workload_element():
+    """
+    Example of using get_workload_element
+
+    Get a single workload structure element by element id.
+    Retrieve a specific structure element for a workload, including aggregated requested and allocated resources from pods linked to this element. Completed pods are excluded from aggregation. Requires cluster version &gt;&#x3D; 2.25.
+    """
+    try:
+        # Prepare the request parameters
+        workload_id = "example_workload_id"
+
+        element_id = "example_element_id"
+
+        # Make the API call
+        api_response = api_instance.get_workload_element(
+            workload_id=workload_id,
+            element_id=element_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_workload_element: {e}")
+
+
+def example_get_workload_element_metrics():
+    """
+    Example of using get_workload_element_metrics
+
+    Get element metrics data.
+    Retrieve metrics data for a specific workload structure element. Requires cluster version 2.25 or later.
+    """
+    try:
+        # Prepare the request parameters
+        workload_id = "example_workload_id"
+
+        element_id = "example_element_id"
+
+        metric_type = ["example_item_1", "example_item_2"]
+
+        start = "2024-12-29T12:00:00Z"
+
+        end = "2024-12-29T12:00:00Z"
+
+        number_of_samples = 42
+
+        # Make the API call
+        api_response = api_instance.get_workload_element_metrics(
+            workload_id=workload_id,
+            element_id=element_id,
+            metric_type=metric_type,
+            start=start,
+            end=end,
+            number_of_samples=number_of_samples,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_workload_element_metrics: {e}")
+
+
 def example_get_workload_elements():
     """
     Example of using get_workload_elements
@@ -225,6 +285,8 @@ def example_get_workloads_telemetry():
 
         department_id = "example_department_id"
 
+        project_id = "example_project_id"
+
         group_by = ["example_item_1", "example_item_2"]
 
         filter_by_phases = ["example_item_1", "example_item_2"]
@@ -235,6 +297,7 @@ def example_get_workloads_telemetry():
             cluster_id=cluster_id,
             nodepool_name=nodepool_name,
             department_id=department_id,
+            project_id=project_id,
             group_by=group_by,
             filter_by_phases=filter_by_phases,
         )

@@ -39,7 +39,7 @@ class TestWorkloadsV2Api:
     def test_create_workload_v2(self):
         """Test case for create_workload_v2
 
-        Create a workload. [Experimental] Submit a workload with metadata and a Kubernetes manifest.
+        Create a workload. Submit a workload with metadata and a Kubernetes manifest.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -98,7 +98,7 @@ class TestWorkloadsV2Api:
     def test_delete_workload_v2(self):
         """Test case for delete_workload_v2
 
-        Delete a workload. [Experimental] Delete a specific workload by ID
+        Delete a workload. Delete a specific workload by ID
         """
         # Mock response
         mock_response = mock.Mock()
@@ -146,7 +146,7 @@ class TestWorkloadsV2Api:
     def test_get_workload_v2_by_id(self):
         """Test case for get_workload_v2_by_id
 
-        Get a specific workload. [Experimental] Retrieve details of a specific workload by ID
+        Get a specific workload. Retrieve details of a specific workload by ID
         """
         # Mock response
         mock_response = mock.Mock()
@@ -194,7 +194,7 @@ class TestWorkloadsV2Api:
     def test_update_workload_v2(self):
         """Test case for update_workload_v2
 
-        Update workload spec. [Experimental] Update the specification of an existing workload.
+        Update workload spec. Update the specification of an existing workload.
         """
         # Mock response
         mock_response = mock.Mock()

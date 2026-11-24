@@ -186,6 +186,8 @@ def example_get_department_metrics():
 
         nodepool_name = "example_nodepool_name"
 
+        group_by = "example_group_by"
+
         # Make the API call
         api_response = api_instance.get_department_metrics(
             department_id=department_id,
@@ -194,6 +196,7 @@ def example_get_department_metrics():
             end=end,
             number_of_samples=number_of_samples,
             nodepool_name=nodepool_name,
+            group_by=group_by,
         )
         print(f"API response: {api_response}")
 

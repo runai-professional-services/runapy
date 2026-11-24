@@ -23,7 +23,7 @@ def example_get_tenant_logo():
     Example of using get_tenant_logo
 
     Get tenant logo. (base64)
-    Retrieve the base64 logo file.
+    Retrieve the base64 logo file. This endpoint is deprecated and will be removed in a future release. Use GET /api/v1/branding/settings/logo instead.
     """
     try:
         # Make the API call with no parameters
@@ -39,7 +39,7 @@ def example_upload_tenant_logo():
     Example of using upload_tenant_logo
 
     Upload logo for tenant. (base64)
-    Use to upload a base64 logo file (PNG or SVG). Max size 128kb.
+    Use to upload a base64 logo file (PNG or SVG). Max size 128kb. This endpoint is deprecated and will be removed in a future release. Use PUT /api/v1/branding/settings/logo instead.
     """
     try:
         # Prepare the request parameters

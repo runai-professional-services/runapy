@@ -238,6 +238,7 @@ class DepartmentsApi(RunaiAPIService):
         end: datetime,
         number_of_samples: Optional[int] = None,
         nodepool_name: Optional[str] = None,
+        group_by: Optional[str] = None,
     ):
         r"""
 
@@ -253,6 +254,7 @@ class DepartmentsApi(RunaiAPIService):
         end: Optional[datetime]
         number_of_samples: Optional[int]
         nodepool_name: Optional[str]
+        group_by: Optional[str]
         ```
         department_id: The id of the department.
         metric_type: Specify which data to request.
@@ -260,6 +262,7 @@ class DepartmentsApi(RunaiAPIService):
         end: End date of time range to fetch data in ISO 8601 timestamp format.
         number_of_samples: The number of samples to take in the specified time range. - Default: 20
         nodepool_name: Filter using the nodepool.
+        group_by: Field to group the metrics data by. Currently only supported for WORKLOADS_COUNT metric type.
 
         ### Example:
         ```python
@@ -269,7 +272,8 @@ class DepartmentsApi(RunaiAPIService):
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
                         number_of_samples=20,
-                        nodepool_name='default'
+                        nodepool_name='default',
+                        group_by='group_by_example'
         )
         ```
         """
@@ -281,6 +285,7 @@ class DepartmentsApi(RunaiAPIService):
             ("end", end),
             ("numberOfSamples", number_of_samples),
             ("nodepoolName", nodepool_name),
+            ("groupBy", group_by),
         ]
         resource_path = f"/api/v1/org_unit/departments/{department_id}/metrics".replace(
             "_", "-"

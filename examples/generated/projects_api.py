@@ -189,6 +189,8 @@ def example_get_project_metrics():
 
         nodepool_name = "example_nodepool_name"
 
+        group_by = "example_group_by"
+
         # Make the API call
         api_response = api_instance.get_project_metrics(
             project_id=project_id,
@@ -197,6 +199,7 @@ def example_get_project_metrics():
             end=end,
             number_of_samples=number_of_samples,
             nodepool_name=nodepool_name,
+            group_by=group_by,
         )
         print(f"API response: {api_response}")
 
@@ -290,6 +293,8 @@ def example_get_projects_telemetry():
 
         department_id = "example_department_id"
 
+        project_id = "example_project_id"
+
         group_by = ["example_item_1", "example_item_2"]
 
         # Make the API call
@@ -298,6 +303,7 @@ def example_get_projects_telemetry():
             cluster_id=cluster_id,
             nodepool_id=nodepool_id,
             department_id=department_id,
+            project_id=project_id,
             group_by=group_by,
         )
         print(f"API response: {api_response}")

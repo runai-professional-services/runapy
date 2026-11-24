@@ -195,8 +195,6 @@ def example_get_access_rules():
         # Prepare the request parameters
         subject_type = "example_subject_type"
 
-        subject_id_filter = "example_subject_id_filter"
-
         subject_ids = ["example_item_1", "example_item_2"]
 
         limit = 42
@@ -209,11 +207,7 @@ def example_get_access_rules():
 
         cluster_id = "example_cluster_id"
 
-        scope_type = "example_scope_type"
-
         scope_id = "example_scope_id"
-
-        role_id = 42
 
         sort_order = "example_sort_order"
 
@@ -224,16 +218,13 @@ def example_get_access_rules():
         # Make the API call
         api_response = api_instance.get_access_rules(
             subject_type=subject_type,
-            subject_id_filter=subject_id_filter,
             subject_ids=subject_ids,
             limit=limit,
             offset=offset,
             last_updated=last_updated,
             include_deleted=include_deleted,
             cluster_id=cluster_id,
-            scope_type=scope_type,
             scope_id=scope_id,
-            role_id=role_id,
             sort_order=sort_order,
             sort_by=sort_by,
             filter_by=filter_by,

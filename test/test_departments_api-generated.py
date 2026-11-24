@@ -361,6 +361,7 @@ class TestDepartmentsApi:
             20  # int | The number of samples to take in the specified time range.
         )
         nodepool_name = "default"  # str | Filter using the nodepool.
+        group_by = "group_by_example"  # str | Field to group the metrics data by. Currently only supported for WORKLOADS_COUNT metric type.
 
         # Make request
         response = self.api.get_department_metrics(
@@ -388,6 +389,8 @@ class TestDepartmentsApi:
         assert "numberOfSamples=" in kwargs["url"]
         # Verify query parameters
         assert "nodepoolName=" in kwargs["url"]
+        # Verify query parameters
+        assert "groupBy=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, MetricsResponse)

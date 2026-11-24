@@ -239,6 +239,7 @@ class ProjectsApi(RunaiAPIService):
         end: datetime,
         number_of_samples: Optional[int] = None,
         nodepool_name: Optional[str] = None,
+        group_by: Optional[str] = None,
     ):
         r"""
 
@@ -254,6 +255,7 @@ class ProjectsApi(RunaiAPIService):
         end: Optional[datetime]
         number_of_samples: Optional[int]
         nodepool_name: Optional[str]
+        group_by: Optional[str]
         ```
         project_id: The project id
         metric_type: Specify which data to request.
@@ -261,6 +263,7 @@ class ProjectsApi(RunaiAPIService):
         end: End date of time range to fetch data in ISO 8601 timestamp format.
         number_of_samples: The number of samples to take in the specified time range. - Default: 20
         nodepool_name: Filter using the nodepool.
+        group_by: Field to group the metrics data by. Currently only supported for WORKLOADS_COUNT metric type.
 
         ### Example:
         ```python
@@ -270,7 +273,8 @@ class ProjectsApi(RunaiAPIService):
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
                         number_of_samples=20,
-                        nodepool_name='default'
+                        nodepool_name='default',
+                        group_by='group_by_example'
         )
         ```
         """
@@ -282,6 +286,7 @@ class ProjectsApi(RunaiAPIService):
             ("end", end),
             ("numberOfSamples", number_of_samples),
             ("nodepoolName", nodepool_name),
+            ("groupBy", group_by),
         ]
         resource_path = f"/api/v1/org_unit/projects/{project_id}/metrics".replace(
             "_", "-"
@@ -417,6 +422,7 @@ class ProjectsApi(RunaiAPIService):
         cluster_id: Optional[UUID] = None,
         nodepool_id: Optional[str] = None,
         department_id: Optional[str] = None,
+        project_id: Optional[str] = None,
         group_by: Optional[List[str]] = None,
     ):
         r"""
@@ -431,12 +437,14 @@ class ProjectsApi(RunaiAPIService):
         cluster_id: Optional[UUID]
         nodepool_id: Optional[str]
         department_id: Optional[str]
+        project_id: Optional[str]
         group_by: Optional[List[str]]
         ```
         telemetry_type: specifies what data to request
         cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
         nodepool_id: Filter using the nodepool.
         department_id: Filter using the department id.
+        project_id: project id to filter by
         group_by: project fields to group the data by
 
         ### Example:
@@ -446,6 +454,7 @@ class ProjectsApi(RunaiAPIService):
                         cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         nodepool_id='1',
                         department_id='1',
+                        project_id='1',
                         group_by=['group_by_example']
         )
         ```
@@ -456,6 +465,7 @@ class ProjectsApi(RunaiAPIService):
             ("clusterId", cluster_id),
             ("nodepoolId", nodepool_id),
             ("departmentId", department_id),
+            ("projectId", project_id),
             ("groupBy", group_by),
             ("telemetryType", telemetry_type),
         ]

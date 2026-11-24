@@ -132,46 +132,6 @@ def example_get_node_telemetry():
         print(f"Exception when calling get_node_telemetry: {e}")
 
 
-def example_get_nodes():
-    """
-    Example of using get_nodes
-
-    Get a list of nodes.
-    Retrieve a list of nodes from the Kubernetes cluster. Deprecated - use &#x60;/api/v1/nodes&#x60; instead.
-    """
-    try:
-        # Prepare the request parameters
-        cluster_uuid = "example_cluster_uuid"
-
-        node_name = "example_node_name"
-
-        filter_by = ["example_item_1", "example_item_2"]
-
-        sort_order = "example_sort_order"
-
-        offset = 42
-
-        limit = 42
-
-        search = "example_search"
-
-        # Make the API call
-        api_response = api_instance.get_nodes(
-            cluster_uuid=cluster_uuid,
-            node_name=node_name,
-            filter_by=filter_by,
-            sort_by=sort_by,
-            sort_order=sort_order,
-            offset=offset,
-            limit=limit,
-            search=search,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling get_nodes: {e}")
-
-
 def example_get_tenant_nodes():
     """
     Example of using get_tenant_nodes

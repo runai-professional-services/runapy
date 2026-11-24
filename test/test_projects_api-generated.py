@@ -363,6 +363,7 @@ class TestProjectsApi:
             20  # int | The number of samples to take in the specified time range.
         )
         nodepool_name = "default"  # str | Filter using the nodepool.
+        group_by = "group_by_example"  # str | Field to group the metrics data by. Currently only supported for WORKLOADS_COUNT metric type.
 
         # Make request
         response = self.api.get_project_metrics(
@@ -390,6 +391,8 @@ class TestProjectsApi:
         assert "numberOfSamples=" in kwargs["url"]
         # Verify query parameters
         assert "nodepoolName=" in kwargs["url"]
+        # Verify query parameters
+        assert "groupBy=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, MetricsResponse)
@@ -568,6 +571,7 @@ class TestProjectsApi:
         )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         nodepool_id = "1"  # str | Filter using the nodepool.
         department_id = "1"  # str | Filter using the department id.
+        project_id = "1"  # str | project id to filter by
         group_by = [
             "group_by_example"
         ]  # List[str] | project fields to group the data by
@@ -591,6 +595,8 @@ class TestProjectsApi:
         assert "nodepoolId=" in kwargs["url"]
         # Verify query parameters
         assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "projectId=" in kwargs["url"]
         # Verify query parameters
         assert "groupBy=" in kwargs["url"]
         # Verify query parameters

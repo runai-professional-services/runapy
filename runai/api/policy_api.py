@@ -15,6 +15,80 @@ class PolicyApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def apply_gvk_policy(
+        self,
+        policy_id: UUID,
+        update_gvk_policy_req: Optional[models.UpdateGvkPolicyReq] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Replace a policy. [experimental]
+
+        ### Parameters:
+        ```python
+        policy_id: UUID
+        update_gvk_policy_req: UpdateGvkPolicyReq
+        ```
+        policy_id: The unique identifier for the policy.
+        update_gvk_policy_req: See model UpdateGvkPolicyReq for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            policy_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        update_gvk_policy_req=runai.UpdateGvkPolicyReq()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_gvk_policy_req
+
+        resource_path = f"/api/v1/policies/{policy_id}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def create_gvk_policy(
+        self,
+        create_gvk_policy_req: Optional[models.CreateGvkPolicyReq] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Create a policy. [experimental]
+
+        ### Parameters:
+        ```python
+        create_gvk_policy_req: CreateGvkPolicyReq
+        ```
+        create_gvk_policy_req: See model CreateGvkPolicyReq for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            create_gvk_policy_req=runai.CreateGvkPolicyReq()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = create_gvk_policy_req
+
+        resource_path = f"/api/v1/policies".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
     def delete_distributed_inference_policy(
         self,
         scope: str,
@@ -121,6 +195,76 @@ class PolicyApi(RunaiAPIService):
         method = "DELETE"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def delete_gvk_policy(
+        self,
+        policy_id: UUID,
+    ):
+        r"""
+
+
+        ### Description
+        Delete a policy. [experimental]
+
+        ### Parameters:
+        ```python
+        policy_id: UUID
+        ```
+        policy_id: The unique identifier for the policy.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            policy_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/policies/{policy_id}".replace("_", "-")
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def delete_gvk_policy_rules(
+        self,
+        policy_id: UUID,
+        delete_gvk_policy_rules_req: Optional[models.DeleteGvkPolicyRulesReq] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Delete rules from a policy. [experimental]
+
+        ### Parameters:
+        ```python
+        policy_id: UUID
+        delete_gvk_policy_rules_req: DeleteGvkPolicyRulesReq
+        ```
+        policy_id: The unique identifier for the policy.
+        delete_gvk_policy_rules_req: See model DeleteGvkPolicyRulesReq for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            policy_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        delete_gvk_policy_rules_req=runai.DeleteGvkPolicyRulesReq()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = delete_gvk_policy_rules_req
+
+        resource_path = f"/api/v1/policies/{policy_id}/rules".replace("_", "-")
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )
 
     def delete_inference_policy(
@@ -432,6 +576,72 @@ class PolicyApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    def get_effective_policy(
+        self,
+        workload_type_and_scope: models.WorkloadTypeAndScope,
+    ):
+        r"""
+
+
+        ### Description
+        Get the effective policy by type and scope. The effective policy is a combination of the policy provided for the given scope (if exist) and the effective policies of its parent scopes.
+
+        ### Parameters:
+        ```python
+        workload_type_and_scope: WorkloadTypeAndScope
+        ```
+        workload_type_and_scope: See model WorkloadTypeAndScope for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            workload_type_and_scope=runai.WorkloadTypeAndScope()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = workload_type_and_scope
+
+        resource_path = f"/api/v1/policies/effective".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def get_gvk_policy(
+        self,
+        policy_id: UUID,
+    ):
+        r"""
+
+
+        ### Description
+        Get a policy. [experimental]
+
+        ### Parameters:
+        ```python
+        policy_id: UUID
+        ```
+        policy_id: The unique identifier for the policy.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            policy_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/policies/{policy_id}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
     def get_inference_policy_v2(
         self,
         scope: str,
@@ -479,6 +689,76 @@ class PolicyApi(RunaiAPIService):
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_mapping_field_info(
+        self,
+        get_mapping_field_info_req: Optional[models.GetMappingFieldInfoReq] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get mapping field info. [experimental]
+
+        ### Parameters:
+        ```python
+        get_mapping_field_info_req: GetMappingFieldInfoReq
+        ```
+        get_mapping_field_info_req: See model GetMappingFieldInfoReq for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            get_mapping_field_info_req=runai.GetMappingFieldInfoReq()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = get_mapping_field_info_req
+
+        resource_path = f"/api/v1/policies/mappings/field_info".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def get_mapping_minimal(
+        self,
+        get_mapping_minimal_info_req: Optional[models.GetMappingMinimalInfoReq] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get minimal mapping info. [experimental]
+
+        ### Parameters:
+        ```python
+        get_mapping_minimal_info_req: GetMappingMinimalInfoReq
+        ```
+        get_mapping_minimal_info_req: See model GetMappingMinimalInfoReq for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            get_mapping_minimal_info_req=runai.GetMappingMinimalInfoReq()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = get_mapping_minimal_info_req
+
+        resource_path = f"/api/v1/policies/mappings/minimal".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )
 
     def get_nim_service_policy(
@@ -623,6 +903,60 @@ class PolicyApi(RunaiAPIService):
             ("clusterId", cluster_id),
         ]
         resource_path = f"/api/v2/policy/workspaces".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def list_gvk_policies(
+        self,
+        filter_by: Optional[List[str]] = None,
+        sort_by: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        sort_order: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        List policies. [experimental]
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        sort_by: Optional[str]
+        offset: Optional[int]
+        limit: Optional[int]
+        sort_order: Optional[str]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Filterable fields are &#x60;id&#x60;, &#x60;type&#x60; and &#x60;scope&#x60;. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contain, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
+        sort_by: The field to sort the results by.
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+        sort_order: Sort results in descending or ascending order. - Default: asc
+
+        ### Example:
+        ```python
+        PolicyApi(
+            filter_by=['[\"scope==project\"]'],
+                        sort_by='sort_by_example',
+                        offset=100,
+                        limit=50,
+                        sort_order=asc
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("sortBy", sort_by),
+            ("offset", offset),
+            ("limit", limit),
+            ("sortOrder", sort_order),
+        ]
+        resource_path = f"/api/v1/policies".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
@@ -986,6 +1320,45 @@ class PolicyApi(RunaiAPIService):
             method=method,
             body=body_params,
             query_params=query_params,
+        )
+
+    def patch_gvk_policy(
+        self,
+        policy_id: UUID,
+        update_gvk_policy_req: Optional[models.UpdateGvkPolicyReq] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Patch a policy. [experimental]
+
+        ### Parameters:
+        ```python
+        policy_id: UUID
+        update_gvk_policy_req: UpdateGvkPolicyReq
+        ```
+        policy_id: The unique identifier for the policy.
+        update_gvk_policy_req: See model UpdateGvkPolicyReq for more information.
+
+        ### Example:
+        ```python
+        PolicyApi(
+            policy_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        update_gvk_policy_req=runai.UpdateGvkPolicyReq()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_gvk_policy_req
+
+        resource_path = f"/api/v1/policies/{policy_id}".replace("_", "-")
+        method = "PATCH"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )
 
     def update_distributed_inference_policy_v2(

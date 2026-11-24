@@ -17,6 +17,61 @@ configuration = Configuration(
 api_client = ApiClient(configuration)
 api_instance = PolicyApi(api_client)
 
+def example_apply_gvk_policy():
+    """
+    Example of using apply_gvk_policy
+    
+    Replace a policy. [experimental]
+    Replace an existing policy&#39;s rules and description.
+    """
+    try:
+        # Prepare the request parameters
+        policy_id = "example_policy_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        # Create example data for UpdateGvkPolicyReq
+        update_gvk_policy_req = models.UpdateGvkPolicyReq(
+        )
+
+        # Make the API call
+        api_response = api_instance.apply_gvk_policy(
+            policy_id=policy_id,
+            update_gvk_policy_req=update_gvk_policy_req,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling apply_gvk_policy: {e}")
+
+def example_create_gvk_policy():
+    """
+    Example of using create_gvk_policy
+    
+    Create a policy. [experimental]
+    Create a policy for a specific workload type based on the provided specification.
+    """
+    try:
+        # Prepare the request parameters
+        
+        # Create example data for CreateGvkPolicyReq
+        create_gvk_policy_req = models.CreateGvkPolicyReq(
+        )
+
+        # Make the API call
+        api_response = api_instance.create_gvk_policy(
+            create_gvk_policy_req=create_gvk_policy_req,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling create_gvk_policy: {e}")
+
 def example_delete_distributed_inference_policy():
     """
     Example of using delete_distributed_inference_policy
@@ -140,6 +195,64 @@ def example_delete_distributed_policy():
 
     except Exception as e:
         print(f"Exception when calling delete_distributed_policy: {e}")
+
+def example_delete_gvk_policy():
+    """
+    Example of using delete_gvk_policy
+    
+    Delete a policy. [experimental]
+    Delete an existing policy and all of its rules.
+    """
+    try:
+        # Prepare the request parameters
+        policy_id = "example_policy_id"
+        
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_instance.delete_gvk_policy(
+            policy_id=policy_id,
+        )
+
+    except Exception as e:
+        print(f"Exception when calling delete_gvk_policy: {e}")
+
+def example_delete_gvk_policy_rules():
+    """
+    Example of using delete_gvk_policy_rules
+    
+    Delete rules from a policy. [experimental]
+    Delete one or more rules from an existing policy by reference.
+    """
+    try:
+        # Prepare the request parameters
+        policy_id = "example_policy_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        # Create example data for DeleteGvkPolicyRulesReq
+        delete_gvk_policy_rules_req = models.DeleteGvkPolicyRulesReq(
+        )
+
+        # Make the API call
+        api_response = api_instance.delete_gvk_policy_rules(
+            policy_id=policy_id,
+            delete_gvk_policy_rules_req=delete_gvk_policy_rules_req,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling delete_gvk_policy_rules: {e}")
 
 def example_delete_inference_policy():
     """
@@ -488,6 +601,64 @@ def example_get_distributed_policy_v2():
     except Exception as e:
         print(f"Exception when calling get_distributed_policy_v2: {e}")
 
+def example_get_effective_policy():
+    """
+    Example of using get_effective_policy
+    
+    Get the effective policy by type and scope. The effective policy is a combination of the policy provided for the given scope (if exist) and the effective policies of its parent scopes.
+    
+    """
+    try:
+        # Prepare the request parameters
+        
+        # Create example data for WorkloadTypeAndScope
+        workload_type_and_scope = models.WorkloadTypeAndScope(
+            workload_type = runai.models.gvk.GVK(
+                    group = 'apps', 
+                    version = 'v1', 
+                    kind = 'Deployment', ),
+            scope = 'system',
+            cluster_id = '71f69d83-ba66-4822-adf5-55ce55efd210',
+            department_id = '2',
+            project_id = '1'
+        )
+
+        # Make the API call
+        api_response = api_instance.get_effective_policy(
+            workload_type_and_scope=workload_type_and_scope,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_effective_policy: {e}")
+
+def example_get_gvk_policy():
+    """
+    Example of using get_gvk_policy
+    
+    Get a policy. [experimental]
+    Retrieve policy details by id, including both the declared rules and the effective rules.
+    """
+    try:
+        # Prepare the request parameters
+        policy_id = "example_policy_id"
+        
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.get_gvk_policy(
+            policy_id=policy_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_gvk_policy: {e}")
+
 def example_get_inference_policy_v2():
     """
     Example of using get_inference_policy_v2
@@ -541,6 +712,66 @@ def example_get_inference_policy_v2():
 
     except Exception as e:
         print(f"Exception when calling get_inference_policy_v2: {e}")
+
+def example_get_mapping_field_info():
+    """
+    Example of using get_mapping_field_info
+    
+    Get mapping field info. [experimental]
+    Retrieve the detailed breakdown for one or more field references in a workload type&#39;s mapping.
+    """
+    try:
+        # Prepare the request parameters
+        
+        # Create example data for GetMappingFieldInfoReq
+        get_mapping_field_info_req = models.GetMappingFieldInfoReq(
+            workload_type = runai.models.gvk.GVK(
+                    group = 'apps', 
+                    version = 'v1', 
+                    kind = 'Deployment', ),
+            fields_ref = [
+                    runai.models.breakdown_field_ref.BreakdownFieldRef(
+                        field_name = null, 
+                        spec_selector = '', 
+                        item_selector = '', )
+                    ]
+        )
+
+        # Make the API call
+        api_response = api_instance.get_mapping_field_info(
+            get_mapping_field_info_req=get_mapping_field_info_req,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_mapping_field_info: {e}")
+
+def example_get_mapping_minimal():
+    """
+    Example of using get_mapping_minimal
+    
+    Get minimal mapping info. [experimental]
+    Retrieve the names and descriptions of fields, spec selectors, and item selectors for a workload type, without the full JQ expressions.
+    """
+    try:
+        # Prepare the request parameters
+        
+        # Create example data for GetMappingMinimalInfoReq
+        get_mapping_minimal_info_req = models.GetMappingMinimalInfoReq(
+            workload_type = runai.models.gvk.GVK(
+                    group = 'apps', 
+                    version = 'v1', 
+                    kind = 'Deployment', )
+        )
+
+        # Make the API call
+        api_response = api_instance.get_mapping_minimal(
+            get_mapping_minimal_info_req=get_mapping_minimal_info_req,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_mapping_minimal: {e}")
 
 def example_get_nim_service_policy():
     """
@@ -703,6 +934,69 @@ def example_get_workspace_policy_v2():
 
     except Exception as e:
         print(f"Exception when calling get_workspace_policy_v2: {e}")
+
+def example_list_gvk_policies():
+    """
+    Example of using list_gvk_policies
+    
+    List policies. [experimental]
+    Retrieve a list of policies with their details, optionally filtered, sorted, and paginated.
+    """
+    try:
+        # Prepare the request parameters
+        
+        
+        
+        filter_by = ["example_item_1", "example_item_2"]
+        
+        
+        
+        
+        sort_by = "example_sort_by"
+        
+        
+        
+        
+        
+        
+        
+        
+        offset = 42
+        
+        
+        
+        
+        
+        
+        
+        limit = 42
+        
+        
+        
+        
+        
+        
+        sort_order = "example_sort_order"
+        
+        
+        
+        
+        
+        
+        
+
+        # Make the API call
+        api_response = api_instance.list_gvk_policies(
+            filter_by=filter_by,
+            sort_by=sort_by,
+            offset=offset,
+            limit=limit,
+            sort_order=sort_order,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling list_gvk_policies: {e}")
 
 def example_list_policies():
     """
@@ -931,7 +1225,7 @@ def example_overwrite_distributed_policy_v2():
                             image_pull_policy = 'Always', 
                             image_pull_secrets = runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(), 
                             labels = runai.models.labels_defaults.LabelsDefaults(), 
-                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@30745c7c}, 
+                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@25a55890}, 
                             node_pools = ["my-node-pool-a","my-node-pool-b"], 
                             node_type = 'my-node-type', 
                             pod_affinity = {type=Required, key=key}, 
@@ -1191,6 +1485,38 @@ def example_overwrite_workspace_policy_v2():
     except Exception as e:
         print(f"Exception when calling overwrite_workspace_policy_v2: {e}")
 
+def example_patch_gvk_policy():
+    """
+    Example of using patch_gvk_policy
+    
+    Patch a policy. [experimental]
+    Merge rules into an existing policy, keyed by rule identity.
+    """
+    try:
+        # Prepare the request parameters
+        policy_id = "example_policy_id"
+        
+        
+        
+        
+        
+        
+        
+        
+        # Create example data for UpdateGvkPolicyReq
+        update_gvk_policy_req = models.UpdateGvkPolicyReq(
+        )
+
+        # Make the API call
+        api_response = api_instance.patch_gvk_policy(
+            policy_id=policy_id,
+            update_gvk_policy_req=update_gvk_policy_req,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling patch_gvk_policy: {e}")
+
 def example_update_distributed_inference_policy_v2():
     """
     Example of using update_distributed_inference_policy_v2
@@ -1347,7 +1673,7 @@ def example_update_distributed_policy_v2():
                             image_pull_policy = 'Always', 
                             image_pull_secrets = runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(), 
                             labels = runai.models.labels_defaults.LabelsDefaults(), 
-                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@30745c7c}, 
+                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@25a55890}, 
                             node_pools = ["my-node-pool-a","my-node-pool-b"], 
                             node_type = 'my-node-type', 
                             pod_affinity = {type=Required, key=key}, 

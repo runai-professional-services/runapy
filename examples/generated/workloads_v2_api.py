@@ -21,7 +21,7 @@ def example_create_workload_v2():
     """
     Example of using create_workload_v2
     
-    Create a workload. [Experimental]
+    Create a workload.
     Submit a workload with metadata and a Kubernetes manifest.
     """
     try:
@@ -37,9 +37,9 @@ def example_create_workload_v2():
                     priority = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                     category = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                     preemptibility = 'preemptible', 
-                    configuration = {mnnvl=None}, ),
+                    configuration = {mnnvl=None, userCredentials={sources=[Ljava.lang.Object;@78afd569}}, ),
             manifest = {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"name":"my-app"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"my-app"}},"template":{"metadata":{"labels":{"app":"my-app"}},"spec":{"containers":[{"name":"app","image":"nginx:latest"}]}}}},
-            manifest_base64_encoded = '[B@72d617b8'
+            manifest_base64_encoded = '[B@701fe4f1'
         )
         
         
@@ -64,7 +64,7 @@ def example_delete_workload_v2():
     """
     Example of using delete_workload_v2
     
-    Delete a workload. [Experimental]
+    Delete a workload.
     Delete a specific workload by ID
     """
     try:
@@ -91,7 +91,7 @@ def example_get_workload_v2_by_id():
     """
     Example of using get_workload_v2_by_id
     
-    Get a specific workload. [Experimental]
+    Get a specific workload.
     Retrieve details of a specific workload by ID
     """
     try:
@@ -118,7 +118,7 @@ def example_update_workload_v2():
     """
     Example of using update_workload_v2
     
-    Update workload spec. [Experimental]
+    Update workload spec.
     Update the specification of an existing workload.
     """
     try:
@@ -138,7 +138,7 @@ def example_update_workload_v2():
                     priority = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                     category = 'jUR,rZ#UM/?R,Fp^l6$ARj', ),
             manifest = {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"name":"my-app"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"my-app"}},"template":{"metadata":{"labels":{"app":"my-app"}},"spec":{"containers":[{"name":"app","image":"nginx:latest"}]}}}},
-            manifest_base64_encoded = '[B@72d617b8'
+            manifest_base64_encoded = '[B@701fe4f1'
         )
 
         # Make the API call

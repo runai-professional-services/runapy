@@ -36,6 +36,106 @@ class TestPolicyApi:
         yield
         self.request_patcher.stop()
 
+    def test_apply_gvk_policy(self):
+        """Test case for apply_gvk_policy
+
+        Replace a policy. [experimental] Replace an existing policy&#39;s rules and description.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier for the policy.
+        update_gvk_policy_req = runai.UpdateGvkPolicyReq()  # UpdateGvkPolicyReq |
+
+        # Make request
+        response = self.api.apply_gvk_policy(
+            policy_id=policy_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/policies/{PolicyId}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, Policy)
+
+    def test_apply_gvk_policy_error(self):
+        """Test error handling for apply_gvk_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.apply_gvk_policy(
+                policy_id=policy_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_create_gvk_policy(self):
+        """Test case for create_gvk_policy
+
+        Create a policy. [experimental] Create a policy for a specific workload type based on the provided specification.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        create_gvk_policy_req = runai.CreateGvkPolicyReq()  # CreateGvkPolicyReq |
+
+        # Make request
+        response = self.api.create_gvk_policy()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/policies" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, Policy)
+
+    def test_create_gvk_policy_error(self):
+        """Test error handling for create_gvk_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.create_gvk_policy()
+        assert exc_info.value.status == 400
+
     def test_delete_distributed_inference_policy(self):
         """Test case for delete_distributed_inference_policy
 
@@ -157,6 +257,109 @@ class TestPolicyApi:
         with pytest.raises(ApiException) as exc_info:
             self.api.delete_distributed_policy(
                 scope=scope,
+            )
+        assert exc_info.value.status == 400
+
+    def test_delete_gvk_policy(self):
+        """Test case for delete_gvk_policy
+
+        Delete a policy. [experimental] Delete an existing policy and all of its rules.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier for the policy.
+
+        # Make request
+        self.api.delete_gvk_policy(
+            policy_id=policy_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "DELETE"
+        assert "/api/v1/policies/{PolicyId}" in kwargs["url"]
+
+    def test_delete_gvk_policy_error(self):
+        """Test error handling for delete_gvk_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.delete_gvk_policy(
+                policy_id=policy_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_delete_gvk_policy_rules(self):
+        """Test case for delete_gvk_policy_rules
+
+        Delete rules from a policy. [experimental] Delete one or more rules from an existing policy by reference.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier for the policy.
+        delete_gvk_policy_rules_req = (
+            runai.DeleteGvkPolicyRulesReq()
+        )  # DeleteGvkPolicyRulesReq |
+
+        # Make request
+        response = self.api.delete_gvk_policy_rules(
+            policy_id=policy_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "DELETE"
+        assert "/api/v1/policies/{PolicyId}/rules" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, Policy)
+
+    def test_delete_gvk_policy_rules_error(self):
+        """Test error handling for delete_gvk_policy_rules"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.delete_gvk_policy_rules(
+                policy_id=policy_id,
             )
         assert exc_info.value.status == 400
 
@@ -529,6 +732,107 @@ class TestPolicyApi:
             )
         assert exc_info.value.status == 400
 
+    def test_get_effective_policy(self):
+        """Test case for get_effective_policy
+
+        Get the effective policy by type and scope. The effective policy is a combination of the policy provided for the given scope (if exist) and the effective policies of its parent scopes.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_type_and_scope = runai.WorkloadTypeAndScope()  # WorkloadTypeAndScope |
+
+        # Make request
+        response = self.api.get_effective_policy(
+            workload_type_and_scope=workload_type_and_scope,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/policies/effective" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, EffectiveRules)
+
+    def test_get_effective_policy_error(self):
+        """Test error handling for get_effective_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_type_and_scope = runai.WorkloadTypeAndScope()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_effective_policy(
+                workload_type_and_scope=workload_type_and_scope,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_gvk_policy(self):
+        """Test case for get_gvk_policy
+
+        Get a policy. [experimental] Retrieve policy details by id, including both the declared rules and the effective rules.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier for the policy.
+
+        # Make request
+        response = self.api.get_gvk_policy(
+            policy_id=policy_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/policies/{PolicyId}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetGvkPolicyResp)
+
+    def test_get_gvk_policy_error(self):
+        """Test error handling for get_gvk_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_gvk_policy(
+                policy_id=policy_id,
+            )
+        assert exc_info.value.status == 400
+
     def test_get_inference_policy_v2(self):
         """Test case for get_inference_policy_v2
 
@@ -589,6 +893,102 @@ class TestPolicyApi:
             self.api.get_inference_policy_v2(
                 scope=scope,
             )
+        assert exc_info.value.status == 400
+
+    def test_get_mapping_field_info(self):
+        """Test case for get_mapping_field_info
+
+        Get mapping field info. [experimental] Retrieve the detailed breakdown for one or more field references in a workload type&#39;s mapping.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        get_mapping_field_info_req = (
+            runai.GetMappingFieldInfoReq()
+        )  # GetMappingFieldInfoReq |
+
+        # Make request
+        response = self.api.get_mapping_field_info()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/policies/mappings/field-info" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, Breakdown)
+
+    def test_get_mapping_field_info_error(self):
+        """Test error handling for get_mapping_field_info"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_mapping_field_info()
+        assert exc_info.value.status == 400
+
+    def test_get_mapping_minimal(self):
+        """Test case for get_mapping_minimal
+
+        Get minimal mapping info. [experimental] Retrieve the names and descriptions of fields, spec selectors, and item selectors for a workload type, without the full JQ expressions.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        get_mapping_minimal_info_req = (
+            runai.GetMappingMinimalInfoReq()
+        )  # GetMappingMinimalInfoReq |
+
+        # Make request
+        response = self.api.get_mapping_minimal()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/policies/mappings/minimal" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, GetMappingMinimalResp)
+
+    def test_get_mapping_minimal_error(self):
+        """Test error handling for get_mapping_minimal"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_mapping_minimal()
         assert exc_info.value.status == 400
 
     def test_get_nim_service_policy(self):
@@ -775,6 +1175,66 @@ class TestPolicyApi:
             self.api.get_workspace_policy_v2(
                 scope=scope,
             )
+        assert exc_info.value.status == 400
+
+    def test_list_gvk_policies(self):
+        """Test case for list_gvk_policies
+
+        List policies. [experimental] Retrieve a list of policies with their details, optionally filtered, sorted, and paginated.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["scope==project"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Filterable fields are `id`, `type` and `scope`. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contain, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
+        sort_by = "sort_by_example"  # str | The field to sort the results by.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
+        sort_order = asc  # str | Sort results in descending or ascending order.
+
+        # Make request
+        response = self.api.list_gvk_policies()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/policies" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, ListGvkPoliciesResp)
+
+    def test_list_gvk_policies_error(self):
+        """Test error handling for list_gvk_policies"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.list_gvk_policies()
         assert exc_info.value.status == 400
 
     def test_list_policies(self):
@@ -1179,6 +1639,60 @@ class TestPolicyApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.overwrite_workspace_policy_v2()
+        assert exc_info.value.status == 400
+
+    def test_patch_gvk_policy(self):
+        """Test case for patch_gvk_policy
+
+        Patch a policy. [experimental] Merge rules into an existing policy, keyed by rule identity.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier for the policy.
+        update_gvk_policy_req = runai.UpdateGvkPolicyReq()  # UpdateGvkPolicyReq |
+
+        # Make request
+        response = self.api.patch_gvk_policy(
+            policy_id=policy_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PATCH"
+        assert "/api/v1/policies/{PolicyId}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, Policy)
+
+    def test_patch_gvk_policy_error(self):
+        """Test error handling for patch_gvk_policy"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        policy_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.patch_gvk_policy(
+                policy_id=policy_id,
+            )
         assert exc_info.value.status == 400
 
     def test_update_distributed_inference_policy_v2(self):

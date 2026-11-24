@@ -15,11 +15,12 @@ class LogoApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    @deprecated_message()
     def get_tenant_logo(
         self,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get tenant logo. (base64)
@@ -43,12 +44,13 @@ class LogoApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def upload_tenant_logo(
         self,
         logo_creation_request: Optional[models.LogoCreationRequest] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Upload logo for tenant. (base64)

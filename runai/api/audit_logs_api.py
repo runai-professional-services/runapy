@@ -20,6 +20,7 @@ class AuditLogsApi(RunaiAPIService):
         start: datetime,
         end: datetime,
         file_type: Optional[str] = None,
+        offset: Optional[int] = None,
         number_of_samples: Optional[int] = None,
         filter_by: Optional[List[str]] = None,
     ):
@@ -34,13 +35,15 @@ class AuditLogsApi(RunaiAPIService):
         start: Optional[datetime]
         end: Optional[datetime]
         file_type: Optional[str]
+        offset: Optional[int]
         number_of_samples: Optional[int]
         filter_by: Optional[List[str]]
         ```
         start: Start date of time range to fetch data in ISO 8601 timestamp format.
         end: End date of time range to fetch data in ISO 8601 timestamp format.
         file_type: See model str for more information. - Default: CSV
-        number_of_samples: The number of samples to take in the specified time range. - Default: 20
+        offset: The offset of the first item returned in the collection.
+        number_of_samples: Maximum number of records to include in the file. The hard cap is 100,000. Use the offset parameter to page through additional records. - Default: 20
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
 
         ### Example:
@@ -49,6 +52,7 @@ class AuditLogsApi(RunaiAPIService):
             start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
                         file_type=CSV,
+                        offset=100,
                         number_of_samples=20,
                         filter_by=['[\"cluster_name==my-cluster_name\",\"entity_type==cluster,entity_name==test\"]']
         )
@@ -60,6 +64,7 @@ class AuditLogsApi(RunaiAPIService):
             ("fileType", file_type),
             ("start", start),
             ("end", end),
+            ("offset", offset),
             ("numberOfSamples", number_of_samples),
             ("filterBy", filter_by),
         ]

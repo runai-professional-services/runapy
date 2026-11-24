@@ -60,12 +60,10 @@ def example_create_nodepool():
             label_key = '0',
             label_value = 'uUUGjjNSwg0_bs9ZayIMrKdgNvb6gvxmP00',
             cluster_id = 'd73a738f-fab3-430a-8fa3-5241493d7128',
-            over_provisioning_ratio = 1,
-            placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
             gpu_network_acceleration_detection = 'Auto',
             gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true},
-            scheduling_configuration = {placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m, timeBasedFairShare={historicalUsageWeight=1.5, windowDuration=2d, decayHalfLife=24h, tumblingWindowStartTime=2025-01-06T08:00Z, enabled=true, windowType=tumbling}},
+            scheduling_configuration = {numaAwareScheduling=true, placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m, timeBasedFairShare={historicalUsageWeight=1.5, windowDuration=2d, decayHalfLife=24h, tumblingWindowStartTime=2025-01-06T08:00Z, enabled=true, windowType=tumbling}, gpuPodsPlacementStrategy={node=, device=}, cpuPodsPlacementStrategy={node=}},
             network_topology_id = '123e4567-e89b-12d3-a456-426614174000'
         )
 
@@ -567,12 +565,10 @@ def example_patch_nodepool():
         nodepool_update_fields = models.NodepoolUpdateFields(
             label_key = '0',
             label_value = 'uUUGjjNSwg0_bs9ZayIMrKdgNvb6gvxmP00',
-            over_provisioning_ratio = 1,
-            placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
             gpu_network_acceleration_detection = 'Auto',
             gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true},
-            scheduling_configuration = {placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m, timeBasedFairShare={historicalUsageWeight=1.5, windowDuration=2d, decayHalfLife=24h, tumblingWindowStartTime=2025-01-06T08:00Z, enabled=true, windowType=tumbling}},
+            scheduling_configuration = {numaAwareScheduling=true, placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m, timeBasedFairShare={historicalUsageWeight=1.5, windowDuration=2d, decayHalfLife=24h, tumblingWindowStartTime=2025-01-06T08:00Z, enabled=true, windowType=tumbling}, gpuPodsPlacementStrategy={node=, device=}, cpuPodsPlacementStrategy={node=}},
             network_topology_id = '123e4567-e89b-12d3-a456-426614174000'
         )
 
@@ -608,12 +604,10 @@ def example_update_nodepool():
         nodepool_update_fields = models.NodepoolUpdateFields(
             label_key = '0',
             label_value = 'uUUGjjNSwg0_bs9ZayIMrKdgNvb6gvxmP00',
-            over_provisioning_ratio = 1,
-            placement_strategy = {cpu=spread, gpu=spread},
             gpu_network_acceleration_label_key = '',
             gpu_network_acceleration_detection = 'Auto',
             gpu_resource_optimization = {reservedGpuMemoryForSwapOperations=10G, nodeLevelSchedulerEnabled=true, cpuSwapMemorySize=10000M, swapEnabled=true},
-            scheduling_configuration = {placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m, timeBasedFairShare={historicalUsageWeight=1.5, windowDuration=2d, decayHalfLife=24h, tumblingWindowStartTime=2025-01-06T08:00Z, enabled=true, windowType=tumbling}},
+            scheduling_configuration = {numaAwareScheduling=true, placementStrategy={cpu=spread, gpu=spread}, minGuaranteedRuntime=5d8h40m, timeBasedFairShare={historicalUsageWeight=1.5, windowDuration=2d, decayHalfLife=24h, tumblingWindowStartTime=2025-01-06T08:00Z, enabled=true, windowType=tumbling}, gpuPodsPlacementStrategy={node=, device=}, cpuPodsPlacementStrategy={node=}},
             network_topology_id = '123e4567-e89b-12d3-a456-426614174000'
         )
 

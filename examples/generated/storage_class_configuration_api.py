@@ -34,7 +34,7 @@ def example_create_storage_class_configuration():
             scope_id = '',
             name = 'Standard',
             permissions = {allowDataSharing=true, allowedForWorkloads=true, allowedForEphemeralVolumes=true, allowedForPersistentVolumes=true, allowedForAssets=true},
-            customization = {attributes=[Ljava.lang.Object;@2fb7c324, claimSize={default=1G, min=1G, max=1G, step=1G, supportedUnits=[Ljava.lang.Object;@5dc8227c}, accessMode={default={readOnlyMany=false, readWriteMany=false, readWriteOnce=true}, supportedValues={readOnlyMany=true, readWriteMany=true, readWriteOnce=true}, required=true}, volumeMode={default=Filesystem, supportedValues={block=true, filesystem=true}, required=true}}
+            customization = {attributes=[Ljava.lang.Object;@57652b9b, claimSize={default=1G, min=1G, max=1G, step=1G, supportedUnits=[Ljava.lang.Object;@383158e8}, accessMode={default={readOnlyMany=false, readWriteMany=false, readWriteOnce=true}, supportedValues={readOnlyMany=true, readWriteMany=true, readWriteOnce=true}, required=true}, volumeMode={default=Filesystem, supportedValues={block=true, filesystem=true}, required=true}}
         )
 
         # Make the API call
@@ -244,7 +244,7 @@ def example_update_storage_class_configuration_by_id():
         # Create example data for StorageClassConfigurationUpdateRequest
         storage_class_configuration_update_request = models.StorageClassConfigurationUpdateRequest(
             permissions = {allowDataSharing=true, allowedForWorkloads=true, allowedForEphemeralVolumes=true, allowedForPersistentVolumes=true, allowedForAssets=true},
-            customization = {attributes=[Ljava.lang.Object;@2fb7c324, claimSize={default=1G, min=1G, max=1G, step=1G, supportedUnits=[Ljava.lang.Object;@5dc8227c}, accessMode={default={readOnlyMany=false, readWriteMany=false, readWriteOnce=true}, supportedValues={readOnlyMany=true, readWriteMany=true, readWriteOnce=true}, required=true}, volumeMode={default=Filesystem, supportedValues={block=true, filesystem=true}, required=true}}
+            customization = {attributes=[Ljava.lang.Object;@57652b9b, claimSize={default=1G, min=1G, max=1G, step=1G, supportedUnits=[Ljava.lang.Object;@383158e8}, accessMode={default={readOnlyMany=false, readWriteMany=false, readWriteOnce=true}, supportedValues={readOnlyMany=true, readWriteMany=true, readWriteOnce=true}, required=true}, volumeMode={default=Filesystem, supportedValues={block=true, filesystem=true}, required=true}}
         )
         
         tenant_id = 42

@@ -188,7 +188,6 @@ class UsersApi(RunaiAPIService):
 
     def get_users(
         self,
-        filter: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
         sort_by: Optional[models.UsersFilterSortFields] = None,
         sort_order: Optional[str] = None,
@@ -204,7 +203,6 @@ class UsersApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        filter: Optional[str]
         filter_by: Optional[List[str]]
         sort_by: Optional[models.UsersFilterSortFields]
         sort_order: Optional[str]
@@ -212,7 +210,6 @@ class UsersApi(RunaiAPIService):
         limit: Optional[int]
         search: Optional[str]
         ```
-        filter: Filter results by user attribute.
         filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains. Dates are in ISO 8601 timestamp format and available for operators &lt;&#x3D;, &gt;&#x3D; and &#x3D;&#x3D;.
         sort_by: Sort results by a parameters.
         sort_order: Sort results in descending or ascending order. - Default: asc
@@ -223,8 +220,7 @@ class UsersApi(RunaiAPIService):
         ### Example:
         ```python
         UsersApi(
-            filter='runai.is_local:true',
-                        filter_by=['[\"username=@test,lastLogin>=2024-09-24T00:00:00.00Z,isLocal==false\"]'],
+            filter_by=['[\"username=@test,lastLogin>=2024-09-24T00:00:00.00Z,isLocal==false\"]'],
                         sort_by=runai.UsersFilterSortFields(),
                         sort_order=asc,
                         offset=100,
@@ -236,7 +232,6 @@ class UsersApi(RunaiAPIService):
 
         # Query params:
         query_params = [
-            ("filter", filter),
             ("filterBy", filter_by),
             ("sortBy", sort_by),
             ("sortOrder", sort_order),
@@ -245,6 +240,55 @@ class UsersApi(RunaiAPIService):
             ("search", search),
         ]
         resource_path = f"/api/v1/users".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_users_minimal(
+        self,
+        filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
+        id: Optional[List[str]] = None,
+        limit: Optional[int] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get minimal user display information.
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        search: Optional[str]
+        id: Optional[List[str]]
+        limit: Optional[int]
+        ```
+        filter_by: Filter results by username. Use the format field-name operator value. Supported operators are &#x3D;&#x3D; (exact match) and &#x3D;@ (contains). Multiple entries (up to 25) are allowed only with the &#x3D;&#x3D; operator.
+        search: Filter results by a free text search across username, firstName and lastName (OR logic). Minimum 2 characters.
+        id: Bulk lookup by user IDs (comma-separated). Returns the matching users in addition to any results from &#x60;search&#x60; or &#x60;filterBy&#x60;. Up to 25 IDs per request.
+        limit: The maximum number of entries to return. - Default: 500
+
+        ### Example:
+        ```python
+        UsersApi(
+            filter_by=['[\"username==test@run.ai\"]'],
+                        search='john',
+                        id=['[\"8e3f0a4b-4d3c-4f6e-9d2a-1c5e0a8b7f6d\"]'],
+                        limit=500
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("search", search),
+            ("id", id),
+            ("limit", limit),
+        ]
+        resource_path = f"/api/v1/users_minimal".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
@@ -279,6 +323,45 @@ class UsersApi(RunaiAPIService):
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
+        )
+
+    def patch_user_by_id(
+        self,
+        user_id: str,
+        user_patch_request: Optional[models.UserPatchRequest] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Update a user by id.
+
+        ### Parameters:
+        ```python
+        user_id: str
+        user_patch_request: UserPatchRequest
+        ```
+        user_id: The id of the user
+        user_patch_request: User patch object with fields to update.
+
+        ### Example:
+        ```python
+        UsersApi(
+            user_id='user_id_example',
+                        user_patch_request=runai.UserPatchRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = user_patch_request
+
+        resource_path = f"/api/v1/users/{user_id}".replace("_", "-")
+        method = "PATCH"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )
 
     def reset_user_password(

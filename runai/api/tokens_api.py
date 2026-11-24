@@ -16,42 +16,6 @@ class TokensApi(RunaiAPIService):
         self._api_client = api_client
 
     @deprecated_message()
-    def app_token(
-        self,
-        app_token_request: Optional[models.AppTokenRequest] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        get application token
-
-        ### Parameters:
-        ```python
-        app_token_request: AppTokenRequest
-        ```
-        app_token_request: See model AppTokenRequest for more information.
-
-        ### Example:
-        ```python
-        TokensApi(
-            app_token_request=runai.AppTokenRequest()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = app_token_request
-
-        resource_path = f"/v1/k8s/auth/oauth/apptoken".replace("_", "-")
-        method = "POST"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
-    @deprecated_message()
     def grant_token(
         self,
         token_request: Optional[models.TokenRequest] = None,

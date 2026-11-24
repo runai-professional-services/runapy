@@ -298,7 +298,6 @@ class TestUsersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        filter = "runai.is_local:true"  # str | Filter results by user attribute.
         filter_by = [
             '["username=@test,lastLogin>=2024-09-24T00:00:00.00Z,isLocal==false"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are <= Less than or equal, >= Greater than or equal, =@ contains. Dates are in ISO 8601 timestamp format and available for operators <= None, >= and ==.
@@ -321,8 +320,6 @@ class TestUsersApi:
         assert kwargs["method"] == "GET"
         assert "/api/v1/users" in kwargs["url"]
 
-        # Verify query parameters
-        assert "filter=" in kwargs["url"]
         # Verify query parameters
         assert "filterBy=" in kwargs["url"]
         # Verify query parameters
@@ -352,6 +349,65 @@ class TestUsersApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_users()
+        assert exc_info.value.status == 400
+
+    def test_get_users_minimal(self):
+        """Test case for get_users_minimal
+
+        Get minimal user display information. Retrieve a list of users with minimal display information (id, username, firstName, lastName). At least one of &#x60;search&#x60;, &#x60;id&#x60;, or &#x60;filterBy&#x60; is required to scope the lookup. Requires the users-minimal:read permission.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["username==test@run.ai"]'
+        ]  # List[str] | Filter results by username. Use the format field-name operator value. Supported operators are == (exact match) and =@ (contains). Multiple entries (up to 25) are allowed only with the == operator.
+        search = "john"  # str | Filter results by a free text search across username, firstName and lastName (OR logic). Minimum 2 characters.
+        id = [
+            '["8e3f0a4b-4d3c-4f6e-9d2a-1c5e0a8b7f6d"]'
+        ]  # List[str] | Bulk lookup by user IDs (comma-separated). Returns the matching users in addition to any results from `search` or `filterBy`. Up to 25 IDs per request.
+        limit = 500  # int | The maximum number of entries to return.
+
+        # Make request
+        response = self.api.get_users_minimal()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/users-minimal" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+        # Verify query parameters
+        assert "id=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, List[UserMinimal])
+
+    def test_get_users_minimal_error(self):
+        """Test error handling for get_users_minimal"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_users_minimal()
         assert exc_info.value.status == 400
 
     def test_logout_user(self):
@@ -399,10 +455,64 @@ class TestUsersApi:
             )
         assert exc_info.value.status == 400
 
+    def test_patch_user_by_id(self):
+        """Test case for patch_user_by_id
+
+        Update a user by id. Use to update a local user&#39;s details by id. SSO users cannot be updated.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        user_id = "user_id_example"  # str | The id of the user
+        user_patch_request = (
+            runai.UserPatchRequest()
+        )  # UserPatchRequest | User patch object with fields to update.
+
+        # Make request
+        response = self.api.patch_user_by_id(
+            user_id=user_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PATCH"
+        assert "/api/v1/users/{userId}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, User)
+
+    def test_patch_user_by_id_error(self):
+        """Test error handling for patch_user_by_id"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        user_id = "user_id_example"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.patch_user_by_id(
+                user_id=user_id,
+            )
+        assert exc_info.value.status == 400
+
     def test_reset_user_password(self):
         """Test case for reset_user_password
 
-        Reset a user's password. Use to to reset a user&#39;s password.
+        Reset a user's password. Use to reset a user&#39;s password.
         """
         # Mock response
         mock_response = mock.Mock()

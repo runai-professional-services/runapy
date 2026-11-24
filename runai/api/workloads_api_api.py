@@ -123,6 +123,104 @@ class WorkloadsAPIApi(RunaiAPIService):
             method=method,
         )
 
+    def get_workload_element(
+        self,
+        workload_id: UUID,
+        element_id: UUID,
+    ):
+        r"""
+
+
+        ### Description
+        Get a single workload structure element by element id.
+
+        ### Parameters:
+        ```python
+        workload_id: UUID
+        element_id: UUID
+        ```
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
+        element_id: The unique identifier of the structure element.
+
+        ### Example:
+        ```python
+        WorkloadsAPIApi(
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        element_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
+        )
+        ```
+        """
+
+        resource_path = (
+            f"/api/v1/workloads/{workload_id}/elements/{element_id}".replace("_", "-")
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_workload_element_metrics(
+        self,
+        workload_id: UUID,
+        element_id: UUID,
+        metric_type: List[models.ElementMetricType],
+        start: datetime,
+        end: datetime,
+        number_of_samples: Optional[int] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get element metrics data.
+
+        ### Parameters:
+        ```python
+        workload_id: UUID
+        element_id: UUID
+        metric_type: Optional[models.List[ElementMetricType]]
+        start: Optional[datetime]
+        end: Optional[datetime]
+        number_of_samples: Optional[int]
+        ```
+        workload_id: The  Universally Unique Identifier (UUID) of the workload.
+        element_id: The unique identifier of the structure element.
+        metric_type: Specify which metric data to request for the element.
+        start: Start date of time range to fetch data in ISO 8601 timestamp format.
+        end: End date of time range to fetch data in ISO 8601 timestamp format.
+        number_of_samples: The number of samples to take in the specified time range. - Default: 20
+
+        ### Example:
+        ```python
+        WorkloadsAPIApi(
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        element_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        metric_type=[runai.ElementMetricType()],
+                        start='2023-06-06T12:09:18.211Z',
+                        end='2023-06-07T12:09:18.211Z',
+                        number_of_samples=20
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("metricType", metric_type),
+            ("start", start),
+            ("end", end),
+            ("numberOfSamples", number_of_samples),
+        ]
+        resource_path = (
+            f"/api/v1/workloads/{workload_id}/elements/{element_id}/metrics".replace(
+                "_", "-"
+            )
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def get_workload_elements(
         self,
         workload_id: UUID,
@@ -320,6 +418,7 @@ class WorkloadsAPIApi(RunaiAPIService):
         cluster_id: Optional[UUID] = None,
         nodepool_name: Optional[str] = None,
         department_id: Optional[str] = None,
+        project_id: Optional[str] = None,
         group_by: Optional[List[str]] = None,
         filter_by_phases: Optional[List[models.Phase]] = None,
     ):
@@ -335,6 +434,7 @@ class WorkloadsAPIApi(RunaiAPIService):
         cluster_id: Optional[UUID]
         nodepool_name: Optional[str]
         department_id: Optional[str]
+        project_id: Optional[str]
         group_by: Optional[List[str]]
         filter_by_phases: Optional[models.List[Phase]]
         ```
@@ -342,6 +442,7 @@ class WorkloadsAPIApi(RunaiAPIService):
         cluster_id: Filter using the Universally Unique Identifier (UUID) of the cluster.
         nodepool_name: Filter using the nodepool.
         department_id: Filter using the department id.
+        project_id: project id to filter by
         group_by: Group workloads by field.
         filter_by_phases: Filter workloads by specific phases. If not specified, all phases are included.
 
@@ -352,6 +453,7 @@ class WorkloadsAPIApi(RunaiAPIService):
                         cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         nodepool_name='default',
                         department_id='1',
+                        project_id='1',
                         group_by=['group_by_example'],
                         filter_by_phases=[runai.Phase()]
         )
@@ -363,6 +465,7 @@ class WorkloadsAPIApi(RunaiAPIService):
             ("clusterId", cluster_id),
             ("nodepoolName", nodepool_name),
             ("departmentId", department_id),
+            ("projectId", project_id),
             ("groupBy", group_by),
             ("telemetryType", telemetry_type),
             ("filterByPhases", filter_by_phases),

@@ -83,6 +83,8 @@ def example_create_user():
             email="A@9LCSLv1C1ylmgd0.Y2TA5TkIRHRRA401iz1CiIy.dNTRddzXYdswQltRTtwKQzBuNJxBelKTmfIQcBkWgeAShmXXoTaDzlkczbtHjkljEhQVqeWYqqMQZlEQb01234",
             reset_password=True,
             notify=True,
+            first_name="",
+            last_name="",
         )
 
         # Make the API call
@@ -145,7 +147,6 @@ def example_get_users():
     """
     try:
         # Prepare the request parameters
-        filter = "example_filter"
 
         filter_by = ["example_item_1", "example_item_2"]
 
@@ -159,7 +160,6 @@ def example_get_users():
 
         # Make the API call
         api_response = api_instance.get_users(
-            filter=filter,
             filter_by=filter_by,
             sort_by=sort_by,
             sort_order=sort_order,
@@ -171,6 +171,37 @@ def example_get_users():
 
     except Exception as e:
         print(f"Exception when calling get_users: {e}")
+
+
+def example_get_users_minimal():
+    """
+    Example of using get_users_minimal
+
+    Get minimal user display information.
+    Retrieve a list of users with minimal display information (id, username, firstName, lastName). At least one of &#x60;search&#x60;, &#x60;id&#x60;, or &#x60;filterBy&#x60; is required to scope the lookup. Requires the users-minimal:read permission.
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        search = "example_search"
+
+        id = ["example_item_1", "example_item_2"]
+
+        limit = 42
+
+        # Make the API call
+        api_response = api_instance.get_users_minimal(
+            filter_by=filter_by,
+            search=search,
+            id=id,
+            limit=limit,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_users_minimal: {e}")
 
 
 def example_logout_user():
@@ -193,12 +224,37 @@ def example_logout_user():
         print(f"Exception when calling logout_user: {e}")
 
 
+def example_patch_user_by_id():
+    """
+    Example of using patch_user_by_id
+
+    Update a user by id.
+    Use to update a local user&#39;s details by id. SSO users cannot be updated.
+    """
+    try:
+        # Prepare the request parameters
+        user_id = "example_user_id"
+
+        # Create example data for UserPatchRequest
+        user_patch_request = models.UserPatchRequest(first_name="", last_name="")
+
+        # Make the API call
+        api_response = api_instance.patch_user_by_id(
+            user_id=user_id,
+            user_patch_request=user_patch_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling patch_user_by_id: {e}")
+
+
 def example_reset_user_password():
     """
     Example of using reset_user_password
 
     Reset a user&#39;s password.
-    Use to to reset a user&#39;s password.
+    Use to reset a user&#39;s password.
     """
     try:
         # Prepare the request parameters

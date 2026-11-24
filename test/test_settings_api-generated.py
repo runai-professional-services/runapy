@@ -36,6 +36,558 @@ class TestSettingsApi:
         yield
         self.request_patcher.stop()
 
+    def test_get_authorization_setting_by_key(self):
+        """Test case for get_authorization_setting_by_key
+
+        Get authorization setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.AuthorizationSettingsKeyEnum()
+        )  # AuthorizationSettingsKeyEnum | The settings key
+
+        # Make request
+        response = self.api.get_authorization_setting_by_key(
+            key=key,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/authorization/settings/{key}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, EnableScopedAuthorizationSetting)
+
+    def test_get_authorization_setting_by_key_error(self):
+        """Test error handling for get_authorization_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.AuthorizationSettingsKeyEnum()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_authorization_setting_by_key(
+                key=key,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_authorization_settings(self):
+        """Test case for get_authorization_settings
+
+        Get authorization settings
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_authorization_settings()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/authorization/settings" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, AuthorizationSettingsGetResponse)
+
+    def test_get_authorization_settings_error(self):
+        """Test error handling for get_authorization_settings"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_authorization_settings()
+        assert exc_info.value.status == 400
+
+    def test_get_branding_setting_by_key(self):
+        """Test case for get_branding_setting_by_key
+
+        Get branding setting by key Returns a single branding setting identified by the path key.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.BrandingSettingsKeyEnum()
+        )  # BrandingSettingsKeyEnum | Identifier of the branding setting to retrieve or update
+
+        # Make request
+        response = self.api.get_branding_setting_by_key(
+            key=key,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/branding/settings/{key}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, object)
+
+    def test_get_branding_setting_by_key_error(self):
+        """Test error handling for get_branding_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.BrandingSettingsKeyEnum()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_branding_setting_by_key(
+                key=key,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_branding_settings(self):
+        """Test case for get_branding_settings
+
+        Get branding settings Returns all branding-related settings for the tenant.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_branding_settings()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/branding/settings" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, BrandingSettingsGetAllResponse)
+
+    def test_get_branding_settings_error(self):
+        """Test error handling for get_branding_settings"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_branding_settings()
+        assert exc_info.value.status == 400
+
+    def test_get_cluster_setting_by_key(self):
+        """Test case for get_cluster_setting_by_key
+
+        Get cluster setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.ClusterSettingsKeyEnum()
+        )  # ClusterSettingsKeyEnum | The settings key
+
+        # Make request
+        response = self.api.get_cluster_setting_by_key(
+            key=key,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/clusters/settings/{key}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, EnableAdvancedGpuMetricsSetting)
+
+    def test_get_cluster_setting_by_key_error(self):
+        """Test error handling for get_cluster_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.ClusterSettingsKeyEnum()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_cluster_setting_by_key(
+                key=key,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_cluster_settings(self):
+        """Test case for get_cluster_settings
+
+        Get cluster settings
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_cluster_settings()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/clusters/settings" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, ClusterSettingsGetResponse)
+
+    def test_get_cluster_settings_error(self):
+        """Test error handling for get_cluster_settings"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_cluster_settings()
+        assert exc_info.value.status == 400
+
+    def test_get_datavolumes_setting_by_key(self):
+        """Test case for get_datavolumes_setting_by_key
+
+        Get datavolumes setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.DatavolumesSettingsKeyEnum()
+        )  # DatavolumesSettingsKeyEnum | The settings key
+
+        # Make request
+        response = self.api.get_datavolumes_setting_by_key(
+            key=key,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/datavolumes/settings/{key}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetEnableDataVolumes)
+
+    def test_get_datavolumes_setting_by_key_error(self):
+        """Test error handling for get_datavolumes_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.DatavolumesSettingsKeyEnum()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_datavolumes_setting_by_key(
+                key=key,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_datavolumes_settings(self):
+        """Test case for get_datavolumes_settings
+
+        Get datavolumes settings
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_datavolumes_settings()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/datavolumes/settings" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, DatavolumesSettingsGetResponse)
+
+    def test_get_datavolumes_settings_error(self):
+        """Test error handling for get_datavolumes_settings"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_datavolumes_settings()
+        assert exc_info.value.status == 400
+
+    def test_get_node_pool_setting_by_key(self):
+        """Test case for get_node_pool_setting_by_key
+
+        Get node pool setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.NodePoolSettingsKeyEnum()
+        )  # NodePoolSettingsKeyEnum | The settings key
+
+        # Make request
+        response = self.api.get_node_pool_setting_by_key(
+            key=key,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/node-pools/settings/{key}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, NodePoolSetting)
+
+    def test_get_node_pool_setting_by_key_error(self):
+        """Test error handling for get_node_pool_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.NodePoolSettingsKeyEnum()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_node_pool_setting_by_key(
+                key=key,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_node_pool_settings(self):
+        """Test case for get_node_pool_settings
+
+        Get node pool settings
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_node_pool_settings()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/node-pools/settings" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, NodePoolSettingsGetResponse)
+
+    def test_get_node_pool_settings_error(self):
+        """Test error handling for get_node_pool_settings"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_node_pool_settings()
+        assert exc_info.value.status == 400
+
+    def test_get_notifications_setting_by_key(self):
+        """Test case for get_notifications_setting_by_key
+
+        Get notifications setting by key Returns a single notifications setting identified by the path key.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.NotificationsSettingsKeyEnum()
+        )  # NotificationsSettingsKeyEnum | Identifier of the notifications setting to retrieve or update.
+
+        # Make request
+        response = self.api.get_notifications_setting_by_key(
+            key=key,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/notifications/settings/{key}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, object)
+
+    def test_get_notifications_setting_by_key_error(self):
+        """Test error handling for get_notifications_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.NotificationsSettingsKeyEnum()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_notifications_setting_by_key(
+                key=key,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_notifications_settings(self):
+        """Test case for get_notifications_settings
+
+        Get notifications settings Returns all notifications-related settings for the tenant.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_notifications_settings()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/notifications/settings" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, NotificationsSettingsGetAllResponse)
+
+    def test_get_notifications_settings_error(self):
+        """Test error handling for get_notifications_settings"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_notifications_settings()
+        assert exc_info.value.status == 400
+
     def test_get_security_setting_by_key(self):
         """Test case for get_security_setting_by_key
 
@@ -126,6 +678,96 @@ class TestSettingsApi:
             self.api.get_security_settings()
         assert exc_info.value.status == 400
 
+    def test_get_workloads_service_setting_by_key(self):
+        """Test case for get_workloads_service_setting_by_key
+
+        Get a workloads setting by key. Retrieve the current value of a specific workloads setting by its key.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.WorkloadsSettingsKeyEnum()  # WorkloadsSettingsKeyEnum |
+
+        # Make request
+        response = self.api.get_workloads_service_setting_by_key(
+            key=key,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workloads/settings/{key}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetWorkloadsSetting)
+
+    def test_get_workloads_service_setting_by_key_error(self):
+        """Test error handling for get_workloads_service_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.WorkloadsSettingsKeyEnum()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_workloads_service_setting_by_key(
+                key=key,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_workloads_service_settings(self):
+        """Test case for get_workloads_service_settings
+
+        Get all workloads settings. Retrieve the current values of all workloads-related settings for the tenant.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_workloads_service_settings()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workloads/settings" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, WorkloadsSettingsGetResponse)
+
+    def test_get_workloads_service_settings_error(self):
+        """Test error handling for get_workloads_service_settings"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_workloads_service_settings()
+        assert exc_info.value.status == 400
+
     def test_get_workloads_setting_by_key(self):
         """Test case for get_workloads_setting_by_key
 
@@ -139,8 +781,8 @@ class TestSettingsApi:
 
         # Test parameters
         key = (
-            runai.WorkloadsSettingsKeyEnum()
-        )  # WorkloadsSettingsKeyEnum | The settings key
+            runai.WorkloadsSettingsKeyEnum1()
+        )  # WorkloadsSettingsKeyEnum1 | The settings key
 
         # Make request
         response = self.api.get_workloads_setting_by_key(
@@ -156,7 +798,7 @@ class TestSettingsApi:
         assert "/api/v2/workloads/settings/{key}" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, YamlSubmissionSetting)
+        assert isinstance(response, GetYamlSubmission)
 
     def test_get_workloads_setting_by_key_error(self):
         """Test error handling for get_workloads_setting_by_key"""
@@ -167,7 +809,7 @@ class TestSettingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        key = runai.WorkloadsSettingsKeyEnum()
+        key = runai.WorkloadsSettingsKeyEnum1()
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -201,7 +843,7 @@ class TestSettingsApi:
         assert "/api/v2/workloads/settings" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, WorkloadsSettingsGetResponse)
+        assert isinstance(response, WorkloadsSettingsGetResponse1)
 
     def test_get_workloads_settings_error(self):
         """Test error handling for get_workloads_settings"""
@@ -216,6 +858,338 @@ class TestSettingsApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_workloads_settings()
+        assert exc_info.value.status == 400
+
+    def test_update_authorization_setting_by_key(self):
+        """Test case for update_authorization_setting_by_key
+
+        Update authorization setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.AuthorizationSettingsKeyEnum()
+        )  # AuthorizationSettingsKeyEnum | The settings key
+        update_authorization_setting_by_key_request = {
+            "enabled": False
+        }  # UpdateAuthorizationSettingByKeyRequest |
+
+        # Make request
+        self.api.update_authorization_setting_by_key(
+            key=key,
+            update_authorization_setting_by_key_request=update_authorization_setting_by_key_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/authorization/settings/{key}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_update_authorization_setting_by_key_error(self):
+        """Test error handling for update_authorization_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.AuthorizationSettingsKeyEnum()
+        update_authorization_setting_by_key_request = {"enabled": False}
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_authorization_setting_by_key(
+                key=key,
+                update_authorization_setting_by_key_request=update_authorization_setting_by_key_request,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_branding_setting_by_key(self):
+        """Test case for update_branding_setting_by_key
+
+        Update branding setting by key Updates a single branding setting identified by the path key.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.BrandingSettingsKeyEnum()
+        )  # BrandingSettingsKeyEnum | Identifier of the branding setting to retrieve or update
+        update_logo = runai.UpdateLogo()  # UpdateLogo |
+
+        # Make request
+        self.api.update_branding_setting_by_key(
+            key=key,
+            update_logo=update_logo,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/branding/settings/{key}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_update_branding_setting_by_key_error(self):
+        """Test error handling for update_branding_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.BrandingSettingsKeyEnum()
+        update_logo = runai.UpdateLogo()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_branding_setting_by_key(
+                key=key,
+                update_logo=update_logo,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_cluster_setting_by_key(self):
+        """Test case for update_cluster_setting_by_key
+
+        Update cluster setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.ClusterSettingsKeyEnum()
+        )  # ClusterSettingsKeyEnum | The settings key
+        update_cluster_setting_by_key_request = {
+            "enabled": False
+        }  # UpdateClusterSettingByKeyRequest |
+
+        # Make request
+        self.api.update_cluster_setting_by_key(
+            key=key,
+            update_cluster_setting_by_key_request=update_cluster_setting_by_key_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/clusters/settings/{key}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_update_cluster_setting_by_key_error(self):
+        """Test error handling for update_cluster_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.ClusterSettingsKeyEnum()
+        update_cluster_setting_by_key_request = {"enabled": False}
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_cluster_setting_by_key(
+                key=key,
+                update_cluster_setting_by_key_request=update_cluster_setting_by_key_request,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_datavolumes_setting_by_key(self):
+        """Test case for update_datavolumes_setting_by_key
+
+        Update datavolumes setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.DatavolumesSettingsKeyEnum()
+        )  # DatavolumesSettingsKeyEnum | The settings key
+        update_datavolumes_setting_by_key_request = {
+            "enabled": True
+        }  # UpdateDatavolumesSettingByKeyRequest |
+
+        # Make request
+        self.api.update_datavolumes_setting_by_key(
+            key=key,
+            update_datavolumes_setting_by_key_request=update_datavolumes_setting_by_key_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/datavolumes/settings/{key}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_update_datavolumes_setting_by_key_error(self):
+        """Test error handling for update_datavolumes_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.DatavolumesSettingsKeyEnum()
+        update_datavolumes_setting_by_key_request = {"enabled": True}
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_datavolumes_setting_by_key(
+                key=key,
+                update_datavolumes_setting_by_key_request=update_datavolumes_setting_by_key_request,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_node_pool_setting_by_key(self):
+        """Test case for update_node_pool_setting_by_key
+
+        Update node pool setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.NodePoolSettingsKeyEnum()
+        )  # NodePoolSettingsKeyEnum | The settings key
+        update_node_pool_setting_by_key_request = {
+            "enabled": False
+        }  # UpdateNodePoolSettingByKeyRequest |
+
+        # Make request
+        self.api.update_node_pool_setting_by_key(
+            key=key,
+            update_node_pool_setting_by_key_request=update_node_pool_setting_by_key_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/node-pools/settings/{key}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_update_node_pool_setting_by_key_error(self):
+        """Test error handling for update_node_pool_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.NodePoolSettingsKeyEnum()
+        update_node_pool_setting_by_key_request = {"enabled": False}
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_node_pool_setting_by_key(
+                key=key,
+                update_node_pool_setting_by_key_request=update_node_pool_setting_by_key_request,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_notifications_setting_by_key(self):
+        """Test case for update_notifications_setting_by_key
+
+        Update notifications setting by key Updates a single notifications setting identified by the path key.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.NotificationsSettingsKeyEnum()
+        )  # NotificationsSettingsKeyEnum | Identifier of the notifications setting to retrieve or update.
+        update_admin_message = runai.UpdateAdminMessage()  # UpdateAdminMessage |
+
+        # Make request
+        self.api.update_notifications_setting_by_key(
+            key=key,
+            update_admin_message=update_admin_message,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/notifications/settings/{key}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_update_notifications_setting_by_key_error(self):
+        """Test error handling for update_notifications_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.NotificationsSettingsKeyEnum()
+        update_admin_message = runai.UpdateAdminMessage()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_notifications_setting_by_key(
+                key=key,
+                update_admin_message=update_admin_message,
+            )
         assert exc_info.value.status == 400
 
     def test_update_security_setting_by_key(self):
@@ -273,6 +1247,65 @@ class TestSettingsApi:
             )
         assert exc_info.value.status == 400
 
+    def test_update_workloads_service_setting_by_key(self):
+        """Test case for update_workloads_service_setting_by_key
+
+        Update a workloads setting by key. Update the value of a specific workloads setting by its key.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.WorkloadsSettingsKeyEnum()  # WorkloadsSettingsKeyEnum |
+        update_workloads_setting_by_key_request = (
+            runai.UpdateWorkloadsSettingByKeyRequest()
+        )  # UpdateWorkloadsSettingByKeyRequest |
+
+        # Make request
+        response = self.api.update_workloads_service_setting_by_key(
+            key=key,
+            update_workloads_setting_by_key_request=update_workloads_setting_by_key_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/workloads/settings/{key}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, UpdateWorkloadsSettingByKeyRequest)
+
+    def test_update_workloads_service_setting_by_key_error(self):
+        """Test error handling for update_workloads_service_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.WorkloadsSettingsKeyEnum()
+        update_workloads_setting_by_key_request = (
+            runai.UpdateWorkloadsSettingByKeyRequest()
+        )
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_workloads_service_setting_by_key(
+                key=key,
+                update_workloads_setting_by_key_request=update_workloads_setting_by_key_request,
+            )
+        assert exc_info.value.status == 400
+
     def test_update_workloads_setting_by_key(self):
         """Test case for update_workloads_setting_by_key
 
@@ -286,8 +1319,8 @@ class TestSettingsApi:
 
         # Test parameters
         key = (
-            runai.WorkloadsSettingsKeyEnum()
-        )  # WorkloadsSettingsKeyEnum | The settings key
+            runai.WorkloadsSettingsKeyEnum1()
+        )  # WorkloadsSettingsKeyEnum1 | The settings key
         yaml_submission_setting = {"enabled": False}  # YamlSubmissionSetting |
 
         # Make request
@@ -316,7 +1349,7 @@ class TestSettingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        key = runai.WorkloadsSettingsKeyEnum()
+        key = runai.WorkloadsSettingsKeyEnum1()
         yaml_submission_setting = {"enabled": False}
 
         # Verify error handling

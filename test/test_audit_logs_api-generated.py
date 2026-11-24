@@ -51,9 +51,8 @@ class TestAuditLogsApi:
         start = "2023-06-06T12:09:18.211Z"  # datetime | Start date of time range to fetch data in ISO 8601 timestamp format.
         end = "2023-06-07T12:09:18.211Z"  # datetime | End date of time range to fetch data in ISO 8601 timestamp format.
         file_type = CSV  # str |
-        number_of_samples = (
-            20  # int | The number of samples to take in the specified time range.
-        )
+        offset = 100  # int | The offset of the first item returned in the collection.
+        number_of_samples = 20  # int | Maximum number of records to include in the file. The hard cap is 100,000. Use the offset parameter to page through additional records.
         filter_by = [
             '["cluster_name==my-cluster_name","entity_type==cluster,entity_name==test"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
@@ -78,6 +77,8 @@ class TestAuditLogsApi:
         assert "start=" in kwargs["url"]
         # Verify query parameters
         assert "end=" in kwargs["url"]
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
         # Verify query parameters
         assert "numberOfSamples=" in kwargs["url"]
         # Verify query parameters

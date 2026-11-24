@@ -24,7 +24,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
 
         ### Description
-        Create a workload. [Experimental]
+        Create a workload.
 
         ### Parameters:
         ```python
@@ -67,7 +67,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
 
         ### Description
-        Delete a workload. [Experimental]
+        Delete a workload.
 
         ### Parameters:
         ```python
@@ -98,7 +98,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
 
         ### Description
-        Get a specific workload. [Experimental]
+        Get a specific workload.
 
         ### Parameters:
         ```python
@@ -130,7 +130,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
 
         ### Description
-        Update workload spec. [Experimental]
+        Update workload spec.
 
         ### Parameters:
         ```python

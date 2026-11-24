@@ -15,6 +15,360 @@ class SettingsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def get_authorization_setting_by_key(
+        self,
+        key: models.AuthorizationSettingsKeyEnum,
+    ):
+        r"""
+
+
+        ### Description
+        Get authorization setting by key
+
+        ### Parameters:
+        ```python
+        key: models.AuthorizationSettingsKeyEnum
+        ```
+        key: The settings key
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.AuthorizationSettingsKeyEnum()
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/authorization/settings/{key}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_authorization_settings(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get authorization settings
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        SettingsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/authorization/settings".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_branding_setting_by_key(
+        self,
+        key: models.BrandingSettingsKeyEnum,
+    ):
+        r"""
+
+
+        ### Description
+        Get branding setting by key
+
+        ### Parameters:
+        ```python
+        key: models.BrandingSettingsKeyEnum
+        ```
+        key: Identifier of the branding setting to retrieve or update
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.BrandingSettingsKeyEnum()
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/branding/settings/{key}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_branding_settings(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get branding settings
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        SettingsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/branding/settings".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_cluster_setting_by_key(
+        self,
+        key: models.ClusterSettingsKeyEnum,
+    ):
+        r"""
+
+
+        ### Description
+        Get cluster setting by key
+
+        ### Parameters:
+        ```python
+        key: models.ClusterSettingsKeyEnum
+        ```
+        key: The settings key
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.ClusterSettingsKeyEnum()
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/clusters/settings/{key}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_cluster_settings(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get cluster settings
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        SettingsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/clusters/settings".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_datavolumes_setting_by_key(
+        self,
+        key: models.DatavolumesSettingsKeyEnum,
+    ):
+        r"""
+
+
+        ### Description
+        Get datavolumes setting by key
+
+        ### Parameters:
+        ```python
+        key: models.DatavolumesSettingsKeyEnum
+        ```
+        key: The settings key
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.DatavolumesSettingsKeyEnum()
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/datavolumes/settings/{key}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_datavolumes_settings(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get datavolumes settings
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        SettingsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/datavolumes/settings".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_node_pool_setting_by_key(
+        self,
+        key: models.NodePoolSettingsKeyEnum,
+    ):
+        r"""
+
+
+        ### Description
+        Get node pool setting by key
+
+        ### Parameters:
+        ```python
+        key: models.NodePoolSettingsKeyEnum
+        ```
+        key: The settings key
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.NodePoolSettingsKeyEnum()
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/node_pools/settings/{key}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_node_pool_settings(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get node pool settings
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        SettingsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/node_pools/settings".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_notifications_setting_by_key(
+        self,
+        key: models.NotificationsSettingsKeyEnum,
+    ):
+        r"""
+
+
+        ### Description
+        Get notifications setting by key
+
+        ### Parameters:
+        ```python
+        key: models.NotificationsSettingsKeyEnum
+        ```
+        key: Identifier of the notifications setting to retrieve or update.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.NotificationsSettingsKeyEnum()
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/notifications/settings/{key}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_notifications_settings(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get notifications settings
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        SettingsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/notifications/settings".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
     def get_security_setting_by_key(
         self,
         key: models.SettingsKeyEnum,
@@ -74,9 +428,68 @@ class SettingsApi(RunaiAPIService):
             method=method,
         )
 
-    def get_workloads_setting_by_key(
+    def get_workloads_service_setting_by_key(
         self,
         key: models.WorkloadsSettingsKeyEnum,
+    ):
+        r"""
+
+
+        ### Description
+        Get a workloads setting by key.
+
+        ### Parameters:
+        ```python
+        key: models.WorkloadsSettingsKeyEnum
+        ```
+        key: See model models.WorkloadsSettingsKeyEnum for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.WorkloadsSettingsKeyEnum()
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workloads/settings/{key}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_workloads_service_settings(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get all workloads settings.
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        SettingsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/workloads/settings".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_workloads_setting_by_key(
+        self,
+        key: models.WorkloadsSettingsKeyEnum1,
     ):
         r"""
 
@@ -86,14 +499,14 @@ class SettingsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        key: models.WorkloadsSettingsKeyEnum
+        key: models.WorkloadsSettingsKeyEnum1
         ```
         key: The settings key
 
         ### Example:
         ```python
         SettingsApi(
-            key=runai.WorkloadsSettingsKeyEnum()
+            key=runai.WorkloadsSettingsKeyEnum1()
         )
         ```
         """
@@ -131,6 +544,240 @@ class SettingsApi(RunaiAPIService):
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
+        )
+
+    def update_authorization_setting_by_key(
+        self,
+        key: models.AuthorizationSettingsKeyEnum,
+        update_authorization_setting_by_key_request: models.UpdateAuthorizationSettingByKeyRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Update authorization setting by key
+
+        ### Parameters:
+        ```python
+        key: models.AuthorizationSettingsKeyEnum
+        update_authorization_setting_by_key_request: UpdateAuthorizationSettingByKeyRequest
+        ```
+        key: The settings key
+        update_authorization_setting_by_key_request: See model UpdateAuthorizationSettingByKeyRequest for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.AuthorizationSettingsKeyEnum(),
+                        update_authorization_setting_by_key_request={"enabled":false}
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_authorization_setting_by_key_request
+
+        resource_path = f"/api/v1/authorization/settings/{key}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_branding_setting_by_key(
+        self,
+        key: models.BrandingSettingsKeyEnum,
+        update_logo: models.UpdateLogo,
+    ):
+        r"""
+
+
+        ### Description
+        Update branding setting by key
+
+        ### Parameters:
+        ```python
+        key: models.BrandingSettingsKeyEnum
+        update_logo: UpdateLogo
+        ```
+        key: Identifier of the branding setting to retrieve or update
+        update_logo: See model UpdateLogo for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.BrandingSettingsKeyEnum(),
+                        update_logo=runai.UpdateLogo()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_logo
+
+        resource_path = f"/api/v1/branding/settings/{key}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_cluster_setting_by_key(
+        self,
+        key: models.ClusterSettingsKeyEnum,
+        update_cluster_setting_by_key_request: models.UpdateClusterSettingByKeyRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Update cluster setting by key
+
+        ### Parameters:
+        ```python
+        key: models.ClusterSettingsKeyEnum
+        update_cluster_setting_by_key_request: UpdateClusterSettingByKeyRequest
+        ```
+        key: The settings key
+        update_cluster_setting_by_key_request: See model UpdateClusterSettingByKeyRequest for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.ClusterSettingsKeyEnum(),
+                        update_cluster_setting_by_key_request={"enabled":false}
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_cluster_setting_by_key_request
+
+        resource_path = f"/api/v1/clusters/settings/{key}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_datavolumes_setting_by_key(
+        self,
+        key: models.DatavolumesSettingsKeyEnum,
+        update_datavolumes_setting_by_key_request: models.UpdateDatavolumesSettingByKeyRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Update datavolumes setting by key
+
+        ### Parameters:
+        ```python
+        key: models.DatavolumesSettingsKeyEnum
+        update_datavolumes_setting_by_key_request: UpdateDatavolumesSettingByKeyRequest
+        ```
+        key: The settings key
+        update_datavolumes_setting_by_key_request: See model UpdateDatavolumesSettingByKeyRequest for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.DatavolumesSettingsKeyEnum(),
+                        update_datavolumes_setting_by_key_request={"enabled":true}
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_datavolumes_setting_by_key_request
+
+        resource_path = f"/api/v1/datavolumes/settings/{key}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_node_pool_setting_by_key(
+        self,
+        key: models.NodePoolSettingsKeyEnum,
+        update_node_pool_setting_by_key_request: models.UpdateNodePoolSettingByKeyRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Update node pool setting by key
+
+        ### Parameters:
+        ```python
+        key: models.NodePoolSettingsKeyEnum
+        update_node_pool_setting_by_key_request: UpdateNodePoolSettingByKeyRequest
+        ```
+        key: The settings key
+        update_node_pool_setting_by_key_request: See model UpdateNodePoolSettingByKeyRequest for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.NodePoolSettingsKeyEnum(),
+                        update_node_pool_setting_by_key_request={"enabled":false}
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_node_pool_setting_by_key_request
+
+        resource_path = f"/api/v1/node_pools/settings/{key}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_notifications_setting_by_key(
+        self,
+        key: models.NotificationsSettingsKeyEnum,
+        update_admin_message: models.UpdateAdminMessage,
+    ):
+        r"""
+
+
+        ### Description
+        Update notifications setting by key
+
+        ### Parameters:
+        ```python
+        key: models.NotificationsSettingsKeyEnum
+        update_admin_message: UpdateAdminMessage
+        ```
+        key: Identifier of the notifications setting to retrieve or update.
+        update_admin_message: See model UpdateAdminMessage for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.NotificationsSettingsKeyEnum(),
+                        update_admin_message=runai.UpdateAdminMessage()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_admin_message
+
+        resource_path = f"/api/v1/notifications/settings/{key}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )
 
     def update_security_setting_by_key(
@@ -172,9 +819,48 @@ class SettingsApi(RunaiAPIService):
             body=body_params,
         )
 
-    def update_workloads_setting_by_key(
+    def update_workloads_service_setting_by_key(
         self,
         key: models.WorkloadsSettingsKeyEnum,
+        update_workloads_setting_by_key_request: models.UpdateWorkloadsSettingByKeyRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Update a workloads setting by key.
+
+        ### Parameters:
+        ```python
+        key: models.WorkloadsSettingsKeyEnum
+        update_workloads_setting_by_key_request: UpdateWorkloadsSettingByKeyRequest
+        ```
+        key: See model models.WorkloadsSettingsKeyEnum for more information.
+        update_workloads_setting_by_key_request: See model UpdateWorkloadsSettingByKeyRequest for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.WorkloadsSettingsKeyEnum(),
+                        update_workloads_setting_by_key_request=runai.UpdateWorkloadsSettingByKeyRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = update_workloads_setting_by_key_request
+
+        resource_path = f"/api/v1/workloads/settings/{key}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_workloads_setting_by_key(
+        self,
+        key: models.WorkloadsSettingsKeyEnum1,
         yaml_submission_setting: models.YamlSubmissionSetting,
     ):
         r"""
@@ -185,7 +871,7 @@ class SettingsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        key: models.WorkloadsSettingsKeyEnum
+        key: models.WorkloadsSettingsKeyEnum1
         yaml_submission_setting: YamlSubmissionSetting
         ```
         key: The settings key
@@ -194,7 +880,7 @@ class SettingsApi(RunaiAPIService):
         ### Example:
         ```python
         SettingsApi(
-            key=runai.WorkloadsSettingsKeyEnum(),
+            key=runai.WorkloadsSettingsKeyEnum1(),
                         yaml_submission_setting={"enabled":false}
         )
         ```

@@ -190,6 +190,147 @@ class TestWorkloadsAPIApi:
             )
         assert exc_info.value.status == 400
 
+    def test_get_workload_element(self):
+        """Test case for get_workload_element
+
+        Get a single workload structure element by element id. Retrieve a specific structure element for a workload, including aggregated requested and allocated resources from pods linked to this element. Completed pods are excluded from aggregation. Requires cluster version &gt;&#x3D; 2.25.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
+        element_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier of the structure element.
+
+        # Make request
+        response = self.api.get_workload_element(
+            workload_id=workload_id,
+            element_id=element_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/workloads/{workloadId}/elements/{elementId}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, WorkloadElementResponse)
+
+    def test_get_workload_element_error(self):
+        """Test error handling for get_workload_element"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+        element_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_workload_element(
+                workload_id=workload_id,
+                element_id=element_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_workload_element_metrics(self):
+        """Test case for get_workload_element_metrics
+
+        Get element metrics data. Retrieve metrics data for a specific workload structure element. Requires cluster version 2.25 or later.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
+        element_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier of the structure element.
+        metric_type = [
+            runai.ElementMetricType()
+        ]  # List[ElementMetricType] | Specify which metric data to request for the element.
+        start = "2023-06-06T12:09:18.211Z"  # datetime | Start date of time range to fetch data in ISO 8601 timestamp format.
+        end = "2023-06-07T12:09:18.211Z"  # datetime | End date of time range to fetch data in ISO 8601 timestamp format.
+        number_of_samples = (
+            20  # int | The number of samples to take in the specified time range.
+        )
+
+        # Make request
+        response = self.api.get_workload_element_metrics(
+            workload_id=workload_id,
+            element_id=element_id,
+            metric_type=metric_type,
+            start=start,
+            end=end,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert (
+            "/api/v1/workloads/{workloadId}/elements/{elementId}/metrics"
+            in kwargs["url"]
+        )
+
+        # Verify query parameters
+        assert "metricType=" in kwargs["url"]
+        # Verify query parameters
+        assert "start=" in kwargs["url"]
+        # Verify query parameters
+        assert "end=" in kwargs["url"]
+        # Verify query parameters
+        assert "numberOfSamples=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, MetricsCompositeResponse)
+
+    def test_get_workload_element_metrics_error(self):
+        """Test error handling for get_workload_element_metrics"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+        element_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+        metric_type = [runai.ElementMetricType()]
+        start = "2023-06-06T12:09:18.211Z"
+        end = "2023-06-07T12:09:18.211Z"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_workload_element_metrics(
+                workload_id=workload_id,
+                element_id=element_id,
+                metric_type=metric_type,
+                start=start,
+                end=end,
+            )
+        assert exc_info.value.status == 400
+
     def test_get_workload_elements(self):
         """Test case for get_workload_elements
 
@@ -459,6 +600,7 @@ class TestWorkloadsAPIApi:
         )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         nodepool_name = "default"  # str | Filter using the nodepool.
         department_id = "1"  # str | Filter using the department id.
+        project_id = "1"  # str | project id to filter by
         group_by = ["group_by_example"]  # List[str] | Group workloads by field.
         filter_by_phases = [
             runai.Phase()
@@ -483,6 +625,8 @@ class TestWorkloadsAPIApi:
         assert "nodepoolName=" in kwargs["url"]
         # Verify query parameters
         assert "departmentId=" in kwargs["url"]
+        # Verify query parameters
+        assert "projectId=" in kwargs["url"]
         # Verify query parameters
         assert "groupBy=" in kwargs["url"]
         # Verify query parameters
