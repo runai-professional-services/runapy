@@ -37,7 +37,7 @@ def example_create_workload_v2():
                     priority = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                     category = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                     preemptibility = 'preemptible', 
-                    configuration = {mnnvl=None, userCredentials={sources=[Ljava.lang.Object;@78afd569}}, ),
+                    configuration = {mnnvl=None, userCredentials={sources=[Ljava.lang.Object;@fa7b722}}, ),
             manifest = {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"name":"my-app"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"my-app"}},"template":{"metadata":{"labels":{"app":"my-app"}},"spec":{"containers":[{"name":"app","image":"nginx:latest"}]}}}},
             manifest_base64_encoded = '[B@701fe4f1'
         )

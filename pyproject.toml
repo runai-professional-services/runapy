@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "runapy"
-version = "1.226.0"
+version = "1.227.0"
 description = "Python client for Run:ai REST API"
 authors = ["Run:ai Professional Services Team"]
 license = "Apache-2"
