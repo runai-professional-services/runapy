@@ -152,13 +152,13 @@ class TestUsersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        user_creation_request1 = (
-            runai.UserCreationRequest1()
-        )  # UserCreationRequest1 | User object to create
+        user_creation_request = (
+            runai.UserCreationRequest()
+        )  # UserCreationRequest | User object to create
 
         # Make request
         response = self.api.create_user(
-            user_creation_request1=user_creation_request1,
+            user_creation_request=user_creation_request,
         )
 
         # Verify request was made
@@ -184,12 +184,12 @@ class TestUsersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        user_creation_request1 = runai.UserCreationRequest1()
+        user_creation_request = runai.UserCreationRequest()
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.create_user(
-                user_creation_request1=user_creation_request1,
+                user_creation_request=user_creation_request,
             )
         assert exc_info.value.status == 400
 
@@ -266,7 +266,7 @@ class TestUsersApi:
         assert "/api/v1/users/{userId}" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, User2)
+        assert isinstance(response, User)
 
     def test_get_user_by_id_error(self):
         """Test error handling for get_user_by_id"""
@@ -337,7 +337,7 @@ class TestUsersApi:
         assert "search=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, List[User2])
+        assert isinstance(response, List[User])
 
     def test_get_users_error(self):
         """Test error handling for get_users"""

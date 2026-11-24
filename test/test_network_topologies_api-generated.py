@@ -101,7 +101,9 @@ class TestNetworkTopologiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        network_topology_id = "123e4567-e89b-12d3-a456-426614174000"  # str | The unique identifier for the network topology
+        network_topology_id = UUID(
+            "123e4567-e89b-12d3-a456-426614174000"
+        )  # UUID | The unique identifier for the network topology
 
         # Make request
         self.api.delete_network_topology(
@@ -125,7 +127,7 @@ class TestNetworkTopologiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        network_topology_id = "123e4567-e89b-12d3-a456-426614174000"
+        network_topology_id = UUID("123e4567-e89b-12d3-a456-426614174000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -242,7 +244,9 @@ class TestNetworkTopologiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        network_topology_id = "123e4567-e89b-12d3-a456-426614174000"  # str | The unique identifier for the network topology
+        network_topology_id = UUID(
+            "123e4567-e89b-12d3-a456-426614174000"
+        )  # UUID | The unique identifier for the network topology
 
         # Make request
         response = self.api.get_network_topology_by_id(
@@ -269,7 +273,7 @@ class TestNetworkTopologiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        network_topology_id = "123e4567-e89b-12d3-a456-426614174000"
+        network_topology_id = UUID("123e4567-e89b-12d3-a456-426614174000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

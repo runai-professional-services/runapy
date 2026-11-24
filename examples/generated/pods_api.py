@@ -34,11 +34,14 @@ def example_count_pods():
 
         search = "example_search"
 
+        completed = "example_completed"
+
         # Make the API call
         api_response = api_instance.count_pods(
             deleted=deleted,
             filter_by=filter_by,
             search=search,
+            completed=completed,
         )
         print(f"API response: {api_response}")
 
@@ -50,7 +53,7 @@ def example_get_revision_pods():
     """
     Example of using get_revision_pods
 
-    Get revision pods by id. [Experimental]
+    Get revision pods by id.
     Retrieve the details of revision pods by revision id. Supported for clusters v2.21+.
     """
     try:
@@ -125,6 +128,12 @@ def example_get_workload_pods():
 
         search = "example_search"
 
+        sort_order = "example_sort_order"
+
+        sort_by = "example_sort_by"
+
+        filter_by = ["example_item_1", "example_item_2"]
+
         # Make the API call
         api_response = api_instance.get_workload_pods(
             workload_id=workload_id,
@@ -132,6 +141,9 @@ def example_get_workload_pods():
             offset=offset,
             limit=limit,
             search=search,
+            sort_order=sort_order,
+            sort_by=sort_by,
+            filter_by=filter_by,
         )
         print(f"API response: {api_response}")
 

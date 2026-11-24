@@ -30,7 +30,7 @@ def example_change_user_password():
 
         # Create example data for UserChangePasswordRequest
         user_change_password_request = models.UserChangePasswordRequest(
-            current_password="", new_password=""
+            current_password="01234567", new_password="01234567"
         )
 
         # Make the API call
@@ -78,16 +78,16 @@ def example_create_user():
     try:
         # Prepare the request parameters
 
-        # Create example data for UserCreationRequest1
-        user_creation_request1 = models.UserCreationRequest1(
-            email="A@9LCSLv1C1ylmgd0.Y2TA5TkIRHRRA401iz1CiIy.dNTRddzXYdswQltRTtwKQzBuNJxBelKTmfIQcBkWgeAShmXXoTaDzlkczbtHjkljEhQVqeWYqqMQZlEQb",
+        # Create example data for UserCreationRequest
+        user_creation_request = models.UserCreationRequest(
+            email="A@9LCSLv1C1ylmgd0.Y2TA5TkIRHRRA401iz1CiIy.dNTRddzXYdswQltRTtwKQzBuNJxBelKTmfIQcBkWgeAShmXXoTaDzlkczbtHjkljEhQVqeWYqqMQZlEQb01234",
             reset_password=True,
             notify=True,
         )
 
         # Make the API call
         api_response = api_instance.create_user(
-            user_creation_request1=user_creation_request1,
+            user_creation_request=user_creation_request,
         )
         print(f"API response: {api_response}")
 

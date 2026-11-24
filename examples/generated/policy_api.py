@@ -880,7 +880,7 @@ def example_overwrite_distributed_policy_v2():
                             backoff_limit = 3, 
                             category = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                             command = 'python', 
-                            compute = runai.models.superset_defaults_all_of_compute.SupersetDefaults_allOf_compute(
+                            compute = runai.models.superset_defaults_all_of_compute.SupersetDefaultsAllOfCompute(
                                 cpu_core_limit = 2, 
                                 cpu_core_request = 0.5, 
                                 cpu_memory_limit = '30M', 
@@ -931,7 +931,7 @@ def example_overwrite_distributed_policy_v2():
                             image_pull_policy = 'Always', 
                             image_pull_secrets = runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(), 
                             labels = runai.models.labels_defaults.LabelsDefaults(), 
-                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@787988f4}, 
+                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@30745c7c}, 
                             node_pools = ["my-node-pool-a","my-node-pool-b"], 
                             node_type = 'my-node-type', 
                             pod_affinity = {type=Required, key=key}, 
@@ -941,7 +941,7 @@ def example_overwrite_distributed_policy_v2():
                             probes = {readiness={handler={httpGet={path=/, scheme=HTTP, port=15087, host=example.com}}, failureThreshold=1, periodSeconds=1, timeoutSeconds=1, successThreshold=1, initialDelaySeconds=0}}, 
                             related_urls = runai.models.related_urls_defaults.RelatedUrlsDefaults(), 
                             restart_policy = 'Always', 
-                            security = runai.models.superset_spec_all_of_security.SupersetSpec_allOf_security(
+                            security = runai.models.superset_defaults_all_of_security.SupersetDefaultsAllOfSecurity(
                                 allow_privilege_escalation = False, 
                                 capabilities = ["CHOWN","KILL"], 
                                 host_ipc = False, 
@@ -1296,7 +1296,7 @@ def example_update_distributed_policy_v2():
                             backoff_limit = 3, 
                             category = 'jUR,rZ#UM/?R,Fp^l6$ARj', 
                             command = 'python', 
-                            compute = runai.models.superset_defaults_all_of_compute.SupersetDefaults_allOf_compute(
+                            compute = runai.models.superset_defaults_all_of_compute.SupersetDefaultsAllOfCompute(
                                 cpu_core_limit = 2, 
                                 cpu_core_request = 0.5, 
                                 cpu_memory_limit = '30M', 
@@ -1347,7 +1347,7 @@ def example_update_distributed_policy_v2():
                             image_pull_policy = 'Always', 
                             image_pull_secrets = runai.models.image_pull_secrets_defaults.ImagePullSecretsDefaults(), 
                             labels = runai.models.labels_defaults.LabelsDefaults(), 
-                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@787988f4}, 
+                            node_affinity_required = {nodeSelectorTerms=[Ljava.lang.Object;@30745c7c}, 
                             node_pools = ["my-node-pool-a","my-node-pool-b"], 
                             node_type = 'my-node-type', 
                             pod_affinity = {type=Required, key=key}, 
@@ -1357,7 +1357,7 @@ def example_update_distributed_policy_v2():
                             probes = {readiness={handler={httpGet={path=/, scheme=HTTP, port=15087, host=example.com}}, failureThreshold=1, periodSeconds=1, timeoutSeconds=1, successThreshold=1, initialDelaySeconds=0}}, 
                             related_urls = runai.models.related_urls_defaults.RelatedUrlsDefaults(), 
                             restart_policy = 'Always', 
-                            security = runai.models.superset_spec_all_of_security.SupersetSpec_allOf_security(
+                            security = runai.models.superset_defaults_all_of_security.SupersetDefaultsAllOfSecurity(
                                 allow_privilege_escalation = False, 
                                 capabilities = ["CHOWN","KILL"], 
                                 host_ipc = False, 

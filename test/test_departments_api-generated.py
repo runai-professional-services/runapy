@@ -36,6 +36,115 @@ class TestDepartmentsApi:
         yield
         self.request_patcher.stop()
 
+    def test_batch_patch_department_node_pool_resources(self):
+        """Test case for batch_patch_department_node_pool_resources
+
+        Patch multiple departments node pool resources in batch. Partially updates node pool resource quotas for multiple departments in a single request.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        batch_patch_node_pool_resources_request = (
+            runai.BatchPatchNodePoolResourcesRequest()
+        )  # BatchPatchNodePoolResourcesRequest | Batch of department resources patch requests.
+
+        # Make request
+        response = self.api.batch_patch_department_node_pool_resources(
+            batch_patch_node_pool_resources_request=batch_patch_node_pool_resources_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert (
+            "/api/v1/org-unit/departments/node-pool-resources/batch-patch"
+            in kwargs["url"]
+        )
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, BatchPatchDepartmentResourcesResponse)
+
+    def test_batch_patch_department_node_pool_resources_error(self):
+        """Test error handling for batch_patch_department_node_pool_resources"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        batch_patch_node_pool_resources_request = (
+            runai.BatchPatchNodePoolResourcesRequest()
+        )
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.batch_patch_department_node_pool_resources(
+                batch_patch_node_pool_resources_request=batch_patch_node_pool_resources_request,
+            )
+        assert exc_info.value.status == 400
+
+    def test_count_department_node_pool_resources(self):
+        """Test case for count_department_node_pool_resources
+
+        Count departments node pool resources Count departments node pool resources
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["nodePoolName!=some-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
+
+        # Make request
+        response = self.api.count_department_node_pool_resources()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/departments/node-pool-resources/count" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, CountResponse)
+
+    def test_count_department_node_pool_resources_error(self):
+        """Test error handling for count_department_node_pool_resources"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.count_department_node_pool_resources()
+        assert exc_info.value.status == 400
+
     def test_count_departments(self):
         """Test case for count_departments
 
@@ -307,10 +416,10 @@ class TestDepartmentsApi:
             )
         assert exc_info.value.status == 400
 
-    def test_get_department_metrics_0(self):
-        """Test case for get_department_metrics_0
+    def test_get_department_node_pool_resources(self):
+        """Test case for get_department_node_pool_resources
 
-        Get metrics for a specific department. Get metrics for a specific department in the cluster.  Use a time range to return historical data (optional). If you use a &#x60;start&#x60; date, an &#x60;end&#x60; date is required.
+        Get departments node pool resources List departments node pool resources
         """
         # Mock response
         mock_response = mock.Mock()
@@ -319,20 +428,19 @@ class TestDepartmentsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
-        department_id = "1"  # str | The id of the department.
-        start = "2013-10-20T19:20:30+01:00"  # datetime | Start of time range to fetch data from in UTC format.
-        end = "2013-10-20T19:20:30+01:00"  # datetime | End of time range to fetch data from in UTC format.
-        number_of_samples = (
-            20  # int | The number of samples to take in the specified time range.
-        )
-        nodepool_name = "default"  # str | Filter by unique nodepool name.
+        filter_by = [
+            '["nodePoolName!=some-name"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        sort_by = (
+            runai.DepartmentNodePoolResourcesFilterSortFields()
+        )  # DepartmentNodePoolResourcesFilterSortFields | Sort results by a parameters.
+        sort_order = asc  # str | Sort results in descending or ascending order.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
+        search = "test project"  # str | Filter results by a free text search.
 
         # Make request
-        response = self.api.get_department_metrics_0(
-            cluster_uuid=cluster_uuid,
-            department_id=department_id,
-        )
+        response = self.api.get_department_node_pool_resources()
 
         # Verify request was made
         assert self.mock_request.called
@@ -340,25 +448,26 @@ class TestDepartmentsApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert (
-            "/v1/k8s/clusters/{clusterUuid}/departments/{departmentId}/metrics"
-            in kwargs["url"]
-        )
+        assert "/api/v1/org-unit/departments/node-pool-resources" in kwargs["url"]
 
         # Verify query parameters
-        assert "start=" in kwargs["url"]
+        assert "filterBy=" in kwargs["url"]
         # Verify query parameters
-        assert "end=" in kwargs["url"]
+        assert "sortBy=" in kwargs["url"]
         # Verify query parameters
-        assert "numberOfSamples=" in kwargs["url"]
+        assert "sortOrder=" in kwargs["url"]
         # Verify query parameters
-        assert "nodepoolName=" in kwargs["url"]
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Department)
+        assert isinstance(response, GetDepartmentNodePoolResources200Response)
 
-    def test_get_department_metrics_0_error(self):
-        """Test error handling for get_department_metrics_0"""
+    def test_get_department_node_pool_resources_error(self):
+        """Test error handling for get_department_node_pool_resources"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -366,15 +475,10 @@ class TestDepartmentsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
-        department_id = "1"
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_department_metrics_0(
-                cluster_uuid=cluster_uuid,
-                department_id=department_id,
-            )
+            self.api.get_department_node_pool_resources()
         assert exc_info.value.status == 400
 
     def test_get_departments(self):
@@ -444,124 +548,6 @@ class TestDepartmentsApi:
             self.api.get_departments()
         assert exc_info.value.status == 400
 
-    def test_get_departments_0(self):
-        """Test case for get_departments_0
-
-        List all departments. List all the departments managed by the tenant on a specific cluster.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
-        exclude_permissions = true  # bool | Backward compatibility of the `departmentAdmins` field. If `true`, the `departmentAdmins` field in the returned departments is not set. If `false`, the `departmentAdmins` is set in the returned departments.
-        memory_unit_mb = true  # bool | Memory returned in MB. When set to `false` (default) memory will be returned in MiB.
-
-        # Make request
-        response = self.api.get_departments_0(
-            cluster_id=cluster_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/clusters/{clusterId}/departments" in kwargs["url"]
-
-        # Verify query parameters
-        assert "excludePermissions=" in kwargs["url"]
-        # Verify query parameters
-        assert "memoryUnitMb=" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, List[Department2])
-
-    def test_get_departments_0_error(self):
-        """Test error handling for get_departments_0"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_departments_0(
-                cluster_id=cluster_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_get_departments_metrics(self):
-        """Test case for get_departments_metrics
-
-        Get metrics for all departments. Get metrics for all departments in the cluster. Use a time range to return historical data (optional).  If you use a &#x60;start&#x60; date, an &#x60;end&#x60; date is required.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
-        start = "2013-10-20T19:20:30+01:00"  # datetime | Start of time range to fetch data from in UTC format.
-        end = "2013-10-20T19:20:30+01:00"  # datetime | End of time range to fetch data from in UTC format.
-        number_of_samples = (
-            20  # int | The number of samples to take in the specified time range.
-        )
-        nodepool_name = "default"  # str | Filter by unique nodepool name.
-
-        # Make request
-        response = self.api.get_departments_metrics(
-            cluster_uuid=cluster_uuid,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/clusters/{clusterUuid}/departments/metrics" in kwargs["url"]
-
-        # Verify query parameters
-        assert "start=" in kwargs["url"]
-        # Verify query parameters
-        assert "end=" in kwargs["url"]
-        # Verify query parameters
-        assert "numberOfSamples=" in kwargs["url"]
-        # Verify query parameters
-        assert "nodepoolName=" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, Departments)
-
-    def test_get_departments_metrics_error(self):
-        """Test error handling for get_departments_metrics"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_departments_metrics(
-                cluster_uuid=cluster_uuid,
-            )
-        assert exc_info.value.status == 400
-
     def test_get_departments_telemetry(self):
         """Test case for get_departments_telemetry
 
@@ -577,7 +563,9 @@ class TestDepartmentsApi:
         telemetry_type = (
             runai.OrgUnitTelemetryType()
         )  # OrgUnitTelemetryType | specifies what data to request
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         nodepool_name = "default"  # str | Filter using the nodepool.
         department_id = "1"  # str | Filter using the department id.
         group_by = [
@@ -740,70 +728,6 @@ class TestDepartmentsApi:
             self.api.update_department(
                 department_id=department_id,
                 department_update_request=department_update_request,
-            )
-        assert exc_info.value.status == 400
-
-    def test_update_department_admins(self):
-        """Test case for update_department_admins
-
-        Set the department admins. Deprecated. Instead, use the accessrules API to add the department-admin permissions to a specific subject.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The unique uuid identifying the cluster.
-        department_id = 2  # int | The unique id identifying the department.
-        department_access_control = (
-            runai.DepartmentAccessControl()
-        )  # DepartmentAccessControl |
-
-        # Make request
-        response = self.api.update_department_admins(
-            cluster_id=cluster_id,
-            department_id=department_id,
-            department_access_control=department_access_control,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "PUT"
-        assert (
-            "/v1/k8s/clusters/{clusterId}/departments/{department-id}/access-control"
-            in kwargs["url"]
-        )
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, DepartmentAccessControl)
-
-    def test_update_department_admins_error(self):
-        """Test error handling for update_department_admins"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"
-        department_id = 2
-        department_access_control = runai.DepartmentAccessControl()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.update_department_admins(
-                cluster_id=cluster_id,
-                department_id=department_id,
-                department_access_control=department_access_control,
             )
         assert exc_info.value.status == 400
 

@@ -30,7 +30,7 @@ def example_create_service_account():
 
         # Create example data for ServiceAccountCreationRequest
         service_account_creation_request = models.ServiceAccountCreationRequest(
-            name="awat5ikwowtta-3mh2lcafqw3zhes0"
+            name="awat5ikwowtta-3mh2lcafqw3zhes001"
         )
 
         # Make the API call

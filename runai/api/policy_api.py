@@ -20,7 +20,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
@@ -34,7 +34,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         approve_cluster_deletion: Optional[bool]
         ```
         scope: The scope that the policy relates to.
@@ -49,7 +49,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         approve_cluster_deletion=True
         )
         ```
@@ -74,7 +74,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
@@ -88,7 +88,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         approve_cluster_deletion: Optional[bool]
         ```
         scope: The scope that the policy relates to.
@@ -103,7 +103,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         approve_cluster_deletion=True
         )
         ```
@@ -128,7 +128,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
@@ -142,7 +142,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         approve_cluster_deletion: Optional[bool]
         ```
         scope: The scope that the policy relates to.
@@ -157,7 +157,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         approve_cluster_deletion=True
         )
         ```
@@ -182,7 +182,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
     ):
         r"""
 
@@ -195,7 +195,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
@@ -208,7 +208,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128')
         )
         ```
         """
@@ -231,7 +231,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
@@ -245,7 +245,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         approve_cluster_deletion: Optional[bool]
         ```
         scope: The scope that the policy relates to.
@@ -260,7 +260,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         approve_cluster_deletion=True
         )
         ```
@@ -285,7 +285,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         approve_cluster_deletion: Optional[bool] = None,
     ):
         r"""
@@ -299,7 +299,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         approve_cluster_deletion: Optional[bool]
         ```
         scope: The scope that the policy relates to.
@@ -314,7 +314,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         approve_cluster_deletion=True
         )
         ```
@@ -339,7 +339,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
     ):
         r"""
 
@@ -352,7 +352,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
@@ -365,7 +365,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128')
         )
         ```
         """
@@ -388,7 +388,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
     ):
         r"""
 
@@ -401,7 +401,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
@@ -414,7 +414,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128')
         )
         ```
         """
@@ -437,7 +437,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
     ):
         r"""
 
@@ -450,7 +450,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
@@ -463,7 +463,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128')
         )
         ```
         """
@@ -486,7 +486,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
     ):
         r"""
 
@@ -499,7 +499,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
@@ -512,7 +512,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128')
         )
         ```
         """
@@ -535,7 +535,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
     ):
         r"""
 
@@ -548,7 +548,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
@@ -561,7 +561,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128')
         )
         ```
         """
@@ -584,7 +584,7 @@ class PolicyApi(RunaiAPIService):
         scope: str,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
     ):
         r"""
 
@@ -597,7 +597,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         ```
         scope: The scope that the policy relates to.
         department_id: Filter using the department id.
@@ -610,7 +610,7 @@ class PolicyApi(RunaiAPIService):
             scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128'
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128')
         )
         ```
         """
@@ -634,7 +634,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str] = None,
         department_id: Optional[str] = None,
         project_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         include_fallback_policies: Optional[bool] = None,
     ):
         r"""
@@ -649,7 +649,7 @@ class PolicyApi(RunaiAPIService):
         scope: Optional[str]
         department_id: Optional[str]
         project_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         include_fallback_policies: Optional[bool]
         ```
         workload_type: Policy for a specific workload type.
@@ -666,7 +666,7 @@ class PolicyApi(RunaiAPIService):
                         scope='scope_example',
                         department_id='1',
                         project_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         include_fallback_policies=True
         )
         ```

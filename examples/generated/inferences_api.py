@@ -156,7 +156,7 @@ def example_update_inference_spec():
     """
     Example of using update_inference_spec
 
-    Update inference spec. [Experimental]
+    Update inference spec.
     Update the specification of an existing inference workload.
     """
     try:

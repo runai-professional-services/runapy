@@ -91,7 +91,7 @@ class UsersApi(RunaiAPIService):
 
     def create_user(
         self,
-        user_creation_request1: models.UserCreationRequest1,
+        user_creation_request: models.UserCreationRequest,
     ):
         r"""
 
@@ -101,20 +101,20 @@ class UsersApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        user_creation_request1: UserCreationRequest1
+        user_creation_request: UserCreationRequest
         ```
-        user_creation_request1: User object to create
+        user_creation_request: User object to create
 
         ### Example:
         ```python
         UsersApi(
-            user_creation_request1=runai.UserCreationRequest1()
+            user_creation_request=runai.UserCreationRequest()
         )
         ```
         """
 
         # Body params:
-        body_params = user_creation_request1
+        body_params = user_creation_request
 
         resource_path = f"/api/v1/users".replace("_", "-")
         method = "POST"

@@ -48,7 +48,9 @@ class TestNodesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
         filter_by = [
             '["name!=some-name"]'
         ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
@@ -84,7 +86,7 @@ class TestNodesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -156,7 +158,7 @@ class TestNodesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        node_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The node UUID.
+        node_id = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")  # UUID | The node UUID.
         metric_type = [
             runai.NodeMetricType()
         ]  # List[NodeMetricType] | Specify which data to request.
@@ -203,7 +205,7 @@ class TestNodesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        node_id = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        node_id = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
         metric_type = [runai.NodeMetricType()]
         start = "2023-06-06T12:09:18.211Z"
         end = "2023-06-07T12:09:18.211Z"
@@ -233,7 +235,9 @@ class TestNodesApi:
         telemetry_type = (
             runai.NodeTelemetryType()
         )  # NodeTelemetryType | specifies what data to request
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         nodepool_name = "default"  # str | Filter using the nodepool.
         group_by = [
             "group_by_example"
@@ -294,7 +298,9 @@ class TestNodesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
         node_name = "node_name_example"  # str | Deprecated - use filterBy instead. The node name; Cannot be used together with filterBy, sort, offset, limit or search query params.
         filter_by = [
             '["name!=some-name"]'
@@ -347,7 +353,7 @@ class TestNodesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

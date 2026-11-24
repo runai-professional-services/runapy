@@ -52,7 +52,7 @@ class TrainingsApi(RunaiAPIService):
 
     def delete_training(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -62,14 +62,14 @@ class TrainingsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         TrainingsApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -83,7 +83,7 @@ class TrainingsApi(RunaiAPIService):
 
     def get_training(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -93,14 +93,14 @@ class TrainingsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         TrainingsApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -114,7 +114,7 @@ class TrainingsApi(RunaiAPIService):
 
     def resume_training(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -124,14 +124,14 @@ class TrainingsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         TrainingsApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -147,7 +147,7 @@ class TrainingsApi(RunaiAPIService):
 
     def suspend_training(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -157,14 +157,14 @@ class TrainingsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         TrainingsApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """

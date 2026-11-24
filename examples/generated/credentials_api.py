@@ -661,6 +661,14 @@ def example_list_credentials_assets():
         
         
         
+        
+        
+        include_descendants = True
+        
+        
+        
+        
+        
 
         # Make the API call
         api_response = api_instance.list_credentials_assets(
@@ -671,6 +679,7 @@ def example_list_credentials_assets():
             cluster_id=cluster_id,
             usage_info=usage_info,
             status_info=status_info,
+            include_descendants=include_descendants,
         )
         print(f"API response: {api_response}")
 

@@ -101,7 +101,9 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
         force = False  # bool | if true will force cluster instant deletion otherwise will start cluster graceful deletion process.
 
         # Make request
@@ -132,7 +134,7 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -153,7 +155,9 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
         verbosity = full  # str | response verbosity level.
 
         # Make request
@@ -184,7 +188,7 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -205,7 +209,9 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
         version = "2.16"  # str | The cluster version to install
         remote_cluster_url = (
             "https://cluster.runai"  # str | The remote URL of the runai cluster
@@ -242,7 +248,7 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
         version = "2.16"
 
         # Verify error handling
@@ -265,7 +271,9 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
         start = "2023-06-06T12:09:18.211Z"  # datetime | Start date of time range to fetch data in ISO 8601 timestamp format.
         end = "2023-06-07T12:09:18.211Z"  # datetime | End date of time range to fetch data in ISO 8601 timestamp format.
         metric_type = [
@@ -318,7 +326,7 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
         start = "2023-06-06T12:09:18.211Z"
         end = "2023-06-07T12:09:18.211Z"
         metric_type = [runai.MetricsType()]
@@ -333,10 +341,10 @@ class TestClustersApi:
             )
         assert exc_info.value.status == 400
 
-    def test_get_cluster_metrics_0(self):
-        """Test case for get_cluster_metrics_0
+    def test_get_cluster_minimal_data_by_id(self):
+        """Test case for get_cluster_minimal_data_by_id
 
-        Get cluster metrics. Get current cluster metrics. If time range query parameters supplied, then historical data will be returned as well. Deprecated - please use api/v1/clusters/{clusterUuid}/metrics
+        Get cluster minimal data by id Retrieve essential data for a specific cluster by ID required for common operations (e.g., workload submission)
         """
         # Mock response
         mock_response = mock.Mock()
@@ -345,16 +353,12 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
-        start = "2013-10-20T19:20:30+01:00"  # datetime | Start of time range to fetch data from in UTC format.
-        end = "2013-10-20T19:20:30+01:00"  # datetime | End of time range to fetch data from in UTC format.
-        number_of_samples = (
-            20  # int | The number of samples to take in the specified time range.
-        )
-        nodepool_name = "default"  # str | Filter by unique nodepool name.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
 
         # Make request
-        response = self.api.get_cluster_metrics_0(
+        response = self.api.get_cluster_minimal_data_by_id(
             cluster_uuid=cluster_uuid,
         )
 
@@ -364,22 +368,13 @@ class TestClustersApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/v1/k8s/clusters/{clusterUuid}/metrics" in kwargs["url"]
-
-        # Verify query parameters
-        assert "start=" in kwargs["url"]
-        # Verify query parameters
-        assert "end=" in kwargs["url"]
-        # Verify query parameters
-        assert "numberOfSamples=" in kwargs["url"]
-        # Verify query parameters
-        assert "nodepoolName=" in kwargs["url"]
+        assert "/api/v1/clusters/{clusterUuid}/minimal" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, Cluster)
+        assert isinstance(response, ClustersMinimalData)
 
-    def test_get_cluster_metrics_0_error(self):
-        """Test error handling for get_cluster_metrics_0"""
+    def test_get_cluster_minimal_data_by_id_error(self):
+        """Test error handling for get_cluster_minimal_data_by_id"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -387,11 +382,11 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_cluster_metrics_0(
+            self.api.get_cluster_minimal_data_by_id(
                 cluster_uuid=cluster_uuid,
             )
         assert exc_info.value.status == 400
@@ -447,10 +442,10 @@ class TestClustersApi:
             self.api.get_clusters()
         assert exc_info.value.status == 400
 
-    def test_get_install_file(self):
-        """Test case for get_install_file
+    def test_get_clusters_minimal_data(self):
+        """Test case for get_clusters_minimal_data
 
-        Get cluster installation file by id. Retrieve the installation values file of a cluster by Retrieve the installation values file of a given cluster by ID.  Supports clusters 2.13 and lower.
+        Get clusters minimal data Retrieve essential cluster data required for common operations (e.g., workload submission)
         """
         # Mock response
         mock_response = mock.Mock()
@@ -459,15 +454,14 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "cluster_uuid_example"  # str | Unique identifier of the cluster.
-        cloud = "cloud_example"  # str | Cloud type identifier.
-        clusterip = "clusterip_example"  # str | Comma-separated list of IP addresses that provide access to the cluster.
-        format = yaml  # str | Format of the output file.
+        filter_by = [
+            '["name==my-cluster"]'
+        ]  # List[str] | Filter clusters by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
 
         # Make request
-        response = self.api.get_install_file(
-            cluster_uuid=cluster_uuid,
-        )
+        response = self.api.get_clusters_minimal_data()
 
         # Verify request was made
         assert self.mock_request.called
@@ -475,20 +469,20 @@ class TestClustersApi:
 
         # Verify request method and URL
         assert kwargs["method"] == "GET"
-        assert "/v1/k8s/clusters/{cluster_uuid}/installfile" in kwargs["url"]
+        assert "/api/v1/clusters/minimal" in kwargs["url"]
 
         # Verify query parameters
-        assert "cloud=" in kwargs["url"]
+        assert "filterBy=" in kwargs["url"]
         # Verify query parameters
-        assert "clusterip=" in kwargs["url"]
+        assert "offset=" in kwargs["url"]
         # Verify query parameters
-        assert "format=" in kwargs["url"]
+        assert "limit=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, str)
+        assert isinstance(response, GetClustersMinimalData200Response)
 
-    def test_get_install_file_error(self):
-        """Test error handling for get_install_file"""
+    def test_get_clusters_minimal_data_error(self):
+        """Test error handling for get_clusters_minimal_data"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -496,13 +490,10 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "cluster_uuid_example"
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_install_file(
-                cluster_uuid=cluster_uuid,
-            )
+            self.api.get_clusters_minimal_data()
         assert exc_info.value.status == 400
 
     def test_update_cluster(self):
@@ -517,7 +508,9 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
         cluster_update_request = (
             runai.ClusterUpdateRequest()
         )  # ClusterUpdateRequest | The cluster details to update
@@ -548,7 +541,7 @@ class TestClustersApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
         cluster_update_request = runai.ClusterUpdateRequest()
 
         # Verify error handling

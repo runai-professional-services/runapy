@@ -126,6 +126,98 @@ class TestSettingsApi:
             self.api.get_security_settings()
         assert exc_info.value.status == 400
 
+    def test_get_workloads_setting_by_key(self):
+        """Test case for get_workloads_setting_by_key
+
+        Get workloads setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.WorkloadsSettingsKeyEnum()
+        )  # WorkloadsSettingsKeyEnum | The settings key
+
+        # Make request
+        response = self.api.get_workloads_setting_by_key(
+            key=key,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v2/workloads/settings/{key}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, YamlSubmissionSetting)
+
+    def test_get_workloads_setting_by_key_error(self):
+        """Test error handling for get_workloads_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.WorkloadsSettingsKeyEnum()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_workloads_setting_by_key(
+                key=key,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_workloads_settings(self):
+        """Test case for get_workloads_settings
+
+        Get workloads settings
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_workloads_settings()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v2/workloads/settings" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, WorkloadsSettingsGetResponse)
+
+    def test_get_workloads_settings_error(self):
+        """Test error handling for get_workloads_settings"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_workloads_settings()
+        assert exc_info.value.status == 400
+
     def test_update_security_setting_by_key(self):
         """Test case for update_security_setting_by_key
 
@@ -178,5 +270,59 @@ class TestSettingsApi:
             self.api.update_security_setting_by_key(
                 key=key,
                 update_security_setting_by_key_request=update_security_setting_by_key_request,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_workloads_setting_by_key(self):
+        """Test case for update_workloads_setting_by_key
+
+        Update workloads setting by key
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = (
+            runai.WorkloadsSettingsKeyEnum()
+        )  # WorkloadsSettingsKeyEnum | The settings key
+        yaml_submission_setting = {"enabled": False}  # YamlSubmissionSetting |
+
+        # Make request
+        self.api.update_workloads_setting_by_key(
+            key=key,
+            yaml_submission_setting=yaml_submission_setting,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v2/workloads/settings/{key}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_update_workloads_setting_by_key_error(self):
+        """Test error handling for update_workloads_setting_by_key"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        key = runai.WorkloadsSettingsKeyEnum()
+        yaml_submission_setting = {"enabled": False}
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_workloads_setting_by_key(
+                key=key,
+                yaml_submission_setting=yaml_submission_setting,
             )
         assert exc_info.value.status == 400

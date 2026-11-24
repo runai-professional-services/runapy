@@ -30,7 +30,7 @@ def example_create_compute_asset():
         # Create example data for ComputeCreationRequest
         compute_creation_request = models.ComputeCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-            spec = {cpuMemoryLimit=30M, extendedResources=[Ljava.lang.Object;@5b02a984, gpuMemoryRequest=10M, gpuPortionRequest=0.5, gpuMemoryLimit=10M, cpuCoreLimit=2, largeShmRequest=false, cpuCoreRequest=0.5, gpuPortionLimit=0.5, gpuRequestType=portion, cpuMemoryRequest=20M, gpuDevicesRequest=1}
+            spec = {cpuMemoryLimit=30M, extendedResources=[Ljava.lang.Object;@4ef32a, gpuMemoryRequest=10M, gpuPortionRequest=0.5, gpuMemoryLimit=10M, cpuCoreLimit=2, largeShmRequest=false, cpuCoreRequest=0.5, gpuPortionLimit=0.5, gpuRequestType=portion, cpuMemoryRequest=20M, gpuDevicesRequest=1}
         )
 
         # Make the API call
@@ -261,7 +261,7 @@ def example_update_compute_asset_by_id():
         # Create example data for ComputeUpdateRequest
         compute_update_request = models.ComputeUpdateRequest(
             meta = {"name":"my-asset"},
-            spec = {cpuMemoryLimit=30M, extendedResources=[Ljava.lang.Object;@5b02a984, gpuMemoryRequest=10M, gpuPortionRequest=0.5, gpuMemoryLimit=10M, cpuCoreLimit=2, largeShmRequest=false, cpuCoreRequest=0.5, gpuPortionLimit=0.5, gpuRequestType=portion, cpuMemoryRequest=20M, gpuDevicesRequest=1}
+            spec = {cpuMemoryLimit=30M, extendedResources=[Ljava.lang.Object;@4ef32a, gpuMemoryRequest=10M, gpuPortionRequest=0.5, gpuMemoryLimit=10M, cpuCoreLimit=2, largeShmRequest=false, cpuCoreRequest=0.5, gpuPortionLimit=0.5, gpuRequestType=portion, cpuMemoryRequest=20M, gpuDevicesRequest=1}
         )
 
         # Make the API call

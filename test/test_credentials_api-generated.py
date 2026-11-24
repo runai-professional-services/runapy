@@ -313,7 +313,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         response = self.api.delete_access_key(
@@ -340,7 +342,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -361,7 +363,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         response = self.api.delete_docker_registry(
@@ -388,7 +392,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -409,7 +413,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         self.api.delete_generic_secret(
@@ -433,7 +439,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -454,7 +460,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         self.api.delete_ngc_api_key(
@@ -478,7 +486,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -499,7 +507,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         response = self.api.delete_password(
@@ -526,7 +536,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -547,7 +557,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -581,7 +593,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -602,7 +614,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -636,7 +650,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -657,7 +671,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -691,7 +707,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -712,7 +728,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -746,7 +764,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -767,7 +785,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -801,7 +821,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -826,7 +846,9 @@ class TestCredentialsApi:
         scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -890,9 +912,12 @@ class TestCredentialsApi:
         scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
+        include_descendants = True  # bool | Indicates whether to include assets from all descendant scopes under the specified scope. When set to True, and a specific scope identifier (for example, clusterId) is provided, the query also returns assets from all nested scopes within it (for example, departments and projects).  Mutually exclusive with scope.
 
         # Make request
         response = self.api.list_credentials_assets()
@@ -919,6 +944,8 @@ class TestCredentialsApi:
         assert "usageInfo=" in kwargs["url"]
         # Verify query parameters
         assert "statusInfo=" in kwargs["url"]
+        # Verify query parameters
+        assert "includeDescendants=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, CredentialsListResponse)
@@ -954,7 +981,9 @@ class TestCredentialsApi:
         scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -1018,7 +1047,9 @@ class TestCredentialsApi:
         scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -1082,7 +1113,9 @@ class TestCredentialsApi:
         scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -1146,7 +1179,9 @@ class TestCredentialsApi:
         scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         status_info = True  # bool | Whether the query should include asset status information as part of the response.
 
@@ -1206,7 +1241,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         access_key_update_request = (
             runai.AccessKeyUpdateRequest()
         )  # AccessKeyUpdateRequest |
@@ -1240,7 +1277,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         access_key_update_request = runai.AccessKeyUpdateRequest()
 
         # Verify error handling
@@ -1263,7 +1300,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         docker_registry_update_request = (
             runai.DockerRegistryUpdateRequest()
         )  # DockerRegistryUpdateRequest |
@@ -1297,7 +1336,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         docker_registry_update_request = runai.DockerRegistryUpdateRequest()
 
         # Verify error handling
@@ -1320,7 +1359,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         generic_secret_update_request = (
             runai.GenericSecretUpdateRequest()
         )  # GenericSecretUpdateRequest |
@@ -1354,7 +1395,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         generic_secret_update_request = runai.GenericSecretUpdateRequest()
 
         # Verify error handling
@@ -1377,7 +1418,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         ngc_api_key_update_request = (
             runai.NgcApiKeyUpdateRequest()
         )  # NgcApiKeyUpdateRequest |
@@ -1411,7 +1454,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         ngc_api_key_update_request = runai.NgcApiKeyUpdateRequest()
 
         # Verify error handling
@@ -1434,7 +1477,9 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         password_update_request = (
             runai.PasswordUpdateRequest()
         )  # PasswordUpdateRequest |
@@ -1468,7 +1513,7 @@ class TestCredentialsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         password_update_request = runai.PasswordUpdateRequest()
 
         # Verify error handling

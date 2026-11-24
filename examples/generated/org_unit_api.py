@@ -23,7 +23,7 @@ def example_get_priorities():
     Example of using get_priorities
 
     Get priorities
-    Get priorities
+    Get priorities. Deprecated: use Get Ranks instead.
     """
     try:
         # Make the API call with no parameters
@@ -32,3 +32,19 @@ def example_get_priorities():
 
     except Exception as e:
         print(f"Exception when calling get_priorities: {e}")
+
+
+def example_get_ranks():
+    """
+    Example of using get_ranks
+
+    Get ranks
+    Get ranks.
+    """
+    try:
+        # Make the API call with no parameters
+        api_response = api_instance.get_ranks()
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_ranks: {e}")

@@ -52,7 +52,7 @@ class NVIDIANIMApi(RunaiAPIService):
 
     def get_nim_service_by_id(
         self,
-        workload_v2_id: str,
+        workload_v2_id: UUID,
     ):
         r"""
 
@@ -62,14 +62,14 @@ class NVIDIANIMApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_v2_id: str
+        workload_v2_id: UUID
         ```
-        workload_v2_id: See model str for more information.
+        workload_v2_id: See model UUID for more information.
 
         ### Example:
         ```python
         NVIDIANIMApi(
-            workload_v2_id='workload_v2_id_example'
+            workload_v2_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -85,7 +85,7 @@ class NVIDIANIMApi(RunaiAPIService):
 
     def update_nim_service_spec(
         self,
-        workload_v2_id: str,
+        workload_v2_id: UUID,
         nim_service_update_request: models.NimServiceUpdateRequest,
     ):
         r"""
@@ -96,16 +96,16 @@ class NVIDIANIMApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_v2_id: str
+        workload_v2_id: UUID
         nim_service_update_request: NimServiceUpdateRequest
         ```
-        workload_v2_id: See model str for more information.
+        workload_v2_id: See model UUID for more information.
         nim_service_update_request: See model NimServiceUpdateRequest for more information.
 
         ### Example:
         ```python
         NVIDIANIMApi(
-            workload_v2_id='workload_v2_id_example',
+            workload_v2_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         nim_service_update_request=runai.NimServiceUpdateRequest()
         )
         ```

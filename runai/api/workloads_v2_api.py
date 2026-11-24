@@ -18,6 +18,7 @@ class WorkloadsV2Api(RunaiAPIService):
     def create_workload_v2(
         self,
         workload_v2_create_request: models.WorkloadV2CreateRequest,
+        dry_run: Optional[bool] = None,
     ):
         r"""
 
@@ -28,13 +29,16 @@ class WorkloadsV2Api(RunaiAPIService):
         ### Parameters:
         ```python
         workload_v2_create_request: WorkloadV2CreateRequest
+        dry_run: Optional[bool]
         ```
         workload_v2_create_request: Workload metadata and manifest
+        dry_run: True to perform validations only, without side effects. - Default: False
 
         ### Example:
         ```python
         WorkloadsV2Api(
-            workload_v2_create_request=runai.WorkloadV2CreateRequest()
+            workload_v2_create_request=runai.WorkloadV2CreateRequest(),
+                        dry_run=False
         )
         ```
         """
@@ -42,17 +46,22 @@ class WorkloadsV2Api(RunaiAPIService):
         # Body params:
         body_params = workload_v2_create_request
 
+        # Query params:
+        query_params = [
+            ("dryRun", dry_run),
+        ]
         resource_path = f"/api/v2/workloads".replace("_", "-")
         method = "POST"
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
             body=body_params,
+            query_params=query_params,
         )
 
     def delete_workload_v2(
         self,
-        workload_v2_id: str,
+        workload_v2_id: UUID,
     ):
         r"""
 
@@ -62,14 +71,14 @@ class WorkloadsV2Api(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_v2_id: str
+        workload_v2_id: UUID
         ```
-        workload_v2_id: See model str for more information.
+        workload_v2_id: See model UUID for more information.
 
         ### Example:
         ```python
         WorkloadsV2Api(
-            workload_v2_id='workload_v2_id_example'
+            workload_v2_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -83,7 +92,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
     def get_workload_v2_by_id(
         self,
-        workload_v2_id: str,
+        workload_v2_id: UUID,
     ):
         r"""
 
@@ -93,14 +102,14 @@ class WorkloadsV2Api(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_v2_id: str
+        workload_v2_id: UUID
         ```
-        workload_v2_id: See model str for more information.
+        workload_v2_id: See model UUID for more information.
 
         ### Example:
         ```python
         WorkloadsV2Api(
-            workload_v2_id='workload_v2_id_example'
+            workload_v2_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -114,7 +123,7 @@ class WorkloadsV2Api(RunaiAPIService):
 
     def update_workload_v2(
         self,
-        workload_v2_id: str,
+        workload_v2_id: UUID,
         workload_v2_update_request: models.WorkloadV2UpdateRequest,
     ):
         r"""
@@ -125,16 +134,16 @@ class WorkloadsV2Api(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_v2_id: str
+        workload_v2_id: UUID
         workload_v2_update_request: WorkloadV2UpdateRequest
         ```
-        workload_v2_id: See model str for more information.
+        workload_v2_id: See model UUID for more information.
         workload_v2_update_request: See model WorkloadV2UpdateRequest for more information.
 
         ### Example:
         ```python
         WorkloadsV2Api(
-            workload_v2_id='workload_v2_id_example',
+            workload_v2_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         workload_v2_update_request=runai.WorkloadV2UpdateRequest()
         )
         ```

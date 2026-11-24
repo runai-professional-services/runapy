@@ -18,6 +18,67 @@ api_client = ApiClient(configuration)
 api_instance = DepartmentsApi(api_client)
 
 
+def example_batch_patch_department_node_pool_resources():
+    """
+    Example of using batch_patch_department_node_pool_resources
+
+    Patch multiple departments node pool resources in batch.
+    Partially updates node pool resource quotas for multiple departments in a single request.
+    """
+    try:
+        # Prepare the request parameters
+
+        # Create example data for BatchPatchNodePoolResourcesRequest
+        batch_patch_node_pool_resources_request = models.BatchPatchNodePoolResourcesRequest(
+            patch_requests=[
+                runai.models.node_pool_resources_patch_request.NodePoolResourcesPatchRequest(
+                    org_unit_id="",
+                    node_pool_id="",
+                    rank="",
+                    resources=runai.models.resources_per_node_pool_nullable.ResourcesPerNodePoolNullable(
+                        gpu=runai.models.gpu.gpu(),
+                        cpu=runai.models.cpu.cpu(),
+                        memory=runai.models.resources_memory.Resources_memory(),
+                    ),
+                )
+            ]
+        )
+
+        # Make the API call
+        api_response = api_instance.batch_patch_department_node_pool_resources(
+            batch_patch_node_pool_resources_request=batch_patch_node_pool_resources_request,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling batch_patch_department_node_pool_resources: {e}")
+
+
+def example_count_department_node_pool_resources():
+    """
+    Example of using count_department_node_pool_resources
+
+    Count departments node pool resources
+    Count departments node pool resources
+    """
+    try:
+        # Prepare the request parameters
+
+        filter_by = ["example_item_1", "example_item_2"]
+
+        search = "example_search"
+
+        # Make the API call
+        api_response = api_instance.count_department_node_pool_resources(
+            filter_by=filter_by,
+            search=search,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling count_department_node_pool_resources: {e}")
+
+
 def example_count_departments():
     """
     Example of using count_departments
@@ -140,40 +201,39 @@ def example_get_department_metrics():
         print(f"Exception when calling get_department_metrics: {e}")
 
 
-def example_get_department_metrics_0():
+def example_get_department_node_pool_resources():
     """
-    Example of using get_department_metrics_0
+    Example of using get_department_node_pool_resources
 
-    Get metrics for a specific department.
-    Get metrics for a specific department in the cluster.  Use a time range to return historical data (optional). If you use a &#x60;start&#x60; date, an &#x60;end&#x60; date is required.
+    Get departments node pool resources
+    List departments node pool resources
     """
     try:
         # Prepare the request parameters
-        cluster_uuid = "example_cluster_uuid"
 
-        department_id = "example_department_id"
+        filter_by = ["example_item_1", "example_item_2"]
 
-        start = "2024-12-29T12:00:00Z"
+        sort_order = "example_sort_order"
 
-        end = "2024-12-29T12:00:00Z"
+        offset = 42
 
-        number_of_samples = 42
+        limit = 42
 
-        nodepool_name = "example_nodepool_name"
+        search = "example_search"
 
         # Make the API call
-        api_response = api_instance.get_department_metrics_0(
-            cluster_uuid=cluster_uuid,
-            department_id=department_id,
-            start=start,
-            end=end,
-            number_of_samples=number_of_samples,
-            nodepool_name=nodepool_name,
+        api_response = api_instance.get_department_node_pool_resources(
+            filter_by=filter_by,
+            sort_by=sort_by,
+            sort_order=sort_order,
+            offset=offset,
+            limit=limit,
+            search=search,
         )
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_department_metrics_0: {e}")
+        print(f"Exception when calling get_department_node_pool_resources: {e}")
 
 
 def example_get_departments():
@@ -207,66 +267,6 @@ def example_get_departments():
 
     except Exception as e:
         print(f"Exception when calling get_departments: {e}")
-
-
-def example_get_departments_0():
-    """
-    Example of using get_departments_0
-
-    List all departments.
-    List all the departments managed by the tenant on a specific cluster.
-    """
-    try:
-        # Prepare the request parameters
-        cluster_id = "example_cluster_id"
-
-        exclude_permissions = True
-
-        memory_unit_mb = True
-
-        # Make the API call
-        api_response = api_instance.get_departments_0(
-            cluster_id=cluster_id,
-            exclude_permissions=exclude_permissions,
-            memory_unit_mb=memory_unit_mb,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling get_departments_0: {e}")
-
-
-def example_get_departments_metrics():
-    """
-    Example of using get_departments_metrics
-
-    Get metrics for all departments.
-    Get metrics for all departments in the cluster. Use a time range to return historical data (optional).  If you use a &#x60;start&#x60; date, an &#x60;end&#x60; date is required.
-    """
-    try:
-        # Prepare the request parameters
-        cluster_uuid = "example_cluster_uuid"
-
-        start = "2024-12-29T12:00:00Z"
-
-        end = "2024-12-29T12:00:00Z"
-
-        number_of_samples = 42
-
-        nodepool_name = "example_nodepool_name"
-
-        # Make the API call
-        api_response = api_instance.get_departments_metrics(
-            cluster_uuid=cluster_uuid,
-            start=start,
-            end=end,
-            number_of_samples=number_of_samples,
-            nodepool_name=nodepool_name,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling get_departments_metrics: {e}")
 
 
 def example_get_departments_telemetry():
@@ -348,36 +348,6 @@ def example_update_department():
 
     except Exception as e:
         print(f"Exception when calling update_department: {e}")
-
-
-def example_update_department_admins():
-    """
-    Example of using update_department_admins
-
-    Set the department admins.
-    Deprecated. Instead, use the accessrules API to add the department-admin permissions to a specific subject.
-    """
-    try:
-        # Prepare the request parameters
-        cluster_id = "example_cluster_id"
-
-        department_id = 42
-
-        # Create example data for DepartmentAccessControl
-        department_access_control = models.DepartmentAccessControl(
-            department_id=2, department_admins=[""]
-        )
-
-        # Make the API call
-        api_response = api_instance.update_department_admins(
-            cluster_id=cluster_id,
-            department_id=department_id,
-            department_access_control=department_access_control,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling update_department_admins: {e}")
 
 
 def example_update_department_resources():

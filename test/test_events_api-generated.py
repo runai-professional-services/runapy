@@ -39,7 +39,7 @@ class TestEventsApi:
     def test_get_revision_events(self):
         """Test case for get_revision_events
 
-        Get revision events by id. [Experimental] Retrieve all the revision events using a revision id. Supported for clusters v2.21+.
+        Get revision events by id. Retrieve all the revision events using a revision id. Supported for clusters v2.21+.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -48,7 +48,9 @@ class TestEventsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        revision_id = "revision_id_example"  # str | The  Universally Unique Identifier (UUID) of the revision.
+        revision_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the revision.
         offset = 100  # int | The offset of the first item returned in the collection.
         limit = 50  # int | The maximum number of entries to return.
         sort_order = desc  # str | Sort results in descending or ascending order.
@@ -88,7 +90,7 @@ class TestEventsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        revision_id = "revision_id_example"
+        revision_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -100,7 +102,7 @@ class TestEventsApi:
     def test_get_revision_history(self):
         """Test case for get_revision_history
 
-        Get the revision history. [Experimental] Retrieve revision history details, including events, using a revision id. Supported for clusters v2.21+.
+        Get the revision history. Retrieve revision history details, including events, using a revision id. Supported for clusters v2.21+.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -109,7 +111,9 @@ class TestEventsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        revision_id = "revision_id_example"  # str | The  Universally Unique Identifier (UUID) of the revision.
+        revision_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the revision.
         offset = 100  # int | The offset of the first item returned in the collection.
         limit = 50  # int | The maximum number of entries to return.
 
@@ -146,7 +150,7 @@ class TestEventsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        revision_id = "revision_id_example"
+        revision_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -167,7 +171,9 @@ class TestEventsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
         offset = 100  # int | The offset of the first item returned in the collection.
         limit = 50  # int | The maximum number of entries to return.
         sort_order = desc  # str | Sort results in descending or ascending order.
@@ -204,7 +210,7 @@ class TestEventsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -225,7 +231,9 @@ class TestEventsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
         offset = 100  # int | The offset of the first item returned in the collection.
         limit = 50  # int | The maximum number of entries to return.
 
@@ -259,7 +267,7 @@ class TestEventsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

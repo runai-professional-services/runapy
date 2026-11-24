@@ -194,7 +194,7 @@ class TestReportsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        report_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"  # str | The report id
+        report_id = UUID("575c19e8-c7c3-45b0-8290-2f47397a8383")  # UUID | The report id
 
         # Make request
         self.api.delete_report_by_id(
@@ -218,7 +218,7 @@ class TestReportsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        report_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"
+        report_id = UUID("575c19e8-c7c3-45b0-8290-2f47397a8383")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -239,7 +239,7 @@ class TestReportsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        report_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"  # str | The report id
+        report_id = UUID("575c19e8-c7c3-45b0-8290-2f47397a8383")  # UUID | The report id
 
         # Make request
         self.api.download_report_by_id(
@@ -263,7 +263,7 @@ class TestReportsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        report_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"
+        report_id = UUID("575c19e8-c7c3-45b0-8290-2f47397a8383")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -284,7 +284,7 @@ class TestReportsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        report_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"  # str | The report id
+        report_id = UUID("575c19e8-c7c3-45b0-8290-2f47397a8383")  # UUID | The report id
 
         # Make request
         response = self.api.get_report_by_id(
@@ -311,7 +311,7 @@ class TestReportsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        report_id = "575c19e8-c7c3-45b0-8290-2f47397a8383"
+        report_id = UUID("575c19e8-c7c3-45b0-8290-2f47397a8383")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

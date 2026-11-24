@@ -15,6 +15,86 @@ class ProjectsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def batch_patch_project_node_pool_resources(
+        self,
+        batch_patch_node_pool_resources_request: models.BatchPatchNodePoolResourcesRequest,
+    ):
+        r"""
+
+
+        ### Description
+        Patch multiple projects node pool resources in batch.
+
+        ### Parameters:
+        ```python
+        batch_patch_node_pool_resources_request: BatchPatchNodePoolResourcesRequest
+        ```
+        batch_patch_node_pool_resources_request: Batch of project resources patch requests.
+
+        ### Example:
+        ```python
+        ProjectsApi(
+            batch_patch_node_pool_resources_request=runai.BatchPatchNodePoolResourcesRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = batch_patch_node_pool_resources_request
+
+        resource_path = (
+            f"/api/v1/org_unit/projects/node_pool_resources/batch_patch".replace(
+                "_", "-"
+            )
+        )
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def count_project_node_pool_resources(
+        self,
+        filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Count projects node pool resources
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        search: Optional[str]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
+
+        ### Example:
+        ```python
+        ProjectsApi(
+            filter_by=['[\"nodePoolName!=some-name\"]'],
+                        search='test project'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("search", search),
+        ]
+        resource_path = f"/api/v1/org_unit/projects/node_pool_resources/count".replace(
+            "_", "-"
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
     def count_projects(
         self,
         filter_by: Optional[List[str]] = None,
@@ -89,55 +169,6 @@ class ProjectsApi(RunaiAPIService):
             body=body_params,
         )
 
-    @deprecated_message()
-    def create_project_0(
-        self,
-        cluster_id: str,
-        project_create_request: models.ProjectCreateRequest,
-        exclude_permissions: Optional[bool] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Create a new project.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        project_create_request: ProjectCreateRequest
-        exclude_permissions: Optional[bool]
-        ```
-        cluster_id: The Universally Unique Identifier (UUID) of the cluster.
-        project_create_request: See model ProjectCreateRequest for more information.
-        exclude_permissions: Backward compatibility of the &#x60;permissions&#x60; field. If &#x60;true&#x60;, the &#x60;permissions&#x60; field in the request body is ignored. If &#x60;false&#x60;, relevant access rules for the &#x60;permissions&#x60; field are created in the project scope.
-
-        ### Example:
-        ```python
-        ProjectsApi(
-            cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        project_create_request=runai.ProjectCreateRequest(),
-                        exclude_permissions=true
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = project_create_request
-
-        # Query params:
-        query_params = [
-            ("excludePermissions", exclude_permissions),
-        ]
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/projects".replace("_", "-")
-        method = "POST"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-            query_params=query_params,
-        )
-
     def delete_project(
         self,
         project_id: str,
@@ -163,42 +194,6 @@ class ProjectsApi(RunaiAPIService):
         """
 
         resource_path = f"/api/v1/org_unit/projects/{project_id}".replace("_", "-")
-        method = "DELETE"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
-    @deprecated_message()
-    def delete_project_0(
-        self,
-        cluster_id: str,
-        id: int,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Delete a project.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        id: int
-        ```
-        cluster_id: The Universally Unique Identifier (UUID) of the cluster.
-        id: The unique id of the project.
-
-        ### Example:
-        ```python
-        ProjectsApi(
-            cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        id=2
-        )
-        ```
-        """
-
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/projects/{id}".replace("_", "-")
         method = "DELETE"
         return self._api_client.call_api(
             resource_path=resource_path,
@@ -234,49 +229,6 @@ class ProjectsApi(RunaiAPIService):
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
-        )
-
-    @deprecated_message()
-    def get_project_0(
-        self,
-        cluster_id: str,
-        id: str,
-        exclude_permissions: Optional[bool] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        List details of a specific project.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        id: str
-        exclude_permissions: Optional[bool]
-        ```
-        cluster_id: The Universally Unique Identifier (UUID) of the cluster.
-        id: The unique project-id identifying the project.
-        exclude_permissions: Backward compatibility of the &#39;permissions&#39; field. If &#39;true&#39;, the &#39;permissions&#39; field in the returned projects is not set. If &#39;false&#39;, the &#39;permissions&#39; field is set in the returned projects.
-
-        ### Example:
-        ```python
-        ProjectsApi(
-            cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        id='id_example',
-                        exclude_permissions=true
-        )
-        ```
-        """
-
-        # Query params:
-        query_params = [
-            ("excludePermissions", exclude_permissions),
-        ]
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/projects/{id}".replace("_", "-")
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path, method=method, query_params=query_params
         )
 
     def get_project_metrics(
@@ -339,62 +291,61 @@ class ProjectsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    @deprecated_message()
-    def get_project_metrics_0(
+    def get_project_node_pool_resources(
         self,
-        cluster_uuid: str,
-        project_id: str,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
-        number_of_samples: Optional[int] = None,
-        nodepool_name: Optional[str] = None,
+        filter_by: Optional[List[str]] = None,
+        sort_by: Optional[models.ProjectNodePoolResourcesFilterSortFields] = None,
+        sort_order: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+        search: Optional[str] = None,
     ):
         r"""
-        ## Deprecated endpoint, consider alternative method
+
 
         ### Description
-        Get metrics data for a specific project.
+        Get projects node pool resources
 
         ### Parameters:
         ```python
-        cluster_uuid: str
-        project_id: str
-        start: Optional[datetime]
-        end: Optional[datetime]
-        number_of_samples: Optional[int]
-        nodepool_name: Optional[str]
+        filter_by: Optional[List[str]]
+        sort_by: Optional[models.ProjectNodePoolResourcesFilterSortFields]
+        sort_order: Optional[str]
+        offset: Optional[int]
+        limit: Optional[int]
+        search: Optional[str]
         ```
-        cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
-        project_id: The unique project-id of the project.
-        start: Start of time range to fetch data from in UTC format.
-        end: End of time range to fetch data from in UTC format.
-        number_of_samples: The number of samples to take in the specified time range. - Default: 20
-        nodepool_name: Filter by unique nodepool name.
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        sort_by: Sort results by a parameters.
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+        search: Filter results by a free text search.
 
         ### Example:
         ```python
         ProjectsApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        project_id='project_id_example',
-                        start='2013-10-20T19:20:30+01:00',
-                        end='2013-10-20T19:20:30+01:00',
-                        number_of_samples=20,
-                        nodepool_name='default'
+            filter_by=['[\"nodePoolName!=some-name\"]'],
+                        sort_by=runai.ProjectNodePoolResourcesFilterSortFields(),
+                        sort_order=asc,
+                        offset=100,
+                        limit=50,
+                        search='test project'
         )
         ```
         """
 
         # Query params:
         query_params = [
-            ("start", start),
-            ("end", end),
-            ("numberOfSamples", number_of_samples),
-            ("nodepoolName", nodepool_name),
+            ("filterBy", filter_by),
+            ("sortBy", sort_by),
+            ("sortOrder", sort_order),
+            ("offset", offset),
+            ("limit", limit),
+            ("search", search),
         ]
-        resource_path = (
-            f"/v1/k8s/clusters/{cluster_uuid}/projects/{project_id}/metrics".replace(
-                "_", "-"
-            )
+        resource_path = f"/api/v1/org_unit/projects/node_pool_resources".replace(
+            "_", "-"
         )
         method = "GET"
         return self._api_client.call_api(
@@ -460,110 +411,10 @@ class ProjectsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    @deprecated_message()
-    def get_projects_0(
-        self,
-        cluster_id: str,
-        exclude_permissions: Optional[bool] = None,
-        memory_unit_mb: Optional[bool] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        List all projects and their details.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        exclude_permissions: Optional[bool]
-        memory_unit_mb: Optional[bool]
-        ```
-        cluster_id: The Universally Unique Identifier (UUID) of the cluster.
-        exclude_permissions: Backward compatibility of the &#39;permissions&#39; field. If &#39;true&#39;, the &#39;permissions&#39; field in the returned projects is not set. If &#39;false&#39;, the &#39;permissions&#39; field is set in the returned projects.
-        memory_unit_mb: Memory returned in MB. When set to &#x60;false&#x60; (default) memory will be returned in MiB.
-
-        ### Example:
-        ```python
-        ProjectsApi(
-            cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        exclude_permissions=true,
-                        memory_unit_mb=true
-        )
-        ```
-        """
-
-        # Query params:
-        query_params = [
-            ("excludePermissions", exclude_permissions),
-            ("memoryUnitMb", memory_unit_mb),
-        ]
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/projects".replace("_", "-")
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path, method=method, query_params=query_params
-        )
-
-    @deprecated_message()
-    def get_projects_metrics(
-        self,
-        cluster_uuid: str,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
-        number_of_samples: Optional[int] = None,
-        nodepool_name: Optional[str] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Get metrics data for all projects.
-
-        ### Parameters:
-        ```python
-        cluster_uuid: str
-        start: Optional[datetime]
-        end: Optional[datetime]
-        number_of_samples: Optional[int]
-        nodepool_name: Optional[str]
-        ```
-        cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
-        start: Start of time range to fetch data from in UTC format.
-        end: End of time range to fetch data from in UTC format.
-        number_of_samples: The number of samples to take in the specified time range. - Default: 20
-        nodepool_name: Filter by unique nodepool name.
-
-        ### Example:
-        ```python
-        ProjectsApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        start='2013-10-20T19:20:30+01:00',
-                        end='2013-10-20T19:20:30+01:00',
-                        number_of_samples=20,
-                        nodepool_name='default'
-        )
-        ```
-        """
-
-        # Query params:
-        query_params = [
-            ("start", start),
-            ("end", end),
-            ("numberOfSamples", number_of_samples),
-            ("nodepoolName", nodepool_name),
-        ]
-        resource_path = f"/v1/k8s/clusters/{cluster_uuid}/projects/metrics".replace(
-            "_", "-"
-        )
-        method = "GET"
-        return self._api_client.call_api(
-            resource_path=resource_path, method=method, query_params=query_params
-        )
-
     def get_projects_telemetry(
         self,
         telemetry_type: models.OrgUnitTelemetryType,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         nodepool_id: Optional[str] = None,
         department_id: Optional[str] = None,
         group_by: Optional[List[str]] = None,
@@ -577,7 +428,7 @@ class ProjectsApi(RunaiAPIService):
         ### Parameters:
         ```python
         telemetry_type: Optional[models.OrgUnitTelemetryType]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         nodepool_id: Optional[str]
         department_id: Optional[str]
         group_by: Optional[List[str]]
@@ -592,7 +443,7 @@ class ProjectsApi(RunaiAPIService):
         ```python
         ProjectsApi(
             telemetry_type=runai.OrgUnitTelemetryType(),
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         nodepool_id='1',
                         department_id='1',
                         group_by=['group_by_example']
@@ -692,59 +543,6 @@ class ProjectsApi(RunaiAPIService):
             resource_path=resource_path,
             method=method,
             body=body_params,
-        )
-
-    @deprecated_message()
-    def update_project_0(
-        self,
-        id: str,
-        cluster_id: str,
-        project_update_request1: models.ProjectUpdateRequest1,
-        exclude_permissions: Optional[bool] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Update a project.
-
-        ### Parameters:
-        ```python
-        id: str
-        cluster_id: str
-        project_update_request1: ProjectUpdateRequest1
-        exclude_permissions: Optional[bool]
-        ```
-        id: The unique project-id.
-        cluster_id: The Universally Unique Identifier (UUID) of the cluster.
-        project_update_request1: See model ProjectUpdateRequest1 for more information.
-        exclude_permissions: Backward compatibility of the &#x60;permissions&#x60; field. If &#x60;true&#x60;, the &#x60;permissions&#x60; field in the returned projects is not set. If &#x60;false&#x60;, the &#x60;permissions&#x60; field is set in the returned projects.
-
-        ### Example:
-        ```python
-        ProjectsApi(
-            id='id_example',
-                        cluster_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        project_update_request1=runai.ProjectUpdateRequest1(),
-                        exclude_permissions=true
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = project_update_request1
-
-        # Query params:
-        query_params = [
-            ("excludePermissions", exclude_permissions),
-        ]
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/projects/{id}".replace("_", "-")
-        method = "PUT"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-            query_params=query_params,
         )
 
     def update_project_resources(

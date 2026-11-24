@@ -49,46 +49,6 @@ class NodePoolsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    @deprecated_message()
-    def create_node_pool(
-        self,
-        cluster_id: str,
-        node_pool_create_request: Optional[models.NodePoolCreateRequest] = None,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Create a Node Pool.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        node_pool_create_request: NodePoolCreateRequest
-        ```
-        cluster_id: Unique identifier of the cluster
-        node_pool_create_request: See model NodePoolCreateRequest for more information.
-
-        ### Example:
-        ```python
-        NodePoolsApi(
-            cluster_id='cluster_id_example',
-                        node_pool_create_request=runai.NodePoolCreateRequest()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = node_pool_create_request
-
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/node_pools".replace("_", "-")
-        method = "POST"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
     def create_nodepool(
         self,
         nodepool_create_fields: models.NodepoolCreateFields,
@@ -124,44 +84,6 @@ class NodePoolsApi(RunaiAPIService):
             body=body_params,
         )
 
-    @deprecated_message()
-    def delete_node_pool(
-        self,
-        cluster_id: str,
-        id: int,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Delete a Node Pool by id.§
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        id: int
-        ```
-        cluster_id: Unique identifier of the cluster
-        id: The unique id identifying the Node Pool.
-
-        ### Example:
-        ```python
-        NodePoolsApi(
-            cluster_id='cluster_id_example',
-                        id=56
-        )
-        ```
-        """
-
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/node_pools/{id}".replace(
-            "_", "-"
-        )
-        method = "DELETE"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
     def delete_nodepool(
         self,
         nodepool_id: str,
@@ -188,38 +110,6 @@ class NodePoolsApi(RunaiAPIService):
 
         resource_path = f"/api/v1/node_pools/{nodepool_id}".replace("_", "-")
         method = "DELETE"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-        )
-
-    @deprecated_message()
-    def get_node_pools(
-        self,
-        cluster_id: str,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Get the cluster&#39;s Node Pools.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        ```
-        cluster_id: Unique identifier of the cluster
-
-        ### Example:
-        ```python
-        NodePoolsApi(
-            cluster_id='cluster_id_example'
-        )
-        ```
-        """
-
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/node_pools".replace("_", "-")
-        method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
@@ -258,7 +148,7 @@ class NodePoolsApi(RunaiAPIService):
 
     def get_nodepool_metrics(
         self,
-        cluster_uuid: str,
+        cluster_uuid: UUID,
         nodepool_name: str,
         start: datetime,
         end: datetime,
@@ -273,7 +163,7 @@ class NodePoolsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_uuid: str
+        cluster_uuid: UUID
         nodepool_name: str
         start: Optional[datetime]
         end: Optional[datetime]
@@ -290,7 +180,7 @@ class NodePoolsApi(RunaiAPIService):
         ### Example:
         ```python
         NodePoolsApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         nodepool_name='default',
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
@@ -313,6 +203,37 @@ class NodePoolsApi(RunaiAPIService):
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    def get_nodepool_minimal(
+        self,
+        nodepool_id: str,
+    ):
+        r"""
+
+
+        ### Description
+        Get nodepool minimal data by ID
+
+        ### Parameters:
+        ```python
+        nodepool_id: str
+        ```
+        nodepool_id: The unique id identifying the Node Pool.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            nodepool_id='17'
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/node_pools/{nodepool_id}/minimal".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
         )
 
     def get_nodepools(
@@ -369,6 +290,266 @@ class NodePoolsApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
+    def get_nodepools_minimal(
+        self,
+        filter_by: Optional[List[str]] = None,
+        sort_by: Optional[models.NodepoolMinimalSortFields] = None,
+        sort_order: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get nodepools minimal
+
+        ### Parameters:
+        ```python
+        filter_by: Optional[List[str]]
+        sort_by: Optional[models.NodepoolMinimalSortFields]
+        sort_order: Optional[str]
+        offset: Optional[int]
+        limit: Optional[int]
+        ```
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        sort_by: Sort results by a parameter.
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            filter_by=['[\"clusterId==d73a738f-fab3-430a-8fa3-5241493d7128\"]'],
+                        sort_by=runai.NodepoolMinimalSortFields(),
+                        sort_order=asc,
+                        offset=100,
+                        limit=50
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("filterBy", filter_by),
+            ("sortBy", sort_by),
+            ("sortOrder", sort_order),
+            ("offset", offset),
+            ("limit", limit),
+        ]
+        resource_path = f"/api/v1/node_pools/minimal".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    @deprecated_message()
+    def legacy_create_nodepool(
+        self,
+        cluster_id: UUID,
+        legacy_node_pool_create_request: Optional[
+            models.LegacyNodePoolCreateRequest
+        ] = None,
+    ):
+        r"""
+        ## Deprecated endpoint, consider alternative method
+
+        ### Description
+        Create a Node Pool.
+
+        ### Parameters:
+        ```python
+        cluster_id: UUID
+        legacy_node_pool_create_request: LegacyNodePoolCreateRequest
+        ```
+        cluster_id: Unique identifier of the cluster
+        legacy_node_pool_create_request: See model LegacyNodePoolCreateRequest for more information.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            cluster_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        legacy_node_pool_create_request=runai.LegacyNodePoolCreateRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = legacy_node_pool_create_request
+
+        resource_path = f"/api/v1/clusters/{cluster_id}/node_pools".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    @deprecated_message()
+    def legacy_delete_nodepool(
+        self,
+        cluster_id: UUID,
+        nodepool_id: str,
+    ):
+        r"""
+        ## Deprecated endpoint, consider alternative method
+
+        ### Description
+        Delete a Node Pool by id.
+
+        ### Parameters:
+        ```python
+        cluster_id: UUID
+        nodepool_id: str
+        ```
+        cluster_id: Unique identifier of the cluster
+        nodepool_id: The unique id identifying the Node Pool.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            cluster_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        nodepool_id='17'
+        )
+        ```
+        """
+
+        resource_path = (
+            f"/api/v1/clusters/{cluster_id}/node_pools/{nodepool_id}".replace("_", "-")
+        )
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    @deprecated_message()
+    def legacy_get_nodepools(
+        self,
+        cluster_id: UUID,
+    ):
+        r"""
+        ## Deprecated endpoint, consider alternative method
+
+        ### Description
+        Get the cluster&#39;s Node Pools.
+
+        ### Parameters:
+        ```python
+        cluster_id: UUID
+        ```
+        cluster_id: Unique identifier of the cluster
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            cluster_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/clusters/{cluster_id}/node_pools".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    @deprecated_message()
+    def legacy_update_nodepool(
+        self,
+        cluster_id: UUID,
+        nodepool_id: str,
+        legacy_update_node_pool_request: models.LegacyUpdateNodePoolRequest,
+    ):
+        r"""
+        ## Deprecated endpoint, consider alternative method
+
+        ### Description
+        Update a Node Pool.
+
+        ### Parameters:
+        ```python
+        cluster_id: UUID
+        nodepool_id: str
+        legacy_update_node_pool_request: LegacyUpdateNodePoolRequest
+        ```
+        cluster_id: Unique identifier of the cluster
+        nodepool_id: The unique id identifying the Node Pool.
+        legacy_update_node_pool_request: See model LegacyUpdateNodePoolRequest for more information.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            cluster_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        nodepool_id='17',
+                        legacy_update_node_pool_request=runai.LegacyUpdateNodePoolRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = legacy_update_node_pool_request
+
+        resource_path = (
+            f"/api/v1/clusters/{cluster_id}/node_pools/{nodepool_id}".replace("_", "-")
+        )
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    @deprecated_message()
+    def legacy_update_nodepool_labels(
+        self,
+        cluster_id: UUID,
+        nodepool_id: str,
+        legacy_node_pool_labels_request: models.LegacyNodePoolLabelsRequest,
+    ):
+        r"""
+        ## Deprecated endpoint, consider alternative method
+
+        ### Description
+        Update labels of a Node Pool.
+
+        ### Parameters:
+        ```python
+        cluster_id: UUID
+        nodepool_id: str
+        legacy_node_pool_labels_request: LegacyNodePoolLabelsRequest
+        ```
+        cluster_id: Unique identifier of the cluster
+        nodepool_id: The unique id identifying the Node Pool.
+        legacy_node_pool_labels_request: See model LegacyNodePoolLabelsRequest for more information.
+
+        ### Example:
+        ```python
+        NodePoolsApi(
+            cluster_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        nodepool_id='17',
+                        legacy_node_pool_labels_request=runai.LegacyNodePoolLabelsRequest()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = legacy_node_pool_labels_request
+
+        resource_path = (
+            f"/api/v1/clusters/{cluster_id}/node_pools/{nodepool_id}/labels".replace(
+                "_", "-"
+            )
+        )
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
     def patch_nodepool(
         self,
         nodepool_id: str,
@@ -402,98 +583,6 @@ class NodePoolsApi(RunaiAPIService):
 
         resource_path = f"/api/v1/node_pools/{nodepool_id}".replace("_", "-")
         method = "PATCH"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
-    @deprecated_message()
-    def update_node_pool(
-        self,
-        cluster_id: str,
-        id: int,
-        update_node_pool_request: models.UpdateNodePoolRequest,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Update a Node Pool.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        id: int
-        update_node_pool_request: UpdateNodePoolRequest
-        ```
-        cluster_id: Unique identifier of the cluster
-        id: The unique id identifying the Node Pool.
-        update_node_pool_request: See model UpdateNodePoolRequest for more information.
-
-        ### Example:
-        ```python
-        NodePoolsApi(
-            cluster_id='cluster_id_example',
-                        id=56,
-                        update_node_pool_request=runai.UpdateNodePoolRequest()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = update_node_pool_request
-
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/node_pools/{id}".replace(
-            "_", "-"
-        )
-        method = "PUT"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
-    @deprecated_message()
-    def update_node_pool_labels(
-        self,
-        cluster_id: str,
-        id: int,
-        node_pool_labels_request: models.NodePoolLabelsRequest,
-    ):
-        r"""
-        ## Deprecated endpoint, consider alternative method
-
-        ### Description
-        Update labels of a Node Pool.
-
-        ### Parameters:
-        ```python
-        cluster_id: str
-        id: int
-        node_pool_labels_request: NodePoolLabelsRequest
-        ```
-        cluster_id: Unique identifier of the cluster
-        id: The unique id identifying the Node Pool.
-        node_pool_labels_request: See model NodePoolLabelsRequest for more information.
-
-        ### Example:
-        ```python
-        NodePoolsApi(
-            cluster_id='cluster_id_example',
-                        id=56,
-                        node_pool_labels_request=runai.NodePoolLabelsRequest()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = node_pool_labels_request
-
-        resource_path = f"/v1/k8s/clusters/{cluster_id}/node_pools/{id}/labels".replace(
-            "_", "-"
-        )
-        method = "PUT"
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,

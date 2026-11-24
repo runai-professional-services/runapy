@@ -276,7 +276,7 @@ class TestIdpsApi:
         assert "/api/v1/idps" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, List[Idp1])
+        assert isinstance(response, List[Idp])
 
     def test_get_idps_error(self):
         """Test error handling for get_idps"""

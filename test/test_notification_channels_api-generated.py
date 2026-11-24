@@ -36,10 +36,10 @@ class TestNotificationChannelsApi:
         yield
         self.request_patcher.stop()
 
-    def test_create_notification_channel_config(self):
-        """Test case for create_notification_channel_config
+    def test_create_notification_channel(self):
+        """Test case for create_notification_channel
 
-        Create configuration of notification channel Create configuration of notification channel
+        Create notification channel Create notification channel
         """
         # Mock response
         mock_response = mock.Mock()
@@ -51,7 +51,7 @@ class TestNotificationChannelsApi:
         notification_channel = runai.NotificationChannel()  # NotificationChannel |
 
         # Make request
-        self.api.create_notification_channel_config()
+        self.api.create_notification_channel()
 
         # Verify request was made
         assert self.mock_request.called
@@ -64,8 +64,8 @@ class TestNotificationChannelsApi:
         # Verify body
         assert kwargs["body"] is not None
 
-    def test_create_notification_channel_config_error(self):
-        """Test error handling for create_notification_channel_config"""
+    def test_create_notification_channel_error(self):
+        """Test error handling for create_notification_channel"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -76,61 +76,13 @@ class TestNotificationChannelsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.create_notification_channel_config()
+            self.api.create_notification_channel()
         assert exc_info.value.status == 400
 
-    def test_create_slack_app(self):
-        """Test case for create_slack_app
+    def test_delete_notification_channel(self):
+        """Test case for delete_notification_channel
 
-        Create Slack app Create Slack app
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        create_slack_app_request_body = (
-            runai.CreateSlackAppRequestBody()
-        )  # CreateSlackAppRequestBody |
-
-        # Make request
-        response = self.api.create_slack_app()
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "POST"
-        assert "/api/v1/notification-channels/slack/create-app" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-        # Verify response
-        assert isinstance(response, CreateSlackAppResponse)
-
-    def test_create_slack_app_error(self):
-        """Test error handling for create_slack_app"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.create_slack_app()
-        assert exc_info.value.status == 400
-
-    def test_delete_notification_channel_config(self):
-        """Test case for delete_notification_channel_config
-
-        Delete configuration of Notification Channel Delete configuration of Notification Channel
+        Delete notification channel Delete notification channel
         """
         # Mock response
         mock_response = mock.Mock()
@@ -142,7 +94,7 @@ class TestNotificationChannelsApi:
         name = "name_example"  # str | Notification Channel name
 
         # Make request
-        self.api.delete_notification_channel_config(
+        self.api.delete_notification_channel(
             name=name,
         )
 
@@ -154,8 +106,8 @@ class TestNotificationChannelsApi:
         assert kwargs["method"] == "DELETE"
         assert "/api/v1/notification-channels/{name}" in kwargs["url"]
 
-    def test_delete_notification_channel_config_error(self):
-        """Test error handling for delete_notification_channel_config"""
+    def test_delete_notification_channel_error(self):
+        """Test error handling for delete_notification_channel"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -167,15 +119,15 @@ class TestNotificationChannelsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.delete_notification_channel_config(
+            self.api.delete_notification_channel(
                 name=name,
             )
         assert exc_info.value.status == 400
 
-    def test_get_notification_channel_config(self):
-        """Test case for get_notification_channel_config
+    def test_get_notification_channel(self):
+        """Test case for get_notification_channel
 
-        Get configuration of notification channel Get configuration of notification channel
+        Get notification channel Get notification channel
         """
         # Mock response
         mock_response = mock.Mock()
@@ -187,7 +139,7 @@ class TestNotificationChannelsApi:
         name = "name_example"  # str | Notification Channel name
 
         # Make request
-        response = self.api.get_notification_channel_config(
+        response = self.api.get_notification_channel(
             name=name,
         )
 
@@ -202,8 +154,8 @@ class TestNotificationChannelsApi:
         # Verify response
         assert isinstance(response, NotificationChannelResponse)
 
-    def test_get_notification_channel_config_error(self):
-        """Test error handling for get_notification_channel_config"""
+    def test_get_notification_channel_error(self):
+        """Test error handling for get_notification_channel"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -215,7 +167,7 @@ class TestNotificationChannelsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_notification_channel_config(
+            self.api.get_notification_channel(
                 name=name,
             )
         assert exc_info.value.status == 400
@@ -262,10 +214,10 @@ class TestNotificationChannelsApi:
             self.api.get_notification_channels()
         assert exc_info.value.status == 400
 
-    def test_patch_notification_channel_config(self):
-        """Test case for patch_notification_channel_config
+    def test_patch_notification_channel(self):
+        """Test case for patch_notification_channel
 
-        Patch configuration of Notification Channel Patch configuration of Notification Channel
+        Patch notification channel Patch notification channel
         """
         # Mock response
         mock_response = mock.Mock()
@@ -280,7 +232,7 @@ class TestNotificationChannelsApi:
         )  # NotificationChannelForPatch |
 
         # Make request
-        self.api.patch_notification_channel_config(
+        self.api.patch_notification_channel(
             name=name,
         )
 
@@ -295,8 +247,8 @@ class TestNotificationChannelsApi:
         # Verify body
         assert kwargs["body"] is not None
 
-    def test_patch_notification_channel_config_error(self):
-        """Test error handling for patch_notification_channel_config"""
+    def test_patch_notification_channel_error(self):
+        """Test error handling for patch_notification_channel"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -308,15 +260,15 @@ class TestNotificationChannelsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.patch_notification_channel_config(
+            self.api.patch_notification_channel(
                 name=name,
             )
         assert exc_info.value.status == 400
 
-    def test_update_notification_channel_config(self):
-        """Test case for update_notification_channel_config
+    def test_update_notification_channel(self):
+        """Test case for update_notification_channel
 
-        Update configuration of Notification Channel Update configuration of Notification Channel
+        Update notification channel Update notification channel
         """
         # Mock response
         mock_response = mock.Mock()
@@ -329,7 +281,7 @@ class TestNotificationChannelsApi:
         notification_channel = runai.NotificationChannel()  # NotificationChannel |
 
         # Make request
-        self.api.update_notification_channel_config(
+        self.api.update_notification_channel(
             name=name,
         )
 
@@ -344,8 +296,8 @@ class TestNotificationChannelsApi:
         # Verify body
         assert kwargs["body"] is not None
 
-    def test_update_notification_channel_config_error(self):
-        """Test error handling for update_notification_channel_config"""
+    def test_update_notification_channel_error(self):
+        """Test error handling for update_notification_channel"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -357,7 +309,7 @@ class TestNotificationChannelsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.update_notification_channel_config(
+            self.api.update_notification_channel(
                 name=name,
             )
         assert exc_info.value.status == 400

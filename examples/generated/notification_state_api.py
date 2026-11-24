@@ -46,13 +46,11 @@ def example_update_notification_state():
 
         # Create example data for NotificationState
         notification_state = models.NotificationState(
-            enabled=True,
-            email=runai.models.email_notifications_state.EmailNotificationsState(
+            email=runai.models.notification_state_status.NotificationStateStatus(
                 enabled=True,
             ),
-            slack=runai.models.slack_notifications_state.SlackNotificationsState(
+            slack=runai.models.notification_state_status.NotificationStateStatus(
                 enabled=True,
-                workspace_name="",
             ),
         )
 

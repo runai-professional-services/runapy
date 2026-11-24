@@ -30,7 +30,7 @@ def example_create_application():
 
         # Create example data for ApplicationCreationRequest
         application_creation_request = models.ApplicationCreationRequest(
-            name="awat5ikwowtta-3mh2lcafqw3zhes0"
+            name="awat5ikwowtta-3mh2lcafqw3zhes001"
         )
 
         # Make the API call

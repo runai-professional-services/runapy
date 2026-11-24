@@ -119,7 +119,7 @@ class ReportsApi(RunaiAPIService):
 
     def delete_report_by_id(
         self,
-        report_id: str,
+        report_id: UUID,
     ):
         r"""
 
@@ -129,14 +129,14 @@ class ReportsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        report_id: str
+        report_id: UUID
         ```
         report_id: The report id
 
         ### Example:
         ```python
         ReportsApi(
-            report_id='575c19e8-c7c3-45b0-8290-2f47397a8383'
+            report_id=UUID('575c19e8-c7c3-45b0-8290-2f47397a8383')
         )
         ```
         """
@@ -150,7 +150,7 @@ class ReportsApi(RunaiAPIService):
 
     def download_report_by_id(
         self,
-        report_id: str,
+        report_id: UUID,
     ):
         r"""
 
@@ -160,14 +160,14 @@ class ReportsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        report_id: str
+        report_id: UUID
         ```
         report_id: The report id
 
         ### Example:
         ```python
         ReportsApi(
-            report_id='575c19e8-c7c3-45b0-8290-2f47397a8383'
+            report_id=UUID('575c19e8-c7c3-45b0-8290-2f47397a8383')
         )
         ```
         """
@@ -181,7 +181,7 @@ class ReportsApi(RunaiAPIService):
 
     def get_report_by_id(
         self,
-        report_id: str,
+        report_id: UUID,
     ):
         r"""
 
@@ -191,14 +191,14 @@ class ReportsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        report_id: str
+        report_id: UUID
         ```
         report_id: The report id
 
         ### Example:
         ```python
         ReportsApi(
-            report_id='575c19e8-c7c3-45b0-8290-2f47397a8383'
+            report_id=UUID('575c19e8-c7c3-45b0-8290-2f47397a8383')
         )
         ```
         """

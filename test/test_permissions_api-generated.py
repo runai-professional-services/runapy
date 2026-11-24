@@ -36,6 +36,98 @@ class TestPermissionsApi:
         yield
         self.request_patcher.stop()
 
+    def test_get_permission_set(self):
+        """Test case for get_permission_set
+
+        Get permission set by id. Returns information about a single permission set, including its name, description, and the list of permissions it contains.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        permission_set_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")  # UUID |
+
+        # Make request
+        response = self.api.get_permission_set(
+            permission_set_id=permission_set_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert (
+            "/api/v1/authorization/permission-sets/{permissionSetId}" in kwargs["url"]
+        )
+
+        # Verify response
+        assert isinstance(response, PermissionSet)
+
+    def test_get_permission_set_error(self):
+        """Test error handling for get_permission_set"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        permission_set_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_permission_set(
+                permission_set_id=permission_set_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_permission_sets(self):
+        """Test case for get_permission_sets
+
+        Get permission sets. Retrieve a list of all available permission sets. Each permission set defines a collection of permissions grouped by resource type and associated actions (such as create, read, update, or delete).
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_permission_sets()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/authorization/permission-sets" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetPermissionSets200Response)
+
+    def test_get_permission_sets_error(self):
+        """Test error handling for get_permission_sets"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_permission_sets()
+        assert exc_info.value.status == 400
+
     def test_get_permissions(self):
         """Test case for get_permissions
 

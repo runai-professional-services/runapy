@@ -15,7 +15,7 @@ class NotificationChannelsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
-    def create_notification_channel_config(
+    def create_notification_channel(
         self,
         notification_channel: Optional[models.NotificationChannel] = None,
     ):
@@ -23,7 +23,7 @@ class NotificationChannelsApi(RunaiAPIService):
 
 
         ### Description
-        Create configuration of notification channel
+        Create notification channel
 
         ### Parameters:
         ```python
@@ -50,46 +50,7 @@ class NotificationChannelsApi(RunaiAPIService):
             body=body_params,
         )
 
-    def create_slack_app(
-        self,
-        create_slack_app_request_body: Optional[
-            models.CreateSlackAppRequestBody
-        ] = None,
-    ):
-        r"""
-
-
-        ### Description
-        Create Slack app
-
-        ### Parameters:
-        ```python
-        create_slack_app_request_body: CreateSlackAppRequestBody
-        ```
-        create_slack_app_request_body: See model CreateSlackAppRequestBody for more information.
-
-        ### Example:
-        ```python
-        NotificationChannelsApi(
-            create_slack_app_request_body=runai.CreateSlackAppRequestBody()
-        )
-        ```
-        """
-
-        # Body params:
-        body_params = create_slack_app_request_body
-
-        resource_path = f"/api/v1/notification_channels/slack/create_app".replace(
-            "_", "-"
-        )
-        method = "POST"
-        return self._api_client.call_api(
-            resource_path=resource_path,
-            method=method,
-            body=body_params,
-        )
-
-    def delete_notification_channel_config(
+    def delete_notification_channel(
         self,
         name: str,
     ):
@@ -97,7 +58,7 @@ class NotificationChannelsApi(RunaiAPIService):
 
 
         ### Description
-        Delete configuration of Notification Channel
+        Delete notification channel
 
         ### Parameters:
         ```python
@@ -120,7 +81,7 @@ class NotificationChannelsApi(RunaiAPIService):
             method=method,
         )
 
-    def get_notification_channel_config(
+    def get_notification_channel(
         self,
         name: str,
     ):
@@ -128,7 +89,7 @@ class NotificationChannelsApi(RunaiAPIService):
 
 
         ### Description
-        Get configuration of notification channel
+        Get notification channel
 
         ### Parameters:
         ```python
@@ -179,7 +140,7 @@ class NotificationChannelsApi(RunaiAPIService):
             method=method,
         )
 
-    def patch_notification_channel_config(
+    def patch_notification_channel(
         self,
         name: str,
         notification_channel_for_patch: Optional[
@@ -190,7 +151,7 @@ class NotificationChannelsApi(RunaiAPIService):
 
 
         ### Description
-        Patch configuration of Notification Channel
+        Patch notification channel
 
         ### Parameters:
         ```python
@@ -220,7 +181,7 @@ class NotificationChannelsApi(RunaiAPIService):
             body=body_params,
         )
 
-    def update_notification_channel_config(
+    def update_notification_channel(
         self,
         name: str,
         notification_channel: Optional[models.NotificationChannel] = None,
@@ -229,7 +190,7 @@ class NotificationChannelsApi(RunaiAPIService):
 
 
         ### Description
-        Update configuration of Notification Channel
+        Update notification channel
 
         ### Parameters:
         ```python
@@ -259,6 +220,7 @@ class NotificationChannelsApi(RunaiAPIService):
             body=body_params,
         )
 
+    @deprecated_message()
     def validate_notification_channel(
         self,
         notification_channel_for_validate: Optional[
@@ -266,7 +228,7 @@ class NotificationChannelsApi(RunaiAPIService):
         ] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Validate configuration of Notification Channel

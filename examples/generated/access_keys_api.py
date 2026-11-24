@@ -30,7 +30,7 @@ def example_create_access_key1():
 
         # Create example data for AccessKeyCreationRequest1
         access_key_creation_request1 = models.AccessKeyCreationRequest1(
-            name="awat5ikwowtta-3mh2lcafqw3zhes0"
+            name="awat5ikwowtta-3mh2lcafqw3zhes001"
         )
 
         # Make the API call

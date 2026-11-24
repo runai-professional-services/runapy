@@ -18,12 +18,12 @@ api_client = ApiClient(configuration)
 api_instance = NotificationChannelsApi(api_client)
 
 
-def example_create_notification_channel_config():
+def example_create_notification_channel():
     """
-    Example of using create_notification_channel_config
+    Example of using create_notification_channel
 
-    Create configuration of notification channel
-    Create configuration of notification channel
+    Create notification channel
+    Create notification channel
     """
     try:
         # Prepare the request parameters
@@ -32,78 +32,53 @@ def example_create_notification_channel_config():
         notification_channel = models.NotificationChannel()
 
         # Make the API call
-        api_instance.create_notification_channel_config(
+        api_instance.create_notification_channel(
             notification_channel=notification_channel,
         )
 
     except Exception as e:
-        print(f"Exception when calling create_notification_channel_config: {e}")
+        print(f"Exception when calling create_notification_channel: {e}")
 
 
-def example_create_slack_app():
+def example_delete_notification_channel():
     """
-    Example of using create_slack_app
+    Example of using delete_notification_channel
 
-    Create Slack app
-    Create Slack app
-    """
-    try:
-        # Prepare the request parameters
-
-        # Create example data for CreateSlackAppRequestBody
-        create_slack_app_request_body = models.CreateSlackAppRequestBody(
-            access_token=""
-        )
-
-        # Make the API call
-        api_response = api_instance.create_slack_app(
-            create_slack_app_request_body=create_slack_app_request_body,
-        )
-        print(f"API response: {api_response}")
-
-    except Exception as e:
-        print(f"Exception when calling create_slack_app: {e}")
-
-
-def example_delete_notification_channel_config():
-    """
-    Example of using delete_notification_channel_config
-
-    Delete configuration of Notification Channel
-    Delete configuration of Notification Channel
+    Delete notification channel
+    Delete notification channel
     """
     try:
         # Prepare the request parameters
         name = "example_name"
 
         # Make the API call
-        api_instance.delete_notification_channel_config(
+        api_instance.delete_notification_channel(
             name=name,
         )
 
     except Exception as e:
-        print(f"Exception when calling delete_notification_channel_config: {e}")
+        print(f"Exception when calling delete_notification_channel: {e}")
 
 
-def example_get_notification_channel_config():
+def example_get_notification_channel():
     """
-    Example of using get_notification_channel_config
+    Example of using get_notification_channel
 
-    Get configuration of notification channel
-    Get configuration of notification channel
+    Get notification channel
+    Get notification channel
     """
     try:
         # Prepare the request parameters
         name = "example_name"
 
         # Make the API call
-        api_response = api_instance.get_notification_channel_config(
+        api_response = api_instance.get_notification_channel(
             name=name,
         )
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_notification_channel_config: {e}")
+        print(f"Exception when calling get_notification_channel: {e}")
 
 
 def example_get_notification_channels():
@@ -122,12 +97,12 @@ def example_get_notification_channels():
         print(f"Exception when calling get_notification_channels: {e}")
 
 
-def example_patch_notification_channel_config():
+def example_patch_notification_channel():
     """
-    Example of using patch_notification_channel_config
+    Example of using patch_notification_channel
 
-    Patch configuration of Notification Channel
-    Patch configuration of Notification Channel
+    Patch notification channel
+    Patch notification channel
     """
     try:
         # Prepare the request parameters
@@ -140,21 +115,21 @@ def example_patch_notification_channel_config():
         )
 
         # Make the API call
-        api_instance.patch_notification_channel_config(
+        api_instance.patch_notification_channel(
             name=name,
             notification_channel_for_patch=notification_channel_for_patch,
         )
 
     except Exception as e:
-        print(f"Exception when calling patch_notification_channel_config: {e}")
+        print(f"Exception when calling patch_notification_channel: {e}")
 
 
-def example_update_notification_channel_config():
+def example_update_notification_channel():
     """
-    Example of using update_notification_channel_config
+    Example of using update_notification_channel
 
-    Update configuration of Notification Channel
-    Update configuration of Notification Channel
+    Update notification channel
+    Update notification channel
     """
     try:
         # Prepare the request parameters
@@ -164,13 +139,13 @@ def example_update_notification_channel_config():
         notification_channel = models.NotificationChannel()
 
         # Make the API call
-        api_instance.update_notification_channel_config(
+        api_instance.update_notification_channel(
             name=name,
             notification_channel=notification_channel,
         )
 
     except Exception as e:
-        print(f"Exception when calling update_notification_channel_config: {e}")
+        print(f"Exception when calling update_notification_channel: {e}")
 
 
 def example_validate_notification_channel():

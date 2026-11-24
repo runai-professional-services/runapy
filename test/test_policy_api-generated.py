@@ -51,7 +51,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
@@ -111,7 +113,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
@@ -171,7 +175,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
@@ -231,7 +237,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
 
         # Make request
         self.api.delete_nim_service_policy(
@@ -288,7 +296,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
@@ -348,7 +358,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         approve_cluster_deletion = True  # bool | Required when modifying or deleting a policy if the tenant includes one or more clusters running version 2.20 or earlier. In such cases, the platform must delete the policy from the affected clusters. This flag indicates that the administrator approves this deletion.
 
         # Make request
@@ -408,7 +420,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
 
         # Make request
         response = self.api.get_distributed_inference_policy_v2(
@@ -468,7 +482,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
 
         # Make request
         response = self.api.get_distributed_policy_v2(
@@ -528,7 +544,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
 
         # Make request
         response = self.api.get_inference_policy_v2(
@@ -588,7 +606,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
 
         # Make request
         response = self.api.get_nim_service_policy(
@@ -648,7 +668,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
 
         # Make request
         response = self.api.get_training_policy_v2(
@@ -708,7 +730,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | The scope that the policy relates to.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
 
         # Make request
         response = self.api.get_workspace_policy_v2(
@@ -771,7 +795,9 @@ class TestPolicyApi:
         scope = "scope_example"  # str | filter by this scope.
         department_id = "1"  # str | Filter using the department id.
         project_id = "1"  # str | project id to filter by
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         include_fallback_policies = True  # bool | whether to include fallback policies in the list. Default to false.
 
         # Make request

@@ -20,6 +20,7 @@ class PodsApi(RunaiAPIService):
         deleted: Optional[bool] = None,
         filter_by: Optional[List[str]] = None,
         search: Optional[str] = None,
+        completed: Optional[str] = None,
     ):
         r"""
 
@@ -32,17 +33,20 @@ class PodsApi(RunaiAPIService):
         deleted: Optional[bool]
         filter_by: Optional[List[str]]
         search: Optional[str]
+        completed: Optional[str]
         ```
         deleted: Return only deleted resources when &#x60;true&#x60;.
         filter_by: Filter results using a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contains, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
         search: Filter results by a free text search.
+        completed: Return only completed resources when &#39;true&#39;, return only non-completed resources when &#39;false&#39;. By default, or when empty, returns all resources. - Default: &#39;all&#39;
 
         ### Example:
         ```python
         PodsApi(
             deleted=True,
                         filter_by=['[\"nodeName!=some-node-name\"]'],
-                        search='test project'
+                        search='test project',
+                        completed='all'
         )
         ```
         """
@@ -52,6 +56,7 @@ class PodsApi(RunaiAPIService):
             ("deleted", deleted),
             ("filterBy", filter_by),
             ("search", search),
+            ("completed", completed),
         ]
         resource_path = f"/api/v1/workloads/pods/count".replace("_", "-")
         method = "GET"
@@ -61,18 +66,18 @@ class PodsApi(RunaiAPIService):
 
     def get_revision_pods(
         self,
-        revision_id: str,
+        revision_id: UUID,
         deleted: Optional[bool] = None,
     ):
         r"""
 
 
         ### Description
-        Get revision pods by id. [Experimental]
+        Get revision pods by id.
 
         ### Parameters:
         ```python
-        revision_id: str
+        revision_id: UUID
         deleted: Optional[bool]
         ```
         revision_id: The  Universally Unique Identifier (UUID) of the revision.
@@ -81,7 +86,7 @@ class PodsApi(RunaiAPIService):
         ### Example:
         ```python
         PodsApi(
-            revision_id='revision_id_example',
+            revision_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         deleted=True
         )
         ```
@@ -103,8 +108,8 @@ class PodsApi(RunaiAPIService):
 
     def get_workload_pod_metrics(
         self,
-        workload_id: str,
-        pod_id: str,
+        workload_id: UUID,
+        pod_id: UUID,
         metric_type: List[models.PodMetricType],
         start: datetime,
         end: datetime,
@@ -118,8 +123,8 @@ class PodsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
-        pod_id: str
+        workload_id: UUID
+        pod_id: UUID
         metric_type: Optional[models.List[PodMetricType]]
         start: Optional[datetime]
         end: Optional[datetime]
@@ -135,8 +140,8 @@ class PodsApi(RunaiAPIService):
         ### Example:
         ```python
         PodsApi(
-            workload_id='workload_id_example',
-                        pod_id='pod_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        pod_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         metric_type=[runai.PodMetricType()],
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
@@ -162,11 +167,14 @@ class PodsApi(RunaiAPIService):
 
     def get_workload_pods(
         self,
-        workload_id: str,
+        workload_id: UUID,
         deleted: Optional[bool] = None,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
         search: Optional[str] = None,
+        sort_order: Optional[str] = None,
+        sort_by: Optional[str] = None,
+        filter_by: Optional[List[str]] = None,
     ):
         r"""
 
@@ -176,26 +184,35 @@ class PodsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         deleted: Optional[bool]
         offset: Optional[int]
         limit: Optional[int]
         search: Optional[str]
+        sort_order: Optional[str]
+        sort_by: Optional[str]
+        filter_by: Optional[List[str]]
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
         deleted: Return only deleted resources when &#x60;true&#x60;.
         offset: The offset of the first item returned in the collection.
         limit: The maximum number of entries to return. - Default: 50
         search: Filter results by a free text search.
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        sort_by: Sort results using a parameter.
+        filter_by: Filter results using a parameter. Use the format field-name operator value. Operators are &#x60;&#x3D;&#x3D;&#x60; Equals, &#x60;!&#x3D;&#x60; Not equals, &#x60;&lt;&#x3D;&#x60; Less than or equal, &#x60;&gt;&#x3D;&#x60; Greater than or equal, &#x60;&#x3D;@&#x60; contains, &#x60;!@&#x60; Does not contains, &#x60;&#x3D;^&#x60; Starts with and &#x60;&#x3D;$&#x60; Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x60;&#x3D;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60; and &#x60;&gt;&#x3D;&#x60;.
 
         ### Example:
         ```python
         PodsApi(
-            workload_id='workload_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         deleted=True,
                         offset=100,
                         limit=50,
-                        search='test project'
+                        search='test project',
+                        sort_order=asc,
+                        sort_by='sort_by_example',
+                        filter_by=['[\"nodeName!=some-node-name\"]']
         )
         ```
         """
@@ -206,6 +223,9 @@ class PodsApi(RunaiAPIService):
             ("offset", offset),
             ("limit", limit),
             ("search", search),
+            ("sortOrder", sort_order),
+            ("sortBy", sort_by),
+            ("filterBy", filter_by),
         ]
         resource_path = f"/api/v1/workloads/{workload_id}/pods".replace("_", "-")
         method = "GET"

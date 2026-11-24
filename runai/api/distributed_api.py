@@ -54,7 +54,7 @@ class DistributedApi(RunaiAPIService):
 
     def delete_distributed(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -64,14 +64,14 @@ class DistributedApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         DistributedApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -85,7 +85,7 @@ class DistributedApi(RunaiAPIService):
 
     def get_distributed(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -95,14 +95,14 @@ class DistributedApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         DistributedApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -116,7 +116,7 @@ class DistributedApi(RunaiAPIService):
 
     def resume_distributed(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -126,14 +126,14 @@ class DistributedApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         DistributedApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -149,7 +149,7 @@ class DistributedApi(RunaiAPIService):
 
     def suspend_distributed(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -159,14 +159,14 @@ class DistributedApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         DistributedApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """

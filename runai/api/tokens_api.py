@@ -51,12 +51,13 @@ class TokensApi(RunaiAPIService):
             body=body_params,
         )
 
+    @deprecated_message()
     def grant_token(
         self,
         token_request: Optional[models.TokenRequest] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Create an access token v1
@@ -93,9 +94,7 @@ class TokensApi(RunaiAPIService):
         client_secret: Optional[str] = None,
         username: Optional[str] = None,
         password: Optional[str] = None,
-        refresh_token: Optional[str] = None,
-        code: Optional[str] = None,
-        redirect_uri: Optional[str] = None,
+        external_token: Optional[str] = None,
     ):
         r"""
 
@@ -110,18 +109,14 @@ class TokensApi(RunaiAPIService):
         client_secret: str
         username: str
         password: str
-        refresh_token: str
-        code: str
-        redirect_uri: str
+        external_token: str
         ```
-        grant_type: The OAuth2 grant type that determines how the token will be issued.
-        client_id: OAuth2 client identifier
-        client_secret: OAuth2 client secret
-        username: Resource owner username (for password grant)
-        password: The password of the resource owner. Required only when using the password grant type.
-        refresh_token: The refresh token used to obtain a new access token. Required only when using the refresh_token grant type.
-        code: Authorization code issued by the authorization server. Used in the authorization_code grant to exchange the code for an access token.
-        redirect_uri: The redirect URI used during the authorization request. Required for the authorization_code grant to validate the redirect destination.
+        grant_type: The OAuth2 grant type. Determines the authentication flow and which parameters are required:  &#x60;client_credentials&#x60; - Authenticate as a service account or user access key using clientId and clientSecret.  &#x60;password&#x60; - Authenticate as a local user using username and password.  &#x60;external_token_exchange&#x60; - Authenticate as a service account or user using a token issued by the configured identity provider (IdP) for a Run:ai token. Requires externalToken.
+        client_id: The client identifier for a service account or user access key. Required when using the client_credentials grant type. Must be used together with clientSecret.
+        client_secret: The client secret corresponding to the clientId. Required when using the client_credentials grant type. Must be used together with clientId.
+        username: The username of a local user account. Required when using the password grant type. Must be used together with password.
+        password: The password for the specified username. Required when using the password grant type. Must be used together with username.
+        external_token: A valid token issued by the identity provider (IdP) that is configured in NVIDIA Run:ai. Required when using the external_token_exchange grant type.
 
         ### Example:
         ```python
@@ -131,9 +126,7 @@ class TokensApi(RunaiAPIService):
                         client_secret='client_secret_example',
                         username='username_example',
                         password='password_example',
-                        refresh_token='refresh_token_example',
-                        code='code_example',
-                        redirect_uri='redirect_uri_example'
+                        external_token='external_token_example'
         )
         ```
         """

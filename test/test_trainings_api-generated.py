@@ -96,7 +96,9 @@ class TestTrainingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
         response = self.api.delete_training(
@@ -123,7 +125,7 @@ class TestTrainingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -144,7 +146,9 @@ class TestTrainingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
         response = self.api.get_training(
@@ -171,7 +175,7 @@ class TestTrainingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -192,7 +196,9 @@ class TestTrainingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
         response = self.api.resume_training(
@@ -219,7 +225,7 @@ class TestTrainingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -240,7 +246,9 @@ class TestTrainingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
         response = self.api.suspend_training(
@@ -267,7 +275,7 @@ class TestTrainingsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

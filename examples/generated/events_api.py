@@ -22,7 +22,7 @@ def example_get_revision_events():
     """
     Example of using get_revision_events
 
-    Get revision events by id. [Experimental]
+    Get revision events by id.
     Retrieve all the revision events using a revision id. Supported for clusters v2.21+.
     """
     try:
@@ -52,7 +52,7 @@ def example_get_revision_history():
     """
     Example of using get_revision_history
 
-    Get the revision history. [Experimental]
+    Get the revision history.
     Retrieve revision history details, including events, using a revision id. Supported for clusters v2.21+.
     """
     try:

@@ -74,6 +74,65 @@ class SettingsApi(RunaiAPIService):
             method=method,
         )
 
+    def get_workloads_setting_by_key(
+        self,
+        key: models.WorkloadsSettingsKeyEnum,
+    ):
+        r"""
+
+
+        ### Description
+        Get workloads setting by key
+
+        ### Parameters:
+        ```python
+        key: models.WorkloadsSettingsKeyEnum
+        ```
+        key: The settings key
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.WorkloadsSettingsKeyEnum()
+        )
+        ```
+        """
+
+        resource_path = f"/api/v2/workloads/settings/{key}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_workloads_settings(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get workloads settings
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        SettingsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v2/workloads/settings".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
     def update_security_setting_by_key(
         self,
         key: models.SettingsKeyEnum,
@@ -106,6 +165,45 @@ class SettingsApi(RunaiAPIService):
         body_params = update_security_setting_by_key_request
 
         resource_path = f"/api/v1/security/settings/{key}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_workloads_setting_by_key(
+        self,
+        key: models.WorkloadsSettingsKeyEnum,
+        yaml_submission_setting: models.YamlSubmissionSetting,
+    ):
+        r"""
+
+
+        ### Description
+        Update workloads setting by key
+
+        ### Parameters:
+        ```python
+        key: models.WorkloadsSettingsKeyEnum
+        yaml_submission_setting: YamlSubmissionSetting
+        ```
+        key: The settings key
+        yaml_submission_setting: See model YamlSubmissionSetting for more information.
+
+        ### Example:
+        ```python
+        SettingsApi(
+            key=runai.WorkloadsSettingsKeyEnum(),
+                        yaml_submission_setting={"enabled":false}
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = yaml_submission_setting
+
+        resource_path = f"/api/v2/workloads/settings/{key}".replace("_", "-")
         method = "PUT"
         return self._api_client.call_api(
             resource_path=resource_path,

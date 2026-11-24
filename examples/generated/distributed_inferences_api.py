@@ -22,7 +22,7 @@ def example_create_distributed_inference():
     """
     Example of using create_distributed_inference
 
-    Create a distributed inference. [Experimental]
+    Create a distributed inference.
     Create a distributed inference using container related fields.
     """
     try:

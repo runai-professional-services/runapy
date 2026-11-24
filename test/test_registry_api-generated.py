@@ -101,7 +101,9 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         self.api.delete_registry(
@@ -125,7 +127,7 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -146,7 +148,9 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         response = self.api.get_registry_by_id(
@@ -173,7 +177,7 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -194,7 +198,9 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         search_name = (
             "search_name_example"  # str | Filter results that contains searchName.
         )
@@ -227,7 +233,7 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -248,7 +254,9 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         repository = "repository_example"  # str | The repository name that its tags are requested.
         search_name = (
             "search_name_example"  # str | Filter results that contains searchName.
@@ -285,7 +293,7 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         repository = "repository_example"
 
         # Verify error handling
@@ -354,7 +362,9 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         registry_update_request = (
             runai.RegistryUpdateRequest()
         )  # RegistryUpdateRequest |
@@ -388,7 +398,7 @@ class TestRegistryApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         registry_update_request = runai.RegistryUpdateRequest()
 
         # Verify error handling

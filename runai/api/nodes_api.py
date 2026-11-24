@@ -17,7 +17,7 @@ class NodesApi(RunaiAPIService):
 
     def count_nodes(
         self,
-        cluster_uuid: str,
+        cluster_uuid: UUID,
         filter_by: Optional[List[str]] = None,
         search: Optional[str] = None,
     ):
@@ -29,7 +29,7 @@ class NodesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_uuid: str
+        cluster_uuid: UUID
         filter_by: Optional[List[str]]
         search: Optional[str]
         ```
@@ -40,7 +40,7 @@ class NodesApi(RunaiAPIService):
         ### Example:
         ```python
         NodesApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         filter_by=['[\"name!=some-name\"]'],
                         search='test project'
         )
@@ -99,7 +99,7 @@ class NodesApi(RunaiAPIService):
 
     def get_node_metrics(
         self,
-        node_id: str,
+        node_id: UUID,
         metric_type: List[models.NodeMetricType],
         start: datetime,
         end: datetime,
@@ -113,7 +113,7 @@ class NodesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        node_id: str
+        node_id: UUID
         metric_type: Optional[models.List[NodeMetricType]]
         start: Optional[datetime]
         end: Optional[datetime]
@@ -128,7 +128,7 @@ class NodesApi(RunaiAPIService):
         ### Example:
         ```python
         NodesApi(
-            node_id='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            node_id=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         metric_type=[runai.NodeMetricType()],
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
@@ -153,7 +153,7 @@ class NodesApi(RunaiAPIService):
     def get_node_telemetry(
         self,
         telemetry_type: models.NodeTelemetryType,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         nodepool_name: Optional[str] = None,
         group_by: Optional[List[str]] = None,
     ):
@@ -166,7 +166,7 @@ class NodesApi(RunaiAPIService):
         ### Parameters:
         ```python
         telemetry_type: Optional[models.NodeTelemetryType]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         nodepool_name: Optional[str]
         group_by: Optional[List[str]]
         ```
@@ -179,7 +179,7 @@ class NodesApi(RunaiAPIService):
         ```python
         NodesApi(
             telemetry_type=runai.NodeTelemetryType(),
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         nodepool_name='default',
                         group_by=['group_by_example']
         )
@@ -202,7 +202,7 @@ class NodesApi(RunaiAPIService):
     @deprecated_message()
     def get_nodes(
         self,
-        cluster_uuid: str,
+        cluster_uuid: UUID,
         node_name: Optional[str] = None,
         filter_by: Optional[List[str]] = None,
         sort_by: Optional[models.NodeFilterSortFields] = None,
@@ -219,7 +219,7 @@ class NodesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_uuid: str
+        cluster_uuid: UUID
         node_name: Optional[str]
         filter_by: Optional[List[str]]
         sort_by: Optional[models.NodeFilterSortFields]
@@ -240,7 +240,7 @@ class NodesApi(RunaiAPIService):
         ### Example:
         ```python
         NodesApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         node_name='node_name_example',
                         filter_by=['[\"name!=some-name\"]'],
                         sort_by=runai.NodeFilterSortFields(),

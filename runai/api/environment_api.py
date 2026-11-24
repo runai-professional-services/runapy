@@ -54,7 +54,7 @@ class EnvironmentApi(RunaiAPIService):
 
     def delete_environment_asset_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -64,14 +64,14 @@ class EnvironmentApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         EnvironmentApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -85,7 +85,7 @@ class EnvironmentApi(RunaiAPIService):
 
     def get_environment_asset_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         usage_info: Optional[bool] = None,
         comply_to_project: Optional[int] = None,
         comply_to_workload_type: Optional[str] = None,
@@ -100,7 +100,7 @@ class EnvironmentApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         usage_info: Optional[bool]
         comply_to_project: Optional[int]
         comply_to_workload_type: Optional[str]
@@ -117,7 +117,7 @@ class EnvironmentApi(RunaiAPIService):
         ### Example:
         ```python
         EnvironmentApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         usage_info=True,
                         comply_to_project=56,
                         comply_to_workload_type='comply_to_workload_type_example',
@@ -147,7 +147,7 @@ class EnvironmentApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         comply_to_project: Optional[int] = None,
         comply_to_workload_type: Optional[str] = None,
@@ -159,6 +159,7 @@ class EnvironmentApi(RunaiAPIService):
         comply_to_replica_type: Optional[str] = None,
         status_info: Optional[bool] = None,
         include_descendants: Optional[bool] = None,
+        is_distributed_inference: Optional[bool] = None,
     ):
         r"""
 
@@ -172,7 +173,7 @@ class EnvironmentApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         comply_to_project: Optional[int]
         comply_to_workload_type: Optional[str]
@@ -184,6 +185,7 @@ class EnvironmentApi(RunaiAPIService):
         comply_to_replica_type: Optional[str]
         status_info: Optional[bool]
         include_descendants: Optional[bool]
+        is_distributed_inference: Optional[bool]
         ```
         name: Filter results by name.
         scope: Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
@@ -201,6 +203,7 @@ class EnvironmentApi(RunaiAPIService):
         comply_to_replica_type: Include workload creation compliance information of an asset, for a given replica type, as part of the response. To check compliance, you need to provide both project id and workload type. For distributed, replica type should be provided as well.
         status_info: Whether the query should include asset status information as part of the response.
         include_descendants: Indicates whether to include assets from all descendant scopes under the specified scope. When set to true, and a specific scope identifier (for example, clusterId) is provided, the query also returns assets from all nested scopes within it (for example, departments and projects).  Mutually exclusive with scope.
+        is_distributed_inference: Filter results to workload of type distributed inference.
 
         ### Example:
         ```python
@@ -209,7 +212,7 @@ class EnvironmentApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
                         comply_to_project=56,
                         comply_to_workload_type='comply_to_workload_type_example',
@@ -220,7 +223,8 @@ class EnvironmentApi(RunaiAPIService):
                         is_inference=True,
                         comply_to_replica_type='comply_to_replica_type_example',
                         status_info=True,
-                        include_descendants=True
+                        include_descendants=True,
+                        is_distributed_inference=True
         )
         ```
         """
@@ -243,6 +247,7 @@ class EnvironmentApi(RunaiAPIService):
             ("complyToReplicaType", comply_to_replica_type),
             ("statusInfo", status_info),
             ("includeDescendants", include_descendants),
+            ("isDistributedInference", is_distributed_inference),
         ]
         resource_path = f"/api/v1/asset/environment".replace("_", "-")
         method = "GET"
@@ -252,7 +257,7 @@ class EnvironmentApi(RunaiAPIService):
 
     def update_environment_asset_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         environment_update_request: Optional[models.EnvironmentUpdateRequest] = None,
     ):
         r"""
@@ -263,7 +268,7 @@ class EnvironmentApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         environment_update_request: EnvironmentUpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -272,7 +277,7 @@ class EnvironmentApi(RunaiAPIService):
         ### Example:
         ```python
         EnvironmentApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         environment_update_request=runai.EnvironmentUpdateRequest()
         )
         ```

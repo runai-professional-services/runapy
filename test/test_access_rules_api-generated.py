@@ -355,7 +355,9 @@ class TestAccessRulesApi:
         offset = 100  # int | The offset of the first item returned in the collection.
         last_updated = "2021-12-14T16:04:15.099Z"  # str | Filter by last update time.
         include_deleted = False  # bool | True to include deleted objects in the result.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter using the Universally Unique Identifier (UUID) of the cluster.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter using the Universally Unique Identifier (UUID) of the cluster.
         scope_type = "project"  # str | The type of resource we want to filter by.
         scope_id = "2"  # str | The scope resource id that we want to filter by.
         role_id = 56  # int | The role id we want to filter by.

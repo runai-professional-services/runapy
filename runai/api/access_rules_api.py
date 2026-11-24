@@ -243,7 +243,7 @@ class AccessRulesApi(RunaiAPIService):
         offset: Optional[int] = None,
         last_updated: Optional[str] = None,
         include_deleted: Optional[bool] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         scope_type: Optional[str] = None,
         scope_id: Optional[str] = None,
         role_id: Optional[int] = None,
@@ -267,7 +267,7 @@ class AccessRulesApi(RunaiAPIService):
         offset: Optional[int]
         last_updated: Optional[str]
         include_deleted: Optional[bool]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         scope_type: Optional[str]
         scope_id: Optional[str]
         role_id: Optional[int]
@@ -302,7 +302,7 @@ class AccessRulesApi(RunaiAPIService):
                         offset=100,
                         last_updated='2021-12-14T16:04:15.099Z',
                         include_deleted=False,
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         scope_type='project',
                         scope_id='2',
                         role_id=56,

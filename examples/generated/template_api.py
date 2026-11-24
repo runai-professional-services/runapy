@@ -43,7 +43,7 @@ def example_create_template():
                         workload_volumes = [
                             ''
                             ], ), 
-                    specific_env = {terminationGracePeriodSeconds=20, backoffLimit=3, terminateAfterPreemption=false, imagePullSecrets=[Ljava.lang.Object;@581c9bb7, parallelism=1, annotations=[Ljava.lang.Object;@138f0661, autoDeletionTimeAfterCompletionSeconds=15, runAsUid=500, preemptibility=preemptible, tolerations=[Ljava.lang.Object;@212fafd1, servingPortAccess={}, runAsGid=30, supplementalGroups=2,3,5,8, nodePools=["my-node-pool-a","my-node-pool-b"], connections=[Ljava.lang.Object;@448462f0, podAffinity={type=Required, key=key}, nodeAffinityRequired={nodeSelectorTerms=[Ljava.lang.Object;@787988f4}, autoScaling={maxReplicas=1, initialReplicas=0, scaleToZeroRetentionSeconds=1301, metricThresholdPercentage=15.511548, minReplicas=0, activationReplicas=1, scaleDownDelaySeconds=729, initializationTimeoutSeconds=1, thresholdMetric=http_requests_total, concurrencyHardLimit=0, thresholdValue=7}, completions=1, nodeType=my-node-type, priorityClass=null, restartPolicy=Always, command=python, labels=[Ljava.lang.Object;@132e3594, args=-x my-script.py, environmentVariables=[Ljava.lang.Object;@4f235107, allowOverQuota=true, category=null}, )
+                    specific_env = {terminationGracePeriodSeconds=20, backoffLimit=3, terminateAfterPreemption=false, imagePullSecrets=[Ljava.lang.Object;@2a88c926, parallelism=1, annotations=[Ljava.lang.Object;@3d409d1, autoDeletionTimeAfterCompletionSeconds=15, runAsUid=500, preemptibility=preemptible, tolerations=[Ljava.lang.Object;@4ae4fae7, servingPortAccess={}, runAsGid=30, supplementalGroups=2,3,5,8, nodePools=["my-node-pool-a","my-node-pool-b"], connections=[Ljava.lang.Object;@5cd96f38, podAffinity={type=Required, key=key}, nodeAffinityRequired={nodeSelectorTerms=[Ljava.lang.Object;@30745c7c}, autoScaling={maxReplicas=1, initialReplicas=0, scaleToZeroRetentionSeconds=1301, metricThresholdPercentage=15.511548, minReplicas=0, activationReplicas=1, scaleDownDelaySeconds=729, initializationTimeoutSeconds=1, thresholdMetric=http_requests_total, concurrencyHardLimit=0, thresholdValue=7}, completions=1, nodeType=my-node-type, priorityClass=null, restartPolicy=Always, command=python, labels=[Ljava.lang.Object;@134d4122, args=-x my-script.py, environmentVariables=[Ljava.lang.Object;@7e93a26e, allowOverQuota=true, category=null}, )
         )
 
         # Make the API call
@@ -190,6 +190,14 @@ def example_list_templates():
         
         
         
+        
+        
+        is_distributed_inference = True
+        
+        
+        
+        
+        
 
         # Make the API call
         api_response = api_instance.list_templates(
@@ -202,6 +210,7 @@ def example_list_templates():
             is_distributed=is_distributed,
             is_training=is_training,
             is_workspace=is_workspace,
+            is_distributed_inference=is_distributed_inference,
         )
         print(f"API response: {api_response}")
 
@@ -242,7 +251,7 @@ def example_update_template():
                         workload_volumes = [
                             ''
                             ], ), 
-                    specific_env = {terminationGracePeriodSeconds=20, backoffLimit=3, terminateAfterPreemption=false, imagePullSecrets=[Ljava.lang.Object;@581c9bb7, parallelism=1, annotations=[Ljava.lang.Object;@138f0661, autoDeletionTimeAfterCompletionSeconds=15, runAsUid=500, preemptibility=preemptible, tolerations=[Ljava.lang.Object;@212fafd1, servingPortAccess={}, runAsGid=30, supplementalGroups=2,3,5,8, nodePools=["my-node-pool-a","my-node-pool-b"], connections=[Ljava.lang.Object;@448462f0, podAffinity={type=Required, key=key}, nodeAffinityRequired={nodeSelectorTerms=[Ljava.lang.Object;@787988f4}, autoScaling={maxReplicas=1, initialReplicas=0, scaleToZeroRetentionSeconds=1301, metricThresholdPercentage=15.511548, minReplicas=0, activationReplicas=1, scaleDownDelaySeconds=729, initializationTimeoutSeconds=1, thresholdMetric=http_requests_total, concurrencyHardLimit=0, thresholdValue=7}, completions=1, nodeType=my-node-type, priorityClass=null, restartPolicy=Always, command=python, labels=[Ljava.lang.Object;@132e3594, args=-x my-script.py, environmentVariables=[Ljava.lang.Object;@4f235107, allowOverQuota=true, category=null}, )
+                    specific_env = {terminationGracePeriodSeconds=20, backoffLimit=3, terminateAfterPreemption=false, imagePullSecrets=[Ljava.lang.Object;@2a88c926, parallelism=1, annotations=[Ljava.lang.Object;@3d409d1, autoDeletionTimeAfterCompletionSeconds=15, runAsUid=500, preemptibility=preemptible, tolerations=[Ljava.lang.Object;@4ae4fae7, servingPortAccess={}, runAsGid=30, supplementalGroups=2,3,5,8, nodePools=["my-node-pool-a","my-node-pool-b"], connections=[Ljava.lang.Object;@5cd96f38, podAffinity={type=Required, key=key}, nodeAffinityRequired={nodeSelectorTerms=[Ljava.lang.Object;@30745c7c}, autoScaling={maxReplicas=1, initialReplicas=0, scaleToZeroRetentionSeconds=1301, metricThresholdPercentage=15.511548, minReplicas=0, activationReplicas=1, scaleDownDelaySeconds=729, initializationTimeoutSeconds=1, thresholdMetric=http_requests_total, concurrencyHardLimit=0, thresholdValue=7}, completions=1, nodeType=my-node-type, priorityClass=null, restartPolicy=Always, command=python, labels=[Ljava.lang.Object;@134d4122, args=-x my-script.py, environmentVariables=[Ljava.lang.Object;@7e93a26e, allowOverQuota=true, category=null}, )
         )
 
         # Make the API call

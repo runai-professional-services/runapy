@@ -21,7 +21,7 @@ class DatasourcesApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         comply_to_project: Optional[int] = None,
         comply_to_workload_type: Optional[str] = None,
@@ -42,7 +42,7 @@ class DatasourcesApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         comply_to_project: Optional[int]
         comply_to_workload_type: Optional[str]
@@ -71,7 +71,7 @@ class DatasourcesApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
                         comply_to_project=56,
                         comply_to_workload_type='comply_to_workload_type_example',

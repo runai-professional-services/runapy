@@ -51,6 +51,9 @@ class TestWorkloadsV2Api:
         workload_v2_create_request = (
             runai.WorkloadV2CreateRequest()
         )  # WorkloadV2CreateRequest | Workload metadata and manifest
+        dry_run = (
+            False  # bool | True to perform validations only, without side effects.
+        )
 
         # Make request
         response = self.api.create_workload_v2(
@@ -64,6 +67,9 @@ class TestWorkloadsV2Api:
         # Verify request method and URL
         assert kwargs["method"] == "POST"
         assert "/api/v2/workloads" in kwargs["url"]
+
+        # Verify query parameters
+        assert "dryRun=" in kwargs["url"]
 
         # Verify body
         assert kwargs["body"] is not None
@@ -101,7 +107,7 @@ class TestWorkloadsV2Api:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"  # str |
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")  # UUID |
 
         # Make request
         response = self.api.delete_workload_v2(
@@ -128,7 +134,7 @@ class TestWorkloadsV2Api:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -149,7 +155,7 @@ class TestWorkloadsV2Api:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"  # str |
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")  # UUID |
 
         # Make request
         response = self.api.get_workload_v2_by_id(
@@ -176,7 +182,7 @@ class TestWorkloadsV2Api:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -197,7 +203,7 @@ class TestWorkloadsV2Api:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"  # str |
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")  # UUID |
         workload_v2_update_request = (
             runai.WorkloadV2UpdateRequest()
         )  # WorkloadV2UpdateRequest |
@@ -231,7 +237,7 @@ class TestWorkloadsV2Api:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         workload_v2_update_request = runai.WorkloadV2UpdateRequest()
 
         # Verify error handling

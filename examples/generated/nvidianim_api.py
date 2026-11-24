@@ -81,7 +81,9 @@ def example_update_nim_service_spec():
         workload_v2_id = "example_workload_v2_id"
 
         # Create example data for NimServiceUpdateRequest
-        nim_service_update_request = models.NimServiceUpdateRequest(spec=None)
+        nim_service_update_request = models.NimServiceUpdateRequest(
+            spec=None, fields_to_remove=["autoscaling", "environmentVariables"]
+        )
 
         # Make the API call
         api_response = api_instance.update_nim_service_spec(

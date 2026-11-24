@@ -52,7 +52,7 @@ class WorkspacesApi(RunaiAPIService):
 
     def delete_workspace(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -62,14 +62,14 @@ class WorkspacesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         WorkspacesApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -83,7 +83,7 @@ class WorkspacesApi(RunaiAPIService):
 
     def get_workspace(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -93,14 +93,14 @@ class WorkspacesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         WorkspacesApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -114,7 +114,7 @@ class WorkspacesApi(RunaiAPIService):
 
     def resume_workspace(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -124,14 +124,14 @@ class WorkspacesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         WorkspacesApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -147,7 +147,7 @@ class WorkspacesApi(RunaiAPIService):
 
     def suspend_workspace(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -157,14 +157,14 @@ class WorkspacesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         WorkspacesApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """

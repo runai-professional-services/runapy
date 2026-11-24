@@ -52,7 +52,7 @@ class S3Api(RunaiAPIService):
 
     def delete_s3_asset_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -62,14 +62,14 @@ class S3Api(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         S3Api(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -83,7 +83,7 @@ class S3Api(RunaiAPIService):
 
     def get_s3_asset_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         usage_info: Optional[bool] = None,
         comply_to_project: Optional[int] = None,
         comply_to_workload_type: Optional[str] = None,
@@ -98,7 +98,7 @@ class S3Api(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         usage_info: Optional[bool]
         comply_to_project: Optional[int]
         comply_to_workload_type: Optional[str]
@@ -115,7 +115,7 @@ class S3Api(RunaiAPIService):
         ### Example:
         ```python
         S3Api(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         usage_info=True,
                         comply_to_project=56,
                         comply_to_workload_type='comply_to_workload_type_example',
@@ -145,7 +145,7 @@ class S3Api(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         comply_to_project: Optional[int] = None,
         comply_to_workload_type: Optional[str] = None,
@@ -165,7 +165,7 @@ class S3Api(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         comply_to_project: Optional[int]
         comply_to_workload_type: Optional[str]
@@ -192,7 +192,7 @@ class S3Api(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
                         comply_to_project=56,
                         comply_to_workload_type='comply_to_workload_type_example',
@@ -225,7 +225,7 @@ class S3Api(RunaiAPIService):
 
     def update_s3_asset_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         s3_update_request: Optional[models.S3UpdateRequest] = None,
     ):
         r"""
@@ -236,7 +236,7 @@ class S3Api(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         s3_update_request: S3UpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -245,7 +245,7 @@ class S3Api(RunaiAPIService):
         ### Example:
         ```python
         S3Api(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         s3_update_request=runai.S3UpdateRequest()
         )
         ```

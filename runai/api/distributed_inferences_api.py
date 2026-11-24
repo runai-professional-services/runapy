@@ -25,7 +25,7 @@ class DistributedInferencesApi(RunaiAPIService):
 
 
         ### Description
-        Create a distributed inference. [Experimental]
+        Create a distributed inference.
 
         ### Parameters:
         ```python
@@ -54,7 +54,7 @@ class DistributedInferencesApi(RunaiAPIService):
 
     def delete_distributed_inference(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -64,14 +64,14 @@ class DistributedInferencesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         DistributedInferencesApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -87,7 +87,7 @@ class DistributedInferencesApi(RunaiAPIService):
 
     def get_distributed_inference(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -97,14 +97,14 @@ class DistributedInferencesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         DistributedInferencesApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -120,7 +120,7 @@ class DistributedInferencesApi(RunaiAPIService):
 
     def update_distributed_inference_spec(
         self,
-        workload_id: str,
+        workload_id: UUID,
         update_request: Optional[models.UpdateRequest] = None,
     ):
         r"""
@@ -131,7 +131,7 @@ class DistributedInferencesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         update_request: UpdateRequest
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
@@ -140,7 +140,7 @@ class DistributedInferencesApi(RunaiAPIService):
         ### Example:
         ```python
         DistributedInferencesApi(
-            workload_id='workload_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         update_request=runai.UpdateRequest()
         )
         ```

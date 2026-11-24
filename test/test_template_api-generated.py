@@ -96,7 +96,9 @@ class TestTemplateApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         response = self.api.delete_template_by_id(
@@ -123,7 +125,7 @@ class TestTemplateApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -144,7 +146,9 @@ class TestTemplateApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         response = self.api.get_template_by_id(
@@ -171,7 +175,7 @@ class TestTemplateApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -196,11 +200,16 @@ class TestTemplateApi:
         scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         distributed_framework = "distributed_framework_example"  # str | Filter results to workload of type distributed and distributedFramework.
         is_distributed = True  # bool | Filter results to workload of type distributed.
         is_training = True  # bool | Filter results to workload of type training.
         is_workspace = True  # bool | Filter results to workload of type workspace.
+        is_distributed_inference = (
+            True  # bool | Filter results to workload of type distributed inference.
+        )
 
         # Make request
         response = self.api.list_templates()
@@ -231,6 +240,8 @@ class TestTemplateApi:
         assert "isTraining=" in kwargs["url"]
         # Verify query parameters
         assert "isWorkspace=" in kwargs["url"]
+        # Verify query parameters
+        assert "isDistributedInference=" in kwargs["url"]
 
         # Verify response
         assert isinstance(response, WorkloadTemplateListResponse)
@@ -262,7 +273,9 @@ class TestTemplateApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         workload_template_update_request = (
             runai.WorkloadTemplateUpdateRequest()
         )  # WorkloadTemplateUpdateRequest |
@@ -295,7 +308,7 @@ class TestTemplateApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

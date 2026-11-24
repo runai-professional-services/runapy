@@ -96,7 +96,9 @@ class TestComputeApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
 
         # Make request
         response = self.api.delete_compute_asset_by_id(
@@ -123,7 +125,7 @@ class TestComputeApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -144,7 +146,9 @@ class TestComputeApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         comply_to_project = 56  # int | Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
         comply_to_workload_type = "comply_to_workload_type_example"  # str | Include workload creation compliance information of an asset, for a given workload type, as part of the response. To check compliance, you need to provide both project id and workload type.
@@ -184,7 +188,7 @@ class TestComputeApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -209,7 +213,9 @@ class TestComputeApi:
         scope = "scope_example"  # str | Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
         project_id = 56  # int | Filter results by project id. If scope filter is project, only assets from the specific project will be included in the response. Otherwise, the response will include project, department, cluster, tenant and system assets.
         department_id = "1"  # str | Filter results by department id. If scope filter is department, only assets from the specific department will be included in the response. Otherwise, the response will include department, cluster, tenant and system assets.
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info = True  # bool | Whether the query should include asset usage information as part of the response.
         comply_to_project = 56  # int | Include workload creation compliance information of an asset, for a given project, as part of the response. To check compliance, you need to provide both project id and workload type.
         comply_to_workload_type = "comply_to_workload_type_example"  # str | Include workload creation compliance information of an asset, for a given workload type, as part of the response. To check compliance, you need to provide both project id and workload type.
@@ -278,7 +284,9 @@ class TestComputeApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"  # str | Unique identifier of the asset.
+        asset_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the asset.
         compute_update_request = runai.ComputeUpdateRequest()  # ComputeUpdateRequest |
 
         # Make request
@@ -309,7 +317,7 @@ class TestComputeApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        asset_id = "asset_id_example"
+        asset_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

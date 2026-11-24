@@ -138,7 +138,7 @@ class TestWorkloadTemplatesApi:
     def test_create_inference_template(self):
         """Test case for create_inference_template
 
-        Create a new inference template. [Experimental] Create a new inference template.
+        Create a new inference template. Create a new inference template.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -291,7 +291,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         self.api.delete_distributed_template(
@@ -315,7 +317,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -327,7 +329,7 @@ class TestWorkloadTemplatesApi:
     def test_delete_inference_template(self):
         """Test case for delete_inference_template
 
-        Delete an inference template by ID. [Experimental] Delete an inference template by ID.
+        Delete an inference template by ID. Delete an inference template by ID.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -336,7 +338,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         self.api.delete_inference_template(
@@ -360,7 +364,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -381,7 +385,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         self.api.delete_training_template(
@@ -405,7 +411,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -426,7 +432,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         self.api.delete_workspace_template(
@@ -450,7 +458,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -471,7 +479,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         response = self.api.get_distributed_template(
@@ -498,7 +508,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -510,7 +520,7 @@ class TestWorkloadTemplatesApi:
     def test_get_inference_template(self):
         """Test case for get_inference_template
 
-        Get a specific inference template by ID. [Experimental] Get a specific inference template by ID.
+        Get a specific inference template by ID. Get a specific inference template by ID.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -519,7 +529,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         response = self.api.get_inference_template(
@@ -546,7 +558,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -567,7 +579,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         response = self.api.get_template_by_id1(
@@ -594,7 +608,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -615,7 +629,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         response = self.api.get_training_template(
@@ -642,7 +658,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -663,7 +679,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
 
         # Make request
         response = self.api.get_workspace_template(
@@ -690,7 +708,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -771,7 +789,7 @@ class TestWorkloadTemplatesApi:
     def test_list_inference_templates(self):
         """Test case for list_inference_templates
 
-        List all inference templates. [Experimental] List all inference templates.
+        List all inference templates. List all inference templates.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -1050,7 +1068,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
         distributed_template_patch_request = (
             runai.DistributedTemplatePatchRequest()
         )  # DistributedTemplatePatchRequest |
@@ -1083,7 +1103,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -1104,7 +1124,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
         training_template_patch_request = (
             runai.TrainingTemplatePatchRequest()
         )  # TrainingTemplatePatchRequest |
@@ -1137,7 +1159,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -1158,7 +1180,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
         workspace_template_patch_request = (
             runai.WorkspaceTemplatePatchRequest()
         )  # WorkspaceTemplatePatchRequest |
@@ -1191,7 +1215,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -1269,7 +1293,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
         distributed_template_update_request = (
             runai.DistributedTemplateUpdateRequest()
         )  # DistributedTemplateUpdateRequest |
@@ -1302,7 +1328,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -1323,7 +1349,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
         training_template_update_request = (
             runai.TrainingTemplateUpdateRequest()
         )  # TrainingTemplateUpdateRequest |
@@ -1356,7 +1384,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -1377,7 +1405,9 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"  # str | The  Universally Unique Identifier (UUID) of the template.
+        template_id = UUID(
+            "550e8400-e29b-41d4-a716-446655440000"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the template.
         workspace_template_update_request = (
             runai.WorkspaceTemplateUpdateRequest()
         )  # WorkspaceTemplateUpdateRequest |
@@ -1410,7 +1440,7 @@ class TestWorkloadTemplatesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        template_id = "550e8400-e29b-41d4-a716-446655440000"
+        template_id = UUID("550e8400-e29b-41d4-a716-446655440000")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

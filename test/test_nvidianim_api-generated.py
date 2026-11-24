@@ -101,7 +101,7 @@ class TestNVIDIANIMApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"  # str |
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")  # UUID |
 
         # Make request
         response = self.api.get_nim_service_by_id(
@@ -128,7 +128,7 @@ class TestNVIDIANIMApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -149,7 +149,7 @@ class TestNVIDIANIMApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"  # str |
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")  # UUID |
         nim_service_update_request = (
             runai.NimServiceUpdateRequest()
         )  # NimServiceUpdateRequest |
@@ -183,7 +183,7 @@ class TestNVIDIANIMApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_v2_id = "workload_v2_id_example"
+        workload_v2_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         nim_service_update_request = runai.NimServiceUpdateRequest()
 
         # Verify error handling

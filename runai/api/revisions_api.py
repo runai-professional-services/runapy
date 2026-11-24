@@ -17,18 +17,18 @@ class RevisionsApi(RunaiAPIService):
 
     def count_inference_workload_revisions(
         self,
-        workload_id: str,
+        workload_id: UUID,
         deleted: Optional[bool] = None,
     ):
         r"""
 
 
         ### Description
-        Get inference workload revisions count. [Experimental]
+        Get inference workload revisions count.
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         deleted: Optional[bool]
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
@@ -37,7 +37,7 @@ class RevisionsApi(RunaiAPIService):
         ### Example:
         ```python
         RevisionsApi(
-            workload_id='workload_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         deleted=True
         )
         ```
@@ -59,18 +59,18 @@ class RevisionsApi(RunaiAPIService):
 
     def get_inference_workload_revisions(
         self,
-        workload_id: str,
+        workload_id: UUID,
         deleted: Optional[bool] = None,
     ):
         r"""
 
 
         ### Description
-        Get inference workload revisions by id. [Experimental]
+        Get inference workload revisions by id.
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         deleted: Optional[bool]
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
@@ -79,7 +79,7 @@ class RevisionsApi(RunaiAPIService):
         ### Example:
         ```python
         RevisionsApi(
-            workload_id='workload_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         deleted=True
         )
         ```
@@ -99,24 +99,24 @@ class RevisionsApi(RunaiAPIService):
 
     def get_revision(
         self,
-        revision_id: str,
+        revision_id: UUID,
     ):
         r"""
 
 
         ### Description
-        Get revision data. [Experimental]
+        Get revision data.
 
         ### Parameters:
         ```python
-        revision_id: str
+        revision_id: UUID
         ```
         revision_id: The  Universally Unique Identifier (UUID) of the revision.
 
         ### Example:
         ```python
         RevisionsApi(
-            revision_id='revision_id_example'
+            revision_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """

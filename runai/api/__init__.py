@@ -1,12 +1,9 @@
 # flake8: noqa
 
 # import apis into api package
-from runai.api.ai_applications_api import AIApplicationsApi
+from runai.api.ai_applications_api_api import AIApplicationsAPIApi
 from runai.api.access_keys_api import AccessKeysApi
 from runai.api.access_rules_api import AccessRulesApi
-from runai.api.administrator_command_line_interface_api import (
-    AdministratorCommandLineInterfaceApi,
-)
 from runai.api.applications_api import ApplicationsApi
 from runai.api.audit_logs_api import AuditLogsApi
 from runai.api.clusters_api import ClustersApi
@@ -14,10 +11,11 @@ from runai.api.compute_api import ComputeApi
 from runai.api.config_map_api import ConfigMapApi
 from runai.api.credentials_api import CredentialsApi
 from runai.api.datasources_api import DatasourcesApi
-from runai.api.datavolumes_api import DatavolumesApi
+from runai.api.datavolumes_api_api import DatavolumesAPIApi
 from runai.api.departments_api import DepartmentsApi
 from runai.api.distributed_api import DistributedApi
 from runai.api.distributed_inferences_api import DistributedInferencesApi
+from runai.api.email_api import EmailApi
 from runai.api.environment_api import EnvironmentApi
 from runai.api.events_api import EventsApi
 from runai.api.git_api import GitApi
@@ -54,18 +52,18 @@ from runai.api.s3_api import S3Api
 from runai.api.secret_api import SecretApi
 from runai.api.service_accounts_api import ServiceAccountsApi
 from runai.api.settings_api import SettingsApi
+from runai.api.slack_api import SlackApi
 from runai.api.storage_class_configuration_api import StorageClassConfigurationApi
 from runai.api.storage_classes_api import StorageClassesApi
 from runai.api.subscriptions_api import SubscriptionsApi
 from runai.api.template_api import TemplateApi
-from runai.api.tenant_api import TenantApi
 from runai.api.tokens_api import TokensApi
 from runai.api.trainings_api import TrainingsApi
 from runai.api.user_applications_api import UserApplicationsApi
 from runai.api.users_api import UsersApi
 from runai.api.workload_properties_api import WorkloadPropertiesApi
 from runai.api.workload_templates_api import WorkloadTemplatesApi
-from runai.api.workloads_api import WorkloadsApi
+from runai.api.workloads_api_api import WorkloadsAPIApi
 from runai.api.workloads_v2_api import WorkloadsV2Api
 from runai.api.workloads_batch_api import WorkloadsBatchApi
 from runai.api.workspaces_api import WorkspacesApi

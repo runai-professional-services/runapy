@@ -55,9 +55,11 @@ class TestPodsApi:
         deleted = True   # bool | Return only deleted resources when `true`.
         filter_by = ['[\"nodeName!=some-node-name\"]']   # List[str] | Filter results using a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contains, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
         search = 'test project'   # str | Filter results by a free text search.
+        completed = "all\'   # str | Return only completed resources when \'true", return only non-completed resources when 'false'. By default, or when empty, returns all resources.
 
         # Make request
         response = self.api.count_pods(
+            
             
             
             
@@ -77,6 +79,8 @@ class TestPodsApi:
         assert "filterBy=" in kwargs["url"]
         # Verify query parameters
         assert "search=" in kwargs["url"]
+        # Verify query parameters
+        assert "completed=" in kwargs["url"]
 
 
 
@@ -99,13 +103,14 @@ class TestPodsApi:
                 
                 
                 
+                
             )
         assert exc_info.value.status == 400
 
     def test_get_revision_pods(self):
         """Test case for get_revision_pods
 
-        Get revision pods by id. [Experimental] Retrieve the details of revision pods by revision id. Supported for clusters v2.21+.
+        Get revision pods by id. Retrieve the details of revision pods by revision id. Supported for clusters v2.21+.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -116,7 +121,7 @@ class TestPodsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        revision_id = 'revision_id_example'   # str | The  Universally Unique Identifier (UUID) of the revision.
+        revision_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')   # UUID | The  Universally Unique Identifier (UUID) of the revision.
         deleted = True   # bool | Return only deleted resources when `true`.
 
         # Make request
@@ -150,7 +155,7 @@ class TestPodsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        revision_id = 'revision_id_example' 
+        revision_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') 
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -174,8 +179,8 @@ class TestPodsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = 'workload_id_example'   # str | The  Universally Unique Identifier (UUID) of the workload.
-        pod_id = 'pod_id_example'   # str | The requested pod id.
+        workload_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')   # UUID | The  Universally Unique Identifier (UUID) of the workload.
+        pod_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')   # UUID | The requested pod id.
         metric_type = [runai.PodMetricType()]   # List[PodMetricType] | Specify which metric data to request. Advanced GPU metrics are only supported if the 'Advanced GPU Metrics' feature flag in the settings is enabled.
         start = '2023-06-06T12:09:18.211Z'   # datetime | Start date of time range to fetch data in ISO 8601 timestamp format.
         end = '2023-06-07T12:09:18.211Z'   # datetime | End date of time range to fetch data in ISO 8601 timestamp format.
@@ -222,8 +227,8 @@ class TestPodsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = 'workload_id_example' 
-        pod_id = 'pod_id_example' 
+        workload_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') 
+        pod_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') 
         metric_type = [runai.PodMetricType()] 
         start = '2023-06-06T12:09:18.211Z' 
         end = '2023-06-07T12:09:18.211Z' 
@@ -254,15 +259,21 @@ class TestPodsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = 'workload_id_example'   # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')   # UUID | The  Universally Unique Identifier (UUID) of the workload.
         deleted = True   # bool | Return only deleted resources when `true`.
         offset = 100   # int | The offset of the first item returned in the collection.
         limit = 50   # int | The maximum number of entries to return.
         search = 'test project'   # str | Filter results by a free text search.
+        sort_order = asc   # str | Sort results in descending or ascending order.
+        sort_by = 'sort_by_example'   # str | Sort results using a parameter.
+        filter_by = ['[\"nodeName!=some-node-name\"]']   # List[str] | Filter results using a parameter. Use the format field-name operator value. Operators are `==` Equals, `!=` Not equals, `<=` Less than or equal, `>=` Greater than or equal, `=@` contains, `!@` Does not contains, `=^` Starts with and `=$` Ends with. Dates are in ISO 8601 timestamp format and available for operators `==`, `!=`, `<=` and `>=`.
 
         # Make request
         response = self.api.get_workload_pods(
             workload_id=workload_id,
+            
+            
+            
             
             
             
@@ -285,6 +296,12 @@ class TestPodsApi:
         assert "limit=" in kwargs["url"]
         # Verify query parameters
         assert "search=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
 
 
 
@@ -300,12 +317,15 @@ class TestPodsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = 'workload_id_example' 
+        workload_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') 
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_workload_pods(
                 workload_id=workload_id,
+                
+                
+                
                 
                 
                 

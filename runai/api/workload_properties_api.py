@@ -52,7 +52,7 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
     def delete_workload_type(
         self,
-        workload_type_id: str,
+        workload_type_id: UUID,
     ):
         r"""
 
@@ -62,14 +62,14 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_type_id: str
+        workload_type_id: UUID
         ```
         workload_type_id: The unique identifier of the workload type.
 
         ### Example:
         ```python
         WorkloadPropertiesApi(
-            workload_type_id='workload_type_id_example'
+            workload_type_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -83,7 +83,7 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
     def get_category_by_id(
         self,
-        category_id: str,
+        category_id: UUID,
     ):
         r"""
 
@@ -93,14 +93,14 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        category_id: str
+        category_id: UUID
         ```
         category_id: The unique identifier of the workload category.
 
         ### Example:
         ```python
         WorkloadPropertiesApi(
-            category_id='category_id_example'
+            category_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -158,7 +158,7 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
     def get_workload_type(
         self,
-        workload_type_id: str,
+        workload_type_id: UUID,
     ):
         r"""
 
@@ -168,14 +168,14 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_type_id: str
+        workload_type_id: UUID
         ```
         workload_type_id: The unique identifier of the workload type.
 
         ### Example:
         ```python
         WorkloadPropertiesApi(
-            workload_type_id='workload_type_id_example'
+            workload_type_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -256,7 +256,7 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
     def update_workload_type(
         self,
-        workload_type_id: str,
+        workload_type_id: UUID,
         workload_type_update_fields: models.WorkloadTypeUpdateFields,
     ):
         r"""
@@ -267,7 +267,7 @@ class WorkloadPropertiesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_type_id: str
+        workload_type_id: UUID
         workload_type_update_fields: WorkloadTypeUpdateFields
         ```
         workload_type_id: The unique identifier of the workload type.
@@ -276,7 +276,7 @@ class WorkloadPropertiesApi(RunaiAPIService):
         ### Example:
         ```python
         WorkloadPropertiesApi(
-            workload_type_id='workload_type_id_example',
+            workload_type_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         workload_type_update_fields=runai.WorkloadTypeUpdateFields()
         )
         ```

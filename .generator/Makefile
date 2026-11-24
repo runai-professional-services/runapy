@@ -2,7 +2,7 @@ generator:=python
 package_name:=runai
 client_dir:=../
 templates_config_dir:=./templates/config.yaml
-swagger_file:=swagger.json
+swagger_file:=swagger.yaml
 current_package_version := $(shell grep 'packageVersion:' $(templates_config_dir) | awk '{print $$2}')
 
 OS := $(shell uname)

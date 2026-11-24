@@ -15,7 +15,73 @@ class RolesApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
-    def get_role_v1(
+    def create_role(
+        self,
+        role_creation_fields_internal: models.RoleCreationFieldsInternal,
+    ):
+        r"""
+
+
+        ### Description
+        Create a role.
+
+        ### Parameters:
+        ```python
+        role_creation_fields_internal: RoleCreationFieldsInternal
+        ```
+        role_creation_fields_internal: The role to create.
+
+        ### Example:
+        ```python
+        RolesApi(
+            role_creation_fields_internal=runai.RoleCreationFieldsInternal()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = role_creation_fields_internal
+
+        resource_path = f"/api/v2/authorization/roles".replace("_", "-")
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def delete_role(
+        self,
+        role_id_path: int,
+    ):
+        r"""
+
+
+        ### Description
+        Delete a role by id.
+
+        ### Parameters:
+        ```python
+        role_id_path: int
+        ```
+        role_id_path: The ID of the role
+
+        ### Example:
+        ```python
+        RolesApi(
+            role_id_path=32
+        )
+        ```
+        """
+
+        resource_path = f"/api/v2/authorization/roles/{role_id_path}".replace("_", "-")
+        method = "DELETE"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_role(
         self,
         role_id_path: int,
     ):
@@ -29,7 +95,39 @@ class RolesApi(RunaiAPIService):
         ```python
         role_id_path: int
         ```
-        role_id_path: The id of the role to retrieve
+        role_id_path: The ID of the role
+
+        ### Example:
+        ```python
+        RolesApi(
+            role_id_path=32
+        )
+        ```
+        """
+
+        resource_path = f"/api/v2/authorization/roles/{role_id_path}".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    @deprecated_message()
+    def get_role_v1(
+        self,
+        role_id_path: int,
+    ):
+        r"""
+        ## Deprecated endpoint, consider alternative method
+
+        ### Description
+        Get a role by id.
+
+        ### Parameters:
+        ```python
+        role_id_path: int
+        ```
+        role_id_path: The ID of the role
 
         ### Example:
         ```python
@@ -46,11 +144,71 @@ class RolesApi(RunaiAPIService):
             method=method,
         )
 
+    def get_roles(
+        self,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+        sort_order: Optional[str] = None,
+        sort_by: Optional[models.RolesSortFilterFields] = None,
+        filter_by: Optional[List[str]] = None,
+        search: Optional[str] = None,
+    ):
+        r"""
+
+
+        ### Description
+        Get a list of roles.
+
+        ### Parameters:
+        ```python
+        limit: Optional[int]
+        offset: Optional[int]
+        sort_order: Optional[str]
+        sort_by: Optional[models.RolesSortFilterFields]
+        filter_by: Optional[List[str]]
+        search: Optional[str]
+        ```
+        limit: The maximum number of entries to return. - Default: 50
+        offset: The offset of the first item returned in the collection.
+        sort_order: Sort results in descending or ascending order. - Default: asc
+        sort_by: Sort results by a parameter.
+        filter_by: Filter results by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal, &#x3D;@ contains, !@ Does not contains, &#x3D;^ Starts with and &#x3D;$ Ends with. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        search: Filter results by a free text search.
+
+        ### Example:
+        ```python
+        RolesApi(
+            limit=50,
+                        offset=100,
+                        sort_order=asc,
+                        sort_by=runai.RolesSortFilterFields(),
+                        filter_by=['[\"name!=some-access-rule-name\",\"createdAt>=2023-01-01T00:00:00Z\"]'],
+                        search='test project'
+        )
+        ```
+        """
+
+        # Query params:
+        query_params = [
+            ("limit", limit),
+            ("offset", offset),
+            ("sortOrder", sort_order),
+            ("sortBy", sort_by),
+            ("filterBy", filter_by),
+            ("search", search),
+        ]
+        resource_path = f"/api/v2/authorization/roles".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path, method=method, query_params=query_params
+        )
+
+    @deprecated_message()
     def get_roles_v1(
         self,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get a list of roles.
@@ -72,4 +230,125 @@ class RolesApi(RunaiAPIService):
         return self._api_client.call_api(
             resource_path=resource_path,
             method=method,
+        )
+
+    def role_disable(
+        self,
+        role_id_path: int,
+        body: object,
+    ):
+        r"""
+
+
+        ### Description
+        Disable a role by id.
+
+        ### Parameters:
+        ```python
+        role_id_path: int
+        body: object
+        ```
+        role_id_path: The ID of the role
+        body: See model object for more information.
+
+        ### Example:
+        ```python
+        RolesApi(
+            role_id_path=32,
+                        body=None
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = body
+
+        resource_path = f"/api/v2/authorization/roles/{role_id_path}/disable".replace(
+            "_", "-"
+        )
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def role_enable(
+        self,
+        role_id_path: int,
+        body: object,
+    ):
+        r"""
+
+
+        ### Description
+        Enable a role by id.
+
+        ### Parameters:
+        ```python
+        role_id_path: int
+        body: object
+        ```
+        role_id_path: The ID of the role
+        body: See model object for more information.
+
+        ### Example:
+        ```python
+        RolesApi(
+            role_id_path=32,
+                        body=None
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = body
+
+        resource_path = f"/api/v2/authorization/roles/{role_id_path}/enable".replace(
+            "_", "-"
+        )
+        method = "POST"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
+        )
+
+    def update_role(
+        self,
+        role_id_path: int,
+        role_creation_fields_internal: models.RoleCreationFieldsInternal,
+    ):
+        r"""
+
+
+        ### Description
+        Update a role by id.
+
+        ### Parameters:
+        ```python
+        role_id_path: int
+        role_creation_fields_internal: RoleCreationFieldsInternal
+        ```
+        role_id_path: The ID of the role
+        role_creation_fields_internal: See model RoleCreationFieldsInternal for more information.
+
+        ### Example:
+        ```python
+        RolesApi(
+            role_id_path=32,
+                        role_creation_fields_internal=runai.RoleCreationFieldsInternal()
+        )
+        ```
+        """
+
+        # Body params:
+        body_params = role_creation_fields_internal
+
+        resource_path = f"/api/v2/authorization/roles/{role_id_path}".replace("_", "-")
+        method = "PUT"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+            body=body_params,
         )

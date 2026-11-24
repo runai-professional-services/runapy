@@ -17,7 +17,7 @@ class StorageClassesApi(RunaiAPIService):
 
     def get_storage_classes(
         self,
-        cluster_id: str,
+        cluster_id: UUID,
         name: Optional[str] = None,
         include_none: Optional[bool] = None,
     ):
@@ -29,7 +29,7 @@ class StorageClassesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         name: Optional[str]
         include_none: Optional[bool]
         ```
@@ -40,7 +40,7 @@ class StorageClassesApi(RunaiAPIService):
         ### Example:
         ```python
         StorageClassesApi(
-            cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+            cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         name='name_example',
                         include_none=True
         )
@@ -61,7 +61,7 @@ class StorageClassesApi(RunaiAPIService):
 
     def get_storage_classes_v2(
         self,
-        cluster_id: str,
+        cluster_id: UUID,
         name: Optional[str] = None,
         include_none: Optional[bool] = None,
     ):
@@ -73,7 +73,7 @@ class StorageClassesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         name: Optional[str]
         include_none: Optional[bool]
         ```
@@ -84,7 +84,7 @@ class StorageClassesApi(RunaiAPIService):
         ### Example:
         ```python
         StorageClassesApi(
-            cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+            cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         name='name_example',
                         include_none=True
         )
@@ -106,7 +106,7 @@ class StorageClassesApi(RunaiAPIService):
     @deprecated_message()
     def v1_get_storage_classes(
         self,
-        uuid: str,
+        uuid: UUID,
         include_none: Optional[bool] = None,
     ):
         r"""
@@ -117,7 +117,7 @@ class StorageClassesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        uuid: str
+        uuid: UUID
         include_none: Optional[bool]
         ```
         uuid: Unique identifier of the cluster
@@ -126,7 +126,7 @@ class StorageClassesApi(RunaiAPIService):
         ### Example:
         ```python
         StorageClassesApi(
-            uuid='uuid_example',
+            uuid=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         include_none=True
         )
         ```

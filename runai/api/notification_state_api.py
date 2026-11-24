@@ -15,11 +15,12 @@ class NotificationStateApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    @deprecated_message()
     def get_notification_state(
         self,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get notification state
@@ -43,12 +44,13 @@ class NotificationStateApi(RunaiAPIService):
             method=method,
         )
 
+    @deprecated_message()
     def update_notification_state(
         self,
         notification_state: Optional[models.NotificationState] = None,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Update notification state

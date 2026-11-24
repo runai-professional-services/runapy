@@ -101,7 +101,9 @@ class TestWorkloadPropertiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_type_id = "workload_type_id_example"  # str | The unique identifier of the workload type.
+        workload_type_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier of the workload type.
 
         # Make request
         self.api.delete_workload_type(
@@ -125,7 +127,7 @@ class TestWorkloadPropertiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_type_id = "workload_type_id_example"
+        workload_type_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -146,7 +148,9 @@ class TestWorkloadPropertiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        category_id = "category_id_example"  # str | The unique identifier of the workload category.
+        category_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier of the workload category.
 
         # Make request
         response = self.api.get_category_by_id(
@@ -173,7 +177,7 @@ class TestWorkloadPropertiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        category_id = "category_id_example"
+        category_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -248,7 +252,9 @@ class TestWorkloadPropertiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_type_id = "workload_type_id_example"  # str | The unique identifier of the workload type.
+        workload_type_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier of the workload type.
 
         # Make request
         response = self.api.get_workload_type(
@@ -275,7 +281,7 @@ class TestWorkloadPropertiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_type_id = "workload_type_id_example"
+        workload_type_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -389,7 +395,9 @@ class TestWorkloadPropertiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_type_id = "workload_type_id_example"  # str | The unique identifier of the workload type.
+        workload_type_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The unique identifier of the workload type.
         workload_type_update_fields = (
             runai.WorkloadTypeUpdateFields()
         )  # WorkloadTypeUpdateFields | Workload type to update.
@@ -423,7 +431,7 @@ class TestWorkloadPropertiesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_type_id = "workload_type_id_example"
+        workload_type_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         workload_type_update_fields = runai.WorkloadTypeUpdateFields()
 
         # Verify error handling

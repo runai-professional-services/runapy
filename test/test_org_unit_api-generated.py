@@ -39,7 +39,7 @@ class TestOrgUnitApi:
     def test_get_priorities(self):
         """Test case for get_priorities
 
-        Get priorities Get priorities
+        Get priorities Get priorities. Deprecated: use Get Ranks instead.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -76,4 +76,46 @@ class TestOrgUnitApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_priorities()
+        assert exc_info.value.status == 400
+
+    def test_get_ranks(self):
+        """Test case for get_ranks
+
+        Get ranks Get ranks.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Make request
+        response = self.api.get_ranks()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/org-unit/ranks" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetRanks200Response)
+
+    def test_get_ranks_error(self):
+        """Test error handling for get_ranks"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_ranks()
         assert exc_info.value.status == 400

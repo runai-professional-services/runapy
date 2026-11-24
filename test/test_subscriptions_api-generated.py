@@ -127,10 +127,10 @@ class TestSubscriptionsApi:
             )
         assert exc_info.value.status == 400
 
-    def test_get_my_subscriptions(self):
-        """Test case for get_my_subscriptions
+    def test_get_user_subscriptions(self):
+        """Test case for get_user_subscriptions
 
-        Get current users subscriptions Get current users subscriptions
+        Get user subscriptions Get user subscriptions
         """
         # Mock response
         mock_response = mock.Mock()
@@ -141,7 +141,7 @@ class TestSubscriptionsApi:
         # Test parameters
 
         # Make request
-        response = self.api.get_my_subscriptions()
+        response = self.api.get_user_subscriptions()
 
         # Verify request was made
         assert self.mock_request.called
@@ -154,8 +154,8 @@ class TestSubscriptionsApi:
         # Verify response
         assert isinstance(response, List[Subscription])
 
-    def test_get_my_subscriptions_error(self):
-        """Test error handling for get_my_subscriptions"""
+    def test_get_user_subscriptions_error(self):
+        """Test error handling for get_user_subscriptions"""
         # Mock error response
         mock_response = mock.Mock()
         mock_response.status = 400
@@ -166,7 +166,7 @@ class TestSubscriptionsApi:
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
-            self.api.get_my_subscriptions()
+            self.api.get_user_subscriptions()
         assert exc_info.value.status == 400
 
     def test_update_subscription(self):

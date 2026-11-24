@@ -56,7 +56,7 @@ class TemplateApi(RunaiAPIService):
     @deprecated_message()
     def delete_template_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
         ## Deprecated endpoint, consider alternative method
@@ -66,14 +66,14 @@ class TemplateApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         TemplateApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -88,7 +88,7 @@ class TemplateApi(RunaiAPIService):
     @deprecated_message()
     def get_template_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
         ## Deprecated endpoint, consider alternative method
@@ -98,14 +98,14 @@ class TemplateApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         TemplateApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -124,11 +124,12 @@ class TemplateApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         distributed_framework: Optional[str] = None,
         is_distributed: Optional[bool] = None,
         is_training: Optional[bool] = None,
         is_workspace: Optional[bool] = None,
+        is_distributed_inference: Optional[bool] = None,
     ):
         r"""
         ## Deprecated endpoint, consider alternative method
@@ -142,11 +143,12 @@ class TemplateApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         distributed_framework: Optional[str]
         is_distributed: Optional[bool]
         is_training: Optional[bool]
         is_workspace: Optional[bool]
+        is_distributed_inference: Optional[bool]
         ```
         name: Filter results by name.
         scope: Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
@@ -157,6 +159,7 @@ class TemplateApi(RunaiAPIService):
         is_distributed: Filter results to workload of type distributed.
         is_training: Filter results to workload of type training.
         is_workspace: Filter results to workload of type workspace.
+        is_distributed_inference: Filter results to workload of type distributed inference.
 
         ### Example:
         ```python
@@ -165,11 +168,12 @@ class TemplateApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         distributed_framework='distributed_framework_example',
                         is_distributed=True,
                         is_training=True,
-                        is_workspace=True
+                        is_workspace=True,
+                        is_distributed_inference=True
         )
         ```
         """
@@ -185,6 +189,7 @@ class TemplateApi(RunaiAPIService):
             ("isDistributed", is_distributed),
             ("isTraining", is_training),
             ("isWorkspace", is_workspace),
+            ("isDistributedInference", is_distributed_inference),
         ]
         resource_path = f"/api/v1/asset/workload_template".replace("_", "-")
         method = "GET"
@@ -195,7 +200,7 @@ class TemplateApi(RunaiAPIService):
     @deprecated_message()
     def update_template(
         self,
-        asset_id: str,
+        asset_id: UUID,
         workload_template_update_request: Optional[
             models.WorkloadTemplateUpdateRequest
         ] = None,
@@ -208,7 +213,7 @@ class TemplateApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         workload_template_update_request: WorkloadTemplateUpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -217,7 +222,7 @@ class TemplateApi(RunaiAPIService):
         ### Example:
         ```python
         TemplateApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         workload_template_update_request=runai.WorkloadTemplateUpdateRequest()
         )
         ```

@@ -46,7 +46,7 @@ def example_grant_token():
     Example of using grant_token
 
     Create an access token v1
-    Create tokens using the &#x60;grant_type&#x60; parameter.
+    Create tokens using the &#x60;grant_type&#x60; parameter. This endpoint is deprecated. Use &#x60;/api/v2/token&#x60; instead.
     """
     try:
         # Prepare the request parameters
@@ -95,11 +95,7 @@ def example_grant_token_v2():
 
         password = "example_password"
 
-        refresh_token = "example_refresh_token"
-
-        code = "example_code"
-
-        redirect_uri = "example_redirect_uri"
+        external_token = "example_external_token"
 
         # Make the API call
         api_response = api_instance.grant_token_v2(
@@ -108,9 +104,7 @@ def example_grant_token_v2():
             client_secret=client_secret,
             username=username,
             password=password,
-            refresh_token=refresh_token,
-            code=code,
-            redirect_uri=redirect_uri,
+            external_token=external_token,
         )
         print(f"API response: {api_response}")
 

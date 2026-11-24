@@ -85,7 +85,7 @@ class TestTokensApi:
     def test_grant_token(self):
         """Test case for grant_token
 
-        Create an access token v1 Create tokens using the &#x60;grant_type&#x60; parameter.
+        Create an access token v1 Create tokens using the &#x60;grant_type&#x60; parameter. This endpoint is deprecated. Use &#x60;/api/v2/token&#x60; instead.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -144,16 +144,12 @@ class TestTokensApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        grant_type = "grant_type_example"  # str | The OAuth2 grant type that determines how the token will be issued.
-        client_id = "client_id_example"  # str | OAuth2 client identifier
-        client_secret = "client_secret_example"  # str | OAuth2 client secret
-        username = (
-            "username_example"  # str | Resource owner username (for password grant)
-        )
-        password = "password_example"  # str | The password of the resource owner. Required only when using the password grant type.
-        refresh_token = "refresh_token_example"  # str | The refresh token used to obtain a new access token. Required only when using the refresh_token grant type.
-        code = "code_example"  # str | Authorization code issued by the authorization server. Used in the authorization_code grant to exchange the code for an access token.
-        redirect_uri = "redirect_uri_example"  # str | The redirect URI used during the authorization request. Required for the authorization_code grant to validate the redirect destination.
+        grant_type = "grant_type_example"  # str | The OAuth2 grant type. Determines the authentication flow and which parameters are required:  `client_credentials` - Authenticate as a service account or user access key using clientId and clientSecret.  `password` - Authenticate as a local user using username and password.  `external_token_exchange` - Authenticate as a service account or user using a token issued by the configured identity provider (IdP) for a Run:ai token. Requires externalToken.
+        client_id = "client_id_example"  # str | The client identifier for a service account or user access key. Required when using the client_credentials grant type. Must be used together with clientSecret.
+        client_secret = "client_secret_example"  # str | The client secret corresponding to the clientId. Required when using the client_credentials grant type. Must be used together with clientId.
+        username = "username_example"  # str | The username of a local user account. Required when using the password grant type. Must be used together with password.
+        password = "password_example"  # str | The password for the specified username. Required when using the password grant type. Must be used together with username.
+        external_token = "external_token_example"  # str | A valid token issued by the identity provider (IdP) that is configured in NVIDIA Run:ai. Required when using the external_token_exchange grant type.
 
         # Make request
         response = self.api.grant_token_v2(

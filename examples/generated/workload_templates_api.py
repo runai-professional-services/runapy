@@ -72,7 +72,7 @@ def example_create_inference_template():
     """
     Example of using create_inference_template
 
-    Create a new inference template. [Experimental]
+    Create a new inference template.
     Create a new inference template.
     """
     try:
@@ -161,7 +161,7 @@ def example_delete_inference_template():
     """
     Example of using delete_inference_template
 
-    Delete an inference template by ID. [Experimental]
+    Delete an inference template by ID.
     Delete an inference template by ID.
     """
     try:
@@ -242,7 +242,7 @@ def example_get_inference_template():
     """
     Example of using get_inference_template
 
-    Get a specific inference template by ID. [Experimental]
+    Get a specific inference template by ID.
     Get a specific inference template by ID.
     """
     try:
@@ -369,7 +369,7 @@ def example_list_inference_templates():
     """
     Example of using list_inference_templates
 
-    List all inference templates. [Experimental]
+    List all inference templates.
     List all inference templates.
     """
     try:

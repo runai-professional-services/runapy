@@ -52,7 +52,7 @@ class NetworkTopologiesApi(RunaiAPIService):
 
     def delete_network_topology(
         self,
-        network_topology_id: str,
+        network_topology_id: UUID,
     ):
         r"""
 
@@ -62,14 +62,14 @@ class NetworkTopologiesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        network_topology_id: str
+        network_topology_id: UUID
         ```
         network_topology_id: The unique identifier for the network topology
 
         ### Example:
         ```python
         NetworkTopologiesApi(
-            network_topology_id='123e4567-e89b-12d3-a456-426614174000'
+            network_topology_id=UUID('123e4567-e89b-12d3-a456-426614174000')
         )
         ```
         """
@@ -153,7 +153,7 @@ class NetworkTopologiesApi(RunaiAPIService):
 
     def get_network_topology_by_id(
         self,
-        network_topology_id: str,
+        network_topology_id: UUID,
     ):
         r"""
 
@@ -163,14 +163,14 @@ class NetworkTopologiesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        network_topology_id: str
+        network_topology_id: UUID
         ```
         network_topology_id: The unique identifier for the network topology
 
         ### Example:
         ```python
         NetworkTopologiesApi(
-            network_topology_id='123e4567-e89b-12d3-a456-426614174000'
+            network_topology_id=UUID('123e4567-e89b-12d3-a456-426614174000')
         )
         ```
         """

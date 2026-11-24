@@ -15,11 +15,12 @@ class OrgUnitApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    @deprecated_message()
     def get_priorities(
         self,
     ):
         r"""
-
+        ## Deprecated endpoint, consider alternative method
 
         ### Description
         Get priorities
@@ -37,6 +38,34 @@ class OrgUnitApi(RunaiAPIService):
         """
 
         resource_path = f"/api/v1/org_unit/priorities".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_ranks(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get ranks
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        OrgUnitApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/org_unit/ranks".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path,

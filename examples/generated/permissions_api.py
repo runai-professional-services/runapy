@@ -18,6 +18,43 @@ api_client = ApiClient(configuration)
 api_instance = PermissionsApi(api_client)
 
 
+def example_get_permission_set():
+    """
+    Example of using get_permission_set
+
+    Get permission set by id.
+    Returns information about a single permission set, including its name, description, and the list of permissions it contains.
+    """
+    try:
+        # Prepare the request parameters
+        permission_set_id = "example_permission_set_id"
+
+        # Make the API call
+        api_response = api_instance.get_permission_set(
+            permission_set_id=permission_set_id,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_permission_set: {e}")
+
+
+def example_get_permission_sets():
+    """
+    Example of using get_permission_sets
+
+    Get permission sets.
+    Retrieve a list of all available permission sets. Each permission set defines a collection of permissions grouped by resource type and associated actions (such as create, read, update, or delete).
+    """
+    try:
+        # Make the API call with no parameters
+        api_response = api_instance.get_permission_sets()
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_permission_sets: {e}")
+
+
 def example_get_permissions():
     """
     Example of using get_permissions

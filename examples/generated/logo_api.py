@@ -45,7 +45,7 @@ def example_upload_tenant_logo():
         # Prepare the request parameters
 
         # Create example data for LogoCreationRequest
-        logo_creation_request = models.LogoCreationRequest(logo="")
+        logo_creation_request = models.LogoCreationRequest(logo="0")
 
         # Make the API call
         api_instance.upload_tenant_logo(

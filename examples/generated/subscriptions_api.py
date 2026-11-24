@@ -61,20 +61,20 @@ def example_delete_subscription():
         print(f"Exception when calling delete_subscription: {e}")
 
 
-def example_get_my_subscriptions():
+def example_get_user_subscriptions():
     """
-    Example of using get_my_subscriptions
+    Example of using get_user_subscriptions
 
-    Get current users subscriptions
-    Get current users subscriptions
+    Get user subscriptions
+    Get user subscriptions
     """
     try:
         # Make the API call with no parameters
-        api_response = api_instance.get_my_subscriptions()
+        api_response = api_instance.get_user_subscriptions()
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_my_subscriptions: {e}")
+        print(f"Exception when calling get_user_subscriptions: {e}")
 
 
 def example_update_subscription():

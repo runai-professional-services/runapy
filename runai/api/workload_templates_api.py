@@ -101,7 +101,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
 
         ### Description
-        Create a new inference template. [Experimental]
+        Create a new inference template.
 
         ### Parameters:
         ```python
@@ -204,7 +204,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def delete_distributed_template(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
@@ -214,14 +214,14 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -237,24 +237,24 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def delete_inference_template(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
 
         ### Description
-        Delete an inference template by ID. [Experimental]
+        Delete an inference template by ID.
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -270,7 +270,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def delete_training_template(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
@@ -280,14 +280,14 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -303,7 +303,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def delete_workspace_template(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
@@ -313,14 +313,14 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -336,7 +336,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def get_distributed_template(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
@@ -346,14 +346,14 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -369,24 +369,24 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def get_inference_template(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
 
         ### Description
-        Get a specific inference template by ID. [Experimental]
+        Get a specific inference template by ID.
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -402,7 +402,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def get_template_by_id1(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
@@ -412,14 +412,14 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -433,7 +433,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def get_training_template(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
@@ -443,14 +443,14 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -466,7 +466,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def get_workspace_template(
         self,
-        template_id: str,
+        template_id: UUID,
     ):
         r"""
 
@@ -476,14 +476,14 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
 
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000'
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000')
         )
         ```
         """
@@ -580,7 +580,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
 
         ### Description
-        List all inference templates. [Experimental]
+        List all inference templates.
 
         ### Parameters:
         ```python
@@ -834,7 +834,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def patch_distributed_template(
         self,
-        template_id: str,
+        template_id: UUID,
         distributed_template_patch_request: Optional[
             models.DistributedTemplatePatchRequest
         ] = None,
@@ -847,7 +847,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         distributed_template_patch_request: DistributedTemplatePatchRequest
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
@@ -856,7 +856,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000',
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000'),
                         distributed_template_patch_request=runai.DistributedTemplatePatchRequest()
         )
         ```
@@ -877,7 +877,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def patch_training_template(
         self,
-        template_id: str,
+        template_id: UUID,
         training_template_patch_request: Optional[
             models.TrainingTemplatePatchRequest
         ] = None,
@@ -890,7 +890,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         training_template_patch_request: TrainingTemplatePatchRequest
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
@@ -899,7 +899,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000',
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000'),
                         training_template_patch_request=runai.TrainingTemplatePatchRequest()
         )
         ```
@@ -920,7 +920,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def patch_workspace_template(
         self,
-        template_id: str,
+        template_id: UUID,
         workspace_template_patch_request: Optional[
             models.WorkspaceTemplatePatchRequest
         ] = None,
@@ -933,7 +933,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         workspace_template_patch_request: WorkspaceTemplatePatchRequest
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
@@ -942,7 +942,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000',
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000'),
                         workspace_template_patch_request=runai.WorkspaceTemplatePatchRequest()
         )
         ```
@@ -1009,7 +1009,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def update_distributed_template(
         self,
-        template_id: str,
+        template_id: UUID,
         distributed_template_update_request: Optional[
             models.DistributedTemplateUpdateRequest
         ] = None,
@@ -1022,7 +1022,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         distributed_template_update_request: DistributedTemplateUpdateRequest
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
@@ -1031,7 +1031,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000',
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000'),
                         distributed_template_update_request=runai.DistributedTemplateUpdateRequest()
         )
         ```
@@ -1052,7 +1052,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def update_training_template(
         self,
-        template_id: str,
+        template_id: UUID,
         training_template_update_request: Optional[
             models.TrainingTemplateUpdateRequest
         ] = None,
@@ -1065,7 +1065,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         training_template_update_request: TrainingTemplateUpdateRequest
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
@@ -1074,7 +1074,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000',
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000'),
                         training_template_update_request=runai.TrainingTemplateUpdateRequest()
         )
         ```
@@ -1095,7 +1095,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
     def update_workspace_template(
         self,
-        template_id: str,
+        template_id: UUID,
         workspace_template_update_request: Optional[
             models.WorkspaceTemplateUpdateRequest
         ] = None,
@@ -1108,7 +1108,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        template_id: str
+        template_id: UUID
         workspace_template_update_request: WorkspaceTemplateUpdateRequest
         ```
         template_id: The  Universally Unique Identifier (UUID) of the template.
@@ -1117,7 +1117,7 @@ class WorkloadTemplatesApi(RunaiAPIService):
         ### Example:
         ```python
         WorkloadTemplatesApi(
-            template_id='550e8400-e29b-41d4-a716-446655440000',
+            template_id=UUID('550e8400-e29b-41d4-a716-446655440000'),
                         workspace_template_update_request=runai.WorkspaceTemplateUpdateRequest()
         )
         ```

@@ -84,57 +84,6 @@ class TestNodePoolsApi:
             self.api.count_nodepools()
         assert exc_info.value.status == 400
 
-    def test_create_node_pool(self):
-        """Test case for create_node_pool
-
-        Create a Node Pool. Use to create a node pool in a cluster by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools instead.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"  # str | Unique identifier of the cluster
-        node_pool_create_request = (
-            runai.NodePoolCreateRequest()
-        )  # NodePoolCreateRequest |
-
-        # Make request
-        self.api.create_node_pool(
-            cluster_id=cluster_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "POST"
-        assert "/v1/k8s/clusters/{clusterId}/node-pools" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-    def test_create_node_pool_error(self):
-        """Test error handling for create_node_pool"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.create_node_pool(
-                cluster_id=cluster_id,
-            )
-        assert exc_info.value.status == 400
-
     def test_create_nodepool(self):
         """Test case for create_nodepool
 
@@ -188,55 +137,6 @@ class TestNodePoolsApi:
             )
         assert exc_info.value.status == 400
 
-    def test_delete_node_pool(self):
-        """Test case for delete_node_pool
-
-        Delete a Node Pool by id.§ Use to delete a node pool by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools/{id} instead.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"  # str | Unique identifier of the cluster
-        id = 56  # int | The unique id identifying the Node Pool.
-
-        # Make request
-        self.api.delete_node_pool(
-            cluster_id=cluster_id,
-            id=id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "DELETE"
-        assert "/v1/k8s/clusters/{clusterId}/node-pools/{id}" in kwargs["url"]
-
-    def test_delete_node_pool_error(self):
-        """Test error handling for delete_node_pool"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"
-        id = 56
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.delete_node_pool(
-                cluster_id=cluster_id,
-                id=id,
-            )
-        assert exc_info.value.status == 400
-
     def test_delete_nodepool(self):
         """Test case for delete_nodepool
 
@@ -282,54 +182,6 @@ class TestNodePoolsApi:
         with pytest.raises(ApiException) as exc_info:
             self.api.delete_nodepool(
                 nodepool_id=nodepool_id,
-            )
-        assert exc_info.value.status == 400
-
-    def test_get_node_pools(self):
-        """Test case for get_node_pools
-
-        Get the cluster's Node Pools. Retrieve all the node pools with details from the cluster by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools instead.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({"data": {}})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"  # str | Unique identifier of the cluster
-
-        # Make request
-        response = self.api.get_node_pools(
-            cluster_id=cluster_id,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "GET"
-        assert "/v1/k8s/clusters/{clusterId}/node-pools" in kwargs["url"]
-
-        # Verify response
-        assert isinstance(response, List[NodePool1])
-
-    def test_get_node_pools_error(self):
-        """Test error handling for get_node_pools"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.get_node_pools(
-                cluster_id=cluster_id,
             )
         assert exc_info.value.status == 400
 
@@ -393,7 +245,9 @@ class TestNodePoolsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"  # str | The Universally Unique Identifier (UUID) of the cluster.
+        cluster_uuid = UUID(
+            "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        )  # UUID | The Universally Unique Identifier (UUID) of the cluster.
         nodepool_name = "default"  # str | The unique nodepool name.
         start = "2023-06-06T12:09:18.211Z"  # datetime | Start date of time range to fetch data in ISO 8601 timestamp format.
         end = "2023-06-07T12:09:18.211Z"  # datetime | End date of time range to fetch data in ISO 8601 timestamp format.
@@ -445,7 +299,7 @@ class TestNodePoolsApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_uuid = "9f55255e-11ed-47c7-acef-fc4054768dbc"
+        cluster_uuid = UUID("9f55255e-11ed-47c7-acef-fc4054768dbc")
         nodepool_name = "default"
         start = "2023-06-06T12:09:18.211Z"
         end = "2023-06-07T12:09:18.211Z"
@@ -459,6 +313,54 @@ class TestNodePoolsApi:
                 start=start,
                 end=end,
                 metric_type=metric_type,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_nodepool_minimal(self):
+        """Test case for get_nodepool_minimal
+
+        Get nodepool minimal data by ID Retrieve essential data for a specific node pool by ID required for common operations (e.g., workload submission)
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        nodepool_id = "17"  # str | The unique id identifying the Node Pool.
+
+        # Make request
+        response = self.api.get_nodepool_minimal(
+            nodepool_id=nodepool_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/node-pools/{nodepoolId}/minimal" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, NodepoolMinimal)
+
+    def test_get_nodepool_minimal_error(self):
+        """Test error handling for get_nodepool_minimal"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        nodepool_id = "17"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_nodepool_minimal(
+                nodepool_id=nodepool_id,
             )
         assert exc_info.value.status == 400
 
@@ -524,6 +426,345 @@ class TestNodePoolsApi:
             self.api.get_nodepools()
         assert exc_info.value.status == 400
 
+    def test_get_nodepools_minimal(self):
+        """Test case for get_nodepools_minimal
+
+        Get nodepools minimal Retrieve essential node pool data required for common operations (e.g., workload submission)
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        filter_by = [
+            '["clusterId==d73a738f-fab3-430a-8fa3-5241493d7128"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        sort_by = (
+            runai.NodepoolMinimalSortFields()
+        )  # NodepoolMinimalSortFields | Sort results by a parameter.
+        sort_order = asc  # str | Sort results in descending or ascending order.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        limit = 50  # int | The maximum number of entries to return.
+
+        # Make request
+        response = self.api.get_nodepools_minimal()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/node-pools/minimal" in kwargs["url"]
+
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetNodepoolsMinimal200Response)
+
+    def test_get_nodepools_minimal_error(self):
+        """Test error handling for get_nodepools_minimal"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_nodepools_minimal()
+        assert exc_info.value.status == 400
+
+    def test_legacy_create_nodepool(self):
+        """Test case for legacy_create_nodepool
+
+        Create a Node Pool. Use to create a node pool in a cluster by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools instead.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the cluster
+        legacy_node_pool_create_request = (
+            runai.LegacyNodePoolCreateRequest()
+        )  # LegacyNodePoolCreateRequest |
+
+        # Make request
+        self.api.legacy_create_nodepool(
+            cluster_id=cluster_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v1/clusters/{clusterId}/node-pools" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_legacy_create_nodepool_error(self):
+        """Test error handling for legacy_create_nodepool"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.legacy_create_nodepool(
+                cluster_id=cluster_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_legacy_delete_nodepool(self):
+        """Test case for legacy_delete_nodepool
+
+        Delete a Node Pool by id. Use to delete a node pool by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools/{id} instead.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the cluster
+        nodepool_id = "17"  # str | The unique id identifying the Node Pool.
+
+        # Make request
+        self.api.legacy_delete_nodepool(
+            cluster_id=cluster_id,
+            nodepool_id=nodepool_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "DELETE"
+        assert "/api/v1/clusters/{clusterId}/node-pools/{nodepoolId}" in kwargs["url"]
+
+    def test_legacy_delete_nodepool_error(self):
+        """Test error handling for legacy_delete_nodepool"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+        nodepool_id = "17"
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.legacy_delete_nodepool(
+                cluster_id=cluster_id,
+                nodepool_id=nodepool_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_legacy_get_nodepools(self):
+        """Test case for legacy_get_nodepools
+
+        Get the cluster's Node Pools. Retrieve all the node pools with details from the cluster by Universally Unique Identifier (UUID). Deprecated, please use /api/v1/node-pools instead.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the cluster
+
+        # Make request
+        response = self.api.legacy_get_nodepools(
+            cluster_id=cluster_id,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v1/clusters/{clusterId}/node-pools" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, List[LegacyNodePool])
+
+    def test_legacy_get_nodepools_error(self):
+        """Test error handling for legacy_get_nodepools"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.legacy_get_nodepools(
+                cluster_id=cluster_id,
+            )
+        assert exc_info.value.status == 400
+
+    def test_legacy_update_nodepool(self):
+        """Test case for legacy_update_nodepool
+
+        Update a Node Pool. Use to update the details of a node pool by Universally Unique Identifier (UUID). Deprecated, please use PATCH /api/v1/node-pools/{id} instead.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the cluster
+        nodepool_id = "17"  # str | The unique id identifying the Node Pool.
+        legacy_update_node_pool_request = (
+            runai.LegacyUpdateNodePoolRequest()
+        )  # LegacyUpdateNodePoolRequest |
+
+        # Make request
+        self.api.legacy_update_nodepool(
+            cluster_id=cluster_id,
+            nodepool_id=nodepool_id,
+            legacy_update_node_pool_request=legacy_update_node_pool_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v1/clusters/{clusterId}/node-pools/{nodepoolId}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_legacy_update_nodepool_error(self):
+        """Test error handling for legacy_update_nodepool"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+        nodepool_id = "17"
+        legacy_update_node_pool_request = runai.LegacyUpdateNodePoolRequest()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.legacy_update_nodepool(
+                cluster_id=cluster_id,
+                nodepool_id=nodepool_id,
+                legacy_update_node_pool_request=legacy_update_node_pool_request,
+            )
+        assert exc_info.value.status == 400
+
+    def test_legacy_update_nodepool_labels(self):
+        """Test case for legacy_update_nodepool_labels
+
+        Update labels of a Node Pool. Use to update the labels of a node pool. Deprecated, please use PATCH /api/v1/node-pools/{id} instead.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the cluster
+        nodepool_id = "17"  # str | The unique id identifying the Node Pool.
+        legacy_node_pool_labels_request = (
+            runai.LegacyNodePoolLabelsRequest()
+        )  # LegacyNodePoolLabelsRequest |
+
+        # Make request
+        self.api.legacy_update_nodepool_labels(
+            cluster_id=cluster_id,
+            nodepool_id=nodepool_id,
+            legacy_node_pool_labels_request=legacy_node_pool_labels_request,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert (
+            "/api/v1/clusters/{clusterId}/node-pools/{nodepoolId}/labels"
+            in kwargs["url"]
+        )
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_legacy_update_nodepool_labels_error(self):
+        """Test error handling for legacy_update_nodepool_labels"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        cluster_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+        nodepool_id = "17"
+        legacy_node_pool_labels_request = runai.LegacyNodePoolLabelsRequest()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.legacy_update_nodepool_labels(
+                cluster_id=cluster_id,
+                nodepool_id=nodepool_id,
+                legacy_node_pool_labels_request=legacy_node_pool_labels_request,
+            )
+        assert exc_info.value.status == 400
+
     def test_patch_nodepool(self):
         """Test case for patch_nodepool
 
@@ -578,122 +819,6 @@ class TestNodePoolsApi:
             self.api.patch_nodepool(
                 nodepool_id=nodepool_id,
                 nodepool_update_fields=nodepool_update_fields,
-            )
-        assert exc_info.value.status == 400
-
-    def test_update_node_pool(self):
-        """Test case for update_node_pool
-
-        Update a Node Pool. Use to update the details of a node pool by Universally Unique Identifier (UUID). Deprecated, please use PATCH /api/v1/node-pools/{id} instead.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"  # str | Unique identifier of the cluster
-        id = 56  # int | The unique id identifying the Node Pool.
-        update_node_pool_request = (
-            runai.UpdateNodePoolRequest()
-        )  # UpdateNodePoolRequest |
-
-        # Make request
-        self.api.update_node_pool(
-            cluster_id=cluster_id,
-            id=id,
-            update_node_pool_request=update_node_pool_request,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "PUT"
-        assert "/v1/k8s/clusters/{clusterId}/node-pools/{id}" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-    def test_update_node_pool_error(self):
-        """Test error handling for update_node_pool"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"
-        id = 56
-        update_node_pool_request = runai.UpdateNodePoolRequest()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.update_node_pool(
-                cluster_id=cluster_id,
-                id=id,
-                update_node_pool_request=update_node_pool_request,
-            )
-        assert exc_info.value.status == 400
-
-    def test_update_node_pool_labels(self):
-        """Test case for update_node_pool_labels
-
-        Update labels of a Node Pool. Use to update the labels of a node pool. Deprecated, please use PATCH /api/v1/node-pools/{id} instead.
-        """
-        # Mock response
-        mock_response = mock.Mock()
-        mock_response.status = 200
-        mock_response.read.return_value = json.dumps({})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"  # str | Unique identifier of the cluster
-        id = 56  # int | The unique id identifying the Node Pool.
-        node_pool_labels_request = (
-            runai.NodePoolLabelsRequest()
-        )  # NodePoolLabelsRequest |
-
-        # Make request
-        self.api.update_node_pool_labels(
-            cluster_id=cluster_id,
-            id=id,
-            node_pool_labels_request=node_pool_labels_request,
-        )
-
-        # Verify request was made
-        assert self.mock_request.called
-        args, kwargs = self.mock_request.call_args
-
-        # Verify request method and URL
-        assert kwargs["method"] == "PUT"
-        assert "/v1/k8s/clusters/{clusterId}/node-pools/{id}/labels" in kwargs["url"]
-
-        # Verify body
-        assert kwargs["body"] is not None
-
-    def test_update_node_pool_labels_error(self):
-        """Test error handling for update_node_pool_labels"""
-        # Mock error response
-        mock_response = mock.Mock()
-        mock_response.status = 400
-        mock_response.read.return_value = json.dumps({"message": "Error message"})
-        self.mock_request.return_value = mock_response
-
-        # Test parameters
-        cluster_id = "cluster_id_example"
-        id = 56
-        node_pool_labels_request = runai.NodePoolLabelsRequest()
-
-        # Verify error handling
-        with pytest.raises(ApiException) as exc_info:
-            self.api.update_node_pool_labels(
-                cluster_id=cluster_id,
-                id=id,
-                node_pool_labels_request=node_pool_labels_request,
             )
         assert exc_info.value.status == 400
 

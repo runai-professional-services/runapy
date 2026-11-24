@@ -17,7 +17,7 @@ class EventsApi(RunaiAPIService):
 
     def get_revision_events(
         self,
-        revision_id: str,
+        revision_id: UUID,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
         sort_order: Optional[str] = None,
@@ -26,11 +26,11 @@ class EventsApi(RunaiAPIService):
 
 
         ### Description
-        Get revision events by id. [Experimental]
+        Get revision events by id.
 
         ### Parameters:
         ```python
-        revision_id: str
+        revision_id: UUID
         offset: Optional[int]
         limit: Optional[int]
         sort_order: Optional[str]
@@ -43,7 +43,7 @@ class EventsApi(RunaiAPIService):
         ### Example:
         ```python
         EventsApi(
-            revision_id='revision_id_example',
+            revision_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         offset=100,
                         limit=50,
                         sort_order=desc
@@ -69,7 +69,7 @@ class EventsApi(RunaiAPIService):
 
     def get_revision_history(
         self,
-        revision_id: str,
+        revision_id: UUID,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
     ):
@@ -77,11 +77,11 @@ class EventsApi(RunaiAPIService):
 
 
         ### Description
-        Get the revision history. [Experimental]
+        Get the revision history.
 
         ### Parameters:
         ```python
-        revision_id: str
+        revision_id: UUID
         offset: Optional[int]
         limit: Optional[int]
         ```
@@ -92,7 +92,7 @@ class EventsApi(RunaiAPIService):
         ### Example:
         ```python
         EventsApi(
-            revision_id='revision_id_example',
+            revision_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         offset=100,
                         limit=50
         )
@@ -116,7 +116,7 @@ class EventsApi(RunaiAPIService):
 
     def get_workload_events(
         self,
-        workload_id: str,
+        workload_id: UUID,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
         sort_order: Optional[str] = None,
@@ -129,7 +129,7 @@ class EventsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         offset: Optional[int]
         limit: Optional[int]
         sort_order: Optional[str]
@@ -142,7 +142,7 @@ class EventsApi(RunaiAPIService):
         ### Example:
         ```python
         EventsApi(
-            workload_id='workload_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         offset=100,
                         limit=50,
                         sort_order=desc
@@ -164,7 +164,7 @@ class EventsApi(RunaiAPIService):
 
     def get_workload_history(
         self,
-        workload_id: str,
+        workload_id: UUID,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
     ):
@@ -176,7 +176,7 @@ class EventsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         offset: Optional[int]
         limit: Optional[int]
         ```
@@ -187,7 +187,7 @@ class EventsApi(RunaiAPIService):
         ### Example:
         ```python
         EventsApi(
-            workload_id='workload_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         offset=100,
                         limit=50
         )

@@ -36,10 +36,10 @@ class TestRolesApi:
         yield
         self.request_patcher.stop()
 
-    def test_get_role_v1(self):
-        """Test case for get_role_v1
+    def test_create_role(self):
+        """Test case for create_role
 
-        Get a role by id. Retrieve the details of a role by id.
+        Create a role. Creates a custom role with the specified permission sets.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -48,7 +48,153 @@ class TestRolesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        role_id_path = 32  # int | The id of the role to retrieve
+        role_creation_fields_internal = (
+            runai.RoleCreationFieldsInternal()
+        )  # RoleCreationFieldsInternal | The role to create.
+
+        # Make request
+        response = self.api.create_role(
+            role_creation_fields_internal=role_creation_fields_internal,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v2/authorization/roles" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, Role)
+
+    def test_create_role_error(self):
+        """Test error handling for create_role"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_creation_fields_internal = runai.RoleCreationFieldsInternal()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.create_role(
+                role_creation_fields_internal=role_creation_fields_internal,
+            )
+        assert exc_info.value.status == 400
+
+    def test_delete_role(self):
+        """Test case for delete_role
+
+        Delete a role by id. Deletes a custom role. Use this endpoint to permanently remove roles that are no longer needed. NVIDIA Run:ai predefined roles cannot be deleted.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32  # int | The ID of the role
+
+        # Make request
+        self.api.delete_role(
+            role_id_path=role_id_path,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "DELETE"
+        assert "/api/v2/authorization/roles/{roleIdPath}" in kwargs["url"]
+
+    def test_delete_role_error(self):
+        """Test error handling for delete_role"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.delete_role(
+                role_id_path=role_id_path,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_role(self):
+        """Test case for get_role
+
+        Get a role by id. Retrieves details for a specific role, including its name, description, scope, and associated permission sets.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32  # int | The ID of the role
+
+        # Make request
+        response = self.api.get_role(
+            role_id_path=role_id_path,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v2/authorization/roles/{roleIdPath}" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, Role)
+
+    def test_get_role_error(self):
+        """Test error handling for get_role"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_role(
+                role_id_path=role_id_path,
+            )
+        assert exc_info.value.status == 400
+
+    def test_get_role_v1(self):
+        """Test case for get_role_v1
+
+        Get a role by id. Retrieve the details of a role by id. This endpoint is deprecated and will be removed in a future release. Use GET /api/v2/authorization/roles/{roleIdPath} instead.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32  # int | The ID of the role
 
         # Make request
         response = self.api.get_role_v1(
@@ -84,10 +230,75 @@ class TestRolesApi:
             )
         assert exc_info.value.status == 400
 
+    def test_get_roles(self):
+        """Test case for get_roles
+
+        Get a list of roles. Retrieves a list of all available roles, including both NVIDIA Run:ai predefined roles and custom roles. Use this endpoint to review role configurations, permission sets and permissions.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        limit = 50  # int | The maximum number of entries to return.
+        offset = 100  # int | The offset of the first item returned in the collection.
+        sort_order = asc  # str | Sort results in descending or ascending order.
+        sort_by = (
+            runai.RolesSortFilterFields()
+        )  # RolesSortFilterFields | Sort results by a parameter.
+        filter_by = [
+            '["name!=some-access-rule-name","createdAt>=2023-01-01T00:00:00Z"]'
+        ]  # List[str] | Filter results by a parameter. Use the format field-name operator value. Operators are == Equals, != Not equals, <= Less than or equal, >= Greater than or equal, =@ contains, !@ Does not contains, =^ Starts with and =$ Ends with. Dates are in ISO 8601 timestamp format and available for operators == None, != None, <= and >=.
+        search = "test project"  # str | Filter results by a free text search.
+
+        # Make request
+        response = self.api.get_roles()
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "GET"
+        assert "/api/v2/authorization/roles" in kwargs["url"]
+
+        # Verify query parameters
+        assert "limit=" in kwargs["url"]
+        # Verify query parameters
+        assert "offset=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortOrder=" in kwargs["url"]
+        # Verify query parameters
+        assert "sortBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "filterBy=" in kwargs["url"]
+        # Verify query parameters
+        assert "search=" in kwargs["url"]
+
+        # Verify response
+        assert isinstance(response, GetRoles200Response)
+
+    def test_get_roles_error(self):
+        """Test error handling for get_roles"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.get_roles()
+        assert exc_info.value.status == 400
+
     def test_get_roles_v1(self):
         """Test case for get_roles_v1
 
-        Get a list of roles. Use to retrieve a list of roles.
+        Get a list of roles. Use to retrieve a list of roles. This endpoint is deprecated and will be removed in a future release. Use GET /api/v2/authorization/roles instead.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -124,4 +335,165 @@ class TestRolesApi:
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
             self.api.get_roles_v1()
+        assert exc_info.value.status == 400
+
+    def test_role_disable(self):
+        """Test case for role_disable
+
+        Disable a role by id. Disables a specific role. Disabled roles cannot be assigned to users and do not grant any permissions.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32  # int | The ID of the role
+        body = None  # object |
+
+        # Make request
+        self.api.role_disable(
+            role_id_path=role_id_path,
+            body=body,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v2/authorization/roles/{roleIdPath}/disable" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_role_disable_error(self):
+        """Test error handling for role_disable"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32
+        body = (None,)
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.role_disable(
+                role_id_path=role_id_path,
+                body=body,
+            )
+        assert exc_info.value.status == 400
+
+    def test_role_enable(self):
+        """Test case for role_enable
+
+        Enable a role by id. Enables a specific role. Disabled roles cannot be assigned to users and do not grant any permissions.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32  # int | The ID of the role
+        body = None  # object |
+
+        # Make request
+        self.api.role_enable(
+            role_id_path=role_id_path,
+            body=body,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "POST"
+        assert "/api/v2/authorization/roles/{roleIdPath}/enable" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+    def test_role_enable_error(self):
+        """Test error handling for role_enable"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32
+        body = (None,)
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.role_enable(
+                role_id_path=role_id_path,
+                body=body,
+            )
+        assert exc_info.value.status == 400
+
+    def test_update_role(self):
+        """Test case for update_role
+
+        Update a role by id. Updates a custom role, including its name, description, or associated permission sets. NVIDIA Run:ai predefined roles cannot be updated.
+        """
+        # Mock response
+        mock_response = mock.Mock()
+        mock_response.status = 200
+        mock_response.read.return_value = json.dumps({"data": {}})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32  # int | The ID of the role
+        role_creation_fields_internal = (
+            runai.RoleCreationFieldsInternal()
+        )  # RoleCreationFieldsInternal |
+
+        # Make request
+        response = self.api.update_role(
+            role_id_path=role_id_path,
+            role_creation_fields_internal=role_creation_fields_internal,
+        )
+
+        # Verify request was made
+        assert self.mock_request.called
+        args, kwargs = self.mock_request.call_args
+
+        # Verify request method and URL
+        assert kwargs["method"] == "PUT"
+        assert "/api/v2/authorization/roles/{roleIdPath}" in kwargs["url"]
+
+        # Verify body
+        assert kwargs["body"] is not None
+
+        # Verify response
+        assert isinstance(response, Role)
+
+    def test_update_role_error(self):
+        """Test error handling for update_role"""
+        # Mock error response
+        mock_response = mock.Mock()
+        mock_response.status = 400
+        mock_response.read.return_value = json.dumps({"message": "Error message"})
+        self.mock_request.return_value = mock_response
+
+        # Test parameters
+        role_id_path = 32
+        role_creation_fields_internal = runai.RoleCreationFieldsInternal()
+
+        # Verify error handling
+        with pytest.raises(ApiException) as exc_info:
+            self.api.update_role(
+                role_id_path=role_id_path,
+                role_creation_fields_internal=role_creation_fields_internal,
+            )
         assert exc_info.value.status == 400

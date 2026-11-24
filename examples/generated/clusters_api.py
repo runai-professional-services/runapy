@@ -157,37 +157,25 @@ def example_get_cluster_metrics():
         print(f"Exception when calling get_cluster_metrics: {e}")
 
 
-def example_get_cluster_metrics_0():
+def example_get_cluster_minimal_data_by_id():
     """
-    Example of using get_cluster_metrics_0
+    Example of using get_cluster_minimal_data_by_id
 
-    Get cluster metrics.
-    Get current cluster metrics. If time range query parameters supplied, then historical data will be returned as well. Deprecated - please use api/v1/clusters/{clusterUuid}/metrics
+    Get cluster minimal data by id
+    Retrieve essential data for a specific cluster by ID required for common operations (e.g., workload submission)
     """
     try:
         # Prepare the request parameters
         cluster_uuid = "example_cluster_uuid"
 
-        start = "2024-12-29T12:00:00Z"
-
-        end = "2024-12-29T12:00:00Z"
-
-        number_of_samples = 42
-
-        nodepool_name = "example_nodepool_name"
-
         # Make the API call
-        api_response = api_instance.get_cluster_metrics_0(
+        api_response = api_instance.get_cluster_minimal_data_by_id(
             cluster_uuid=cluster_uuid,
-            start=start,
-            end=end,
-            number_of_samples=number_of_samples,
-            nodepool_name=nodepool_name,
         )
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_cluster_metrics_0: {e}")
+        print(f"Exception when calling get_cluster_minimal_data_by_id: {e}")
 
 
 def example_get_clusters():
@@ -214,34 +202,32 @@ def example_get_clusters():
         print(f"Exception when calling get_clusters: {e}")
 
 
-def example_get_install_file():
+def example_get_clusters_minimal_data():
     """
-    Example of using get_install_file
+    Example of using get_clusters_minimal_data
 
-    Get cluster installation file by id.
-    Retrieve the installation values file of a cluster by Retrieve the installation values file of a given cluster by ID.  Supports clusters 2.13 and lower.
+    Get clusters minimal data
+    Retrieve essential cluster data required for common operations (e.g., workload submission)
     """
     try:
         # Prepare the request parameters
-        cluster_uuid = "example_cluster_uuid"
 
-        cloud = "example_cloud"
+        filter_by = ["example_item_1", "example_item_2"]
 
-        clusterip = "example_clusterip"
+        offset = 42
 
-        format = "example_format"
+        limit = 42
 
         # Make the API call
-        api_response = api_instance.get_install_file(
-            cluster_uuid=cluster_uuid,
-            cloud=cloud,
-            clusterip=clusterip,
-            format=format,
+        api_response = api_instance.get_clusters_minimal_data(
+            filter_by=filter_by,
+            offset=offset,
+            limit=limit,
         )
         print(f"API response: {api_response}")
 
     except Exception as e:
-        print(f"Exception when calling get_install_file: {e}")
+        print(f"Exception when calling get_clusters_minimal_data: {e}")
 
 
 def example_update_cluster():

@@ -96,7 +96,9 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
         response = self.api.delete_inference(
@@ -123,7 +125,7 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -144,7 +146,9 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
         response = self.api.get_inference(
@@ -171,7 +175,7 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -192,7 +196,9 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
         metric_type = [
             runai.InferenceWorkloadMetricType()
         ]  # List[InferenceWorkloadMetricType] | Specify which data to request.
@@ -239,7 +245,7 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         metric_type = [runai.InferenceWorkloadMetricType()]
         start = "2023-06-06T12:09:18.211Z"
         end = "2023-06-07T12:09:18.211Z"
@@ -266,8 +272,12 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
-        pod_id = "pod_id_example"  # str | The requested pod id.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
+        pod_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The requested pod id.
         metric_type = [
             runai.InferencePodMetricType()
         ]  # List[InferencePodMetricType] | Specifies metrics data to request. Inference metrics are only available for inference workloads.
@@ -318,8 +328,8 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
-        pod_id = "pod_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
+        pod_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
         metric_type = [runai.InferencePodMetricType()]
         start = "2023-06-06T12:09:18.211Z"
         end = "2023-06-07T12:09:18.211Z"
@@ -338,7 +348,7 @@ class TestInferencesApi:
     def test_update_inference_spec(self):
         """Test case for update_inference_spec
 
-        Update inference spec. [Experimental] Update the specification of an existing inference workload.
+        Update inference spec. Update the specification of an existing inference workload.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -347,7 +357,9 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
         inference_update_request = (
             runai.InferenceUpdateRequest()
         )  # InferenceUpdateRequest |
@@ -380,7 +392,7 @@ class TestInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

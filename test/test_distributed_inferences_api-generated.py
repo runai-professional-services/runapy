@@ -39,7 +39,7 @@ class TestDistributedInferencesApi:
     def test_create_distributed_inference(self):
         """Test case for create_distributed_inference
 
-        Create a distributed inference. [Experimental] Create a distributed inference using container related fields.
+        Create a distributed inference. Create a distributed inference using container related fields.
         """
         # Mock response
         mock_response = mock.Mock()
@@ -96,7 +96,9 @@ class TestDistributedInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
         response = self.api.delete_distributed_inference(
@@ -123,7 +125,7 @@ class TestDistributedInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -144,7 +146,9 @@ class TestDistributedInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
 
         # Make request
         response = self.api.get_distributed_inference(
@@ -171,7 +175,7 @@ class TestDistributedInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -192,7 +196,9 @@ class TestDistributedInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"  # str | The  Universally Unique Identifier (UUID) of the workload.
+        workload_id = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | The  Universally Unique Identifier (UUID) of the workload.
         update_request = runai.UpdateRequest()  # UpdateRequest |
 
         # Make request
@@ -223,7 +229,7 @@ class TestDistributedInferencesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        workload_id = "workload_id_example"
+        workload_id = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

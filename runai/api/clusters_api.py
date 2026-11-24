@@ -52,7 +52,7 @@ class ClustersApi(RunaiAPIService):
 
     def delete_cluster(
         self,
-        cluster_uuid: str,
+        cluster_uuid: UUID,
         force: Optional[bool] = None,
     ):
         r"""
@@ -63,7 +63,7 @@ class ClustersApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_uuid: str
+        cluster_uuid: UUID
         force: Optional[bool]
         ```
         cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
@@ -72,7 +72,7 @@ class ClustersApi(RunaiAPIService):
         ### Example:
         ```python
         ClustersApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         force=False
         )
         ```
@@ -90,7 +90,7 @@ class ClustersApi(RunaiAPIService):
 
     def get_cluster_by_uuid(
         self,
-        cluster_uuid: str,
+        cluster_uuid: UUID,
         verbosity: Optional[str] = None,
     ):
         r"""
@@ -101,7 +101,7 @@ class ClustersApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_uuid: str
+        cluster_uuid: UUID
         verbosity: Optional[str]
         ```
         cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
@@ -110,7 +110,7 @@ class ClustersApi(RunaiAPIService):
         ### Example:
         ```python
         ClustersApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         verbosity=full
         )
         ```
@@ -128,7 +128,7 @@ class ClustersApi(RunaiAPIService):
 
     def get_cluster_install_info_by_uuid(
         self,
-        cluster_uuid: str,
+        cluster_uuid: UUID,
         version: str,
         remote_cluster_url: Optional[str] = None,
     ):
@@ -140,7 +140,7 @@ class ClustersApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_uuid: str
+        cluster_uuid: UUID
         version: Optional[str]
         remote_cluster_url: Optional[str]
         ```
@@ -151,7 +151,7 @@ class ClustersApi(RunaiAPIService):
         ### Example:
         ```python
         ClustersApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         version='2.16',
                         remote_cluster_url='https://cluster.runai'
         )
@@ -173,7 +173,7 @@ class ClustersApi(RunaiAPIService):
 
     def get_cluster_metrics(
         self,
-        cluster_uuid: str,
+        cluster_uuid: UUID,
         start: datetime,
         end: datetime,
         metric_type: List[models.MetricsType],
@@ -189,7 +189,7 @@ class ClustersApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_uuid: str
+        cluster_uuid: UUID
         start: Optional[datetime]
         end: Optional[datetime]
         metric_type: Optional[models.List[MetricsType]]
@@ -208,7 +208,7 @@ class ClustersApi(RunaiAPIService):
         ### Example:
         ```python
         ClustersApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
                         metric_type=[runai.MetricsType()],
@@ -234,58 +234,35 @@ class ClustersApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    @deprecated_message()
-    def get_cluster_metrics_0(
+    def get_cluster_minimal_data_by_id(
         self,
-        cluster_uuid: str,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
-        number_of_samples: Optional[int] = None,
-        nodepool_name: Optional[str] = None,
+        cluster_uuid: UUID,
     ):
         r"""
-        ## Deprecated endpoint, consider alternative method
+
 
         ### Description
-        Get cluster metrics.
+        Get cluster minimal data by id
 
         ### Parameters:
         ```python
-        cluster_uuid: str
-        start: Optional[datetime]
-        end: Optional[datetime]
-        number_of_samples: Optional[int]
-        nodepool_name: Optional[str]
+        cluster_uuid: UUID
         ```
         cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
-        start: Start of time range to fetch data from in UTC format.
-        end: End of time range to fetch data from in UTC format.
-        number_of_samples: The number of samples to take in the specified time range. - Default: 20
-        nodepool_name: Filter by unique nodepool name.
 
         ### Example:
         ```python
         ClustersApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
-                        start='2013-10-20T19:20:30+01:00',
-                        end='2013-10-20T19:20:30+01:00',
-                        number_of_samples=20,
-                        nodepool_name='default'
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc')
         )
         ```
         """
 
-        # Query params:
-        query_params = [
-            ("start", start),
-            ("end", end),
-            ("numberOfSamples", number_of_samples),
-            ("nodepoolName", nodepool_name),
-        ]
-        resource_path = f"/v1/k8s/clusters/{cluster_uuid}/metrics".replace("_", "-")
+        resource_path = f"/api/v1/clusters/{cluster_uuid}/minimal".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
-            resource_path=resource_path, method=method, query_params=query_params
+            resource_path=resource_path,
+            method=method,
         )
 
     def get_clusters(
@@ -327,49 +304,45 @@ class ClustersApi(RunaiAPIService):
             resource_path=resource_path, method=method, query_params=query_params
         )
 
-    def get_install_file(
+    def get_clusters_minimal_data(
         self,
-        cluster_uuid: str,
-        cloud: Optional[str] = None,
-        clusterip: Optional[str] = None,
-        format: Optional[str] = None,
+        filter_by: Optional[List[str]] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
     ):
         r"""
 
 
         ### Description
-        Get cluster installation file by id.
+        Get clusters minimal data
 
         ### Parameters:
         ```python
-        cluster_uuid: str
-        cloud: Optional[str]
-        clusterip: Optional[str]
-        format: Optional[str]
+        filter_by: Optional[List[str]]
+        offset: Optional[int]
+        limit: Optional[int]
         ```
-        cluster_uuid: Unique identifier of the cluster.
-        cloud: Cloud type identifier.
-        clusterip: Comma-separated list of IP addresses that provide access to the cluster.
-        format: Format of the output file. - Default: yaml
+        filter_by: Filter clusters by a parameter. Use the format field-name operator value. Operators are &#x3D;&#x3D; Equals, !&#x3D; Not equals, &lt;&#x3D; Less than or equal, &gt;&#x3D; Greater than or equal. Dates are in ISO 8601 timestamp format and available for operators &#x3D;&#x3D;, !&#x3D;, &lt;&#x3D; and &gt;&#x3D;.
+        offset: The offset of the first item returned in the collection.
+        limit: The maximum number of entries to return. - Default: 50
 
         ### Example:
         ```python
         ClustersApi(
-            cluster_uuid='cluster_uuid_example',
-                        cloud='cloud_example',
-                        clusterip='clusterip_example',
-                        format=yaml
+            filter_by=['[\"name==my-cluster\"]'],
+                        offset=100,
+                        limit=50
         )
         ```
         """
 
         # Query params:
         query_params = [
-            ("cloud", cloud),
-            ("clusterip", clusterip),
-            ("format", format),
+            ("filterBy", filter_by),
+            ("offset", offset),
+            ("limit", limit),
         ]
-        resource_path = f"/v1/k8s/clusters/{cluster_uuid}/installfile".replace("_", "-")
+        resource_path = f"/api/v1/clusters/minimal".replace("_", "-")
         method = "GET"
         return self._api_client.call_api(
             resource_path=resource_path, method=method, query_params=query_params
@@ -377,7 +350,7 @@ class ClustersApi(RunaiAPIService):
 
     def update_cluster(
         self,
-        cluster_uuid: str,
+        cluster_uuid: UUID,
         cluster_update_request: models.ClusterUpdateRequest,
     ):
         r"""
@@ -388,7 +361,7 @@ class ClustersApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        cluster_uuid: str
+        cluster_uuid: UUID
         cluster_update_request: ClusterUpdateRequest
         ```
         cluster_uuid: The Universally Unique Identifier (UUID) of the cluster.
@@ -397,7 +370,7 @@ class ClustersApi(RunaiAPIService):
         ### Example:
         ```python
         ClustersApi(
-            cluster_uuid='9f55255e-11ed-47c7-acef-fc4054768dbc',
+            cluster_uuid=UUID('9f55255e-11ed-47c7-acef-fc4054768dbc'),
                         cluster_update_request=runai.ClusterUpdateRequest()
         )
         ```

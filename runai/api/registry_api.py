@@ -52,7 +52,7 @@ class RegistryApi(RunaiAPIService):
 
     def delete_registry(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -62,14 +62,14 @@ class RegistryApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         RegistryApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -83,7 +83,7 @@ class RegistryApi(RunaiAPIService):
 
     def get_registry_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -93,14 +93,14 @@ class RegistryApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         RegistryApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -114,7 +114,7 @@ class RegistryApi(RunaiAPIService):
 
     def get_repositories(
         self,
-        asset_id: str,
+        asset_id: UUID,
         search_name: Optional[str] = None,
     ):
         r"""
@@ -125,7 +125,7 @@ class RegistryApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         search_name: Optional[str]
         ```
         asset_id: Unique identifier of the asset.
@@ -134,7 +134,7 @@ class RegistryApi(RunaiAPIService):
         ### Example:
         ```python
         RegistryApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         search_name='search_name_example'
         )
         ```
@@ -154,7 +154,7 @@ class RegistryApi(RunaiAPIService):
 
     def get_repository_tags(
         self,
-        asset_id: str,
+        asset_id: UUID,
         repository: str,
         search_name: Optional[str] = None,
     ):
@@ -166,7 +166,7 @@ class RegistryApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         repository: Optional[str]
         search_name: Optional[str]
         ```
@@ -177,7 +177,7 @@ class RegistryApi(RunaiAPIService):
         ### Example:
         ```python
         RegistryApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         repository='repository_example',
                         search_name='search_name_example'
         )
@@ -233,7 +233,7 @@ class RegistryApi(RunaiAPIService):
 
     def update_registry(
         self,
-        asset_id: str,
+        asset_id: UUID,
         registry_update_request: models.RegistryUpdateRequest,
     ):
         r"""
@@ -244,7 +244,7 @@ class RegistryApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         registry_update_request: RegistryUpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -253,7 +253,7 @@ class RegistryApi(RunaiAPIService):
         ### Example:
         ```python
         RegistryApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         registry_update_request=runai.RegistryUpdateRequest()
         )
         ```

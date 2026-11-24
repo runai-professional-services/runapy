@@ -48,9 +48,9 @@ class TestStorageClassesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_id = (
-            "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | The id of the cluster
-        )
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | The id of the cluster
         name = "name_example"  # str | filter by name
         include_none = True  # bool | Include runai-none storage class, which is used for static provisioning of PVC. In static provisioning storage is omitted.
 
@@ -75,7 +75,7 @@ class TestStorageClassesApi:
         assert "includeNone=" in kwargs["url"]
 
         # Verify response
-        assert isinstance(response, StorageClasses1)
+        assert isinstance(response, StorageClasses)
 
     def test_get_storage_classes_error(self):
         """Test error handling for get_storage_classes"""
@@ -86,7 +86,7 @@ class TestStorageClassesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"
+        cluster_id = UUID("d73a738f-fab3-430a-8fa3-5241493d7128")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -107,9 +107,9 @@ class TestStorageClassesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_id = (
-            "d73a738f-fab3-430a-8fa3-5241493d7128"  # str | The id of the cluster
-        )
+        cluster_id = UUID(
+            "d73a738f-fab3-430a-8fa3-5241493d7128"
+        )  # UUID | The id of the cluster
         name = "name_example"  # str | filter by name
         include_none = True  # bool | Include runai-none storage class, which is used for static provisioning of PVC. In static provisioning storage is omitted.
 
@@ -145,7 +145,7 @@ class TestStorageClassesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        cluster_id = "d73a738f-fab3-430a-8fa3-5241493d7128"
+        cluster_id = UUID("d73a738f-fab3-430a-8fa3-5241493d7128")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:
@@ -166,7 +166,9 @@ class TestStorageClassesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        uuid = "uuid_example"  # str | Unique identifier of the cluster
+        uuid = UUID(
+            "38400000-8cf0-11bd-b23e-10b96e4ef00d"
+        )  # UUID | Unique identifier of the cluster
         include_none = True  # bool | Include runai-none storage class to be able to create PVCs without a storage class
 
         # Make request
@@ -197,7 +199,7 @@ class TestStorageClassesApi:
         self.mock_request.return_value = mock_response
 
         # Test parameters
-        uuid = "uuid_example"
+        uuid = UUID("38400000-8cf0-11bd-b23e-10b96e4ef00d")
 
         # Verify error handling
         with pytest.raises(ApiException) as exc_info:

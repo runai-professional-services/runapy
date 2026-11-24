@@ -54,6 +54,42 @@ def example_get_security_settings():
         print(f"Exception when calling get_security_settings: {e}")
 
 
+def example_get_workloads_setting_by_key():
+    """
+    Example of using get_workloads_setting_by_key
+
+    Get workloads setting by key
+
+    """
+    try:
+        # Prepare the request parameters
+
+        # Make the API call
+        api_response = api_instance.get_workloads_setting_by_key(
+            key=key,
+        )
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_workloads_setting_by_key: {e}")
+
+
+def example_get_workloads_settings():
+    """
+    Example of using get_workloads_settings
+
+    Get workloads settings
+
+    """
+    try:
+        # Make the API call with no parameters
+        api_response = api_instance.get_workloads_settings()
+        print(f"API response: {api_response}")
+
+    except Exception as e:
+        print(f"Exception when calling get_workloads_settings: {e}")
+
+
 def example_update_security_setting_by_key():
     """
     Example of using update_security_setting_by_key
@@ -77,3 +113,26 @@ def example_update_security_setting_by_key():
 
     except Exception as e:
         print(f"Exception when calling update_security_setting_by_key: {e}")
+
+
+def example_update_workloads_setting_by_key():
+    """
+    Example of using update_workloads_setting_by_key
+
+    Update workloads setting by key
+
+    """
+    try:
+        # Prepare the request parameters
+
+        # Create example data for YamlSubmissionSetting
+        yaml_submission_setting = models.YamlSubmissionSetting(enabled=True)
+
+        # Make the API call
+        api_instance.update_workloads_setting_by_key(
+            key=key,
+            yaml_submission_setting=yaml_submission_setting,
+        )
+
+    except Exception as e:
+        print(f"Exception when calling update_workloads_setting_by_key: {e}")

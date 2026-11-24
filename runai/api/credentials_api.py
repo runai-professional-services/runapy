@@ -192,7 +192,7 @@ class CredentialsApi(RunaiAPIService):
 
     def delete_access_key(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -202,14 +202,14 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -225,7 +225,7 @@ class CredentialsApi(RunaiAPIService):
 
     def delete_docker_registry(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -235,14 +235,14 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -258,7 +258,7 @@ class CredentialsApi(RunaiAPIService):
 
     def delete_generic_secret(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -268,14 +268,14 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -291,7 +291,7 @@ class CredentialsApi(RunaiAPIService):
 
     def delete_ngc_api_key(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -301,14 +301,14 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -324,7 +324,7 @@ class CredentialsApi(RunaiAPIService):
 
     def delete_password(
         self,
-        asset_id: str,
+        asset_id: UUID,
     ):
         r"""
 
@@ -334,14 +334,14 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ```
         asset_id: Unique identifier of the asset.
 
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example'
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -357,7 +357,7 @@ class CredentialsApi(RunaiAPIService):
 
     def get_access_key_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -369,7 +369,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -380,7 +380,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         usage_info=True,
                         status_info=True
         )
@@ -402,7 +402,7 @@ class CredentialsApi(RunaiAPIService):
 
     def get_docker_registry_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -414,7 +414,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -425,7 +425,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         usage_info=True,
                         status_info=True
         )
@@ -447,7 +447,7 @@ class CredentialsApi(RunaiAPIService):
 
     def get_generic_secret_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -459,7 +459,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -470,7 +470,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         usage_info=True,
                         status_info=True
         )
@@ -492,7 +492,7 @@ class CredentialsApi(RunaiAPIService):
 
     def get_ngc_api_key_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -504,7 +504,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -515,7 +515,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         usage_info=True,
                         status_info=True
         )
@@ -537,7 +537,7 @@ class CredentialsApi(RunaiAPIService):
 
     def get_password_by_id(
         self,
-        asset_id: str,
+        asset_id: UUID,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -549,7 +549,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -560,7 +560,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         usage_info=True,
                         status_info=True
         )
@@ -586,7 +586,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -602,7 +602,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -621,7 +621,7 @@ class CredentialsApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
                         status_info=True
         )
@@ -650,9 +650,10 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
+        include_descendants: Optional[bool] = None,
     ):
         r"""
 
@@ -666,9 +667,10 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         status_info: Optional[bool]
+        include_descendants: Optional[bool]
         ```
         name: Filter results by name.
         scope: Filters results by scope. Returns only assets that belong to the specified scope. Mutually exclusive with includeDescendants. Valid values: tenant, cluster, department, project.
@@ -677,6 +679,7 @@ class CredentialsApi(RunaiAPIService):
         cluster_id: Filter results by Universally Unique Identifier (UUID) of the cluster. If scope filter is cluster, only assets from the specific cluster will be included in the response. Otherwise, the response will include cluster, tenant and system assets.
         usage_info: Whether the query should include asset usage information as part of the response.
         status_info: Whether the query should include asset status information as part of the response.
+        include_descendants: Indicates whether to include assets from all descendant scopes under the specified scope. When set to true, and a specific scope identifier (for example, clusterId) is provided, the query also returns assets from all nested scopes within it (for example, departments and projects).  Mutually exclusive with scope.
 
         ### Example:
         ```python
@@ -685,9 +688,10 @@ class CredentialsApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
-                        status_info=True
+                        status_info=True,
+                        include_descendants=True
         )
         ```
         """
@@ -701,6 +705,7 @@ class CredentialsApi(RunaiAPIService):
             ("clusterId", cluster_id),
             ("usageInfo", usage_info),
             ("statusInfo", status_info),
+            ("includeDescendants", include_descendants),
         ]
         resource_path = f"/api/v1/asset/credentials".replace("_", "-")
         method = "GET"
@@ -714,7 +719,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -730,7 +735,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -749,7 +754,7 @@ class CredentialsApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
                         status_info=True
         )
@@ -778,7 +783,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -794,7 +799,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -813,7 +818,7 @@ class CredentialsApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
                         status_info=True
         )
@@ -842,7 +847,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -858,7 +863,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -877,7 +882,7 @@ class CredentialsApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
                         status_info=True
         )
@@ -906,7 +911,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str] = None,
         project_id: Optional[int] = None,
         department_id: Optional[str] = None,
-        cluster_id: Optional[str] = None,
+        cluster_id: Optional[UUID] = None,
         usage_info: Optional[bool] = None,
         status_info: Optional[bool] = None,
     ):
@@ -922,7 +927,7 @@ class CredentialsApi(RunaiAPIService):
         scope: Optional[str]
         project_id: Optional[int]
         department_id: Optional[str]
-        cluster_id: Optional[str]
+        cluster_id: Optional[UUID]
         usage_info: Optional[bool]
         status_info: Optional[bool]
         ```
@@ -941,7 +946,7 @@ class CredentialsApi(RunaiAPIService):
                         scope='scope_example',
                         project_id=56,
                         department_id='1',
-                        cluster_id='d73a738f-fab3-430a-8fa3-5241493d7128',
+                        cluster_id=UUID('d73a738f-fab3-430a-8fa3-5241493d7128'),
                         usage_info=True,
                         status_info=True
         )
@@ -966,7 +971,7 @@ class CredentialsApi(RunaiAPIService):
 
     def update_access_key(
         self,
-        asset_id: str,
+        asset_id: UUID,
         access_key_update_request: models.AccessKeyUpdateRequest,
     ):
         r"""
@@ -977,7 +982,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         access_key_update_request: AccessKeyUpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -986,7 +991,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         access_key_update_request=runai.AccessKeyUpdateRequest()
         )
         ```
@@ -1007,7 +1012,7 @@ class CredentialsApi(RunaiAPIService):
 
     def update_docker_registry(
         self,
-        asset_id: str,
+        asset_id: UUID,
         docker_registry_update_request: models.DockerRegistryUpdateRequest,
     ):
         r"""
@@ -1018,7 +1023,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         docker_registry_update_request: DockerRegistryUpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -1027,7 +1032,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         docker_registry_update_request=runai.DockerRegistryUpdateRequest()
         )
         ```
@@ -1048,7 +1053,7 @@ class CredentialsApi(RunaiAPIService):
 
     def update_generic_secret(
         self,
-        asset_id: str,
+        asset_id: UUID,
         generic_secret_update_request: models.GenericSecretUpdateRequest,
     ):
         r"""
@@ -1059,7 +1064,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         generic_secret_update_request: GenericSecretUpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -1068,7 +1073,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         generic_secret_update_request=runai.GenericSecretUpdateRequest()
         )
         ```
@@ -1089,7 +1094,7 @@ class CredentialsApi(RunaiAPIService):
 
     def update_ngc_api_key(
         self,
-        asset_id: str,
+        asset_id: UUID,
         ngc_api_key_update_request: models.NgcApiKeyUpdateRequest,
     ):
         r"""
@@ -1100,7 +1105,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         ngc_api_key_update_request: NgcApiKeyUpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -1109,7 +1114,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         ngc_api_key_update_request=runai.NgcApiKeyUpdateRequest()
         )
         ```
@@ -1130,7 +1135,7 @@ class CredentialsApi(RunaiAPIService):
 
     def update_password(
         self,
-        asset_id: str,
+        asset_id: UUID,
         password_update_request: models.PasswordUpdateRequest,
     ):
         r"""
@@ -1141,7 +1146,7 @@ class CredentialsApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        asset_id: str
+        asset_id: UUID
         password_update_request: PasswordUpdateRequest
         ```
         asset_id: Unique identifier of the asset.
@@ -1150,7 +1155,7 @@ class CredentialsApi(RunaiAPIService):
         ### Example:
         ```python
         CredentialsApi(
-            asset_id='asset_id_example',
+            asset_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         password_update_request=runai.PasswordUpdateRequest()
         )
         ```

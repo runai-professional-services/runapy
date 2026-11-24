@@ -81,14 +81,14 @@ class SubscriptionsApi(RunaiAPIService):
             method=method,
         )
 
-    def get_my_subscriptions(
+    def get_user_subscriptions(
         self,
     ):
         r"""
 
 
         ### Description
-        Get current users subscriptions
+        Get user subscriptions
 
         ### Parameters:
         ```python

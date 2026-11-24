@@ -43,10 +43,6 @@ class Organizations(_ApiGroup):
         return api.ProjectsApi(self.api_client)
 
     @property
-    def tenant(self) -> api.TenantApi:
-        return api.TenantApi(self.api_client)
-
-    @property
     def logo(self) -> api.LogoApi:
         return api.LogoApi(self.api_client)
 
@@ -61,12 +57,6 @@ class Organizations(_ApiGroup):
         self,
     ) -> api.ResearcherCommandLineInterfaceDeprecatedApi:
         return api.ResearcherCommandLineInterfaceDeprecatedApi(self.api_client)
-
-    @property
-    def administrator_command_line_interface(
-        self,
-    ) -> api.AdministratorCommandLineInterfaceApi:
-        return api.AdministratorCommandLineInterfaceApi(self.api_client)
 
     @property
     def network_topologies(self) -> api.NetworkTopologiesApi:
@@ -144,8 +134,8 @@ class Datavolumes(_ApiGroup):
         self.api_client = api_client
 
     @property
-    def datavolumes(self) -> api.DatavolumesApi:
-        return api.DatavolumesApi(self.api_client)
+    def datavolumes_api(self) -> api.DatavolumesAPIApi:
+        return api.DatavolumesAPIApi(self.api_client)
 
 
 class Workloads(_ApiGroup):
@@ -161,8 +151,8 @@ class Workloads(_ApiGroup):
         return api.PodsApi(self.api_client)
 
     @property
-    def workloads(self) -> api.WorkloadsApi:
-        return api.WorkloadsApi(self.api_client)
+    def workloads_api(self) -> api.WorkloadsAPIApi:
+        return api.WorkloadsAPIApi(self.api_client)
 
     @property
     def workloads_v2(self) -> api.WorkloadsV2Api:
@@ -298,6 +288,14 @@ class Notifications(_ApiGroup):
     @property
     def notification_channels(self) -> api.NotificationChannelsApi:
         return api.NotificationChannelsApi(self.api_client)
+
+    @property
+    def slack(self) -> api.SlackApi:
+        return api.SlackApi(self.api_client)
+
+    @property
+    def email(self) -> api.EmailApi:
+        return api.EmailApi(self.api_client)
 
     @property
     def subscriptions(self) -> api.SubscriptionsApi:

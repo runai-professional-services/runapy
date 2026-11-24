@@ -15,6 +15,69 @@ class PermissionsApi(RunaiAPIService):
     def __init__(self, api_client=None):
         self._api_client = api_client
 
+    def get_permission_set(
+        self,
+        permission_set_id: UUID,
+    ):
+        r"""
+
+
+        ### Description
+        Get permission set by id.
+
+        ### Parameters:
+        ```python
+        permission_set_id: UUID
+        ```
+        permission_set_id: See model UUID for more information.
+
+        ### Example:
+        ```python
+        PermissionsApi(
+            permission_set_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
+        )
+        ```
+        """
+
+        resource_path = (
+            f"/api/v1/authorization/permission_sets/{permission_set_id}".replace(
+                "_", "-"
+            )
+        )
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
+    def get_permission_sets(
+        self,
+    ):
+        r"""
+
+
+        ### Description
+        Get permission sets.
+
+        ### Parameters:
+        ```python
+        ```
+
+        ### Example:
+        ```python
+        PermissionsApi(
+
+        )
+        ```
+        """
+
+        resource_path = f"/api/v1/authorization/permission_sets".replace("_", "-")
+        method = "GET"
+        return self._api_client.call_api(
+            resource_path=resource_path,
+            method=method,
+        )
+
     def get_permissions(
         self,
     ):

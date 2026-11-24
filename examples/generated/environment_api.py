@@ -30,7 +30,7 @@ def example_create_environment_asset():
         # Create example data for EnvironmentCreationRequest
         environment_creation_request = models.EnvironmentCreationRequest(
             meta = {"name":"my-asset","scope":"tenant","workloadSupportedTypes":{"workspace":false,"training":false,"inference":false,"distributed":true,"distFramework":"TF"}},
-            spec = {image=python:3.8, imagePullPolicy=Always, stdin=null, capabilities=["CHOWN","KILL"], uidGidSource=fromTheImage, hostNetwork=false, workingDir=/home/myfolder, hostIpc=false, command=python, runAsUid=500, runAsNonRoot=true, readOnlyRootFilesystem=false, args=-x my-script.py, overrideUidGidInWorkspace=false, environmentVariables=[Ljava.lang.Object;@2589d787, runAsGid=30, tty=null, supplementalGroups=2,3,5,8, createHomeDir=null, probes={readiness={handler={httpGet={path=/, scheme=HTTP, port=15087, host=example.com}}, failureThreshold=1, periodSeconds=1, timeoutSeconds=1, successThreshold=1, initialDelaySeconds=0}}, allowPrivilegeEscalation=false, seccompProfileType=RuntimeDefault, connections=[Ljava.lang.Object;@1788cb61}
+            spec = {image=python:3.8, imagePullPolicy=Always, stdin=null, capabilities=["CHOWN","KILL"], uidGidSource=fromTheImage, hostNetwork=false, workingDir=/home/myfolder, hostIpc=false, command=python, runAsUid=500, runAsNonRoot=true, readOnlyRootFilesystem=false, args=-x my-script.py, overrideUidGidInWorkspace=false, environmentVariables=[Ljava.lang.Object;@78346c38, runAsGid=30, tty=null, supplementalGroups=2,3,5,8, createHomeDir=null, probes={readiness={handler={httpGet={path=/, scheme=HTTP, port=15087, host=example.com}}, failureThreshold=1, periodSeconds=1, timeoutSeconds=1, successThreshold=1, initialDelaySeconds=0}}, allowPrivilegeEscalation=false, seccompProfileType=RuntimeDefault, connections=[Ljava.lang.Object;@d21057e}
         )
 
         # Make the API call
@@ -278,6 +278,14 @@ def example_list_environment_assets():
         
         
         
+        
+        
+        is_distributed_inference = True
+        
+        
+        
+        
+        
 
         # Make the API call
         api_response = api_instance.list_environment_assets(
@@ -297,6 +305,7 @@ def example_list_environment_assets():
             comply_to_replica_type=comply_to_replica_type,
             status_info=status_info,
             include_descendants=include_descendants,
+            is_distributed_inference=is_distributed_inference,
         )
         print(f"API response: {api_response}")
 
@@ -324,7 +333,7 @@ def example_update_environment_asset_by_id():
         # Create example data for EnvironmentUpdateRequest
         environment_update_request = models.EnvironmentUpdateRequest(
             meta = {"name":"my-asset"},
-            spec = {image=python:3.8, imagePullPolicy=Always, stdin=null, capabilities=["CHOWN","KILL"], uidGidSource=fromTheImage, hostNetwork=false, workingDir=/home/myfolder, hostIpc=false, command=python, runAsUid=500, runAsNonRoot=true, readOnlyRootFilesystem=false, args=-x my-script.py, overrideUidGidInWorkspace=false, environmentVariables=[Ljava.lang.Object;@2589d787, runAsGid=30, tty=null, supplementalGroups=2,3,5,8, createHomeDir=null, probes={readiness={handler={httpGet={path=/, scheme=HTTP, port=15087, host=example.com}}, failureThreshold=1, periodSeconds=1, timeoutSeconds=1, successThreshold=1, initialDelaySeconds=0}}, allowPrivilegeEscalation=false, seccompProfileType=RuntimeDefault, connections=[Ljava.lang.Object;@1788cb61}
+            spec = {image=python:3.8, imagePullPolicy=Always, stdin=null, capabilities=["CHOWN","KILL"], uidGidSource=fromTheImage, hostNetwork=false, workingDir=/home/myfolder, hostIpc=false, command=python, runAsUid=500, runAsNonRoot=true, readOnlyRootFilesystem=false, args=-x my-script.py, overrideUidGidInWorkspace=false, environmentVariables=[Ljava.lang.Object;@78346c38, runAsGid=30, tty=null, supplementalGroups=2,3,5,8, createHomeDir=null, probes={readiness={handler={httpGet={path=/, scheme=HTTP, port=15087, host=example.com}}, failureThreshold=1, periodSeconds=1, timeoutSeconds=1, successThreshold=1, initialDelaySeconds=0}}, allowPrivilegeEscalation=false, seccompProfileType=RuntimeDefault, connections=[Ljava.lang.Object;@d21057e}
         )
 
         # Make the API call

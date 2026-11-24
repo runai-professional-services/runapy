@@ -52,7 +52,7 @@ class InferencesApi(RunaiAPIService):
 
     def delete_inference(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -62,14 +62,14 @@ class InferencesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         InferencesApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -83,7 +83,7 @@ class InferencesApi(RunaiAPIService):
 
     def get_inference(
         self,
-        workload_id: str,
+        workload_id: UUID,
     ):
         r"""
 
@@ -93,14 +93,14 @@ class InferencesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
 
         ### Example:
         ```python
         InferencesApi(
-            workload_id='workload_id_example'
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d')
         )
         ```
         """
@@ -114,7 +114,7 @@ class InferencesApi(RunaiAPIService):
 
     def get_inference_workload_metrics(
         self,
-        workload_id: str,
+        workload_id: UUID,
         metric_type: List[models.InferenceWorkloadMetricType],
         start: datetime,
         end: datetime,
@@ -128,7 +128,7 @@ class InferencesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         metric_type: Optional[models.List[InferenceWorkloadMetricType]]
         start: Optional[datetime]
         end: Optional[datetime]
@@ -143,7 +143,7 @@ class InferencesApi(RunaiAPIService):
         ### Example:
         ```python
         InferencesApi(
-            workload_id='workload_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         metric_type=[runai.InferenceWorkloadMetricType()],
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
@@ -169,8 +169,8 @@ class InferencesApi(RunaiAPIService):
 
     def get_inference_workload_pod_metrics(
         self,
-        workload_id: str,
-        pod_id: str,
+        workload_id: UUID,
+        pod_id: UUID,
         metric_type: List[models.InferencePodMetricType],
         start: datetime,
         end: datetime,
@@ -184,8 +184,8 @@ class InferencesApi(RunaiAPIService):
 
         ### Parameters:
         ```python
-        workload_id: str
-        pod_id: str
+        workload_id: UUID
+        pod_id: UUID
         metric_type: Optional[models.List[InferencePodMetricType]]
         start: Optional[datetime]
         end: Optional[datetime]
@@ -201,8 +201,8 @@ class InferencesApi(RunaiAPIService):
         ### Example:
         ```python
         InferencesApi(
-            workload_id='workload_id_example',
-                        pod_id='pod_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
+                        pod_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         metric_type=[runai.InferencePodMetricType()],
                         start='2023-06-06T12:09:18.211Z',
                         end='2023-06-07T12:09:18.211Z',
@@ -230,18 +230,18 @@ class InferencesApi(RunaiAPIService):
 
     def update_inference_spec(
         self,
-        workload_id: str,
+        workload_id: UUID,
         inference_update_request: Optional[models.InferenceUpdateRequest] = None,
     ):
         r"""
 
 
         ### Description
-        Update inference spec. [Experimental]
+        Update inference spec.
 
         ### Parameters:
         ```python
-        workload_id: str
+        workload_id: UUID
         inference_update_request: InferenceUpdateRequest
         ```
         workload_id: The  Universally Unique Identifier (UUID) of the workload.
@@ -250,7 +250,7 @@ class InferencesApi(RunaiAPIService):
         ### Example:
         ```python
         InferencesApi(
-            workload_id='workload_id_example',
+            workload_id=UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d'),
                         inference_update_request=runai.InferenceUpdateRequest()
         )
         ```
